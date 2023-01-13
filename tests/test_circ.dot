@@ -1,0 +1,18 @@
+# Test
+digraph test_circ {
+  graph [rankdir = LR];
+  i1[shape=cds,xlabel="i1"]
+  i2[shape=cds,xlabel="i2"]
+  i3[shape=cds,xlabel="i3"]
+  o1[shape=cds,xlabel="o1"]
+  a1[shape=record; style=filled;color=cadetblue; label="{{<a1i1>a1i1|<a1i2>a1i2}| a1 |{<a1o1>a1o1}}"]
+  a2[shape=record; style=filled;color=cadetblue; label="{{<a2i1>a2i1|<a2i2>a2i2}| a2 |{<a2o1>a2o1}}"]
+  b1[shape=record; style=filled;color=cadetblue; label="{{<b1i1>b1i1|<b1i2>b1i2}| b1 |{<b1o1>b1o1}}"]
+  i1 -> a1:a1i1;
+  i2 -> a1:a1i2;
+  i3 -> b1:b1i2;
+  a1:a1o1 -> b1:b1i1;
+  a1:a1o1 -> a2:a2i1;
+  a2:a2o1 -> o1;
+  b1:b1o1 -> a2:a2i2;
+}
