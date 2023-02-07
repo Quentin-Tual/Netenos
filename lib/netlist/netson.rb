@@ -1,9 +1,10 @@
+require 'json'
+
 module Netlist
     class Netson
         def load file 
             h = JSON.parse(File.read("#{file}")) # gives hash version of the JSON data parsed
             circuit = json_to_netlist h
-            
         end
 
         def json_to_netlist h
@@ -57,6 +58,7 @@ module Netlist
                 port.fanin = h["data"]["fanin"]
                 port.fanout = h["data"]["fanout"] == nil ? [] : h["data"]["fanout"]
                 return port
+            # ? : Pour les composants "custom", question complexe qui se pose, il faudrait prévoir le nombre de entrées et de sorties afin de pouvoir include ici un module générique. Tout de même complexe pour le moment pas urgent mais nécessaire pour la suite. Les  composants custom héritent de la classe Circuit donc c'est un début...
             when "A"
                 a = A.new(h["data"]["name"])
                 a.partof = parent[0]
