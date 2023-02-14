@@ -13,7 +13,7 @@
             "direction": "in",
             "fanin": null,
             "fanout": [
-              "a1i1"
+              "i1:a1"
             ]
           }
         },
@@ -25,7 +25,7 @@
             "direction": "in",
             "fanin": null,
             "fanout": [
-              "a1i2"
+              "i2:a1"
             ]
           }
         },
@@ -37,7 +37,7 @@
             "direction": "in",
             "fanin": null,
             "fanout": [
-              "b1i2"
+              "i2:b1"
             ]
           }
         }
@@ -49,7 +49,17 @@
             "name": "o1",
             "partof": "test_circ",
             "direction": "out",
-            "fanin": "a2o1",
+            "fanin": "o1",
+            "fanout": null
+          }
+        },
+        {
+          "class": "Netlist::Port",
+          "data": {
+            "name": "o2",
+            "partof": "test_circ",
+            "direction": "out",
+            "fanin": "o2",
             "fanout": null
           }
         }
@@ -57,7 +67,7 @@
     },
     "components": [
       {
-        "class": "A",
+        "class": "Netlist::A",
         "data": {
           "name": "a1",
           "partof": "test_circ",
@@ -66,7 +76,7 @@
               {
                 "class": "Netlist::Port",
                 "data": {
-                  "name": "a1i1",
+                  "name": "i1:a1",
                   "partof": "a1",
                   "direction": "in",
                   "fanin": "i1",
@@ -76,7 +86,7 @@
               {
                 "class": "Netlist::Port",
                 "data": {
-                  "name": "a1i2",
+                  "name": "i2:a1",
                   "partof": "a1",
                   "direction": "in",
                   "fanin": "i2",
@@ -88,13 +98,14 @@
               {
                 "class": "Netlist::Port",
                 "data": {
-                  "name": "a1o1",
+                  "name": "o1",
                   "partof": "a1",
                   "direction": "out",
                   "fanin": null,
                   "fanout": [
-                    "b1i1",
-                    "a2i1"
+                    "i1:b1",
+                    "i1:a2",
+                    "i1:c1"
                   ]
                 }
               }
@@ -106,7 +117,7 @@
         }
       },
       {
-        "class": "A",
+        "class": "Netlist::A",
         "data": {
           "name": "a2",
           "partof": "test_circ",
@@ -115,20 +126,20 @@
               {
                 "class": "Netlist::Port",
                 "data": {
-                  "name": "a2i1",
+                  "name": "i1:a2",
                   "partof": "a2",
                   "direction": "in",
-                  "fanin": "a1o1",
+                  "fanin": "o1",
                   "fanout": null
                 }
               },
               {
                 "class": "Netlist::Port",
                 "data": {
-                  "name": "a2i2",
+                  "name": "i2:a2",
                   "partof": "a2",
                   "direction": "in",
-                  "fanin": "b1o1",
+                  "fanin": "o1",
                   "fanout": null
                 }
               }
@@ -137,12 +148,13 @@
               {
                 "class": "Netlist::Port",
                 "data": {
-                  "name": "a2o1",
+                  "name": "o1",
                   "partof": "a2",
                   "direction": "out",
                   "fanin": null,
                   "fanout": [
-                    "o1"
+                    "i1:b2",
+                    "i2:c1"
                   ]
                 }
               }
@@ -154,7 +166,7 @@
         }
       },
       {
-        "class": "B",
+        "class": "Netlist::B",
         "data": {
           "name": "b1",
           "partof": "test_circ",
@@ -163,17 +175,17 @@
               {
                 "class": "Netlist::Port",
                 "data": {
-                  "name": "b1i1",
+                  "name": "i1:b1",
                   "partof": "b1",
                   "direction": "in",
-                  "fanin": "a1o1",
+                  "fanin": "o1",
                   "fanout": null
                 }
               },
               {
                 "class": "Netlist::Port",
                 "data": {
-                  "name": "b1i2",
+                  "name": "i2:b1",
                   "partof": "b1",
                   "direction": "in",
                   "fanin": "i3",
@@ -185,12 +197,131 @@
               {
                 "class": "Netlist::Port",
                 "data": {
-                  "name": "b1o1",
+                  "name": "o1",
                   "partof": "b1",
                   "direction": "out",
                   "fanin": null,
                   "fanout": [
-                    "a2i2"
+                    "i2:a2",
+                    "i2:b2"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": [
+
+          ]
+        }
+      },
+      {
+        "class": "Netlist::B",
+        "data": {
+          "name": "b2",
+          "partof": "test_circ",
+          "ports": {
+            "in": [
+              {
+                "class": "Netlist::Port",
+                "data": {
+                  "name": "i1:b2",
+                  "partof": "b2",
+                  "direction": "in",
+                  "fanin": "o1",
+                  "fanout": null
+                }
+              },
+              {
+                "class": "Netlist::Port",
+                "data": {
+                  "name": "i2:b2",
+                  "partof": "b2",
+                  "direction": "in",
+                  "fanin": "o1",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "class": "Netlist::Port",
+                "data": {
+                  "name": "o1",
+                  "partof": "b2",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i3:c1"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": [
+
+          ]
+        }
+      },
+      {
+        "class": "Netlist::C",
+        "data": {
+          "name": "c1",
+          "partof": "test_circ",
+          "ports": {
+            "in": [
+              {
+                "class": "Netlist::Port",
+                "data": {
+                  "name": "i1:c1",
+                  "partof": "c1",
+                  "direction": "in",
+                  "fanin": "o1",
+                  "fanout": null
+                }
+              },
+              {
+                "class": "Netlist::Port",
+                "data": {
+                  "name": "i2:c1",
+                  "partof": "c1",
+                  "direction": "in",
+                  "fanin": "o1",
+                  "fanout": null
+                }
+              },
+              {
+                "class": "Netlist::Port",
+                "data": {
+                  "name": "i3:c1",
+                  "partof": "c1",
+                  "direction": "in",
+                  "fanin": "o1",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "class": "Netlist::Port",
+                "data": {
+                  "name": "o1",
+                  "partof": "c1",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "o1"
+                  ]
+                }
+              },
+              {
+                "class": "Netlist::Port",
+                "data": {
+                  "name": "o2",
+                  "partof": "c1",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "o2"
                   ]
                 }
               }

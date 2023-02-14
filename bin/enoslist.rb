@@ -1,6 +1,9 @@
 require 'optparse'
 require_relative "../lib/netlist.rb"
 
+# TESTS : 
+require_relative "../tests/test_lib.rb"
+
 @options = {}
 @args = {}
 
@@ -11,6 +14,7 @@ OptionParser.new do |opts|
 # TODO 1 : Tester si les derniers ajouts fonctionnent tous correctement.
 # TODO 2 : rendre l'aide (banner) plus claire pour l'utilisateur avec un exemple ou deux.
 # TODO 3 : Utiliser l'option de verbosité lorsque possible 
+# TODO 4 : Placer le fichier temporaire ~.enl dans /tmp (plus propre et transparent)
 
 
     Version = "Enoslist 0.1.0a (Feb 2023)"
@@ -26,7 +30,7 @@ OptionParser.new do |opts|
 
     # TODO : Ajouter une option pour l'import de la netlist sérialisée
     # TODO : Ajouter une option pour le passage d'un JSON à la netlist
-    opts.on("-i FILE1,FILE2,...", "--import=FILE1,FILE2,...", Array, "Import a Netlist from one to multiple files in a specified format.") do |passed_args|
+    opts.on("-i FILE", "--import=FILE", "Import a Netlist from one file in a specified format.") do |passed_args|
         @options[:import] = true
         @args[:import] = {:file => passed_args}
         # * : Vérification d'une éventuelle commande courte précédente, complétion des informations manquantes.
@@ -72,8 +76,9 @@ OptionParser.new do |opts|
     end
 
     # TODO : Ajouter une option pour la converion netlist vers xdot
-    opts.on("-s", "--show", "Export the current Netlist to .dot format.") do
+    opts.on("-s", "--show [FILE]", "Export the current Netlist to .dot format.") do |path|
         @options[:show] = true
+        @args[:show] = path
         # ? : Voir si on ajoute un nom ou pas pour préciser l'entité à visualiser, sûrement plus pratique
         # ? : Voir même un titre à la figure pour pouvoir l'utiliser telle qu'elle ailleurs. 
     end
@@ -93,7 +98,7 @@ elsif @options[:import]
     end
 
     if @options[:show]
-        @obj.show
+        @obj.show @args[:show]
     end
 
     @obj.store_def "~.enl"
@@ -109,7 +114,7 @@ elsif @options[:import]
 elsif @options[:export]
 
     if File.exist?("~.enl")
-        obj.load_def "./~.enl"
+        @obj.load_def "./~.enl"
     else
         raise "ERROR : No file precedently loaded currently available, please explicitly import a netlist."
     end
@@ -121,17 +126,21 @@ elsif @options[:export]
     end
 
     if @options[:show]
-        @obj.show
+        @obj.show @args[path]
     end
 
 elsif @options[:show]
 
-    if File.exist?("~.enl")
-        obj.load_def "./~.enl"
-    else
-        raise "ERROR : No file precedently loaded currently available, please explicitly import a netlist."
+    if @args[:show].nil?
+        if File.exist?("~.enl")
+            @obj.load_def "./~.enl"
+        else
+            raise "ERROR : No file precedently loaded currently available, please explicitly import a netlist."
+        end
+    else 
+        
     end
 
-    @obj.show
+    @obj.show @args[:show]
 
 end

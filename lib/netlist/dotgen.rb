@@ -8,7 +8,7 @@ module Netlist
             ios circuit.ports
             comp circuit.components
             wire circuit
-            foot circuit.name path
+            foot circuit.name, path
 
         end
 

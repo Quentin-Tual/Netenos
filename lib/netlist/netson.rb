@@ -1,4 +1,5 @@
 require 'json'
+require_relative "../netlist.rb"
 
 module Netlist
     class Netson
@@ -59,7 +60,7 @@ module Netlist
                 port.fanout = h["data"]["fanout"] == nil ? [] : h["data"]["fanout"]
                 return port
             # ? : Pour les composants "custom", question complexe qui se pose, il faudrait prévoir le nombre de entrées et de sorties afin de pouvoir include ici un module générique. Tout de même complexe pour le moment pas urgent mais nécessaire pour la suite. Les  composants custom héritent de la classe Circuit donc c'est un début...
-            when "A"
+            when "Netlist::A"
                 a = A.new(h["data"]["name"])
                 a.partof = parent[0]
                 a.components = h["data"]["components"].collect!{|e| components_instanciation(e,a)}
@@ -68,7 +69,7 @@ module Netlist
                 tmp = a.ports[:out].zip(h["data"]["ports"]["out"])
                 tmp.each{|a_p, h_p| a_p.fanout = h_p["data"]["fanout"]}
                 return a
-            when "B" 
+            when "Netlist::B" 
                 b = B.new(h["data"]["name"])
                 b.partof = parent[0]
                 b.components = h["data"]["components"].collect!{|e| components_instanciation(e,b)}
@@ -77,7 +78,7 @@ module Netlist
                 tmp = b.ports[:out].zip(h["data"]["ports"]["out"])
                 tmp.each{|b_p, h_p| b_p.fanout = h_p["data"]["fanout"]}
                 return b
-            when "C"
+            when "Netlist::C"
                 c = C.new(h["data"]["name"])
                 c.partof = parent[0]
                 c.components = h["data"]["components"].collect!{|e| components_instanciation(e,c)}
@@ -103,8 +104,12 @@ module Netlist
             }
         end
 
-        def save_as_json circuit
-            file = File.new("#{circuit.name}.json", "w")
+        def save_as_json circuit, *path
+            if path == []
+                file = File.new("#{circuit.name}.json", "w")
+            else
+                file = File.new("#{path[0]}", "w")
+            end
             prep_port_names circuit
             file.puts(JSON.pretty_generate(circuit.to_hash))
             file.close

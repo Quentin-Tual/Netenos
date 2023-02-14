@@ -67,7 +67,7 @@
     },
     "components": [
       {
-        "class": "A",
+        "class": "Netlist::A",
         "data": {
           "name": "a1",
           "partof": "test_circ",
@@ -117,7 +117,7 @@
         }
       },
       {
-        "class": "A",
+        "class": "Netlist::A",
         "data": {
           "name": "a2",
           "partof": "test_circ",
@@ -166,7 +166,7 @@
         }
       },
       {
-        "class": "B",
+        "class": "Netlist::B",
         "data": {
           "name": "b1",
           "partof": "test_circ",
@@ -215,7 +215,7 @@
         }
       },
       {
-        "class": "B",
+        "class": "Netlist::B",
         "data": {
           "name": "b2",
           "partof": "test_circ",
@@ -263,7 +263,7 @@
         }
       },
       {
-        "class": "C",
+        "class": "Netlist::C",
         "data": {
           "name": "c1",
           "partof": "test_circ",

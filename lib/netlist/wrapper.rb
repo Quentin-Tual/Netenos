@@ -12,7 +12,6 @@ module Netlist
 
         # * : ------ Import methods ------ :
         def import path, format
-            puts "      | ----- WIP ----- | "
             case format 
             when "json"
                 self.load_json path
@@ -34,12 +33,12 @@ module Netlist
 
         def load_vhdl path
             # WIP
+            puts "      | ----- WIP ----- | "
             # TODO : Lire le fichier et le parser à l'aide d'Hyle, la conversion decorated_AST (Hyle) vers la netlist Enoslist est à terminer en amont.
         end
 
         # * : ------ Export methods ------ : 
         def export path, format
-            puts "      | ----- WIP ----- | "
             case format 
             when "json"
                 self.store_json path
@@ -53,7 +52,7 @@ module Netlist
         end
 
         def store_json path
-            Netlist::Netson.new.save_as_json @netlist
+            Netlist::Netson.new.save_as_json @netlist, path
         end
 
         def store_def path
@@ -67,7 +66,12 @@ module Netlist
         end
 
         def store_dot path
-            Netlist::DotGen.new.dot @netlist, pat
+            if path.nil?
+                Netlist::DotGen.new.dot @netlist
+            else
+                Netlist::DotGen.new.dot @netlist, path
+            end
+
         end
 
         # * : ------ Operation methods ------ :
@@ -75,9 +79,13 @@ module Netlist
             # WIP
 
         # * : ------ Other methods ------ : 
-        def show
-            self.store_dot '.'
-            `xdot ./#{@netlist.name}.dot`
+        def show path
+            self.store_dot path
+            if path.nil?
+                `xdot ./#{@netlist.name}.dot`
+            else
+                `xdot ./#{path}`
+            end
         end
 
     end
