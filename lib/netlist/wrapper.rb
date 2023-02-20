@@ -80,12 +80,8 @@ module Netlist
 
         # * : ------ Other methods ------ : 
         def show path
-            self.store_dot path
-            if path.nil?
-                `xdot ./#{@netlist.name}.dot`
-            else
-                `xdot ./#{path}`
-            end
+            self.store_dot "./~#{@netlist.name}.dot"
+            `xdot ./~#{@netlist.name}.dot`
         end
 
     end

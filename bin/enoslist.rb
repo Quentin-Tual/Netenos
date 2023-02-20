@@ -76,7 +76,7 @@ OptionParser.new do |opts|
     end
 
     # TODO : Ajouter une option pour la converion netlist vers xdot
-    opts.on("-s", "--show [FILE]", "Export the current Netlist to .dot format.") do |path|
+    opts.on("-s", "--show [PATH]", "Export the current Netlist to .dot format.") do |path|
         @options[:show] = true
         @args[:show] = path
         # ? : Voir si on ajoute un nom ou pas pour préciser l'entité à visualiser, sûrement plus pratique
@@ -138,7 +138,11 @@ elsif @options[:show]
             raise "ERROR : No file precedently loaded currently available, please explicitly import a netlist."
         end
     else 
-        
+        if File.exist? @args[:show]
+            @obj.load_def @args[:show]
+        else 
+            raise "ERROR : No file precedently loaded currently available, please explicitly import a netlist."
+        end
     end
 
     @obj.show @args[:show]
