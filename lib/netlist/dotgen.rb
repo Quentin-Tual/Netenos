@@ -2,13 +2,14 @@ module Netlist
     class DotGen
         attr_accessor :code
 
-        def dot circuit
+        def dot circuit, *path
             @code = Code.new()
             head circuit.name
             ios circuit.ports
             comp circuit.components
             wire circuit
-            foot circuit.name
+            foot circuit.name, path
+
         end
 
         def head name
@@ -71,11 +72,15 @@ module Netlist
             comp_wire circuit.components
         end
 
-        def foot circuit_name
+        def foot circuit_name, path
             code.indent=0
             code << "}"
             # puts code.finalize # Debug print
-            code.save_as "#{circuit_name}.dot",verbose=true
+            if path != []
+                code.save_as "#{path[0]}", verbose=true
+            else
+                code.save_as "#{circuit_name}.dot",verbose=true
+            end
         end
     end
     
