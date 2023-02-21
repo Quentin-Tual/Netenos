@@ -1,6 +1,6 @@
 require "../lib/netlist.rb"
 
-Rspec.describe Netlist::Netson do
+RSpec.describe Netlist::Netson do
 
     # TODO : Vérifier l'import du format JSON 
 

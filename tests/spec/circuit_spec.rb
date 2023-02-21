@@ -1,0 +1,104 @@
+require "../lib/netlist.rb"
+
+RSpec.describe Netlist::Circuit do
+
+    # TODO : Vérifier la structure de l'objet après instanciation
+    context "After instanciation" do
+        subject{Netlist::Circuit.new('test')}
+
+        it 'is a circuit class object' do
+            expect(subject).to be_kind_of Netlist::Circuit
+        end
+
+        it ', contains a name' do
+            expect(subject.name).to be_kind_of String
+        end
+
+        it ', contains ports of type \'in\'' do
+            expect(subject.ports).to be_kind_of Hash
+            expect(subject.ports[:in]).to be_kind_of Array
+            
+        end
+
+        it ', contains ports of type \'out\'' do
+            expect(subject.ports).to be_kind_of Hash
+            expect(subject.ports[:out]).to be_kind_of Array
+        end
+
+        it 'is part of nil or another circuit' do
+            expect(subject.partof).to be_kind_of(Netlist::Circuit).or eq(nil)
+        end
+
+        it 'does not contains components yet' do
+            expect(subject.components).to be_kind_of Array
+            subject.components.each{|c| expect(c).to eq(nil).or be_kind_of(Netlist::Circuit)}
+        end
+
+    end
+    
+    # TODO : Vérifier l'intégration d'un objet (port, composant), fonction "<<" 
+    context 'After instanciation, provides the ability to' do
+        before(:all) do
+            @circ = Netlist::Circuit.new("test")
+            @comp = Netlist::Circuit.new("comp")
+            @in_port1 = Netlist::Port.new("i1", :in)
+            @in_port2 = Netlist::Port.new("i2", :in)
+            @out_port1 = Netlist::Port.new("o1", :out)
+            @out_port2 = Netlist::Port.new("o2", :out)
+        end
+
+        it 'add ports to it' do
+            @circ << @in_port1
+            @circ << @in_port2
+            @circ << @out_port1
+            @circ << @out_port2
+
+            expect(@circ.ports[:in]).to include(@in_port1)
+            expect(@circ.ports[:in]).to include(@in_port2)
+            expect(@circ.ports[:out]).to include(@out_port1)
+            expect(@circ.ports[:out]).to include(@out_port2)
+            
+            expect(@in_port1.partof).to eq(@circ)
+            expect(@in_port2.partof).to eq(@circ)
+            expect(@out_port1.partof).to eq(@circ)
+            expect(@out_port2.partof).to eq(@circ)
+        end
+
+        it 'add components to it' do
+            @circ << @comp 
+            expect(@circ.components).to include(@comp)
+            expect(@comp.partof).to eq(@circ)
+        end
+
+        # ? : vérifier le message d'erreur en rattrapant l'exception ? Serait préférable à terme
+    end
+
+    # TODO : Vérifier ce que renvoie la fonction "inputs"
+    # ! : En soit fonction simple, pas vraiment besoin
+    # context 'allows to retrieve all its inputs' do
+
+    #     it 'when there is none' do
+            
+    #     end
+
+    #     it 'when there is one' do
+
+    #     end
+
+    #     it 'when there is many' do
+
+    #     end
+    # end
+
+    # TODO : Vérifier ce que renvoie la fonction "outputs"
+    # ! : Idem
+
+    # TODO : Vérifier le retour de la fonction "get_port_named"
+    # * : Fonctionne car déjà utilisée
+
+    # TODO : Vérifier le retour de la fonction "get_component named"
+    # * : Idem
+
+    # TODO : Vérifier l'effet de la fonction "to_hash"
+    # * Relativement long à faire et fonctionne vraisemblablement donc pas besoin d'aller plus loin.
+end

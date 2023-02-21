@@ -23,6 +23,7 @@ module Netlist
                     
                 when Circuit
                     @components << e
+
                 else raise "Error : Unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
                 end
         end
