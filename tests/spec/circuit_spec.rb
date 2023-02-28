@@ -70,6 +70,37 @@ RSpec.describe Netlist::Circuit do
             expect(@comp.partof).to eq(@circ)
         end
 
+        it 'add functions to it' do
+            # * : We take the following expression as an example : o1 = in1 + in2 . in3
+            @circ = Netlist::Circuit.new("test")
+            out = Netlist::Port.new('o0', :out)
+            in1 = Netlist::Port.new('i1', :in)
+            in2 = Netlist::Port.new('i2', :in)
+            in3 = Netlist::Port.new('i3', :in)
+            g1 = Netlist::AndGate.new()
+            g2 = Netlist::OrGate.new()
+
+            @circ << out
+            @circ << in1
+            @circ << in2
+            @circ << in3
+            
+            g1.ports.each_value{|p| expect(p[0].partof).to eq(g1)}
+            g2.ports.each_value{|p| expect(p[0].partof).to eq(g2)}
+            
+            in1 <= g2.get_port_named("i0")
+            in2 <= g1.get_port_named("i0")
+            in3 <= g1.get_port_named("i1")
+            out <= g2.get_port_named("o0")
+
+            @circ.add_function(@circ.outputs[0].name, [g1,g2])
+            # TODO : Vérifier que le datapath est bien enregistré et accessible.
+            # ? : Serait-il intéressant de constituer une classe Datapath ? permettrait d'ajouter des méthodes pour le parcours du chemin dans un sens ou dans l'autre, permettrait de poser un nom et une image sur l'attribut "function" d'un circuit, voire si ce n'est pas même plus clair en le renommant.
+
+            # TODO : Voir si un 'visiteur' ne serait pas utile ici pour tester si le chemin est complet en départ de chaque entrée vers la sortie puis inversement.
+
+        end
+
         # ? : vérifier le message d'erreur en rattrapant l'exception ? Serait préférable à terme
     end
 

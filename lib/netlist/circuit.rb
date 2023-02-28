@@ -8,6 +8,7 @@ module Netlist
             @ports = {:in => [], :out => []}
             @partof = nil
             @components = []
+            @function = {}
         end
 
         def <<(e)
@@ -42,6 +43,15 @@ module Netlist
                                 :components => (@components == nil ? nil : @components.collect!{|e| e.to_hash uid_table})
                             }
             }
+        end
+
+        def add_function output, datapath
+            if @function.keys.include?(output)
+                raise "Error : Output already linked to one datapath, please verify."
+            else
+                # TODO : Vérifier que les portes aient bien deux ports en input et un port en sortie, ou une entrée pour la NotGate
+                @function[output] = datapath
+            end
         end
 
         def inputs
