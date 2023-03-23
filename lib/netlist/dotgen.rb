@@ -4,10 +4,12 @@ module Netlist
 
         def dot circuit, *path
             @code = Code.new()
+            @sym_tab = {}
             head circuit.name
-            ios circuit.ports
             comp circuit.components
-            wire circuit
+            ios circuit.ports
+            wiring circuit
+            circuit.components.map!{|comp| comp_wiring comp }
             foot circuit.name, path
 
         end
@@ -23,53 +25,58 @@ module Netlist
             ports.each do |dir,ports|
                 ports.each do |port|
                   @code << "#{port.name}[shape=cds,xlabel=\"#{port.name}\"]"
+                  @sym_tab[port.name] = Port
                 end
             end
         end
 
         def comp components
             components.each do |comp|
-                inputs=comp.inputs.map{|port| "<#{port.name}>#{port.name}"}.join("|")
-                outputs=comp.outputs.map{|port| "<#{port.name}>#{port.name}"}.join("|")
+                inputs=comp.get_inputs.map{|port| "<#{port.name}>#{port.name}"}.join("|")
+                outputs=comp.get_outputs.map{|port| "<#{port.name}>#{port.name}"}.join("|")
                 fanin="{#{inputs}}"
                 fanout="{#{outputs}}"
                 label="{#{fanin}| #{comp.name} |#{fanout}}"
                 code << "#{comp.name}[shape=record; style=filled;color=cadetblue; label=\"#{label}\"]"
-              end
-        end
-
-        def comp_wire components
-            # Pour chaque composant
-            # [nom composant]:[nom output composant] -> [nom composant associé]:[nom input composant associé]
-            components.each do |comp|
-                comp.outputs.each do |source|
-                    source.fanout.each do |sink|
-                        source_name = "#{comp.name}:#{source.name}"
-                        if sink.partof.partof == nil
-                            sink_name = "#{sink.name}"
-                        else
-                            sink_name = "#{sink.partof.name}:#{sink.name}"
-                        end
-                        @code << "#{source_name} -> #{sink_name};"
-                    end
-                end
+                @sym_tab[comp.name] = Circuit
             end
         end
 
-        def wire circuit
-            # Pour chaque port du Circuit global
-            # [nom input circuit] -> [nom composant][nom input comp associé]
-            circuit.inputs.each do |source|
-                source.fanout.each do |sink|
-                    if sink.partof.instance_of? Circuit
-                        @code << "#{source.name} -> #{sink.name};"
-                    else # Sink is a global circuit output
-                        @code << "#{source.name} -> #{sink.partof.name}:#{sink.name};"
+        def wiring circuit
+            circuit.get_inputs.each{ |source|
+                source.get_sinks.each{ |sink|
+                    if sink.class == Wire
+                        wire sink, source
+                    else
+                        write_wiring source, sink
                     end
-                end
-            end
+                }
+            }
+        end
+        
+        def comp_wiring comp
+            comp.get_outputs.each{ |source|
+                source.get_sinks.each{ |sink|
+                    if sink.class == Wire
+                        wire sink, source
+                    else
+                        write_wiring source, sink
+                    end
+                }
+            }
+        end
 
-            comp_wire circuit.components
+        def wire w, source
+            # wireName = "w#{source.get_full_name}"
+            @code << "#{w.get_full_name}[shape=point];"
+            @code << "#{source.get_full_name} -> #{w.get_full_name}[arrowhead=none]"
+            w.get_sinks.each{|sink|
+                write_wiring w, sink
+            }
+        end
+
+        def write_wiring source, sink
+            @code << "#{source.get_full_name} -> #{sink.get_full_name};"
         end
 
         def foot circuit_name, path

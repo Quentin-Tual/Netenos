@@ -1,0 +1,34 @@
+# Test
+digraph test2 {
+  graph [rankdir = LR];
+  MUX[shape=record; style=filled;color=cadetblue; label="{{<clk>clk|<en>en|<rst>rst}| MUX |{<s>s|<o>o}}"]
+  And[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And |{<o0>o0}}"]
+  Or[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Or |{<o0>o0}}"]
+  Xor[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Xor |{<o0>o0}}"]
+  clk[shape=cds,xlabel="clk"]
+  en[shape=cds,xlabel="en"]
+  rst[shape=cds,xlabel="rst"]
+  o1[shape=cds,xlabel="o1"]
+  o2[shape=cds,xlabel="o2"]
+  o3[shape=cds,xlabel="o3"]
+  o4[shape=cds,xlabel="o4"]
+  clk -> MUX:clk;
+  clk -> o3;
+  clk -> Xor:i0;
+  en -> MUX:en;
+  rst -> MUX:rst;
+  s0[shape=point];
+  MUX:s -> s0[arrowhead=none]
+  s0 -> And:i0;
+  s1[shape=point];
+  MUX:o -> s1[arrowhead=none]
+  s1 -> And:i1;
+  s1 -> Or:i1;
+  s3[shape=point];
+  And:o0 -> s3[arrowhead=none]
+  s3 -> o1;
+  s3 -> Or:i0;
+  s3 -> Xor:i1;
+  Or:o0 -> o4;
+  Xor:o0 -> o2;
+}

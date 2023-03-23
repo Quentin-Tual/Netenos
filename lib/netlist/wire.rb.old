@@ -1,0 +1,55 @@
+module Netlist
+    class Wire
+        attr_reader :plugged
+
+        def initialize *ports
+            @name = nil
+            @pluggedInputs = [] #ports.select{|p| p.direction == :in} # Also see it as a sink(s)
+            @pluggedOutput = nil #ports.select{|p| p.direction ==:out}[0] # Also see it as a source
+
+            ports.map{|p| self <= p}  
+            # On évite d'avoir un tableau d'un élément et on évite aussi d'avoir plusieurs éléments par erreur
+        end
+
+        def <= port
+            self.plug port
+            port.plugWire self
+        end
+
+        def plug port 
+            # ! : Quid pour les entrées et sorties globales ? Sûrement un soucis, nécessite des conditions pour prendre en charge ces cas particuliers
+            # * : On ne peut avoir qu'une sortie par 'Wire'
+            # * : On peut avoir un nombre théoriquement illimité d'entrées
+            if ((port.direction == :out) and (!port.is_global?)) or ((port.direction == :in) and (port.is_global?)) 
+                if @pluggedOutput.nil?
+                    @pluggedOutput = port
+                    @name = "w#{port.partof.name}#{port.name}"
+                else 
+                    raise "Error : This wire #{self.name} is already plugged to an output port #{@pluggedOutput.partof.name}#{@pluggedOutput.name}, can't wire it to #{port.partof.name}#{port.name}."
+                end
+            else 
+                @pluggedInputs << port
+            end
+        end
+
+        def getPluggedInputs # ! doit renvoyer un tableau de poprt (et pas un énumérateur)
+            # 
+            return @pluggedInputs
+        end
+
+        def getPluggedOutput
+            return [@pluggedOutput] # Voir si la conversion en énumérateur est nécessaire ici
+        end
+
+        def to_hash uid_table
+            uid_table << self.object_id
+            {
+                :class => self.class.name,
+                :data =>    {   :name           => @name, 
+                                :pluggedInputs  => @pluggedInputs.collect{|p| p.name},
+                                :pluggedOutput  => @pluggedOutput.name
+                            }
+            }
+        end
+    end
+end

@@ -1,11 +1,11 @@
 require "../lib/netlist.rb"
 
-RSpec.describe Netlist::AndGate do
+RSpec.describe Netlist::And do
 
     context "After instanciation" do
     # * : On considère que si les tests sont validés sur cette classe, ils le sont aussi sur les classes similaires dont seul le nom de la classe change (OR, XOR, ...). 
         
-        subject{Netlist::AndGate.new()}
+        subject{Netlist::And.new "g1"}
 
         before(:all) do
             @in_port1 = Netlist::Port.new("i1", :in)
@@ -30,10 +30,9 @@ RSpec.describe Netlist::AndGate do
     end
 end
 
+RSpec.describe Netlist::Not do
 
-RSpec.describe Netlist::NotGate do
-
-    subject{Netlist::NotGate.new()}
+    subject{Netlist::Not.new "g1"}
 
         before(:all) do
             @in_port1 = Netlist::Port.new("i1", :in)

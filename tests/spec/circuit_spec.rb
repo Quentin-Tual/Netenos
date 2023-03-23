@@ -77,8 +77,8 @@ RSpec.describe Netlist::Circuit do
             in1 = Netlist::Port.new('i1', :in)
             in2 = Netlist::Port.new('i2', :in)
             in3 = Netlist::Port.new('i3', :in)
-            g1 = Netlist::AndGate.new()
-            g2 = Netlist::OrGate.new()
+            g1 = Netlist::And.new("g1")
+            g2 = Netlist::Or.new("g2")
 
             @circ << out
             @circ << in1
@@ -92,8 +92,14 @@ RSpec.describe Netlist::Circuit do
             in2 <= g1.get_port_named("i0")
             in3 <= g1.get_port_named("i1")
             out <= g2.get_port_named("o0")
+            g1.get_port_named("o0") <= g2.get_port_named("i1")
 
-            @circ.add_function(@circ.outputs[0].name, [g1,g2])
+            @circ << g1
+            @circ << g2
+
+            expect(g1.partof).to eq(@circ)
+            expect(g2.partof).to eq(@circ)
+
             # TODO : Vérifier que le datapath est bien enregistré et accessible.
             # ? : Serait-il intéressant de constituer une classe Datapath ? permettrait d'ajouter des méthodes pour le parcours du chemin dans un sens ou dans l'autre, permettrait de poser un nom et une image sur l'attribut "function" d'un circuit, voire si ce n'est pas même plus clair en le renommant.
 

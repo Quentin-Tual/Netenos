@@ -2,13 +2,14 @@ require_relative 'port.rb'
 
 module Netlist
 
-    class Gate
-        attr_reader :ports, :partof
-        
-        def initialize 
+    class Gate < Circuit
+        attr_reader :name, :ports, :partof
+
+        def initialize name = "#{self.class.name.split("::")[1]}", partof = nil
+            @name = name
             @ports = {:in => [Netlist::Port.new("i0",:in), Netlist::Port.new("i1",:in)], :out => [Netlist::Port.new("o0",:out)]}
-            @ports.each_value{|p| p[0].partof = self}
-            @partof = nil
+            @ports.each_value{|io| io.each{|p| p.partof = self}}
+            @partof = partof
         end
 
         def <<(e)
@@ -20,10 +21,10 @@ module Netlist
                     if @ports[:in].length < 2
                         @ports[:in] << e
                     else
-                        raise "Error : Trying to add a third input to a logical gate (only 2 ports available)."        
+                        raise "Error : Trying to add a second port to a NOT gate inputs (only 1 input port available)."        
                     end
                 when :out
-                    if @ports[:out < 1] 
+                    if @ports[:out].length < 1 
                     @ports[:out] << e
                     else
                         raise "Error : Trying to add a second output port to a logical gate (2 ports available)." 
@@ -33,33 +34,25 @@ module Netlist
                 raise "Error : Unexpected or unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
             end
         end
-
-        def inputs
-            @ports[:in]
-        end
-      
-        def outputs
-            @ports[:out]
-        end
-
-        def get_port_named str
-            @ports.values.flatten.find{|port| port.name==str}
-        end
-
     end
 
-    class AndGate < Gate; end
+    class And < Gate; end
 
-    class OrGate < Gate; end
+    class Or < Gate; end
 
-    class XorGate < Gate; end
+    class Xor < Gate; end
+
+    class Nor < Gate; end
+
+    class Nand < Gate; end
     
-    class NotGate < Gate
+    class Not < Gate
 
-        def initialize 
-            @ports = {:in => [Netlist::Port.new("i0",:in)], :out => [Netlist::Port.new("o0",:out)]}
+        def initialize name="#{self.class.name.split("::")[1]}", partof = nil
+            @name = name
+            @ports = {:in => [Netlist::Port.new("i0", :in)], :out => [Netlist::Port.new("o0", :out)]}
             @ports.each_value{|p| p[0].partof = self}
-            @partof = nil
+            @partof = partof
         end
 
         def <<(e)

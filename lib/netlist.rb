@@ -4,6 +4,7 @@ require_relative "./netlist/dotgen.rb"
 require_relative "./netlist/netson.rb"
 require_relative "./netlist/wrapper.rb"
 require_relative "./netlist/gate.rb"
+require_relative "./netlist/convVhdl.rb"
 
 # TESTS, lib adds
 require_relative "../tests/test_lib.rb"
