@@ -14,7 +14,7 @@ OptionParser.new do |opts|
 # TODO 1 : Tester si les derniers ajouts fonctionnent tous correctement.
 # TODO 2 : rendre l'aide (banner) plus claire pour l'utilisateur avec un exemple ou deux.
 # TODO 3 : Utiliser l'option de verbosité lorsque possible 
-# TODO 4 : Placer le fichier temporaire ~.enl dans /tmp (plus propre et transparent)
+# TODO 4 : Placer le fichier temporaire ~.enl dans /tmp (plus propre et transparent), problème de droit d'accès ?
 
 
     Version = "Enoslist 0.1.0a (Feb 2023)"
