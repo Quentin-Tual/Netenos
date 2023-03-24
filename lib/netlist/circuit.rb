@@ -30,16 +30,15 @@ module Netlist
 
         def to_hash
             return {
-                :class => self.class.name,
-                :data =>    {   
-                                :name => @name, 
-                                :partof => (@partof == nil ? nil : @partof.name), 
-                                :ports =>   {
-                                                :in => @ports[:in].collect{|e| e.to_hash},
-                                                :out => @ports[:out].collect{|e| e.to_hash}
-                                            },
-                                :components => (@components == nil ? nil : @components.collect!{|e| e.to_hash})
-                            }
+                :circuit => {   
+                    :name => @name, 
+                    :partof => (@partof == nil ? nil : @partof.name), 
+                    :ports =>   {
+                                    :in => @ports[:in].collect{|e| e.to_hash},
+                                    :out => @ports[:out].collect{|e| e.to_hash}
+                                },
+                    :components => (@components == nil ? nil : @components.collect!{|e| e.to_hash})     
+                }
             }
         end
 
@@ -52,7 +51,7 @@ module Netlist
         end
 
         def get_ports
-            @ports.values.flattens # ! : flatten nécessaire ? à vérifier
+            @ports.values.flatten # ! : flatten nécessaire ? à vérifier
         end
 
         def get_port_named str

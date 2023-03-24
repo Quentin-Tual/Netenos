@@ -5,7 +5,7 @@ module Netlist
     class Gate < Circuit
         attr_reader :name, :ports, :partof
 
-        def initialize name = "#{self.class.name.split("::")[1]}", partof = nil
+        def initialize name = "#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil
             @name = name
             @ports = {:in => [Netlist::Port.new("i0",:in), Netlist::Port.new("i1",:in)], :out => [Netlist::Port.new("o0",:out)]}
             @ports.each_value{|io| io.each{|p| p.partof = self}}

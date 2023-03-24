@@ -1,9 +1,6 @@
-
-
 module Netlist
 
     # ! : Seul le type de données 'bit' est pris en compte dans un premier temps
-    # ? : Table des correspondances ? (classes de l'AST vers les classes de la netlist)
 
     class ConvVhdl
 
@@ -28,8 +25,7 @@ module Netlist
         end
 
         def convAst
-            # TODO : Première fonction d'un visiteur qui parcout l'AST et construit la Netlist au fur et à mesure.
-            # pp @ast # OK
+            # TODO : Première fonction d'un visiteur qui parcourt l'AST et construit la Netlist au fur et à mesure.
             @netlist = convEntity @ast
             @current_RTL_block = @netlist
             convArch(@ast.architectures.select{|arch| arch.name.name=="enoslist"}[0])
@@ -39,19 +35,6 @@ module Netlist
 
             return @netlist
         end
-
-        # def convInstanciatedComponents
-        #     # TODO : Faire la liaison et l'a conversion de l'architecture car le composant et ses ports sont déjà instanciés
-        #     if !@current_RTL_block.components.empty?
-        #         @current_RTL_block.components.each{|comp| 
-        #             @current_RTL_block = comp
-        #             # ! : Ici il faut aller chercher l'architecture associée à l'entité traitée uniquement et non toutes les architectures enregistrées dans l'AST
-        #             # convArch(@sym_tab[@current_RTL_block.name].architectures.select{|arch| arch.name.name=="enoslist"}[0])
-        #             # convInstanciatedComponents
-        #         }
-        #     end
-            
-        # end
 
         def convEntity entity
             # TODO : Instanciation du circuit 'global'
@@ -69,7 +52,6 @@ module Netlist
         end
 
         def convPort port
-            # ? : Possibilité d'instancier les ports et de les remonter au circuit global par retour de fonction. Cependant légèrement plus complexe pour le test.
             return Netlist::Port.new(port.name.name, port.port_type.to_sym)
         end
     
@@ -97,7 +79,7 @@ module Netlist
                 when VHDL::AST::InstantiateStatement
                     components << convInstantiateStatement(statement)
                 else
-                    raise "Error : Unknown statement in architecture body." # TODO : Voir pour ajouter plus d'éléments contextuels au message d'erreur
+                    raise "Error : Unknown statement #{statement.class} in architecture body." 
                 end
             }
 
@@ -169,18 +151,12 @@ module Netlist
             end
         end
 
-        def convInstantiateStatement instanciateStatement # ! : Devra retourner le composant instancié
-            # name et partof récupérable dès le départ
-            # PortMap pour les ports
-            # l'attribut components restera vide (nil) à moins que l'entité instanciée possède un InstanciateStatement dans son architecture
-
+        def convInstantiateStatement instanciateStatement
             inst = convEntity(@sym_tab[instanciateStatement.name.name])
             inst.name = instanciateStatement.name.name
             inst.partof = @netlist
             convPortMap instanciateStatement.port_map, inst
 
-            # TODO : Lancer la conversion de l'entité instanciée maintenant pour instancier les ports et le composant. Cependant attention à ne pas réécrire la table des symboles
-            # TODO : Lancer la conversion de l'architecture plus tard pour les liaisons
             return inst
         end
 
@@ -191,8 +167,6 @@ module Netlist
         end
 
         def convAssociationStatement associationStatement, component
-            # port = Port.new(associationStatement.dest.name, associationStatement.dest.decl.port_type.to_sym, component)
-            # component << port
             port = component.get_port_named(associationStatement.dest.name)
 
             if port.is_input? 
@@ -207,13 +181,11 @@ module Netlist
             # * : Post conversion verification to avoid specific states
             @netlist.get_outputs.each do |output_port|
                 if !output_port.fanout.empty?
-                    # TODO : Remplacer les fanin visés par le fanout par le fanin du port courant
                     output_port.fanout.each do |targeted_interface|
                         targeted_interface.fanin = nil
                         targeted_interface <= output_port.fanin
                     end
                     output_port.fanout = []
-                    # TODO : Remplacer le fanout par nil
                 end
             end
         end

@@ -30,19 +30,32 @@ global << c1
 #global.port_refresh
 
 # Instanciation des "fils" de classe Wire pour le branchement de plusieurs entrées sur la même sortie/entrée globale.
-w1 = Wire.new(a1.get_port_named("o1"), b1.get_port_named("i1"), a2.get_port_named("i1"),c1.get_port_named("i1"))
-w2 = Wire.new(b1.get_port_named("o1"), a2.get_port_named("i2"), b2.get_port_named("i2"))
-w3 = Wire.new(a2.get_port_named("o1"), b2.get_port_named("i1"), c1.get_port_named("i2"))
+w1 = Wire.new("w1")
+w1 <= a1.get_port_named("o1")
+b1.get_port_named("i1") <= w1
+a2.get_port_named("i1") <= w1
+c1.get_port_named("i1") <= w1
+
+w2 = Wire.new("w2")
+w2 <= b1.get_port_named("o1")
+a2.get_port_named("i2") <= w2
+b2.get_port_named("i2") <= w2
+
+w3 = Wire.new("w3")
+w3 <= a2.get_port_named("o1")
+b2.get_port_named("i1") <= w3
+c1.get_port_named("i2") <= w3
+
 
 # Link ports between components
-b2.get_port_named("o1") <= c1.get_port_named("i3")
+c1.get_port_named("i3") <= b2.get_port_named("o1") 
 
 # Link ports to global/main circuit IOs
-global.get_port_named("i1") <= a1.get_port_named("i1")
-global.get_port_named("i2") <= a1.get_port_named("i2") 
-global.get_port_named("i3") <= b1.get_port_named("i2")
-c1.get_port_named("o1") <= global.get_port_named("o1")
-c1.get_port_named("o2") <= global.get_port_named("o2")
+a1.get_port_named("i1") <= global.get_port_named("i1") 
+a1.get_port_named("i2") <= global.get_port_named("i2")
+b1.get_port_named("i2") <= global.get_port_named("i3")
+global.get_port_named("o1") <= c1.get_port_named("o1") 
+global.get_port_named("o2") <= c1.get_port_named("o2")
 
 # pp global.name
 

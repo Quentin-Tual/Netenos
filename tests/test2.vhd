@@ -44,8 +44,8 @@ begin
     s3 <= s0 and s1;
     o1 <= s3;
     o4 <= s3 or s1;
-    s2 <= o3;
-    o2 <= o3 xor s3;
+    --s2 <= o3;
+    o2 <= o3 and s3;
 
 end architecture;
 

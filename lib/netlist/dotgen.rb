@@ -9,9 +9,8 @@ module Netlist
             comp circuit.components
             ios circuit.ports
             wiring circuit
-            circuit.components.map!{|comp| comp_wiring comp }
+            circuit.components.each{|comp| comp_wiring comp }
             foot circuit.name, path
-
         end
 
         def head name

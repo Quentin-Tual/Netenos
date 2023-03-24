@@ -19,6 +19,7 @@ module VHDL
                         @tokens << VHDL::AST::Token.new(:new_line, $&, num_line)
                         num_line += 1
                     when /\A\s/
+                        # Do nothing, just encountered space(s) or tabulation(s)
                     when /\Aentity/
                         @tokens << VHDL::AST::Token.new(:entity, $&, num_line)
                     when /\Ais/
@@ -79,6 +80,8 @@ module VHDL
                         @tokens << VHDL::AST::Token.new(:coma, $&, num_line)
                     when /\A[a-zA-Z]+(\w)*\b/ # Placed at the end of the case statement because other "kinds" could satisfy the regexp
                         @tokens << VHDL::AST::Token.new(:ident, $&, num_line)
+                    when /\A--.*\n/
+                        # Do nothing, just encountered comments
                     else
                         raise "Encountered unknown expression : #{str[0..-1]}"
                 end
