@@ -1,0 +1,34 @@
+# Test
+digraph test2 {
+  graph [rankdir = LR];
+  MUX[shape=record; style=filled;color=cadetblue; label="{{<clk>clk|<en>en|<rst>rst}| MUX |{<s>s|<o>o}}"]
+  And360[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And360 |{<o0>o0}}"]
+  Or380[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Or380 |{<o0>o0}}"]
+  And400[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And400 |{<o0>o0}}"]
+  clk[shape=cds,xlabel="clk"]
+  en[shape=cds,xlabel="en"]
+  rst[shape=cds,xlabel="rst"]
+  o1[shape=cds,xlabel="o1"]
+  o2[shape=cds,xlabel="o2"]
+  o3[shape=cds,xlabel="o3"]
+  o4[shape=cds,xlabel="o4"]
+  clk -> MUX:clk;
+  clk -> o3;
+  clk -> And400:i0;
+  en -> MUX:en;
+  rst -> MUX:rst;
+  s0[shape=point];
+  MUX:s -> s0[arrowhead=none]
+  s0 -> And360:i0;
+  s1[shape=point];
+  MUX:o -> s1[arrowhead=none]
+  s1 -> And360:i1;
+  s1 -> Or380:i1;
+  s3[shape=point];
+  And360:o0 -> s3[arrowhead=none]
+  s3 -> o1;
+  s3 -> Or380:i0;
+  s3 -> And400:i1;
+  Or380:o0 -> o4;
+  And400:o0 -> o2;
+}

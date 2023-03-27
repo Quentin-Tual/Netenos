@@ -1,5 +1,6 @@
 require_relative 'circuit.rb'
 require_relative 'netson.rb'
+require_relative '../vhdl.rb'
 
 module Netlist
 
@@ -32,9 +33,16 @@ module Netlist
         end
 
         def load_vhdl path
-            # WIP
-            puts "      | ----- WIP ----- | "
-            # TODO : Lire le fichier et le parser à l'aide d'Hyle, la conversion decorated_AST (Hyle) vers la netlist Enoslist est à terminer en amont.
+            # Lancer Hyle et récupérer l'AST (stocké en Marshal)
+            txt = IO.read(path)
+            ast = VHDL::Parser.new.parse(VHDL::Lexer.new.tokenize(txt))
+            visitor = VHDL::Visitor.new
+            decorated_ast = visitor.visitAST ast
+            visitor.exportDecAst "/tmp/~.ast"
+            # Chargement de l'AST en sortie de Hyle
+            vhdl_converter = Netlist::ConvVhdl.new
+            vhdl_converter.load "/tmp/~.ast"
+            @netlist = vhdl_converter.convAst
         end
 
         # * : ------ Export methods ------ : 
@@ -61,7 +69,8 @@ module Netlist
 
         def store_vhdl path
             # WIP
-            # TODO : Convertir en VHDL à l'aide d'Hyle, la conversion de la netlist Enoslist vers un decorated_AST (Hyle) est à terminer en amont.
+            # TODO : Convertir en VHDL à l'aide d'Hyle, 
+            # TODO : Convertir la netlist Enoslist vers un decorated_AST (Hyle) est à terminer en amont.
             puts "WIP"
         end
 
@@ -74,14 +83,14 @@ module Netlist
 
         end
 
-        # * : ------ Operation methods ------ :
+        # * : ------ Operation/manipulation methods ------ :
 
             # WIP
 
         # * : ------ Other methods ------ : 
         def show path
-            self.store_dot "./~#{@netlist.name}.dot"
-            `xdot ./~#{@netlist.name}.dot`
+            self.store_dot "/tmp/~#{@netlist.name}.dot"
+            `xdot /tmp/~#{@netlist.name}.dot`
         end
 
     end
