@@ -84,7 +84,7 @@ module Netlist
         def inst_comp h, parent
             comp = Circuit.new(h["circuit"]["name"])
             comp.partof = parent
-            comp.components = h["circuit"]["components"].collect{|e| inst_comp(e,comp)}
+            comp.components = h["circuit"]["components"] == nil ? [] : h["circuit"]["components"].collect{|e| inst_comp(e,comp)}
             comp.ports[:in] = h["circuit"]["ports"]["in"].collect{|e| inst_port(e, comp)}
             comp.ports[:out] = h["circuit"]["ports"]["out"].collect{|e| inst_port(e, comp)}
             return comp

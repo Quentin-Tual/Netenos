@@ -37,7 +37,7 @@ module Netlist
                                     :in => @ports[:in].collect{|e| e.to_hash},
                                     :out => @ports[:out].collect{|e| e.to_hash}
                                 },
-                    :components => (@components == nil ? nil : @components.collect!{|e| e.to_hash})     
+                    :components => @components == [] ? nil : @components.collect{|e| e.to_hash}     
                 }
             }
         end
