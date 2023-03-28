@@ -1,7 +1,7 @@
 require "../lib/netlist.rb"
 require "../lib/vhdl.rb"
 
-RSpec.describe Netlist::ConvVhdl do
+RSpec.describe Netlist::ConvVhdl2Netlist do
 
     context "After instanciation" do
 

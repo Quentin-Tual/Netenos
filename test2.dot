@@ -1,7 +1,7 @@
 # Test
 digraph test2 {
   graph [rankdir = LR];
-  MUX[shape=record; style=filled;color=cadetblue; label="{{<clk>clk|<en>en|<rst>rst}| MUX |{<s>s|<o>o}}"]
+  MUX_test[shape=record; style=filled;color=cadetblue; label="{{<clk>clk|<en>en|<rst>rst}| MUX_test |{<s>s|<o>o}}"]
   And880[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And880 |{<o0>o0}}"]
   Or900[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Or900 |{<o0>o0}}"]
   And920[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And920 |{<o0>o0}}"]
@@ -12,16 +12,16 @@ digraph test2 {
   o2[shape=cds,xlabel="o2"]
   o3[shape=cds,xlabel="o3"]
   o4[shape=cds,xlabel="o4"]
-  clk -> MUX:clk;
+  clk -> MUX_test:clk;
   clk -> o3;
   clk -> And920:i0;
-  en -> MUX:en;
-  rst -> MUX:rst;
+  en -> MUX_test:en;
+  rst -> MUX_test:rst;
   s0[shape=point];
-  MUX:s -> s0[arrowhead=none]
+  MUX_test:s -> s0[arrowhead=none]
   s0 -> And880:i0;
   s1[shape=point];
-  MUX:o -> s1[arrowhead=none]
+  MUX_test:o -> s1[arrowhead=none]
   s1 -> And880:i1;
   s1 -> Or900:i1;
   s3[shape=point];

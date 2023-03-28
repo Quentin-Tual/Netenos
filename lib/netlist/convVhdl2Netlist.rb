@@ -1,8 +1,6 @@
 module Netlist
 
-    # ! : Seul le type de données 'bit' est pris en compte dans un premier temps
-
-    class ConvVhdl
+    class ConvVhdl2Netlist
 
         def initialize sym_tab = nil, ast = nil
             @sym_tab = sym_tab
@@ -37,7 +35,6 @@ module Netlist
         end
 
         def convEntity entity
-            # TODO : Instanciation du circuit 'global'
             ret = Netlist::Circuit.new(entity.name.name)
             ports = convPorts entity.ports
             ports.each{ |p|
@@ -62,7 +59,9 @@ module Netlist
 
         def convArchDecl archDecl
             archDecl.each{|declaration| 
-                @wire_table[declaration.name.name] = Wire.new declaration.name.name
+                wire = Wire.new declaration.name.name
+                @wire_table[declaration.name.name] = wire
+                @netlist.wires << wire
             }
         end
 
@@ -152,8 +151,9 @@ module Netlist
         end
 
         def convInstantiateStatement instanciateStatement
+            inst_name = "#{instanciateStatement.name.name}_#{instanciateStatement.entity.name.name}" 
             inst = convEntity(@sym_tab[instanciateStatement.name.name])
-            inst.name = instanciateStatement.name.name
+            inst.name = inst_name
             inst.partof = @netlist
             convPortMap instanciateStatement.port_map, inst
 

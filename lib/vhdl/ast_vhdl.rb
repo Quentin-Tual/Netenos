@@ -45,6 +45,7 @@ module VHDL
 
         Type                    = Struct.new(:type_name,:size) do
             attr_reader :type_name, :size
+            
             def initialize type_name
                 if $DEF_TYPES.map{|ref| type_name.match?(ref)}.include?(true)
                     @type_name = type_name.split("(")[0]

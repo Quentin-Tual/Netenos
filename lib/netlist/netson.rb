@@ -108,6 +108,7 @@ module Netlist
             @sym_tab["#{wire.name}"] = wire
             wire.fanin = h["wire"]["fanin"]
             wire.fanout = h["wire"]["fanout"]
+            @circuit.wires << wire
             return wire
         end  
 

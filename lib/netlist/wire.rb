@@ -39,6 +39,20 @@ module Netlist
             return @name
         end
 
+        def unplug interface_name # * : Apply only to sinks, won't work on sources
+            if fanin.name == interface_name
+                fanin.fanout.delete(fanin.get_sink_named(@name))
+                fanin = nil
+            else
+                get_sink_named(interface_name).fanin = nil
+                fanout.delete(get_sink_named(interface_name))
+            end
+        end
+
+        def get_sink_named name
+            return fanout.find{|i| i.name == name}
+        end
+
         def has_source?
             return fanin.nil?
         end

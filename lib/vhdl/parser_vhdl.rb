@@ -44,6 +44,8 @@ module VHDL
                     name = VHDL::AST::Ident.new(expect(:ident))
                     expect :colon
                     port_type = expect(:in, :out).val 
+                    # ! : Les champs du data_type restent à nil une fois l'AST complet généré, vérifier d'où ça vient.
+                    # ? A priori, le retour de parse_ports vers parse_entity fait perdre les données de ces champs...
                     data_type = VHDL::AST::Type.new(expect(:type).val)
                     expect :semicol, :c_parent # 2 possibilités au même instant, ne créant pas de nouvelle branche dans l'arbre de décision (fin de branchement/chemin parallèle)
                     ports.append(VHDL::AST::Port.new(name, port_type, data_type))

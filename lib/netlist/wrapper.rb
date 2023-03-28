@@ -40,7 +40,7 @@ module Netlist
             decorated_ast = visitor.visitAST ast
             visitor.exportDecAst "/tmp/~.ast"
             # Chargement de l'AST en sortie de Hyle
-            vhdl_converter = Netlist::ConvVhdl.new
+            vhdl_converter = Netlist::ConvVhdl2Netlist.new
             vhdl_converter.load "/tmp/~.ast"
             @netlist = vhdl_converter.convAst
         end

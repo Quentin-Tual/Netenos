@@ -9,14 +9,14 @@ module VHDL
         attr_accessor :id_tab, :ent_name, :actual_lib
 
         def initialize
-            @id_tab = Hash.new # Peut-être préférable d'avoir une table différentes pour chaque famille : les entités, les architectures, les ports, les signaux, voire d'autres. 
+            @sym_tab = Hash.new # Peut-être préférable d'avoir une table différentes pour chaque famille : les entités, les architectures, les ports, les signaux, voire d'autres. 
             @actual_lib = VHDL::AST::Work.new 
         end
 
         def exportDecAst path
             # export de l'ast décoré donc toutes les entités concernées, certaines pouvant être dans la lib.
             f = File.new(path, "wb")
-            f.puts(Marshal.dump([@id_tab, ent_name]))
+            f.puts(Marshal.dump([@sym_tab, ent_name]))
             f.close
         end
 
@@ -38,7 +38,7 @@ module VHDL
         
         def visitEntity subAst
             @ent_name = subAst.name.name
-            @id_tab[subAst.name.name] = subAst
+            @sym_tab[subAst.name.name] = subAst
             visitPorts subAst.ports 
         end
 
@@ -47,11 +47,11 @@ module VHDL
         end
         
         def visitPort subAst
-            @id_tab[subAst.name.name] = subAst
+            @sym_tab[subAst.name.name] = subAst
         end
 
         def visitArch subAst
-            subAst.entity = @id_tab[subAst.entity.name]
+            subAst.entity = @sym_tab[subAst.entity.name]
             if subAst.entity.architectures == nil
                 subAst.entity.architectures = [subAst]
             else    
@@ -63,9 +63,9 @@ module VHDL
         end
 
         def clear_SignalDeclaration # Allow to reset context between two architecture visit
-            @id_tab.each_pair{|key, value| 
+            @sym_tab.each_pair{|key, value| 
                 if value.class == VHDL::AST::SignalDeclaration
-                    @id_tab.delete(key)
+                    @sym_tab.delete(key)
                 end
             }
         end
@@ -87,10 +87,10 @@ module VHDL
         end
 
         def visitSignalDeclaration exp
-            if @id_tab[exp.name.name].nil?
-                @id_tab[exp.name.name] = exp
+            if @sym_tab[exp.name.name].nil?
+                @sym_tab[exp.name.name] = exp
             else
-                raise "Error : Name already known as #{@id_tab[exp.name.name]}.\n -> #{exp.name.token.line}"
+                raise "Error : Name already known as #{@sym_tab[exp.name.name]}.\n -> #{exp.name.token.line}"
             end
         end
 
@@ -103,9 +103,9 @@ module VHDL
         def visitInstantiateStatement exp
             if exp.lib.name == "work"
                 exp.entity = @actual_lib.entities[exp.entity.name]
-                @id_tab[exp.name.name] = exp.entity
-                @id_tab[exp.entity.name.name] = exp.entity
-                exp.entity.ports.each{|p| @id_tab["#{exp.name.name}:#{p.name.name}"] = p}
+                @sym_tab[exp.name.name] = exp.entity
+                @sym_tab[exp.entity.name.name] = exp.entity
+                exp.entity.ports.each{|p| @sym_tab["#{exp.name.name}:#{p.name.name}"] = p}
                 exp.arch = exp.entity.architectures.select{ |arch|
                     arch.name.name == exp.arch.name
                 } 
@@ -146,13 +146,13 @@ module VHDL
         end
 
         def visitUnaryExp exp, ret_type
-            exp.operand.decl = @id_tab[exp.operand.name]
+            exp.operand.decl = @sym_tab[exp.operand.name]
             exp.ret_type = ret_type
         end
 
         def visitBinaryExp exp, ret_type
-            exp.operand1.decl = @id_tab[exp.operand1.name]
-            exp.operand2.decl = @id_tab[exp.operand2.name]
+            exp.operand1.decl = @sym_tab[exp.operand1.name]
+            exp.operand2.decl = @sym_tab[exp.operand2.name]
             exp.ret_type = ret_type 
         end
 
@@ -161,14 +161,14 @@ module VHDL
             case statement.source
             when VHDL::AST::Ident
                 testTypeValidity statement
-                statement.dest.decl = @id_tab[statement.dest.name] 
-                statement.source.decl = @id_tab[statement.source.name]
+                statement.dest.decl = @sym_tab[statement.dest.name] 
+                statement.source.decl = @sym_tab[statement.source.name]
             when VHDL::AST::UnaryExp
                 visitUnaryExp statement.source, testTypeValidity(statement)
-                statement.dest.decl = @id_tab[statement.dest.name] 
+                statement.dest.decl = @sym_tab[statement.dest.name] 
             when VHDL::AST::BinaryExp
                 visitBinaryExp statement.source, testTypeValidity(statement)
-                statement.dest.decl = @id_tab[statement.dest.name]
+                statement.dest.decl = @sym_tab[statement.dest.name]
             end
             
         end
@@ -176,17 +176,17 @@ module VHDL
         def visitAssociateStatement statement, ent
             
             testTypeValidity statement, ent
-            statement.dest.decl     = @id_tab[ent].ports.select{|p| p.name.name == statement.dest.name}[0]
-            statement.source.decl   = @id_tab[statement.source.name] 
+            statement.dest.decl     = @sym_tab[ent].ports.select{|p| p.name.name == statement.dest.name}[0]
+            statement.source.decl   = @sym_tab[statement.source.name] 
 
         end
 
         def testTypeValidity exp, ent = nil
             case exp # Different conditions for a valid expression, also different form to test (match it up in the future)
             when VHDL::AST::AssociationStatement  
-                if @id_tab["#{ent}:#{exp.dest.name}"].data_type == @id_tab[exp.source.name].data_type
-                    if (@id_tab["#{ent}:#{exp.dest.name}"].class == VHDL::AST::Port and @id_tab[exp.source.name].class == VHDL::AST::Port) 
-                        if (@id_tab["#{ent}:#{exp.dest.name}"].port_type != @id_tab[exp.source.name].port_type)
+                if @sym_tab["#{ent}:#{exp.dest.name}"].data_type == @sym_tab[exp.source.name].data_type
+                    if (@sym_tab["#{ent}:#{exp.dest.name}"].class == VHDL::AST::Port and @sym_tab[exp.source.name].class == VHDL::AST::Port) 
+                        if (@sym_tab["#{ent}:#{exp.dest.name}"].port_type != @sym_tab[exp.source.name].port_type)
                             raise "Error : ports #{exp.dest.name} and #{exp.source.name} are from same port type and can't be wired together.\n -> #{exp.dest.token.line}"
                         end
                     end
@@ -199,18 +199,18 @@ module VHDL
                     testTypeValidity exp.source
                 elsif exp.source.class == VHDL::AST::UnaryExp
                     testTypeValidity exp.source
-                elsif @id_tab[exp.dest.name].data_type == @id_tab[exp.source.name].data_type
+                elsif @sym_tab[exp.dest.name].data_type == @sym_tab[exp.source.name].data_type
                     # TODO : Voir pour bouger le contenu de ce branchement en l'état dans une fonction visitUnaryExp
-                    if (@id_tab[exp.dest.name].class == VHDL::AST::Port) and (@id_tab[exp.dest.name].port_type != "out")
+                    if (@sym_tab[exp.dest.name].class == VHDL::AST::Port) and (@sym_tab[exp.dest.name].port_type != "out")
                             raise "Error : ports #{exp.dest.name} and #{exp.source.name} are from same port type and can't be wired together.\n -> #{exp.dest.token.line}"
                     end
                 else
                     raise "Error : #{exp.dest.name} and #{exp.source.name} don't have the same data_type and can't be wired together.\n -> #{exp.dest.token.line}"
                 end
             when VHDL::AST::UnaryExp
-                return @id_tab[exp.operand.name].data_type.type_name
+                return @sym_tab[exp.operand.name].data_type.type_name
             when VHDL::AST::BinaryExp
-                op_type = [@id_tab[exp.operand1.name].data_type.type_name,@id_tab[exp.operand2.name].data_type.type_name]
+                op_type = [@sym_tab[exp.operand1.name].data_type.type_name,@sym_tab[exp.operand2.name].data_type.type_name]
                 if $DEF_OP_TYPES[exp.operator.op].include?(op_type)
                     return $DEF_OP_RET_TYPES[exp.operator.op][op_type]
                 else
