@@ -68,10 +68,8 @@ module Netlist
         end
 
         def store_vhdl path
-            # WIP
-            # TODO : Convertir en VHDL à l'aide d'Hyle, 
-            # TODO : Convertir la netlist Enoslist vers un decorated_AST (Hyle) est à terminer en amont.
-            puts "WIP"
+            src = Netlist::ConvNetlist2Vhdl.new.get_vhdl @netlist 
+            File.write(path, src)
         end
 
         def store_dot path

@@ -64,11 +64,15 @@ module Netlist
         end
 
         def convSignalDeclaration # * : Signal Declaration
-            return @netlist.wires.collect do |w| 
+            if @netlist.wires != []
+                return @netlist.wires.collect do |w| 
                 VHDL::AST::SignalDeclaration.new(
                     to_Ident(w.name),
                     VHDL::AST::Type.new("bit")
                 )
+                end
+            else
+                return []
             end
         end
 
@@ -123,7 +127,6 @@ module Netlist
                     )
 
                     sink.unplug(p.name)
-                    pp "ok"
                 end
             end
 
@@ -133,21 +136,23 @@ module Netlist
                     # ! : Voir si possible d'optimiser le découpage du nom (ajout d'un caractère deséparation '_' ?)
                     operator = comp.name.split(/(?<=[A-Za-z])(?=\d)/)[0].downcase # * : Retrieve the gate type only without the object ID
                     if operator != "Not" # BinaryExp
-                        convBinaryExp comp, operator
+                        statements << convBinaryExp(comp, operator)
                     else # UnaryExp
-                        convUnaryExp comp, operator
+                        statements << convUnaryExp(comp, operator)
                     end
                 end
             end
 
             # *: Wires equivalent to Signals assignments 
-            @netlist.wires.each do |w|
-                w.get_sinks.each do |sink|
-                    statements << VHDL::AST::AssignStatement.new(
-                        to_Ident(sink.name), 
-                        to_Ident(w.name)
-                    )
-                    w.unplug sink.name
+            if @netlist.wires != []
+                @netlist.wires.each do |w|
+                    w.get_sinks.each do |sink|
+                        statements << VHDL::AST::AssignStatement.new(
+                            to_Ident(sink.name), 
+                            to_Ident(w.name)
+                        )
+                        w.unplug sink.name
+                    end
                 end
             end
 
@@ -193,8 +198,6 @@ module Netlist
                 )
             )
         end
-
-
 
     end
 

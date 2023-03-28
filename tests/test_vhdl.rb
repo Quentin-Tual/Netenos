@@ -30,5 +30,5 @@ DotGen.new.dot recovNetlist
 
 unconverter = Netlist::ConvNetlist2Vhdl.new
 rev_source_code = unconverter.get_vhdl recovNetlist
-
+puts rev_source_code
 
