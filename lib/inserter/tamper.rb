@@ -38,6 +38,8 @@ module Netlist
             @netlist.get_outputs.each do |global_output|
                 @stages[global_output] = last_stage
             end  
+
+            return @stages.keys.max
         end
 
         def propag_visit sink_comp, curr_stage
