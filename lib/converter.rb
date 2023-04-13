@@ -1,0 +1,5 @@
+require_relative "./converter/code.rb"
+require_relative "./converter/dotgen.rb"
+require_relative "./converter/netson.rb"
+require_relative "./converter/convVhdl2Netlist.rb"
+require_relative "./converter/convNetlist2Vhdl.rb"

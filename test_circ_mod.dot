@@ -1,0 +1,45 @@
+# Test
+digraph test_circ {
+  graph [rankdir = LR];
+  a1[shape=record; style=filled;color=cadetblue; label="{{<i1>i1|<i2>i2}| a1 |{<o1>o1}}"]
+  a2[shape=record; style=filled;color=cadetblue; label="{{<i1>i1|<i2>i2}| a2 |{<o1>o1}}"]
+  b1[shape=record; style=filled;color=cadetblue; label="{{<i1>i1|<i2>i2}| b1 |{<o1>o1}}"]
+  b2[shape=record; style=filled;color=cadetblue; label="{{<i1>i1|<i2>i2}| b2 |{<o1>o1}}"]
+  c1[shape=record; style=filled;color=cadetblue; label="{{<i1>i1|<i2>i2|<i3>i3}| c1 |{<o1>o1|<o2>o2}}"]
+  Xor1100[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Xor1100 |{<o0>o0}}"]
+  And1120[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And1120 |{<o0>o0}}"]
+  And1140[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And1140 |{<o0>o0}}"]
+  And1160[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And1160 |{<o0>o0}}"]
+  i1[shape=cds,xlabel="i1"]
+  i2[shape=cds,xlabel="i2"]
+  i3[shape=cds,xlabel="i3"]
+  o1[shape=cds,xlabel="o1"]
+  o2[shape=cds,xlabel="o2"]
+  i1 -> a1:i1;
+  i1 -> And1140:i0;
+  i2 -> a1:i2;
+  i2 -> And1140:i1;
+  i3 -> b1:i2;
+  i3 -> And1120:i1;
+  w1[shape=point];
+  a1:o1 -> w1[arrowhead=none]
+  w1 -> b1:i1;
+  w1 -> a2:i1;
+  w1 -> c1:i1;
+  a1:o1 -> And1120:i0;
+  w3[shape=point];
+  a2:o1 -> w3[arrowhead=none]
+  w3 -> b2:i1;
+  w3 -> c1:i2;
+  b1:o1 -> Xor1100:i0;
+  b2:o1 -> c1:i3;
+  c1:o1 -> o1;
+  c1:o2 -> o2;
+  w2[shape=point];
+  Xor1100:o0 -> w2[arrowhead=none]
+  w2 -> a2:i2;
+  w2 -> b2:i2;
+  And1120:o0 -> And1160:i0;
+  And1140:o0 -> And1160:i1;
+  And1160:o0 -> Xor1100:i1;
+}

@@ -9,6 +9,14 @@ module Netlist
             @direction = direction
         end
 
+        def is_free?
+            if @direction == :in
+                return fanin.nil? 
+            else
+                return fanout.empty?
+            end
+        end
+
         def is_partof?
             return partof.nil? 
         end

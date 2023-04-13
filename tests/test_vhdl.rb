@@ -1,8 +1,6 @@
 require_relative "../lib/vhdl.rb"
 require_relative "../lib/netlist.rb"
 
-# TODO : Voir pour faire des tests avec Rspec
-
 include Netlist
 include VHDL
 

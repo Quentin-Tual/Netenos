@@ -1,0 +1,48 @@
+# Test
+digraph test {
+  graph [rankdir = LR];
+  Not60[shape=record; style=filled;color=cadetblue; label="{{<i0>i0}| Not60 |{<o0>o0}}"]
+  And80[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And80 |{<o0>o0}}"]
+  Nor100[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nor100 |{<o0>o0}}"]
+  And120[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And120 |{<o0>o0}}"]
+  Not140[shape=record; style=filled;color=cadetblue; label="{{<i0>i0}| Not140 |{<o0>o0}}"]
+  Nor160[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nor160 |{<o0>o0}}"]
+  Nor180[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nor180 |{<o0>o0}}"]
+  Nor200[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nor200 |{<o0>o0}}"]
+  Not220[shape=record; style=filled;color=cadetblue; label="{{<i0>i0}| Not220 |{<o0>o0}}"]
+  Xor240[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Xor240 |{<o0>o0}}"]
+  i0[shape=cds,xlabel="i0"]
+  i1[shape=cds,xlabel="i1"]
+  i2[shape=cds,xlabel="i2"]
+  i3[shape=cds,xlabel="i3"]
+  i4[shape=cds,xlabel="i4"]
+  o0[shape=cds,xlabel="o0"]
+  o1[shape=cds,xlabel="o1"]
+  o2[shape=cds,xlabel="o2"]
+  o3[shape=cds,xlabel="o3"]
+  o4[shape=cds,xlabel="o4"]
+  o5[shape=cds,xlabel="o5"]
+  i0 -> And120:i1;
+  i0 -> Not220:i0;
+  i1 -> And120:i0;
+  i1 -> Xor240:i1;
+  i2 -> Xor240:i0;
+  i2 -> Not60:i0;
+  i2 -> Nor180:i1;
+  i3 -> Nor100:i1;
+  i3 -> Nor200:i1;
+  i4 -> Nor100:i0;
+  i4 -> And80:i0;
+  i4 -> And80:i1;
+  i4 -> Nor180:i0;
+  Not60:o0 -> Nor200:i0;
+  And80:o0 -> Nor160:i1;
+  Nor100:o0 -> o5;
+  And120:o0 -> o2;
+  Not140:o0 -> o0;
+  Nor160:o0 -> o4;
+  Nor180:o0 -> Not140:i0;
+  Nor200:o0 -> Nor160:i0;
+  Not220:o0 -> o1;
+  Xor240:o0 -> o3;
+}

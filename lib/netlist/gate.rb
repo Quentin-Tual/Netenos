@@ -34,6 +34,14 @@ module Netlist
                 raise "Error : Unexpected or unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
             end
         end
+
+        def get_outputs
+            @ports[:out]
+        end
+
+        def get_output
+            @ports[:out][0]
+        end
     end
 
     class And < Gate; end
@@ -48,7 +56,7 @@ module Netlist
     
     class Not < Gate
 
-        def initialize name="#{self.class.name.split("::")[1]}", partof = nil
+        def initialize name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil
             @name = name
             @ports = {:in => [Netlist::Port.new("i0", :in)], :out => [Netlist::Port.new("o0", :out)]}
             @ports.each_value{|p| p[0].partof = self}
@@ -79,5 +87,7 @@ module Netlist
         end
 
     end
+
+    $DEF_GATE_TYPES = [And, Or, Xor, Not, Nand, Nor]
 
 end

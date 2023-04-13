@@ -1,5 +1,5 @@
-require_relative 'circuit.rb'
-require_relative 'netson.rb'
+require_relative '../netlist/circuit.rb'
+require_relative '../converter/netson.rb'
 require_relative '../vhdl.rb'
 
 module Netlist

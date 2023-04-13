@@ -25,6 +25,7 @@ module Netlist
                     
                 when Circuit
                     @components << e
+                    e.partof = self
 
                 else raise "Error : Unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
             end
@@ -45,23 +46,53 @@ module Netlist
         end
 
         def get_inputs
-            @ports[:in]
+            return @ports[:in]
         end
       
         def get_outputs
-            @ports[:out]
+            return @ports[:out]
         end
 
         def get_ports
-            @ports.values.flatten # ! : flatten nécessaire ? à vérifier
+            return @ports.values.flatten # ! : flatten nécessaire ? à vérifier
         end
 
         def get_port_named str
-            @ports.values.flatten.find{|port| port.name==str}
+            return @ports.values.flatten.find{|port| port.name==str}
         end
       
         def get_component_named str
             @components.find{|comp| comp.name==str}
+        end
+
+        def get_free_port 
+            self.get_ports.each do |p|
+                if p.is_free?
+                    return p
+                end
+            end
+
+            return nil
+        end
+
+        def get_free_input
+            self.get_inputs.each do |p|
+                if p.is_free?
+                    return p
+                end
+            end
+
+            return nil
+        end
+
+        def get_free_output
+            self.get_outputs.each do |p|
+                if p.is_free?
+                    return p
+                end
+            end
+
+            return nil
         end
     end
 end
