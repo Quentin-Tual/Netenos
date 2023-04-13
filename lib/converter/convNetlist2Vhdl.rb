@@ -151,6 +151,7 @@ module Netlist
                             to_Ident(sink.name), 
                             to_Ident(w.name)
                         )
+                        # ! : Erreur levée à la prochaine ligne, fanin nil dans la fonction 'unplug'
                         w.unplug sink.name
                     end
                 end

@@ -1,4 +1,5 @@
 require_relative "../lib/vhdl.rb"
+require_relative "../lib/converter.rb"
 require_relative "../lib/netlist.rb"
 
 include Netlist
@@ -7,10 +8,8 @@ include VHDL
 txt=IO.read("./tests/test.vhd")
 ast = VHDL::Parser.new.parse(VHDL::Lexer.new.tokenize(txt))
 decorated_ast = VHDL::Visitor.new.visitAST ast
-# pp decorated_ast
 
 test = VHDL::AST::Work.new(decorated_ast.entity)
-# # pp test
 test.export
 
 txt = IO.read("./tests/test2.vhd")
