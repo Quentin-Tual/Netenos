@@ -8,7 +8,6 @@ module Netlist
         def initialize nb_trigger = 4
             # * : For the moment the only parameters allowed are power of 2 numbers. This is faster to develop and easier for a start. It may evolve later to allow more possibilities.
             if po2?(nb_trigger)
-                # TODO : Générer toute la structure du HT dans le constructeur, possible en faisant appel à des méthodes lorsque nécessaire.
                 super 
                 @netlist = gen_netlist(nb_trigger)
             else 
@@ -24,18 +23,15 @@ module Netlist
         end
 
         def gen_triggers nb_trigger
-            # TOdo : Si le nombre de trigger est impaire faire -1 et enregistrer une porte de "carry" à utiliser à la fin
             if nb_trigger.odd?
                 carry = Netlist::And.new 
                 @components << carry
             else
                 carry = nil
             end
-            # Todo : Diviser le nombre de trigger par 2 pour connaître le nombre de portes à l'étage 0
             trig_tree = [[]]
             stage = 0
             nb_gates = nb_trigger/2
-            # TODO : Instancier ce nombre de portes
             (nb_gates).times do |n|
                 tmp = Netlist::And.new
                 @components << tmp
@@ -44,19 +40,15 @@ module Netlist
                 # @triggers.flatten
             end 
             stage += 1
-            # TODO : si le nombre de porte est impaire
             if nb_gates.odd? 
-                # TODO : relier une sortie à la "carry" si elle existe.
                 if !carry.nil?
                     carry.get_free_input <= trig_tree[0][0]
                     trig_tree[0].delete_at(0) 
                 end
             end
 
-            # TODO : répéter l'opération jusqu'à ce qu'une seule porte soit instancier (une seule sortie)
             prev_stage = stage-1
             until trig_tree[prev_stage].length == 1
-                # TODO : Pour chaque paire de ces portes instancier une porte reliée à leur sortie, c'est l'étage suivant
                 trig_tree[prev_stage].length.times do |n|
                     if n.even?
                         tmp = Netlist::And.new
@@ -68,7 +60,6 @@ module Netlist
                         end 
                         tmp.get_free_input <= trig_tree[prev_stage][n].get_output
                     else
-                        # ! : Get_sinks renvoi une valeur nulle
                         tmp = trig_tree[stage][n/2].get_free_input
                         tmp <= trig_tree[prev_stage][n].get_output
                     end
@@ -78,7 +69,6 @@ module Netlist
             end
 
 
-            # TODO : retourner la dernière porte AND instanciée (liée à toutes les autres par références)
             if !carry.nil?
                 trig_tree[-1][0].get_output <= carry.get_free_input
                 return carry
