@@ -43,7 +43,7 @@ module Netlist
         end
 
         def unplug interface_name # * : Apply only to sinks, won't work on sources
-            if fanin.name == interface_name
+            if @fanin.name == interface_name
                 @fanin.fanout.delete(@fanin.get_sink_named(@name))
                 @fanin = nil
             else
