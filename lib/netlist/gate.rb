@@ -10,6 +10,7 @@ module Netlist
             @ports = {:in => [Netlist::Port.new("i0",:in), Netlist::Port.new("i1",:in)], :out => [Netlist::Port.new("o0",:out)]}
             @ports.each_value{|io| io.each{|p| p.partof = self}}
             @partof = partof
+            @components = [] 
         end
 
         def <<(e)
@@ -61,6 +62,7 @@ module Netlist
             @ports = {:in => [Netlist::Port.new("i0", :in)], :out => [Netlist::Port.new("o0", :out)]}
             @ports.each_value{|p| p[0].partof = self}
             @partof = partof
+            @components = []
         end
 
         def <<(e)

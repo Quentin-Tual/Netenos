@@ -1,14 +1,16 @@
-require_relative '../netlist/circuit.rb'
-require_relative '../converter/netson.rb'
-require_relative '../vhdl.rb'
+require_relative '../enoslist.rb'
 
 module Netlist
 
     class Wrapper
+        attr_accessor :netlist
         
-        def initialize name
-            @name = name
+        def initialize 
             @netlist = nil
+        end
+
+        def get_name
+            return @netlist.name
         end
 
         # * : ------ Import methods ------ :
@@ -38,11 +40,21 @@ module Netlist
             ast = VHDL::Parser.new.parse(VHDL::Lexer.new.tokenize(txt))
             visitor = VHDL::Visitor.new
             decorated_ast = visitor.visitAST ast
-            visitor.exportDecAst "/tmp/~.ast"
+            visitor.exportDecAst "#{$DEF_TEMP_PATH}~.ast"
             # Chargement de l'AST en sortie de Hyle
             vhdl_converter = Netlist::ConvVhdl2Netlist.new
-            vhdl_converter.load "/tmp/~.ast"
+            vhdl_converter.load "#{$DEF_TEMP_PATH}~.ast"
             @netlist = vhdl_converter.convAst
+        end
+
+        def randgen parameters
+            if parameters.length > 1
+                generator = Netlist::RandomGen.new parameters[1].to_i, parameters[2].to_i, parameters[3].to_i, parameters[4].to_i
+            else
+                generator = Netlist::RandomGen.new
+            end
+            @netlist = generator.getRandomNetlist parameters[0]
+            return generator.getNetlistInformations
         end
 
         # * : ------ Export methods ------ : 
@@ -83,12 +95,18 @@ module Netlist
 
         # * : ------ Operation/manipulation methods ------ :
 
-            # WIP
+        def tamper ht_type, trigger_signals_number = nil
+            tamperer = Netlist::Tamperer.new(@netlist)
+            tamperer.select_ht ht_type, trigger_signals_number
+            @netlist = tamperer.insert
+            @netlist.name = "#{@netlist.name}_tampered"
+            return @netlist
+        end
 
         # * : ------ Other methods ------ : 
         def show path
-            self.store_dot "/tmp/~#{@netlist.name}.dot"
-            `xdot /tmp/~#{@netlist.name}.dot`
+            self.store_dot "#{$DEF_TEMP_PATH}~#{@netlist.name}.dot"
+            `xdot #{$DEF_TEMP_PATH}~#{@netlist.name}.dot`
         end
 
     end

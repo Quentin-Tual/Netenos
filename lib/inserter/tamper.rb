@@ -39,7 +39,7 @@ module Netlist
                 @stages[global_output] = last_stage
             end  
 
-            return @stages.keys.max
+            return @stages.values.max
         end
 
         def propag_visit sink_comp, curr_stage
@@ -74,7 +74,11 @@ module Netlist
         def select_ht type, nb_trigger_sig
             case type 
             when "xor_and"
-                @ht = Netlist::Xor_And.new(nb_trigger_sig)
+                if nb_trigger_sig.nil?
+                    @ht = Netlist::Xor_And.new
+                else
+                    @ht = Netlist::Xor_And.new(nb_trigger_sig)
+                end
             else 
                 raise "Error : Unknown HT type #{type}. Please verify syntax."
             end

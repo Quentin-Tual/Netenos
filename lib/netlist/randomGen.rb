@@ -16,13 +16,14 @@ module Netlist
             @size = gate_number
             @ios_number = [input_number, output_number]
             @stage_number = stage_number
+            @stages = {}
 
             @available_sinks = {}
             @available_sources = {}
             @source_pool = {}
         end
 
-        def getRandomNetlist name = "rand_#{}"
+        def getRandomNetlist name = "rand_#{self.object_id}", depth = 0
             begin 
                 @netlist = Netlist::Circuit.new(name)
 
@@ -52,16 +53,78 @@ module Netlist
 
             rescue ImpossibleResolutionException => e
 
-                @netlist = nil
-                @source_pool = {}
-                @available_sources = {}
-                @available_sinks = {}
+                if depth == 10
+                    raise "Error : Impossible resolution. Please change parameters and try again."
+                
+                else 
+                
+                    @netlist = nil
+                    @source_pool = {}
+                    @available_sources = {}
+                    @available_sinks = {}
+    
+                    @netlist = self.getRandomNetlist depth+1
+                    # ! : May cause troubles if the stack is not large enough (too much failures).
+                end
 
-                @netlist = self.getRandomNetlist
-                # ! : May cause troubles if the stack is not large enough (too much failures).
             end
             
             return @netlist
+        end
+
+        def getNetlistInformations
+            return @netlist.get_inputs.length, @netlist.get_outputs.length, @netlist.components.length, scan_netlist
+        end
+
+        def scan_netlist
+            # * : Inputs scanned first 
+            @netlist.get_inputs.each do |global_input|
+                @stages[global_input] = 0
+            end
+            
+            # * : Following each path
+            @netlist.get_inputs.each do |global_input|
+                global_input.get_sinks.each do |sink| 
+                    visit_netlist sink.partof, 1
+                end 
+            end
+            
+            # * : Finish with output as the last_stage.
+            last_stage = @stages.values.max + 1
+            @netlist.get_outputs.each do |global_output|
+                @stages[global_output] = last_stage
+            end  
+
+            return @stages.values.max
+        end
+
+        def propag_visit sink_comp, curr_stage
+        # * : Allows to propagate the visit along the path, taking in account every object types possibly encountered.
+            sink_comp.get_outputs.each do |sink_comp_outport|
+                sink_comp_outport.get_sinks.each do |sink|
+                    if sink.class == Netlist::Wire
+                        sink.get_sinks.map{|wire_sink| visit_netlist wire_sink.partof, curr_stage+1}
+                    else
+                        visit_netlist sink.partof, curr_stage+1
+                    end
+                end
+            end
+        end 
+
+        def visit_netlist sink_comp, curr_stage
+        # * : Recursive function used to fill the @stages attribute, going through the paths from inputs to outputs.
+            if sink_comp.partof.nil? 
+                return nil
+            elsif @stages.keys.include?(sink_comp)
+                if @stages[sink_comp] < curr_stage
+                    @stages[sink_comp] = curr_stage
+                    propag_visit sink_comp, curr_stage
+                end
+                return nil
+            else
+                @stages[sink_comp] = curr_stage
+                propag_visit sink_comp, curr_stage
+            end
         end
 
         def getRandomComp

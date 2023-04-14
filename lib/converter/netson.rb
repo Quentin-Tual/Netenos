@@ -16,7 +16,6 @@ module Netlist
 
         def json_to_netlist h
             inst_global_circ h
-            puts "Components Wiring ..."
             wiring_global
             @circuit.components.each{|comp| wiring_component comp}
         end

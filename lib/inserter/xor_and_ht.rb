@@ -78,11 +78,13 @@ module Netlist
         end
 
         def po2?(n)
-            return false if n <= 0
+            if n <= 0
+                return false
+            end
             while n.even?
               n /= 2
             end
-            n == 1
+            return n == 1
         end
           
 

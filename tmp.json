@@ -1,0 +1,1504 @@
+{
+  "circuit": {
+    "name": "rand_circ",
+    "partof": null,
+    "ports": {
+      "in": [
+        {
+          "port": {
+            "name": "i0",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i0:Xor1440",
+              "i0:Nand1120"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i1",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i1:Xor1440",
+              "i0:Nor1620"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i2",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i0:Not1160",
+              "i1:Nor1620"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i3",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i1:Nand1360"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i4",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i0:Nand1360"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i5",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i0:And1600"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i6",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i1:And1600"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i7",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i1:Nand1520"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i8",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i0:Nand1520",
+              "i1:Nand1260"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i9",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i1:Or1300"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i10",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i1:And1280"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i11",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i1:Nand1080"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i12",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i0:Nor1200",
+              "i0:Or1300"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i13",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i0:And1280"
+            ]
+          }
+        },
+        {
+          "port": {
+            "name": "i14",
+            "partof": "rand_circ",
+            "direction": "in",
+            "fanin": null,
+            "fanout": [
+              "i1:Nand1240",
+              "i0:Nand1260"
+            ]
+          }
+        }
+      ],
+      "out": [
+        {
+          "port": {
+            "name": "o0",
+            "partof": "rand_circ",
+            "direction": "out",
+            "fanin": "o0:Nand1060",
+            "fanout": null
+          }
+        },
+        {
+          "port": {
+            "name": "o1",
+            "partof": "rand_circ",
+            "direction": "out",
+            "fanin": "o0:Xor1560",
+            "fanout": null
+          }
+        },
+        {
+          "port": {
+            "name": "o2",
+            "partof": "rand_circ",
+            "direction": "out",
+            "fanin": "o0:And1380",
+            "fanout": null
+          }
+        },
+        {
+          "port": {
+            "name": "o3",
+            "partof": "rand_circ",
+            "direction": "out",
+            "fanin": "o0:Xor1440",
+            "fanout": null
+          }
+        },
+        {
+          "port": {
+            "name": "o4",
+            "partof": "rand_circ",
+            "direction": "out",
+            "fanin": "o0:Nand1180",
+            "fanout": null
+          }
+        },
+        {
+          "port": {
+            "name": "o5",
+            "partof": "rand_circ",
+            "direction": "out",
+            "fanin": "o0:Nand1220",
+            "fanout": null
+          }
+        },
+        {
+          "port": {
+            "name": "o6",
+            "partof": "rand_circ",
+            "direction": "out",
+            "fanin": "o0:Or1480",
+            "fanout": null
+          }
+        }
+      ]
+    },
+    "components": [
+      {
+        "circuit": {
+          "name": "Or1040",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Or1040",
+                  "partof": "Or1040",
+                  "direction": "in",
+                  "fanin": "o0:Nand1360",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Or1040",
+                  "partof": "Or1040",
+                  "direction": "in",
+                  "fanin": "o0:Nand1240",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Or1040",
+                  "partof": "Or1040",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:Nand1340",
+                    "i1:And1540"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1060",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1060",
+                  "partof": "Nand1060",
+                  "direction": "in",
+                  "fanin": "o0:Nor1200",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1060",
+                  "partof": "Nand1060",
+                  "direction": "in",
+                  "fanin": "o0:Nand1080",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1060",
+                  "partof": "Nand1060",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "o0"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1080",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1080",
+                  "partof": "Nand1080",
+                  "direction": "in",
+                  "fanin": "o0:Not1160",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1080",
+                  "partof": "Nand1080",
+                  "direction": "in",
+                  "fanin": "i11",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1080",
+                  "partof": "Nand1080",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:Nand1060",
+                    "i1:Or1420"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Or1100",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Or1100",
+                  "partof": "Or1100",
+                  "direction": "in",
+                  "fanin": "o0:Nand1260",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Or1100",
+                  "partof": "Or1100",
+                  "direction": "in",
+                  "fanin": "o0:And1580",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Or1100",
+                  "partof": "Or1100",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Nand1220"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1120",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1120",
+                  "partof": "Nand1120",
+                  "direction": "in",
+                  "fanin": "i0",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1120",
+                  "partof": "Nand1120",
+                  "direction": "in",
+                  "fanin": "o0:Nand1240",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1120",
+                  "partof": "Nand1120",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Nand1180"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nor1140",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nor1140",
+                  "partof": "Nor1140",
+                  "direction": "in",
+                  "fanin": "o0:Nand1260",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nor1140",
+                  "partof": "Nor1140",
+                  "direction": "in",
+                  "fanin": "o0:Nor1200",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nor1140",
+                  "partof": "Nor1140",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:Nand1220",
+                    "i0:And1540"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Not1160",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Not1160",
+                  "partof": "Not1160",
+                  "direction": "in",
+                  "fanin": "i2",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Not1160",
+                  "partof": "Not1160",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Nand1080",
+                    "i1:Nor1200"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1180",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1180",
+                  "partof": "Nand1180",
+                  "direction": "in",
+                  "fanin": "o0:Nand1120",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1180",
+                  "partof": "Nand1180",
+                  "direction": "in",
+                  "fanin": "o0:And1580",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1180",
+                  "partof": "Nand1180",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "o4"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nor1200",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nor1200",
+                  "partof": "Nor1200",
+                  "direction": "in",
+                  "fanin": "i12",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nor1200",
+                  "partof": "Nor1200",
+                  "direction": "in",
+                  "fanin": "o0:Not1160",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nor1200",
+                  "partof": "Nor1200",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Nand1060",
+                    "i1:Nor1140"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1220",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1220",
+                  "partof": "Nand1220",
+                  "direction": "in",
+                  "fanin": "o0:Or1100",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1220",
+                  "partof": "Nand1220",
+                  "direction": "in",
+                  "fanin": "o0:Nor1140",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1220",
+                  "partof": "Nand1220",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "o5"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1240",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1240",
+                  "partof": "Nand1240",
+                  "direction": "in",
+                  "fanin": "o0:And1600",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1240",
+                  "partof": "Nand1240",
+                  "direction": "in",
+                  "fanin": "i14",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1240",
+                  "partof": "Nand1240",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:Nand1120",
+                    "i1:Or1040"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1260",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1260",
+                  "partof": "Nand1260",
+                  "direction": "in",
+                  "fanin": "i14",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1260",
+                  "partof": "Nand1260",
+                  "direction": "in",
+                  "fanin": "i8",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1260",
+                  "partof": "Nand1260",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Or1100",
+                    "i0:Nor1140"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "And1280",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:And1280",
+                  "partof": "And1280",
+                  "direction": "in",
+                  "fanin": "i13",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:And1280",
+                  "partof": "And1280",
+                  "direction": "in",
+                  "fanin": "i10",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:And1280",
+                  "partof": "And1280",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Nand1320",
+                    "i1:And1580"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Or1300",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Or1300",
+                  "partof": "Or1300",
+                  "direction": "in",
+                  "fanin": "i12",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Or1300",
+                  "partof": "Or1300",
+                  "direction": "in",
+                  "fanin": "i9",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Or1300",
+                  "partof": "Or1300",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Nand1460",
+                    "i0:Nand1340"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1320",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1320",
+                  "partof": "Nand1320",
+                  "direction": "in",
+                  "fanin": "o0:And1280",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1320",
+                  "partof": "Nand1320",
+                  "direction": "in",
+                  "fanin": "o0:Nor1620",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1320",
+                  "partof": "Nand1320",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Not1500"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1340",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1340",
+                  "partof": "Nand1340",
+                  "direction": "in",
+                  "fanin": "o0:Or1300",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1340",
+                  "partof": "Nand1340",
+                  "direction": "in",
+                  "fanin": "o0:Or1040",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1340",
+                  "partof": "Nand1340",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Or1480"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1360",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1360",
+                  "partof": "Nand1360",
+                  "direction": "in",
+                  "fanin": "i4",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1360",
+                  "partof": "Nand1360",
+                  "direction": "in",
+                  "fanin": "i3",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1360",
+                  "partof": "Nand1360",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:Xor1560",
+                    "i0:Or1040"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "And1380",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:And1380",
+                  "partof": "And1380",
+                  "direction": "in",
+                  "fanin": "o0:Not1500",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:And1380",
+                  "partof": "And1380",
+                  "direction": "in",
+                  "fanin": "o0:And1400",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:And1380",
+                  "partof": "And1380",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "o2"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "And1400",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:And1400",
+                  "partof": "And1400",
+                  "direction": "in",
+                  "fanin": "o0:Nand1460",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:And1400",
+                  "partof": "And1400",
+                  "direction": "in",
+                  "fanin": "o0:Nand1520",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:And1400",
+                  "partof": "And1400",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:And1380"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Or1420",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Or1420",
+                  "partof": "Or1420",
+                  "direction": "in",
+                  "fanin": "o0:Nor1620",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Or1420",
+                  "partof": "Or1420",
+                  "direction": "in",
+                  "fanin": "o0:Nand1080",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Or1420",
+                  "partof": "Or1420",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:Nand1460"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Xor1440",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Xor1440",
+                  "partof": "Xor1440",
+                  "direction": "in",
+                  "fanin": "i0",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Xor1440",
+                  "partof": "Xor1440",
+                  "direction": "in",
+                  "fanin": "i1",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Xor1440",
+                  "partof": "Xor1440",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "o3"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1460",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1460",
+                  "partof": "Nand1460",
+                  "direction": "in",
+                  "fanin": "o0:Or1300",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1460",
+                  "partof": "Nand1460",
+                  "direction": "in",
+                  "fanin": "o0:Or1420",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1460",
+                  "partof": "Nand1460",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:And1400"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Or1480",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Or1480",
+                  "partof": "Or1480",
+                  "direction": "in",
+                  "fanin": "o0:Nand1340",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Or1480",
+                  "partof": "Or1480",
+                  "direction": "in",
+                  "fanin": "o0:And1540",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Or1480",
+                  "partof": "Or1480",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "o6"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Not1500",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Not1500",
+                  "partof": "Not1500",
+                  "direction": "in",
+                  "fanin": "o0:Nand1320",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Not1500",
+                  "partof": "Not1500",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:And1380"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nand1520",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nand1520",
+                  "partof": "Nand1520",
+                  "direction": "in",
+                  "fanin": "i8",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nand1520",
+                  "partof": "Nand1520",
+                  "direction": "in",
+                  "fanin": "i7",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nand1520",
+                  "partof": "Nand1520",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:And1400",
+                    "i0:And1580"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "And1540",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:And1540",
+                  "partof": "And1540",
+                  "direction": "in",
+                  "fanin": "o0:Nor1140",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:And1540",
+                  "partof": "And1540",
+                  "direction": "in",
+                  "fanin": "o0:Or1040",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:And1540",
+                  "partof": "And1540",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:Or1480"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Xor1560",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Xor1560",
+                  "partof": "Xor1560",
+                  "direction": "in",
+                  "fanin": "o0:And1600",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Xor1560",
+                  "partof": "Xor1560",
+                  "direction": "in",
+                  "fanin": "o0:Nand1360",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Xor1560",
+                  "partof": "Xor1560",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "o1"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "And1580",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:And1580",
+                  "partof": "And1580",
+                  "direction": "in",
+                  "fanin": "o0:Nand1520",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:And1580",
+                  "partof": "And1580",
+                  "direction": "in",
+                  "fanin": "o0:And1280",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:And1580",
+                  "partof": "And1580",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i1:Nand1180",
+                    "i1:Or1100"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "And1600",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:And1600",
+                  "partof": "And1600",
+                  "direction": "in",
+                  "fanin": "i5",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:And1600",
+                  "partof": "And1600",
+                  "direction": "in",
+                  "fanin": "i6",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:And1600",
+                  "partof": "And1600",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Xor1560",
+                    "i0:Nand1240"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      },
+      {
+        "circuit": {
+          "name": "Nor1620",
+          "partof": "rand_circ",
+          "ports": {
+            "in": [
+              {
+                "port": {
+                  "name": "i0:Nor1620",
+                  "partof": "Nor1620",
+                  "direction": "in",
+                  "fanin": "i1",
+                  "fanout": null
+                }
+              },
+              {
+                "port": {
+                  "name": "i1:Nor1620",
+                  "partof": "Nor1620",
+                  "direction": "in",
+                  "fanin": "i2",
+                  "fanout": null
+                }
+              }
+            ],
+            "out": [
+              {
+                "port": {
+                  "name": "o0:Nor1620",
+                  "partof": "Nor1620",
+                  "direction": "out",
+                  "fanin": null,
+                  "fanout": [
+                    "i0:Or1420",
+                    "i1:Nand1320"
+                  ]
+                }
+              }
+            ]
+          },
+          "components": null
+        }
+      }
+    ]
+  }
+}
