@@ -40,6 +40,7 @@ module Netlist
             ast = VHDL::Parser.new.parse(VHDL::Lexer.new.tokenize(txt))
             visitor = VHDL::Visitor.new
             decorated_ast = visitor.visitAST ast
+            # ! : Optimisation possible en modifiant ConvVhdl2Netlist pour accepter un ast décoré en argument du constructeur de manière optionnel pour garder une utilité à la fonction load et éventuellement intéressant à l'avenir.
             visitor.exportDecAst "#{$DEF_TEMP_PATH}~.ast"
             # Chargement de l'AST en sortie de Hyle
             vhdl_converter = Netlist::ConvVhdl2Netlist.new
