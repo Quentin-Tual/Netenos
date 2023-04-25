@@ -37,7 +37,15 @@ module Netlist
             if self.is_global?
                 return @name
             else
-                return "#{@partof.name}:#{@name}"     
+                return "#{@partof.name}_#{@name}"     
+            end
+        end
+
+        def get_dot_name
+            if self.is_global?
+                return @name
+            else
+                return "#{@partof.name}:#{@name}"
             end
         end
 

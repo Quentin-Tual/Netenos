@@ -23,7 +23,6 @@ module Netlist
         end
 
         def convAst
-            # TODO : Première fonction d'un visiteur qui parcourt l'AST et construit la Netlist au fur et à mesure.
             @netlist = convEntity @ast
             @current_RTL_block = @netlist
             convArch(@ast.architectures.select{|arch| arch.name.name=="enoslist"}[0])
@@ -107,7 +106,7 @@ module Netlist
             
             case assignStatement.source
             when VHDL::AST::UnaryExp
-                ret = convOperator exp.operator.op
+                ret = convOperator assignStatement.source.operator.op
                 ret.partof = @netlist
                 ret.get_port_named("i0") <= find_interface(assignStatement.source.operand.name) 
                 find_interface(assignStatement.dest.name) <= ret.get_port_named("o0")

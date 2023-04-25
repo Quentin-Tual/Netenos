@@ -42,7 +42,15 @@ module Netlist
             return @name
         end
 
-        def unplug interface_name # * : Apply only to sinks, won't work on sources
+        def get_dot_name
+            return @name
+        end
+
+        def is_global?
+            return true
+        end
+
+        def unplug interface_name # * : Apply only to sinks, won't work well on sources
             if @fanin.name == interface_name
                 @fanin.fanout.delete(@fanin.get_sink_named(@name))
                 @fanin = nil

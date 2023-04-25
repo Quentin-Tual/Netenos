@@ -66,16 +66,16 @@ module Netlist
         end
 
         def wire w, source
-            # wireName = "w#{source.get_full_name}"
-            @code << "#{w.get_full_name}[shape=point];"
-            @code << "#{source.get_full_name} -> #{w.get_full_name}[arrowhead=none]"
+            # wireName = "w#{source.get_dot_name}"
+            @code << "#{w.get_dot_name}[shape=point];"
+            @code << "#{source.get_dot_name} -> #{w.get_dot_name}[arrowhead=none]"
             w.get_sinks.each{|sink|
                 write_wiring w, sink
             }
         end
 
         def write_wiring source, sink
-            @code << "#{source.get_full_name} -> #{sink.get_full_name};"
+            @code << "#{source.get_dot_name} -> #{sink.get_dot_name};"
         end
 
         def foot circuit_name, path

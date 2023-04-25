@@ -1,4 +1,7 @@
-require_relative '../enoslist.rb'
+# require_relative "../netlist.rb"
+# require_relative "../vhdl.rb"
+# require_relative "../converter.rb"
+# require_relative "../inserter/tamper.rb"
 
 module Netlist
 
@@ -14,14 +17,20 @@ module Netlist
         end
 
         # * : ------ Import methods ------ :
-        def import path, format
+        def import path
+            format = self.parse_path(path)[:ext]
+
             case format 
             when "json"
                 self.load_json path
-            when "def"
+            when "enl"
                 self.load_def path
             when "vhdl"
                 self.load_vhdl path
+            when "vhd"
+                self.load_vhdl path
+            else
+                raise "Error : Unknown import format type : \"#{format}\". Allowed format for an import : json, enl, vhdl."
             end
         end
 
@@ -54,7 +63,7 @@ module Netlist
             else
                 generator = Netlist::RandomGen.new
             end
-            @netlist = generator.getRandomNetlist parameters[0]
+            @netlist = generator.getRandomNetlist self.parse_path(parameters[0])[:filename]
             return generator.getNetlistInformations
         end
 
@@ -63,12 +72,14 @@ module Netlist
             case format 
             when "json"
                 self.store_json path
-            when "def"
+            when "enl"
                 self.store_def path
             when "vhdl"
                 self.store_vhdl path
             when "dot"
                 self.store_dot path
+            else
+                raise "Error : Unknown export format type : \"#{format}\". Allowed format for an export : json, enl, vhdl, dot."
             end
         end
 
@@ -105,9 +116,25 @@ module Netlist
         end
 
         # * : ------ Other methods ------ : 
-        def show path
+        def show
             self.store_dot "#{$DEF_TEMP_PATH}~#{@netlist.name}.dot"
             `xdot #{$DEF_TEMP_PATH}~#{@netlist.name}.dot`
+        end
+
+        def parse_path path
+            tmp = path.split '/'
+            filename, ext = tmp[-1].split('.')
+            tmp.pop
+            path_dir = ""
+            tmp.each{|dir| path_dir = path_dir+dir+'/'}
+
+            path_dir = path_dir.nil? ? "" : path_dir
+            filename = filename.nil? ? "" : filename
+            ext = ext.nil? ? "" : ext
+            
+            return {:dir => path_dir,
+                    :filename => filename, 
+                    :ext => ext}
         end
 
     end
