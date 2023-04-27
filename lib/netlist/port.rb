@@ -33,6 +33,10 @@ module Netlist
             return @direction == :out
         end
 
+        def is_wire?
+            return false
+        end
+
         def get_full_name
             if self.is_global?
                 return @name

@@ -50,6 +50,10 @@ module Netlist
             return true
         end
 
+        def is_wire?
+            return true
+        end
+
         def unplug interface_name # * : Apply only to sinks, won't work well on sources
             if @fanin.name == interface_name
                 @fanin.fanout.delete(@fanin.get_sink_named(@name))

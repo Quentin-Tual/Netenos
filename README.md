@@ -9,3 +9,7 @@ The netlist modification aims to be as permissive as possible.
 
 
 /!\ Rspec specification files not up to date /!\
+
+ToDo : 
+
+- Restructure program module, unique module 'Netlist' to be divided in multiple modules.
