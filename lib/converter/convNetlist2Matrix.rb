@@ -5,8 +5,6 @@ module Netlist
     class ConvNetlist2Matrix 
         attr_reader :id_tab
 
-        # ! : Ajouter une suppression des doublons
-
         def initialize netlist = nil
             @netlist = netlist
             @id_tab = {}
@@ -43,7 +41,7 @@ module Netlist
 
         def scanWires
             @netlist.wires.each do |w|
-                @wires[w.name] = w.get_sinks.collect{|sink| sink.get_full_name.split['_'][0]} # ! : could be a global output so reuse this function, however certainly optimisable 
+                @wires[w.name] = w.get_sinks.collect{|sink| sink.get_full_name.split['_'][0]} # ! : could be a global output so reuse this function instead of retrieving .partof.name, however certainly optimisation possible
             end
         end
 

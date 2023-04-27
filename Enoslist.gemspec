@@ -9,8 +9,6 @@ Gem::Specification.new do |spec|
   spec.license     = 'GPL-3.0'
 
   spec.bindir = 'bin'
-  # spec.executables << 'bin/enoslist.rb'
-  # spec.files       = Dir['lib/*','lib/converter/*', 'lib/inserter/*', 'lib/interface/*', 'lib/netlist/*']
   spec.files = Dir['lib/**/*.rb'] + Dir['bin/*'] + Dir['doc/*']
   spec.files += Dir['[A-Z]*']
   # spec.require_paths = ['Hyle']
