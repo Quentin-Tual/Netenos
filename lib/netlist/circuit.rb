@@ -94,5 +94,9 @@ module Netlist
 
             return nil
         end
+
+        def contains_registers?
+            return components.collect{|comp| comp.is_a? Netlist::Register}.include?(true)
+        end
     end
 end

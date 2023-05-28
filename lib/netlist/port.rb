@@ -10,10 +10,18 @@ module Netlist
         end
 
         def is_free?
-            if @direction == :in
-                return fanin.nil? 
+            if self.is_global?
+                if @direction == :in 
+                    return fanout.empty?
+                else
+                    return fanin.nil?
+                end
             else
-                return fanout.empty?
+                if @direction == :in
+                    return fanin.nil? 
+                else
+                    return fanout.empty?
+                end
             end
         end
 

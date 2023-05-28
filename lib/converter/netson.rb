@@ -6,6 +6,7 @@ module Netlist
 
         def initialize
             @sym_tab = {}
+            @netlist = nil
         end
 
         def load file 
@@ -120,11 +121,20 @@ module Netlist
             }
         end
 
+        def reset_port_names circuit
+            circuit.components.each{ |comp|
+                comp.get_ports.each{ |port| 
+                    port.name = port.name.split(':')[0]
+                }
+            }
+        end
+
         def save_as_json circuit, path = "#{circuit.name}.json"
-            file = File.new("#{path}", "w")
             prep_port_names circuit
+            file = File.new("#{path}", "w")
             file.puts(JSON.pretty_generate(circuit.to_hash))
             file.close
+            reset_port_names circuit
         end
 
     end

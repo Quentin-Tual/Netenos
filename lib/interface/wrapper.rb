@@ -8,8 +8,8 @@ module Netlist
     class Wrapper
         attr_accessor :netlist
         
-        def initialize 
-            @netlist = nil
+        def initialize netlist = nil
+            @netlist = netlist
         end
 
         def get_name
@@ -59,9 +59,9 @@ module Netlist
 
         def randgen parameters
             if parameters.length > 1
-                generator = Netlist::RandomGen.new parameters[1].to_i, parameters[2].to_i, parameters[3].to_i, parameters[4].to_i
+                generator = Netlist::RandomGenComb.new parameters[1].to_i, parameters[2].to_i, parameters[3].to_i, parameters[4].to_i
             else
-                generator = Netlist::RandomGen.new
+                generator = Netlist::RandomGenComb.new
             end
             @netlist = generator.getRandomNetlist self.parse_path(parameters[0])[:filename]
             return generator.getNetlistInformations

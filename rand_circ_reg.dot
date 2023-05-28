@@ -1,0 +1,65 @@
+# Test
+digraph test {
+  graph [rankdir = LR];
+  And880[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And880 |{<o0>o0}}"]
+  Or900[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Or900 |{<o0>o0}}"]
+  And920[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And920 |{<o0>o0}}"]
+  Nand940[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nand940 |{<o0>o0}}"]
+  Nor960[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nor960 |{<o0>o0}}"]
+  And980[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And980 |{<o0>o0}}"]
+  And1000[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And1000 |{<o0>o0}}"]
+  Not1020[shape=record; style=filled;color=cadetblue; label="{{<i0>i0}| Not1020 |{<o0>o0}}"]
+  Nand1040[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nand1040 |{<o0>o0}}"]
+  Nand1060[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nand1060 |{<o0>o0}}"]
+  reg_1100[shape=record; style=filled;color=cadetblue; label="{{<d>d}| reg_1100 |{<q>q}}"]
+  reg_1120[shape=record; style=filled;color=cadetblue; label="{{<d>d}| reg_1120 |{<q>q}}"]
+  reg_1140[shape=record; style=filled;color=cadetblue; label="{{<d>d}| reg_1140 |{<q>q}}"]
+  i0[shape=cds,xlabel="i0"]
+  i1[shape=cds,xlabel="i1"]
+  i2[shape=cds,xlabel="i2"]
+  i3[shape=cds,xlabel="i3"]
+  i4[shape=cds,xlabel="i4"]
+  i5[shape=cds,xlabel="i5"]
+  i6[shape=cds,xlabel="i6"]
+  i7[shape=cds,xlabel="i7"]
+  i8[shape=cds,xlabel="i8"]
+  i9[shape=cds,xlabel="i9"]
+  o0[shape=cds,xlabel="o0"]
+  o1[shape=cds,xlabel="o1"]
+  o2[shape=cds,xlabel="o2"]
+  o3[shape=cds,xlabel="o3"]
+  o4[shape=cds,xlabel="o4"]
+  o5[shape=cds,xlabel="o5"]
+  o6[shape=cds,xlabel="o6"]
+  o7[shape=cds,xlabel="o7"]
+  i0 -> Or900:i1;
+  i1 -> Nand1060:i1;
+  i2 -> And920:i1;
+  i3 -> Nor960:i1;
+  i4 -> Nor960:i0;
+  i5 -> And1000:i1;
+  i6 -> And980:i0;
+  i7 -> And980:i1;
+  i8 -> And1000:i0;
+  i9 -> Nand940:i1;
+  And880:o0 -> And920:i0;
+  And880:o0 -> Nand1040:i0;
+  And880:o0 -> Nand1040:i1;
+  And880:o0 -> o0;
+  And880:o0 -> reg_1140:d;
+  Or900:o0 -> o4;
+  Or900:o0 -> reg_1100:d;
+  And920:o0 -> Not1020:i0;
+  Nand940:o0 -> o5;
+  Nor960:o0 -> And880:i1;
+  Nor960:o0 -> o1;
+  And980:o0 -> o6;
+  And1000:o0 -> o7;
+  Not1020:o0 -> o2;
+  Nand1040:o0 -> Nand940:i0;
+  Nand1060:o0 -> o3;
+  Nand1060:o0 -> reg_1120:d;
+  reg_1100:q -> Or900:i0;
+  reg_1120:q -> Nand1060:i0;
+  reg_1140:q -> And880:i0;
+}

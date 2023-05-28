@@ -64,12 +64,35 @@ module Netlist
             end
         end
 
+        def unplug2 interface_full_name
+            if self.has_source? # then self is a sink
+                source = self.get_source
+                if source.get_full_name != interface_full_name
+                    raise "Error : Impossible to unplug source #{interface_full_name} from sink #{self.get_full_name} because they does not seem connected."
+                end
+
+                source.fanout.delete self
+                self.fanin = nil
+                # In case we still need it later, return a reference
+                return source
+            else # then self is a source
+                sink = self.get_sink_named(interface_full_name.split('_')[1])
+                if sink.nil?
+                    raise "Error : Impossible to unplug sink #{interface_full_name} from source #{self.get_full_name} because they does not seem connected."
+                end
+                sink.fanin = nil
+                self.fanout.delete sink
+                # In case we still need it later, return a reference
+                return sink
+            end
+        end
+
         def get_sink_named name
             return fanout.find{|i| i.name == name}
         end
 
         def has_source?
-            return fanin.nil?
+            return !fanin.nil?
         end
 
         def to_hash

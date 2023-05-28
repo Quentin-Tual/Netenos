@@ -8,7 +8,7 @@ module Netlist
         end
     end 
 
-    class RandomGen
+    class RandomGenComb
         attr_reader :netlist
 
         def initialize gate_number = 10, input_number = 10, output_number = 5, stage_number = 5

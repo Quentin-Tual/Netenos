@@ -1,0 +1,53 @@
+# Test
+digraph test {
+  graph [rankdir = LR];
+  Xor900[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Xor900 |{<o0>o0}}"]
+  Nor920[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nor920 |{<o0>o0}}"]
+  Xor940[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Xor940 |{<o0>o0}}"]
+  Not960[shape=record; style=filled;color=cadetblue; label="{{<i0>i0}| Not960 |{<o0>o0}}"]
+  Xor980[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Xor980 |{<o0>o0}}"]
+  And1000[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And1000 |{<o0>o0}}"]
+  Nor1020[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nor1020 |{<o0>o0}}"]
+  Or1040[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Or1040 |{<o0>o0}}"]
+  Or1060[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Or1060 |{<o0>o0}}"]
+  Nand1080[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Nand1080 |{<o0>o0}}"]
+  i0[shape=cds,xlabel="i0"]
+  i1[shape=cds,xlabel="i1"]
+  i2[shape=cds,xlabel="i2"]
+  i3[shape=cds,xlabel="i3"]
+  i4[shape=cds,xlabel="i4"]
+  i5[shape=cds,xlabel="i5"]
+  i6[shape=cds,xlabel="i6"]
+  i7[shape=cds,xlabel="i7"]
+  i8[shape=cds,xlabel="i8"]
+  i9[shape=cds,xlabel="i9"]
+  o0[shape=cds,xlabel="o0"]
+  o1[shape=cds,xlabel="o1"]
+  o2[shape=cds,xlabel="o2"]
+  o3[shape=cds,xlabel="o3"]
+  o4[shape=cds,xlabel="o4"]
+  i0 -> Or1040:i0;
+  i1 -> Not960:i0;
+  i2 -> Xor980:i0;
+  i3 -> Xor980:i1;
+  i4 -> Xor940:i1;
+  i5 -> Xor900:i1;
+  i6 -> Xor940:i0;
+  i7 -> Nor920:i1;
+  i8 -> And1000:i0;
+  i9 -> Xor900:i0;
+  Xor940:o0 -> And1000:i1;
+  Xor940:o0 -> Or1060:i0;
+  Xor940:o0 -> o4;
+  Not960:o0 -> Nor920:i0;
+  Not960:o0 -> Or1060:i1;
+  Not960:o0 -> o2;
+  And1000:o0 -> o1;
+  Nor1020:o0 -> Nor1020:i1;
+  Nor1020:o0 -> Or1040:i1;
+  Nor1020:o0 -> Nand1080:i1;
+  Nor1020:o0 -> o3;
+  Or1060:o0 -> Nor1020:i0;
+  Or1060:o0 -> o0;
+  Nand1080:o0 -> Nand1080:i0;
+}

@@ -7,7 +7,7 @@ result = RubyProf.profile do
     include Netlist
 
 
-    generator = Netlist::RandomGen.new 100, 60, 40, 20
+    generator = Netlist::RandomGenComb.new 100, 60, 40, 20
     generator.getRandomNetlist "test"
     # generator = nil
 

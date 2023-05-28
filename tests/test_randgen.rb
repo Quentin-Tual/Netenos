@@ -4,7 +4,7 @@ require_relative "../lib/netlist.rb"
 include Netlist
 include VHDL
 
-generator = Netlist::RandomGen.new 100, 20, 20, 25
+generator = Netlist::RandomGenComb.new 100, 20, 20, 25
 rand_circ = generator.getRandomNetlist "test"
 
 

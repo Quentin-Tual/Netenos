@@ -1,3 +1,5 @@
+require './lib/vhdl.rb'
+
 module Netlist
 
     class ConvNetlist2Vhdl
@@ -38,6 +40,10 @@ module Netlist
                 raise "Error : No netlist to convert."
             end
             
+            if netlist.contains_registers?
+                raise "Error : Given Netlist contains registers. Convertion in VHDL is not yet supported for sequential Netlists."
+            end 
+
             convEntity # * : Entity Declaration
             @ast.architectures = [VHDL::AST::Architecture.new(
                 to_Ident("enoslist"), 
