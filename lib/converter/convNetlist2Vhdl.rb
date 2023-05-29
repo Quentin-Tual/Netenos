@@ -7,10 +7,14 @@ module Netlist
         # * : Then it will need to be visited to decorate it and verify its correctness.
         # * : Finally the decorated AST will be ready to be deparsed to recover a VHDL source code file (structural). 
 
+        # TODO : Add a "library/use" in headers of the generated file
+        # TODO : create a directory containing the vhdl generated and another directory in it with delayed operators package.
+
         def initialize netlist = nil
             @netlist = netlist
             @sig_tab = {}
             @ast = VHDL::AST::Root.new
+            @timed = false
         end
 
         def to_Ident str   
@@ -29,16 +33,30 @@ module Netlist
             return VHDL::DeParser.new(@ast).deparse
         end
 
+        def get_timed_vhdl netlist
+            conv netlist, true
+            @ast = VHDL::Visitor.new.visitAST @ast 
+            return VHDL::DeParser.new(@ast).deparse
+        end
+
         def to_Ident str   
             return VHDL::AST::Ident.new(VHDL::AST::Token.new(:ident, str))
         end
 
-        def conv netlist = nil
+        def conv netlist = nil, timed = false
             if !netlist.nil?
                 @netlist = netlist
             elsif @netlist.nil?
                 raise "Error : No netlist to convert."
             end
+
+            if timed 
+                @timed = timed
+                # TODO : Ajouter des headers dans l'AST
+                # TODO : Nécessite d'ajouter le package "delayed operators" dans la lib actuel du visiteur donc dans le work d'Enoslist. 
+                # TODO : Cela nécessitera d'abord de prendre en charge le parsing du 'after n [s]' donc pas mal de travail supplémentaire.
+                raise "Error : WIP"
+            end            
             
             if netlist.contains_registers?
                 raise "Error : Given Netlist contains registers. Convertion in VHDL is not yet supported for sequential Netlists."
@@ -172,10 +190,18 @@ module Netlist
                 if comp.is_a? Gate
                     # ! : Possible optimization later using a '_' separator between comp name and object unique ID
                     operator = comp.name.split(/(?<=[A-Za-z])(?=\d)/)[0].downcase # * : Retrieve the gate type only without the object ID
-                    if operator != "not" # BinaryExp
-                        statements << convBinaryExp(comp, operator)
-                    else # UnaryExp
-                        statements << convUnaryExp(comp, operator)
+                    if @timed 
+                        if operator != "not"
+                            statements << convTimedBinary(comp, operator)
+                        else
+                            statements << convTimedUnary(comp,operator)
+                        end
+                    else
+                        if operator != "not" # BinaryExp
+                            statements << convBinaryExp(comp, operator)
+                        else # UnaryExp
+                            statements << convUnaryExp(comp, operator)
+                        end
                     end
                 end
             end
@@ -212,6 +238,27 @@ module Netlist
             end
 
             return statements
+        end
+
+        def convTimedBinary comp, operator
+            association_statements = []
+            
+            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("a"), to_Ident(comp.get_inputs[0].get_source.get_full_name))
+            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("b"), to_Ident(comp.get_inputs[1].get_source.get_full_name))
+
+            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("o"), to_Ident(comp.get_outputs[0].get_sinks[0].get_full_name))
+
+            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}2_d"), to_Ident("rtl"), to_Ident("work"), association_statements)
+        end
+
+        def convTimedUnary comp, operator
+            association_statements = []
+            
+            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("a"), to_Ident(comp.get_inputs[0].get_source.get_full_name))
+
+            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("o"), to_Ident(comp.get_outputs[0].get_sinks[0].get_full_name))
+
+            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}_d"), to_Ident("rtl"), to_Ident("work"), association_statements)
         end
 
         def convUnaryExp comp, operator
@@ -283,8 +330,9 @@ module Netlist
 
             if (o0.get_sinks.length == 1) and o0.get_sinks[0].is_global? 
                dest_name = o0.get_sinks[0].name
-           else
-                # * : The src_name created herer is a signal to avoid having problems with similar port names between components 
+            else
+                # * : The src_name created here is a signal to avoid having problems with similar port names between components 
+                # ! : Should rename 'src' and 'src_name' into 'sink' and 'sink_full_name'
                 src = o0
                 src_name = o0.get_full_name
                 if @sig_tab[src_name].nil?
@@ -292,7 +340,7 @@ module Netlist
                 end
                 dest_name = src_name
                 # * : No unplug here cause we will need informations for the link in the other way.
-           end
+            end
 
             return VHDL::AST::AssignStatement.new(   
                 to_Ident(dest_name), 
