@@ -1,4 +1,4 @@
-# Enoslist
+# Netenos
 
 This project is a small attempt to create a tool in order to import, export and modify RTL netlists.
 It is wanted to allow different format for the import and the export.

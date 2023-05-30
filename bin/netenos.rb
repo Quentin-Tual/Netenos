@@ -1,13 +1,13 @@
 #! usr/bin/ruby
 
 require 'optparse'
-require_relative "../lib/enoslist.rb"
+require_relative "../lib/netenos.rb"
 
 # TESTS : 
 require_relative "../tests/test_lib.rb"
 
-$DEF_TEMP_PATH = "/tmp/enoslist/"
-$VERSION = "Enoslist 0.1.0b (Apr 2023)"
+$DEF_TEMP_PATH = "/tmp/netenos/"
+$VERSION = "netenos 0.1.0b (Apr 2023)"
 
 Dir.mkdir($DEF_TEMP_PATH) unless File.exists?($DEF_TEMP_PATH)
 
