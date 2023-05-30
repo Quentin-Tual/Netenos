@@ -55,7 +55,7 @@ module Netlist
                 # TODO : Ajouter des headers dans l'AST
                 # TODO : Nécessite d'ajouter le package "delayed operators" dans la lib actuel du visiteur donc dans le work d'Enoslist. 
                 # TODO : Cela nécessitera d'abord de prendre en charge le parsing du 'after n [s]' donc pas mal de travail supplémentaire.
-                raise "Error : WIP"
+                # raise "Error : WIP"
             end            
             
             if netlist.contains_registers?
@@ -248,7 +248,7 @@ module Netlist
 
             association_statements << VHDL::AST::AssociationStatement.new(to_Ident("o"), to_Ident(comp.get_outputs[0].get_sinks[0].get_full_name))
 
-            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}2_d"), to_Ident("rtl"), to_Ident("work"), association_statements)
+            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}2_d"), to_Ident("rtl"), to_Ident("work"),  VHDL::AST::PortMap.new(association_statements))
         end
 
         def convTimedUnary comp, operator
@@ -258,7 +258,7 @@ module Netlist
 
             association_statements << VHDL::AST::AssociationStatement.new(to_Ident("o"), to_Ident(comp.get_outputs[0].get_sinks[0].get_full_name))
 
-            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}_d"), to_Ident("rtl"), to_Ident("work"), association_statements)
+            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}_d"), to_Ident("rtl"), to_Ident("work"), VHDL::AST::PortMap.new(association_statements))
         end
 
         def convUnaryExp comp, operator
