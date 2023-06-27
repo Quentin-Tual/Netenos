@@ -24,7 +24,7 @@ module Netlist
 
         def gen_triggers nb_trigger
             if nb_trigger.odd?
-                carry = Netlist::And.new 
+                carry = Netlist::And2.new 
                 @components << carry
             else
                 carry = nil
@@ -33,7 +33,7 @@ module Netlist
             stage = 0
             nb_gates = nb_trigger/2
             (nb_gates).times do |n|
-                tmp = Netlist::And.new
+                tmp = Netlist::And2.new
                 @components << tmp
                 trig_tree[stage] << tmp
                 tmp.get_inputs.each{ |in_p| @triggers << in_p} 
@@ -51,8 +51,9 @@ module Netlist
             until trig_tree[prev_stage].length == 1
                 trig_tree[prev_stage].length.times do |n|
                     if n.even?
-                        tmp = Netlist::And.new
+                        tmp = Netlist::And2.new
                         @components << tmp
+                        tmp.partof = 0
                         if trig_tree[stage].nil? 
                             trig_tree[stage] = [tmp]
                         else
@@ -60,6 +61,7 @@ module Netlist
                         end 
                         tmp.get_free_input <= trig_tree[prev_stage][n].get_output
                     else
+                        # ! Ici les ports ne sont pas globaux mais ne sont pourtant pas reliés correctement à leur "porte hôte".
                         tmp = trig_tree[stage][n/2].get_free_input
                         tmp <= trig_tree[prev_stage][n].get_output
                     end
@@ -89,7 +91,7 @@ module Netlist
           
 
         def gen_payload 
-            generated_payload = Netlist::Xor.new
+            generated_payload = Netlist::Xor2.new
             @components << generated_payload
             @payload_out = generated_payload.get_output
             @payload_in = generated_payload.get_inputs[1]

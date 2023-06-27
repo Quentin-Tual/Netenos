@@ -9,7 +9,7 @@ module Netlist
     end 
 
     class RandomGenComb
-        attr_reader :netlist
+        attr_accessor :netlist
 
         def initialize gate_number = 10, input_number = 10, output_number = 5, stage_number = 5
             @netlist = nil
@@ -63,12 +63,14 @@ module Netlist
                     @available_sources = {}
                     @available_sinks = {}
     
-                    @netlist = self.getRandomNetlist depth+1
+                    @netlist = self.getRandomNetlist name, depth+1
                     # ! : May cause troubles if the stack is not large enough (too much failures).
                 end
 
             end
             
+            @netlist.crit_path_length = self.getNetlistInformations[-1]
+
             return @netlist
         end
 
@@ -85,7 +87,7 @@ module Netlist
             # * : Following each path
             @netlist.get_inputs.each do |global_input|
                 global_input.get_sinks.each do |sink| 
-                    visit_netlist sink.partof, 1
+                    visit_netlist sink.partof, 0
                 end 
             end
             
@@ -129,7 +131,7 @@ module Netlist
 
         def getRandomComp
             # * : Instantiate a random Gate class object in available types (And, Or, Nor , ...)
-            random_comp = $DEF_GATE_TYPES.sample.new
+            random_comp = $GTECH.sample.new
             stage = rand(@stage_number)
 
             if @available_sinks[stage].nil?

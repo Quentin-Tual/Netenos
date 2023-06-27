@@ -45,15 +45,15 @@ module Netlist
         end
     end
 
-    class And < Gate; end
+    class And2 < Gate; end
 
-    class Or < Gate; end
+    class Or2 < Gate; end
 
-    class Xor < Gate; end
+    class Xor2 < Gate; end
 
-    class Nor < Gate; end
+    class Nor2 < Gate; end
 
-    class Nand < Gate; end
+    class Nand2 < Gate; end
     
     class Not < Gate
 
@@ -90,6 +90,6 @@ module Netlist
 
     end
 
-    $DEF_GATE_TYPES = [And, Or, Xor, Not, Nand, Nor]
-
+    $DEF_GATE_TYPES = [And2, Or2, Xor2, Not, Nand2, Nor2]
+    $GTECH = $DEF_GATE_TYPES
 end

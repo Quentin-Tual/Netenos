@@ -20,6 +20,89 @@ module Netlist
             g.merge(g) { |_,a| a.map(&:last) }
         end
 
+        # TODO : Add a method to get the trigger condition (boolean expression)
+        def get_trigger_conditions
+            # ! : Only works with a gate tree built with only one operator type
+            # ! : Move some parts in the ht instantiation function -> Xor_And has to be able to give his triggering sequence. Easier than to write it with the ht than to find it later with a generic function
+            local_exp = [] 
+            # TODO : Récupérer le full_name des signaux contrôlant l'activation du trigger (signaux reliés aux premières portes AND du trigger, càd à son front-end)
+                # TODO : pour chaque porte front-end du trigger récupérer le full_name de chaque source
+                trig_list = @ht.get_triggers 
+                trig_list.length.times do |i|
+                    if i.even?
+                        input_ports = trig_list[i].partof.get_inputs
+                        local_exp << [input_ports[0].get_source.get_full_name, "and", input_ports[1].get_source.get_full_name]
+                    else 
+                        local_exp << "and"
+                        next
+                    end
+                end
+                local_exp.pop
+
+            local_exp = to_global_exp(local_exp)
+
+            return local_exp
+                # TODO : Pour chaque full_name du front-end récupérés au préalable 
+                    # TODO : Remonter jusqu'aux entrées globales liées et enregistrer les portes rencontrées sur le chemin dans l'ordre
+                    # TODO : A partir de ces portes mémorisées, reconstituer l'expression globale de ces signaux
+                # TODO : Remplacer les noms (full_name) dans l'expression locale par l'expression globale de chaque signaux
+        end
+
+        def to_global_exp local_exp
+            local_exp.length.times do |i|
+                case local_exp[i]
+                when Array
+                    to_global_exp local_exp[i]
+                when "and"
+                    next
+                else # "and"
+                    local_exp[i] = get_global_expression local_exp[i]
+                end
+            end
+
+            return local_exp
+        end
+
+        def get_global_expression sig_full_name
+            if is_global_port_name? sig_full_name
+                return sig_full_name
+            else
+                comp = @netlist.get_component_named(sig_full_name.split('_')[0])
+                in_ports = comp.get_inputs
+                global_exp = []
+          
+                if comp.class == Netlist::Not
+                    global_exp << "not"
+                    next_full_name = in_ports[0].get_source.get_full_name
+                    if next_full_name[0] == 'w' 
+                        # Bypass the wire, transparent in a boolean expression
+                        global_exp << get_global_expression(in_ports[0].get_source.get_source.get_full_name)
+                    else
+                        global_exp << get_global_expression(next_full_name)
+                    end
+                else
+                    in_ports.each do |p|
+                        next_full_name = p.get_source.get_full_name
+                        if next_full_name[0] == 'w' 
+                            # Bypass the wire, transparent in a boolean expression
+                            global_exp << get_global_expression(p.get_source.get_source.get_full_name)
+                        else
+                            global_exp << get_global_expression(next_full_name)
+                        end
+                        global_exp << comp.class.to_s.split('::')[1].delete_suffix('2').downcase
+                    end
+                    global_exp.pop
+                end
+            end 
+
+            pp global_exp
+            return global_exp
+        end 
+
+        def is_global_port_name? port_name
+            return not(port_name.split('_').length > 1)
+        end
+
         def scan_netlist
             # * : Inputs scanned first 
             @netlist.get_inputs.each do |global_input|
@@ -71,7 +154,8 @@ module Netlist
             end
         end
 
-        def select_ht type, nb_trigger_sig
+        def select_ht type, nb_trigger_sig = 4
+            # * Instantiate and load a HT, method insert allows to inject it into the loaded netlist
             case type 
             when "xor_and"
                 if nb_trigger_sig.nil?
@@ -137,7 +221,6 @@ module Netlist
         def insert
             loc, max_stage = select_location "random"
 
-
             # * : Payload insertion (removing old links and creating new ones)
             loc.get_sinks.each{ |sink|
                 sink.unplug sink.get_source.name
@@ -160,11 +243,15 @@ module Netlist
 
             # * : Verification and printing informations 
             if @ht.is_inserted?
-                puts "HT inserted : \n\t- Payload : #{@ht.get_payload_in.partof.name}\n\t- Trigger type : #{@ht.get_payload_in.partof.get_inputs[1].get_source.partof.name} \n\t- Number of trigger signals : #{@ht.get_triggers_nb}"
+                puts "HT inserted : \n\t- Payload : #{@ht.get_payload_in.partof.name}\n\t- Trigger type : #{@ht.get_payload_in.partof.get_inputs[1].get_source.partof.name} \n\t- Number of trigger signals : #{@ht.get_triggers_nb}\n\t- Stage : #{@stages[@ht.get_payload_in.get_source.partof]}"
                 return @netlist
             else 
                 raise "Error : internal fault. Ht not correctly inserted."
             end
+        end
+
+        def get_ht_stage 
+            return @stages[@ht.get_payload_in.get_source.partof]
         end
 
     end

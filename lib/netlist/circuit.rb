@@ -1,7 +1,7 @@
 require_relative 'port.rb'
 module Netlist
     class Circuit
-        attr_accessor :name, :ports, :components, :partof, :wires
+        attr_accessor :name, :ports, :components, :partof, :wires, :crit_path_length
 
         def initialize name, partof = nil
             @name = name
@@ -10,6 +10,7 @@ module Netlist
             # ! : Optimisation possible en ayant un champ séparé pour les components de classe Circuit et de classe Gate
             @components = [] 
             @wires = []
+            @crit_path_length = nil
         end
 
         def <<(e)

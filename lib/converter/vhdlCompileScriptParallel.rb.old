@@ -1,0 +1,89 @@
+require './lib/vhdl.rb'
+require './lib/netlist.rb'
+
+module Netlist
+
+    class VhdlCompiler
+
+        def generate_compile_script circuit, test_frequencies = nil
+            code=Code.new
+            # code << "echo \"[+] cleaning\""
+            # code << "rm -rf *.o #{circuit.name}_tb.ghw #{circuit.name}_tb"
+            # if !File.exists? "gtech_lib-obj93.cf"
+                code << "echo \"[+] compiling gtech\""
+                ent_name_list = "("
+                $GTECH.each do |klass|
+                    entity=klass.to_s.downcase.split('::').last.concat("_d")
+                    ent_name_list.concat "#{entity} "    
+                end
+                ent_name_list.delete_suffix!(" ")
+                ent_name_list.concat(")")
+                code << "tmp=#{ent_name_list}"
+                code << "echo \" |--[+] compiling.vhd\""
+                code << "parallel ghdl -a --work=gtech_lib {1}.vhd ::: ${tmp[@]}"
+                # code << "ghdl -a --work=gtech_lib #{entity}.vhd"
+            # end
+            code << "echo \"[+] compiling #{circuit.name}.vhd\""
+            code << "ghdl -a #{circuit.name}.vhd"
+
+            tb_name_list = "("
+            test_frequencies.each do |freq|
+                tb_name_list.concat "#{circuit.name}_#{freq.to_s.split('.').join}_tb.vhd "
+            end
+            tb_name_list.delete_suffix! " "
+            tb_name_list.concat ")"
+
+            code << "tmp=#{ent_name_list}"
+            code << "echo \"[+] compiling testbench\""
+            code << "parallel ghdl -a ::: ${tmp[@]}"
+            # code << "ghdl -a #{circuit.name}_#{freq.to_s.split('.').join}_tb.vhd"
+            # * Elaboration
+            elab_name_list = "("
+            test_frequencies.each do |freq|
+                elab_name_list.concat "#{circuit.name}_#{freq.to_s.split('.').join}_tb "
+                
+                # code << "echo \"[+] launching viewer on #{circuit.name}_tb.vcd\""
+                # code << "gtkwave #{circuit.name}_tb.vcd #{circuit.name}_tb.sav"
+            end
+            elab_name_list.delete_suffix! " "
+            elab_name_list.concat ")"
+
+            code << "tmp=#{elab_name_list}"
+            code << "echo \"[+] elaboration\""
+            code << "F"
+            
+            # * Simulation
+            sim_name_list = "("
+            test_frequencies.each do |freq|
+                sim_name_list.concat "#{circuit.name}_#{freq.to_s.split('.').join}_tb.vcd "
+                
+                # code << "echo \"[+] launching viewer on #{circuit.name}_tb.vcd\""
+                # code << "gtkwave #{circuit.name}_tb.vcd #{circuit.name}_tb.sav"
+            end
+            sim_name_list.delete_suffix! " "
+            sim_name_list.concat ")"
+            code << "echo \"[+] running simulation\""
+            code << "parallel --link exec ::: #{elab_name_list} ::: #{sim_name_list}"
+            # code << "./#{circuit.name}_#{freq.to_s.split('.').join}_tb --vcd=#{circuit.name}_#{freq.to_s.split('.').join}_tb.vcd"
+
+            code << "echo \"[+] cleaning temporary files\""
+            code << "rm #{circuit.name}_*_tb"  
+            code << "rm #{circuit.name}.o"
+            test_frequencies.each do |freq|
+                code << "rm e~#{circuit.name}_#{freq.to_s.split('.').join}_tb.o #{circuit.name}_#{freq.to_s.split('.').join}_tb.o"
+            end
+
+            code # ?? nécessaire ??
+
+            filename=code.save_as("compile_#{circuit.name}.x")
+            system("chmod +x #{filename}")
+        end
+        
+        def run_compile_script circuit
+            puts "[+] run script..."
+            system("./compile_#{circuit.name}.x")
+        end
+
+    end
+
+end

@@ -15,6 +15,7 @@ module Netlist
             @sig_tab = {}
             @ast = VHDL::AST::Root.new
             @timed = false
+            @tb = false
         end
 
         def to_Ident str   
@@ -27,13 +28,13 @@ module Netlist
             return @ast
         end
 
-        def get_vhdl netlist
-            conv netlist
+        def get_vhdl netlist, tb = false
+            conv netlist, false
             @ast = VHDL::Visitor.new.visitAST @ast 
             return VHDL::DeParser.new(@ast).deparse
         end
 
-        def get_timed_vhdl netlist
+        def get_timed_vhdl netlist, tb = false
             conv netlist, true
             @ast = VHDL::Visitor.new.visitAST @ast 
             return VHDL::DeParser.new(@ast).deparse
@@ -53,8 +54,7 @@ module Netlist
             if timed 
                 @timed = timed
                 # TODO : Ajouter des headers dans l'AST
-                # TODO : Nécessite d'ajouter le package "delayed operators" dans la lib actuel du visiteur donc dans le work d'Enoslist. 
-                # TODO : Cela nécessitera d'abord de prendre en charge le parsing du 'after n [s]' donc pas mal de travail supplémentaire.
+                # TODO : Nécessite d'ajouter le package "delayed operators" dans la lib actuel du visiteur donc dans le work d'Enoslist. Voir comment le faire le plus proprement tout en étant rapide à implémenter, en l'état ce n'est pas très beau
                 # raise "Error : WIP"
             end            
             
@@ -64,7 +64,7 @@ module Netlist
 
             convEntity # * : Entity Declaration
             @ast.architectures = [VHDL::AST::Architecture.new(
-                to_Ident("enoslist"), 
+                to_Ident("netenos"), 
                 to_Ident(@netlist.name),
                 convSignalDeclaration,
                 convInstantiateStatements.concat(convWiring) # * : Joins InstantiateStatements and AssignStatements together
@@ -115,7 +115,7 @@ module Netlist
                 ent_name = to_Ident(comp.name.split('_')[1])
                 lib_name = to_Ident("work") # ! : Ici Work par défaut en lib mais à voir comment faire évoluer cette partie à l'avenir si ajout de lib perso
                 # ? : Conversion d'une lib vhdl en lib rb avec les classes de comp déclarée ?  
-                arch_name = to_Ident("enoslist")
+                arch_name = to_Ident("netenos")
 
                 statement = VHDL::AST::InstantiateStatement.new(comp_name, ent_name, arch_name, lib_name, convPortMap(comp))
             end
@@ -188,7 +188,7 @@ module Netlist
             # * : Gates wiring (Converted into Binary or Unary Expressions)
             @netlist.components.each do |comp|
                 if comp.is_a? Gate
-                    # ! : Possible optimization later using a '_' separator between comp name and object unique ID
+                    # ! : Possible optimization using a '_' separator between comp name and object unique ID
                     operator = comp.name.split(/(?<=[A-Za-z])(?=\d)/)[0].downcase # * : Retrieve the gate type only without the object ID
                     if @timed 
                         if operator != "not"
@@ -248,7 +248,7 @@ module Netlist
 
             association_statements << VHDL::AST::AssociationStatement.new(to_Ident("o"), to_Ident(comp.get_outputs[0].get_sinks[0].get_full_name))
 
-            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}2_d"), to_Ident("rtl"), to_Ident("work"),  VHDL::AST::PortMap.new(association_statements))
+            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}2_d"), to_Ident("netenos"), to_Ident("work"),  VHDL::AST::PortMap.new(association_statements))
         end
 
         def convTimedUnary comp, operator
@@ -258,7 +258,7 @@ module Netlist
 
             association_statements << VHDL::AST::AssociationStatement.new(to_Ident("o"), to_Ident(comp.get_outputs[0].get_sinks[0].get_full_name))
 
-            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}_d"), to_Ident("rtl"), to_Ident("work"), VHDL::AST::PortMap.new(association_statements))
+            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}_d"), to_Ident("netenos"), to_Ident("work"), VHDL::AST::PortMap.new(association_statements))
         end
 
         def convUnaryExp comp, operator
@@ -332,7 +332,7 @@ module Netlist
                dest_name = o0.get_sinks[0].name
             else
                 # * : The src_name created here is a signal to avoid having problems with similar port names between components 
-                # ! : Should rename 'src' and 'src_name' into 'sink' and 'sink_full_name'
+                # ! :  'src' and 'src_name' should be renamed into 'sink' and 'sink_full_name'
                 src = o0
                 src_name = o0.get_full_name
                 if @sig_tab[src_name].nil?
