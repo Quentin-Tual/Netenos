@@ -61,7 +61,6 @@ module Netlist
                         end 
                         tmp.get_free_input <= trig_tree[prev_stage][n].get_output
                     else
-                        # ! Ici les ports ne sont pas globaux mais ne sont pourtant pas reliés correctement à leur "porte hôte".
                         tmp = trig_tree[stage][n/2].get_free_input
                         tmp <= trig_tree[prev_stage][n].get_output
                     end

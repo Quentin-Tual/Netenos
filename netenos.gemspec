@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.license     = 'GPL-3.0'
 
   spec.bindir = 'bin'
-  spec.files = Dir['lib/**/*.rb'] + Dir['bin/*'] + Dir['doc/*']
+  spec.files = Dir['**/*.rb'] #Dir['lib/**/*.rb'] + Dir['bin/*'] + Dir['doc/*'] + Dir['lib/*.rb'] + Dir['Hyle/**/*.rb'] + Dir['Hyle/*.rb']
   spec.files += Dir['[A-Z]*']
   # spec.require_paths = ['Hyle']
   spec.add_runtime_dependency 'Hyle', '~> 0.1.0'

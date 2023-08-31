@@ -1,4 +1,4 @@
-require './lib/converter.rb'
+require_relative '../converter.rb'
 
 module Netlist
 
@@ -39,7 +39,7 @@ module Netlist
                 @stim[pname] = []
             }
 
-            # TODO : Remplacer par un 'until' pour toujours avoir le bon nombre de tstimuli même si certains ont été supprimés pour éviter d'activer le ht
+            # ! : Replace by until in order to always have the right stimuli number, even when some are deleted to avoid HT triggering ?
             # until @stim.values.last.length == nb_cycle
             # print"Removed cycle : "
             nb_cycle.times do |j|
@@ -63,7 +63,7 @@ module Netlist
         end
 
         def verify_ht_activation trig_cond
-            # TODO : Itérer sur l'expression et accumuler le résultat obtenu avec les diff opérations successives sur les valeurs générées pour les entrées concernées. 
+            # TODO : Iterate on the expression and stack the result obtained with different operations on generated entry values  
 
             acc_trig_value = nil
             last_word = nil
@@ -172,5 +172,5 @@ module Netlist
         end
     end
 
-    # TODO : Add chessboard pattern, full one, full zero, moving one, moving zero, ... simple patterns
+    # TODO : Add chessboard pattern, full one, full zero, moving one, moving zero, ... simple patterns ?
 end

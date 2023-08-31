@@ -55,7 +55,7 @@ module Netlist
         end
 
         def get_ports
-            return @ports.values.flatten # ! : flatten nécessaire ? à vérifier
+            return @ports.values.flatten # ? : is 'flatten' necessary ?
         end
 
         def get_port_named str

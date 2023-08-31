@@ -31,7 +31,7 @@ module VCD
             tmp = next_output
 
             until tmp == "$enddefinitions $end" 
-                if tmp.match?(/\$var reg [0-9]+ .+ tb_o[0-9]+_s .+/) # ! : Semble tourner à l'infini...
+                if tmp.match?(/\$var reg [0-9]+ .+ tb_o[0-9]+_s .+/) # ! : Not really optimized, certainly could be improved
                     tmp = tmp.split
                     @id_tab[tmp[3]] = tmp[4] # * : The original signal name (tmp[4]) is associated to VCD ID (tmp[3]).
                     # @output_traces[tmp[3]] = {} # * : Hash initialization allowing to add timestamp/value pairs later 
@@ -63,7 +63,7 @@ module VCD
                     # end
                 end
 
-                tmp = next_output # todo : Le déplacer en début de boucle et supprimer l'initialisation juste avant la boucle ?
+                tmp = next_output # TODO : Move it to the start of teh loop, deleting initialization just before the loop ?
             end
 
             @output_traces.each{|key,val| if val.empty? then @output_traces.delete(key) end}

@@ -3,3 +3,4 @@ git-story_media/
 .work
 .vscode
 tests/test_exp*.rb
+exp*/

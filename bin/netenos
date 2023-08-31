@@ -35,7 +35,7 @@ OptionParser.new do |opts|
         @options[:show] = path
     end
 
-    opts.on("-g [PATH,GATE_NUMBER,INPUT_NUMBER,OUTPUT_NUMBER,STAGE_NUMBER]", "--randgen [PATH,GATE_NUMBER,INPUT_NUMBER,OUTPUT_NUMBER,STAGE_NUMBER]", Array, "Generates a random netlist according to parameters given in arguments (default: rand_circ,10,10,5,5). Stored as .enl format, may need conversion for further use.") do |randgen_args|
+    opts.on("-g [PATH,GATE_NUMBER,INPUT_NUMBER,OUTPUT_NUMBER]", "--randgen [PATH,GATE_NUMBER,INPUT_NUMBER,OUTPUT_NUMBER]", Array, "Generates a random netlist according to parameters given in arguments (default: rand_circ,10,10,5,5). Stored as .enl format, may need conversion for further use.") do |randgen_args|
         @options[:randgen] = randgen_args
     end
 
@@ -44,8 +44,6 @@ OptionParser.new do |opts|
     end
 
 end.parse!
-
-# pp @options # ! : TEST
 
 @obj = Netlist::Wrapper.new
 

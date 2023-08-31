@@ -41,7 +41,7 @@ module Netlist
 
         def scanWires
             @netlist.wires.each do |w|
-                @wires[w.name] = w.get_sinks.collect{|sink| sink.get_full_name.split['_'][0]} # ! : could be a global output so reuse this function instead of retrieving .partof.name, however certainly optimisation possible
+                @wires[w.name] = w.get_sinks.collect{|sink| sink.get_full_name} # ! : could be a global output so reuse this function instead of retrieving .partof.name, however certainly optimisation possible
             end
         end
 
@@ -50,12 +50,17 @@ module Netlist
             scanComponents
             scanGlobalOutputs
             scanWires
-            @matrix = Array.new(@id_tab.size){Array.new(@id_tab.size,0)}# * : matrix of the size of the id_tab : n x n with n the number of elements registered
+            @matrix = Array.new(@id_tab.size){Array.new(@id_tab.size,0)}# * : matrix of the size of @id_tab : n x n with n the number of elements registered
         end 
 
         def convWire sink_name, source_name
             sink_ids = @wires[sink_name].collect do |w_sink_name| 
-                @id_tab[w_sink_name]
+                tmp = w_sink_name.split("_")
+                if tmp.length == 3 # If it is a wire
+                    @id_tab[tmp[1]]
+                else
+                    @id_tab[tmp[0]]
+                end
             end
 
             sink_ids.each do |sink_id| 
@@ -67,7 +72,7 @@ module Netlist
             @netlist.get_inputs.each do |ginp|
                 ginp.get_sinks.each do |sink|
                     if sink.is_wire?
-                        convWire(sink.get_full_name.split('_')[0],ginp.name)
+                        convWire(sink.get_full_name, ginp.name)
                     else
                         @matrix[@id_tab[ginp.name]][@id_tab[sink.get_full_name.split('_')[0]]] = 1
                     end
@@ -80,7 +85,7 @@ module Netlist
                 comp.get_outputs.each do |outp|
                     outp.get_sinks.each do |sink|
                         if sink.is_wire?
-                            convWire(sink.get_full_name.split('_')[0], comp.name)
+                            convWire(sink.get_full_name, comp.name)
                         else
                             @matrix[@id_tab[comp.name]][@id_tab[sink.get_full_name.split('_')[0]]] = 1
                         end

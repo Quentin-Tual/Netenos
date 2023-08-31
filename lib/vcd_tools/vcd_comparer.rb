@@ -1,3 +1,5 @@
+require 'matrix'
+
 module VCD
 
     class Vcd_Comparer
@@ -95,13 +97,196 @@ module VCD
             end
         end 
 
-        def jaccard_sim list_a, list_b
+        def jaccard_similarity list_a, list_b
+            simi_by_sig = {}
+
+            list_a.keys.each do |sig|
+                m = [0,0]
+                n = list_a[sig].length
+
+                list_a[sig].zip list_b[sig] do |ea, eb|
+                    if ea == "1" and eb == "1"
+                        m[1] += 1
+                    elsif ea == "0" and eb == "0"
+                        m[0] += 1
+                    end
+                end
+
+                simi_by_sig[sig] = ((m[1].to_f) / (n-m[0])).round(3)
+            end
+
+            return (simi_by_sig.values.sum / simi_by_sig.values.size).round(3)
+        end
+
+        def modified_jaccard list_a, list_b
+            simi_by_sig = {}
+
+            list_a.keys.each do |sig|
+                m = [0,0]
+                mU = 0
+                n = list_b[sig].length
+
+                list_a[sig].zip list_b[sig] do |ea, eb|
+                    if ea == "1" and eb == "1"
+                        m[1] += 1
+                    elsif ea == "0" and eb == "0"
+                        m[0] += 1
+                    elsif ea == "U" and eb == "U"
+                        mU += 1
+                    end
+                end
+
+                simi_by_sig[sig] = ((m[1].to_f + m[0].to_f + mU.to_f) / (n)).round(3)
+            end
+
+            return (simi_by_sig.values.sum / simi_by_sig.values.size).round(3)
+        end
+
+        def tanimoto_coefficient list_a, list_b
+            simi_by_sig = {}
             
+            list_a.keys.each do |sig|
+                scal_prod = 0
+
+                norm_a = list_a.length
+                norm_b = list_b.length
+
+                list_a[sig].zip list_b[sig] do |ea,eb|
+                    if ea == "U" or eb == "U"
+                        norm_a = norm_a - 1
+                        norm_b = norm_b - 1
+                    else
+                        scal_prod += ea.to_i * eb.to_i 
+                    end
+                end
+
+                simi_by_sig[sig] = scal_prod.to_f / (norm_a**2 + norm_b**2 - scal_prod)
+                # pp simi_by_sig[sig]
+            end
+
+            return (simi_by_sig.values.sum / simi_by_sig.values.size).round(3)
+        end
+
+        def levenshtein_distance(s, t)
+            dist_by_sig = {}
+
+            s.keys.each do |sig|
+                m = s[sig].length
+                n = t[sig].length
+                return m if n == 0
+                return n if m == 0
+                d = Array.new(m+1) {Array.new(n+1)}
+        
+                (0..m).each {|i| d[i][0] = i}
+                (0..n).each {|j| d[0][j] = j}
+                (1..n).each do |j|
+                    (1..m).each do |i|
+                        d[i][j] = if s[sig][i-1] == t[sig][j-1] # adjust index into string
+                                    d[i-1][j-1]       # no operation required
+                                else
+                                    [ d[i-1][j]+1,    # deletion
+                                    d[i][j-1]+1,    # insertion
+                                    d[i-1][j-1]+1,  # substitution
+                                    ].min
+                                end
+                    end
+                end
+                dist_by_sig[sig] = d[m][n].to_f
+            end
+
+            return (dist_by_sig.values.sum / dist_by_sig.values.size).round(3)
         end
 
         def hamming_distance a, b
             (a^b).to_s(2).count("1")
         end
+
+        def intercorrelation a, b
+            corr_by_sig = {}
+
+            a.values.first.length.times do |tau|
+                corr_by_sig[tau] = {}
+                a.keys.length.times do |sig_index|
+                    sig = a.keys[sig_index]
+                    a.values.first.length.times do |i|
+                        val_a = a[sig][i] 
+                        # if val_a == "0"
+                        #     val_a = -1
+                        # else
+                        #     val_a = 1
+                        # end
+
+                        val_b = b[sig][i - tau]
+                        # if val_b == "0"
+                        #     val_b = -1
+                        # else
+                        #     val_b = 1
+                        # end
+
+                        # corr_by_sig[sig][tau] += val_a * val_b
+
+                        if corr_by_sig[tau][sig].nil?
+                            corr_by_sig[tau][sig] = 0
+                        end
+                        
+                        if val_a == val_b
+                            corr_by_sig[tau][sig] += 1
+                        else
+                            corr_by_sig[tau][sig] += -1
+                        end
+                    end
+                end
+            end
+
+
+            # * : Get the 'tau' value with most of the signals are similar 
+            mean = {}
+            variance = {}
+            
+            corr_by_sig.keys.each do |tau|
+                acc = 0
+                nb_val = 0
+
+                # Calcul de la moyenne
+                corr_by_sig[tau].keys.each do |sig|
+                # * : Compute the mean cross correlation of signals for a fixes 'tau' value 
+                    acc += corr_by_sig[tau][sig] 
+                    nb_val += 1
+                # * : Compute variance of these cross correlations (for every signals) with a fixed 'tau' value 
+                # * : Compute the "inverted" dispersion (density ?) of these values (mean/variance)  and associate it to corresponding 'tau' value in a hash structure.
+                end
+                mean[tau] = acc / nb_val
+
+                # Calcul de la variance
+                acc = 0
+                nb_val = 0
+                corr_by_sig[tau].keys.each do |sig|
+                    # * : Compute the mean cross correlation of signals for a fixed 'tau' value  
+                        acc += (corr_by_sig[tau][sig] - mean[tau])**2
+                        nb_val += 1
+                    # * : Compute variance of these correlations (for every signals) with a fixed 'tau'
+                    # * : Compute the inverted dispersion (density ?) of these values (mean/variance)  and associate it to corresponding 'tau' value in a hash structure.
+                end
+                variance[tau] = acc.to_f / nb_val
+            end
+
+            disp_index = {}
+            mean.keys.each do |tau|
+                disp_index[tau] = mean[tau] / variance[tau]
+            end
+
+            # * : Selected best 'tau' value is the one which has the highest disp_index  
+            best_tau = disp_index.key(disp_index.values.max)
+
+            # * Return a correlation score, here it is the mean of cross_correlation of each signal 
+            corr_score = 0
+            corr_by_sig[best_tau].keys.each do |sig|
+                corr_score += corr_by_sig[best_tau][sig]
+            end
+            corr_score = ((corr_score / corr_by_sig[best_tau].keys.length) / a.values.first.length.to_f).round(3)
+
+            return corr_score
+        end 
 
         def get_diff_cycle_num trace_a, trace_b
             res = []
@@ -123,6 +308,20 @@ module VCD
                 list.sort.each do |i|
                     trace_a[sig].delete_at(i - removed)
                     removed += 1
+                end
+            end
+
+            return trace_a
+        end
+
+        def replace_cycle_list trace_a, list
+            trace_a.keys.each do |sig|
+                list.sort.each do |i|
+                    if trace_a[sig][i] == "0"
+                        trace_a[sig][i] = "1"
+                    elsif trace_a[sig][i] == "1"  
+                        trace_a[sig][i] = "0"
+                    end
                 end
             end
 
@@ -200,35 +399,6 @@ module VCD
             @id_tab_b = b["id_tab"]
         end
 
-        # def aggreg_traces *traces_path
-        #     # * : Return one trace formed with the multiples traces passed as args. 
-        #     extractor = VCD::Vcd_Signal_Extractor
-        #     traces = []
-        #     res = {}
-        #     clk_period = extractor.get_clock_period
-        #     traces_path.each do |path|
-        #         extractor.load_vcd path
-        #         traces << trace_to_list(extractor.extract, clk_period)
-        #     end
-
-        #     [0..traces[0][traces.keys[0]].length] do |j|
-        #         [0..traces.length] do |i|
-        #             traces[i].each do |sig|
-        #                 traces[i][sig][j] xor # ??? xor cumulé sur toutes les traces à cet instant
-        #             end
-        #         end
-        #     end
-
-            # ! Semble complexe
-            # traces[0].keys.each do |sig|
-            #     # TODO : xor chaque valeur de chaque trace
-            #     tmp = nil
-            #     res[sig] = traces.select{|t| t[sig]}
-            #     res[sig] = res.transpose.inject(:xor)
-
-            # end
-            
-        # end
     end
 
 end

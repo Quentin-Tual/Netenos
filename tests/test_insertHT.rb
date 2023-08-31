@@ -1,6 +1,6 @@
 
 #! /usr/env/bin ruby    
-require_relative "../lib/enoslist.rb"
+require_relative "../lib/netenos.rb"
 require_relative "../tests/test_lib.rb"
 
 
@@ -64,7 +64,8 @@ viewer.dot global
 
 # Insert an HT using Tamperer
 modifier = Netlist::Tamperer.new(global)
-modified = modifier.insert modifier.select_ht("xor_and")
+modifier.select_ht("cotd_s38417")
+modified = modifier.insert 
 modifier = nil
 
 viewer.dot(modified, 'test_circ_mod.dot')

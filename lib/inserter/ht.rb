@@ -2,7 +2,7 @@ module Netlist
         
     class HT 
 
-        # ! : La netlist d'un HT correspond à la référence pointant sur l'instance de sa payload par convention
+        # * : An HT netlist is considered as the referense pointing on its payload instance 
         def initialize netlist = nil #, triggers, payload_out, payload_in=nil
             @netlist = nil
             @triggers = []
@@ -13,8 +13,10 @@ module Netlist
 
         def is_inserted? 
             # * : Returns a boolean value, being true if all ports of the HT are connected
-            if @triggers.collect{|trig| trig.is_free?}.include?(true)
-                return false
+            @triggers.each do |trig| 
+                if trig.is_free?
+                    return false
+                end
             end
 
             if @payload_in.is_free? or @payload_out.is_free?

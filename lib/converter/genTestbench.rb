@@ -34,18 +34,15 @@ module Netlist
             gen_arch_body_uut_portmap
             case stim_type
             when :passed
-                # TODO : récupérer les stimulis passés et les transformer au format VHDL
                 @stimuli = gen_arch_body_stim_assign(@stimuli)
             when :random
-                # TODO : ou Générer les stimuli si nécessaire.
-                # TODO : et les transformer au format VHDL 
                 @stimuli = gen_arch_body_stim_assign(gen_stimuli(stim_type, nb_cycle))
             else
                 @stimuli = ""
             end
 
-            # TODO : Load the template and bind computed values to it
-            @engine = ERB.new(IO.read "../lib/converter/tb_template.vhdl")
+            # * : Load the template and bind computed values to it
+            @engine = ERB.new(IO.read "../lib/converter/tb_template2.vhdl") # tb_template2 is used to only observe, inputs stimulis are entered at nominal frequency. 
 
             return @engine.result(binding)
         end
@@ -53,7 +50,7 @@ module Netlist
         def gen_arch_body_uut_portmap
             # * : Generates uut instantiation and port map 
             @portmap = ""
-            @portmap.concat "       clk,\n"
+            @portmap.concat "       nom_clk,\n"
             @netlist_data[:ports][:in].each {|pname|    
                 @portmap.concat "       tb_#{pname}"
                 @portmap.concat ", \n"
@@ -94,17 +91,15 @@ module Netlist
             nb_cycle = stim_hash.values[0].length # ! Verify if it is really what is expected
 
             nb_cycle.times{ |i|
-                # TODO : Set each input to associated value at cycle 'i'
                 @netlist_data[:ports][:in].each{ |pin|
                     stim_src.concat "           tb_#{pin} <= '#{stim_hash[pin][i]}';\n"
                 }
-                # TODO : Wait a cycle
-                stim_src.concat "       wait for period;\n"
+                stim_src.concat "       wait for nom_period;\n"
             }
 
             return stim_src
         end
     end
 
-# TODO : Add chessboard pattern, sliding one, sliding zero,... simple patterns
+# TODO : Add chessboard pattern, sliding one, sliding zero,... simple patterns ?
 end

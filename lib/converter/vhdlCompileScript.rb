@@ -1,5 +1,5 @@
-require './lib/vhdl.rb'
-require './lib/netlist.rb'
+require_relative '../vhdl.rb'
+require_relative '../netlist.rb'
 
 module Netlist
 

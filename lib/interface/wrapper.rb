@@ -1,8 +1,3 @@
-# require_relative "../netlist.rb"
-# require_relative "../vhdl.rb"
-# require_relative "../converter.rb"
-# require_relative "../inserter/tamper.rb"
-
 module Netlist
 
     class Wrapper
@@ -49,7 +44,7 @@ module Netlist
             ast = VHDL::Parser.new.parse(VHDL::Lexer.new.tokenize(txt))
             visitor = VHDL::Visitor.new
             decorated_ast = visitor.visitAST ast
-            # ! : Optimisation possible en modifiant ConvVhdl2Netlist pour accepter un ast décoré en argument du constructeur de manière optionnel pour garder une utilité à la fonction load et éventuellement intéressant à l'avenir.
+            # TODO : Possible optimization modifying ConvVhdl2Netlist, making it optionnally accept decorated AST in constructor arguments 
             visitor.exportDecAst "#{$DEF_TEMP_PATH}~.ast"
             # Chargement de l'AST en sortie de Hyle
             vhdl_converter = Netlist::ConvVhdl2Netlist.new
@@ -59,7 +54,7 @@ module Netlist
 
         def randgen parameters
             if parameters.length > 1
-                generator = Netlist::RandomGenComb.new parameters[1].to_i, parameters[2].to_i, parameters[3].to_i, parameters[4].to_i
+                generator = Netlist::RandomGenComb.new parameters[1].to_i, parameters[2].to_i, parameters[3].to_i
             else
                 generator = Netlist::RandomGenComb.new
             end
@@ -92,7 +87,7 @@ module Netlist
         end
 
         def store_vhdl path
-            src = Netlist::ConvNetlist2Vhdl.new.get_vhdl @netlist 
+            src = Netlist::ConvNetlist2Vhdl.new.generate @netlist 
             File.write(path, src)
         end
 
@@ -102,7 +97,6 @@ module Netlist
             else
                 Netlist::DotGen.new.dot @netlist, path
             end
-
         end
 
         # * : ------ Operation/manipulation methods ------ :

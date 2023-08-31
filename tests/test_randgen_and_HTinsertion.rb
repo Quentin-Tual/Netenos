@@ -1,13 +1,13 @@
 
 #! /usr/env/bin ruby    
-require_relative "../lib/enoslist.rb"
-require 'ruby-prof'
+require_relative "../lib/netenos.rb"
+# require 'ruby-prof'
 
-result = RubyProf.profile do
+# result = RubyProf.profile do
     include Netlist
 
 
-    generator = Netlist::RandomGenComb.new 100, 60, 40, 20
+    generator = Netlist::RandomGenComb.new 50, 25, 15, 10
     generator.getRandomNetlist "test"
     # generator = nil
 
@@ -15,11 +15,11 @@ result = RubyProf.profile do
     viewer.dot generator.netlist, "./rand_circ.dot"
 
     modifier = Netlist::Tamperer.new(generator.netlist)
-    modifier.select_ht("xor_and", 8)
+    modifier.select_ht("cotd_s38417")
     modified = modifier.insert 
 
     viewer.dot(modified, 'rand_circ_mod.dot')
-end
-
-printer = RubyProf::FlatPrinter.new(result)
-printer.print(STDOUT)
+# end
+    puts modified.name
+# printer = RubyProf::FlatPrinter.new(result)
+# printer.print(STDOUT)

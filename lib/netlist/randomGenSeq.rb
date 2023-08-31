@@ -41,28 +41,27 @@ module Netlist
                     @netlist << getRandomComp
                 end
 
-                # TODO : Voir si toujours nécessaire
+                # TODO : still necessary
                 # @available_sources.keys.each{|key|
                 #     @source_pool[key] = @available_sources[key].dup
                 # }
                 
-                # todo : On utiliser source pool comme une copie de available_sources 
+                # TODO :  Use 'source_pool' as a copy of 'available_sources'
                 # @source_pool[0] = []
                 # @netlist.get_inputs.each{ |global_input|
                 #     @source_pool[0] << global_input
                 # }
 
-                # TODO : Revoir la fonction car plus simple en séquentiel  
+                # TODO : See if possible to reduce complexity (without recursive calls ?)  
                 doWiring
 
                 fix_not_connected_comps
 
-                # TODO : Ajouter une fonction qui détecte les boucles combinatoires et qui insert 
+                # ! : In theory, not needed in sequential circuits (thanks to registers)
+                # TODO : Add a function to detect combinatory loops if necessary ?
                 loopsFix
 
-                
-
-            # ! : En théorie, ne peux pas arriver en séquentiel
+            # ! : same as previous, not needed in sequential circuits
             rescue ImpossibleResolutionException => e
 
                 if depth == 10
@@ -125,7 +124,7 @@ module Netlist
             sink <= tmp_reg.get_outputs[0]
         end
 
-        # TODO : On peut garder, utile en soit
+        # TODO : Refactor as in comb. circuits generation
         def getNetlistInformations
             return @netlist.get_inputs.length, @netlist.get_outputs.length, @netlist.components.length, scan_netlist
         end
@@ -246,7 +245,7 @@ module Netlist
             return ret
         end
 
-        # TODO : Revoir la fonction
+        # TODO : See if possible to reduce complexity
         def doWiring
 
             wire_global_inputs
@@ -255,7 +254,7 @@ module Netlist
 
             wire_global_outputs 
 
-            # # TODO : Tant qu'il reste des sink libre, les relier à des sources libres.
+            # # TODO : while ther is available sinks, connect them to available sources.
             # free_sinks = @sink_pool.select{|sink| sink.is_free?}
             # free_sinks.each do |sink| 
             #     sink <= @source_pool.delete(@source_pool.sample)
@@ -266,7 +265,7 @@ module Netlist
         end
 
         def wire_global_inputs
-             # todo : Relier toutes les entrées à un sink disponible (sans la politique de répartition par étage).
+             # todo : Connect every inputs to an available sink
              @netlist.get_inputs.each do |global_input|
                 selected_sink = @sink_pool.sample
                 selected_sink <= global_input
@@ -275,7 +274,7 @@ module Netlist
         end
 
         def wire_sinks
-            # Todo : Relier tous les composants et les sorties
+            # Todo : Connect every components and primary outputs
             @sink_pool.each do |selected_sink|
                 if selected_sink.fanin.nil?
                     selected_source = @source_pool.sample
@@ -290,7 +289,7 @@ module Netlist
         end
 
         def wire_global_outputs
-            # Todo : vérifier que les sorties globales soient toutes reliées, brancher celles qui ne le sont pas.
+            # Todo : Verify every primary outputs are connected, connect if not
             # to_delete = []
             @netlist.get_outputs.each do |global_output|
                 if global_output.is_free?
@@ -306,7 +305,7 @@ module Netlist
         end
 
         def wire_remaining_free_sources
-            # TODO : Tant qu'il reste des sources libres, les relier à de nouveaux ports de sorties de netlist
+            # TODO : While ther is still available sources, connect them to new primary outputs
             free_sources = @source_pool.select{|source| source.is_free?}
             free_sources.each do |source|
                 new_global_output = Netlist::Port.new("o#{@netlist.get_outputs.length}", :out)
@@ -316,7 +315,7 @@ module Netlist
         end
 
         def fix_not_connected_comps
-            # TODO : Détecter d'éventuels composants dont les entrées ne sont pas reliées à un chemin fonctionnel (souvent deux boucles combinatoires), et relier une entrée à un chemin (source sélectionnée aléatoirement).
+            # TODO : Detect components which have inputs not connected to a path (usually 2 comb. loops), and connect an output to a path(source randomly selected).
             not_connected_comp = []
             @netlist.components.each do |comp|
                 linked_comp = comp.get_inputs.collect{|comp_in| comp_in.get_source.partof}

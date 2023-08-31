@@ -1,4 +1,5 @@
-require './lib/vhdl.rb'
+require_relative '../vhdl.rb'
+require_relative '../netlist.rb'
 
 module Netlist
 
@@ -18,341 +19,157 @@ module Netlist
             @tb = false
         end
 
-        def to_Ident str   
-            return VHDL::AST::Ident.new(VHDL::AST::Token.new(:ident, str))
-        end
-
-        def get_ast netlist
-            conv netlist
-            @ast = VHDL::Visitor.new.visitAST @ast
-            return @ast
-        end
-
-        def get_vhdl netlist, tb = false
-            conv netlist, false
-            @ast = VHDL::Visitor.new.visitAST @ast 
-            return VHDL::DeParser.new(@ast).deparse
-        end
-
-        def get_timed_vhdl netlist, tb = false
-            conv netlist, true
-            @ast = VHDL::Visitor.new.visitAST @ast 
-            return VHDL::DeParser.new(@ast).deparse
-        end
-
-        def to_Ident str   
-            return VHDL::AST::Ident.new(VHDL::AST::Token.new(:ident, str))
-        end
-
-        def conv netlist = nil, timed = false
-            if !netlist.nil?
-                @netlist = netlist
-            elsif @netlist.nil?
-                raise "Error : No netlist to convert."
-            end
-
-            if timed 
-                @timed = timed
-                # TODO : Ajouter des headers dans l'AST
-                # TODO : Nécessite d'ajouter le package "delayed operators" dans la lib actuel du visiteur donc dans le work d'Enoslist. Voir comment le faire le plus proprement tout en étant rapide à implémenter, en l'état ce n'est pas très beau
-                # raise "Error : WIP"
-            end            
-            
-            if netlist.contains_registers?
-                raise "Error : Given Netlist contains registers. Convertion in VHDL is not yet supported for sequential Netlists."
-            end 
-
-            convEntity # * : Entity Declaration
-            @ast.architectures = [VHDL::AST::Architecture.new(
-                to_Ident("netenos"), 
-                to_Ident(@netlist.name),
-                convSignalDeclaration,
-                convInstantiateStatements.concat(convWiring) # * : Joins InstantiateStatements and AssignStatements together
-            )]
-
-            @sig_tab.values.each do |sig_decl|
-                @ast.architectures[0].decl << sig_decl
-            end
-
-            return @ast
-        end
-
-        def convEntity # * : Entity Declaration
-            @ast.entity = VHDL::AST::Entity.new(
-                to_Ident(@netlist.name), 
-                @netlist.ports.values.flatten.collect{|p| convPort p}
-            )
-        end
-
-        def convPort p # * : Port Declaration
-            name = to_Ident(p.name)
-            port_type = p.direction.to_s
-            data_type = VHDL::AST::Type.new("bit")
-
-            return VHDL::AST::Port.new(name, port_type, data_type)
-        end
-
-        def convSignalDeclaration # * : Signal Declaration
-            if @netlist.wires != []
-                return @netlist.wires.collect do |w| 
-                VHDL::AST::SignalDeclaration.new(
-                    to_Ident(w.name),
-                    VHDL::AST::Type.new("bit")
-                )
-                end
-            else
-                return []
-            end
-        end
-
-        def convInstantiateStatements # * : Instantiate Statement
-            components = @netlist.components.select do |inst|
-                !inst.is_a? Gate
-            end
-
-            return components.collect do |comp|
-                comp_name = to_Ident(comp.name.split('_')[0])
-                ent_name = to_Ident(comp.name.split('_')[1])
-                lib_name = to_Ident("work") # ! : Ici Work par défaut en lib mais à voir comment faire évoluer cette partie à l'avenir si ajout de lib perso
-                # ? : Conversion d'une lib vhdl en lib rb avec les classes de comp déclarée ?  
-                arch_name = to_Ident("netenos")
-
-                statement = VHDL::AST::InstantiateStatement.new(comp_name, ent_name, arch_name, lib_name, convPortMap(comp))
-            end
-        end
-
-        def convPortMap comp # * : Port Map(Association Statements)
-            association_statements = []
-            comp.get_ports.each do |p|
-                if p.is_input?
-                    # * : Different process depending on type of source, necessary to avoid generic naming and same identifier for different port entities
-                    if !p.get_source.is_global?
-                        src = p.get_source
-                        src_name = src.get_full_name
-                        # * : full name are usefull for this, embedding the component name within
-                        @sig_tab[src_name] = VHDL::AST::SignalDeclaration.new(to_Ident(src_name), VHDL::AST::Type.new("bit"))
-                        association_statements << VHDL::AST::AssociationStatement.new(
-                            to_Ident(p.name), 
-                            to_Ident(src_name)
-                        )
-                        p.unplug(src)
-                    # * : Global interfaces are always unique, no name modification need
-                    else
-                        to_unplug = p.get_source
-                        association_statements << VHDL::AST::AssociationStatement.new(
-                            to_Ident(p.name), 
-                            to_Ident(to_unplug.name)
-                        )
-                        p.unplug(to_unplug.name)
-                    end 
+        def gen_gtech
+            puts "[+] generating VHDL gtech "
+            $GTECH.each do |circuit_klass|
+                circuit_name= circuit_klass.to_s.split('::').last.downcase.concat("_d")
+                case circuit_klass
+                when Not
+                    func_code="o0 <= not i0 after delay"
+                # when Dff
+                #     func_code=Code.new
+                #     func_code << "process(clk)"
+                #     func_code.indent=2
+                #     func_code << "if rising_edge(clk) then"
+                #     func_code.indent=4
+                #     func_code << "q <= d;"
+                #     func_code.indent=2
+                #     func_code << "end if;"
+                #     func_code.indent=0
+                #     func_code << "end process;"
                 else
-                    if (p.get_sinks.length == 1) and p.get_sinks[0].is_global?
-                        to_unplug = p.get_sinks[0]
-                        association_statements << VHDL::AST::AssociationStatement.new(
-                            to_Ident(p.name), 
-                            to_Ident(to_unplug.name)
-                        )
-                        to_unplug.unplug(p.name) # * : We won't need these information later since they are completely described in the AST
-                    else
-                        # * : The src_name created herer is a signal to avoid having problems with similar port names between components 
-                        src = p
-                        src_name = p.get_full_name
-                        @sig_tab[src_name] = VHDL::AST::SignalDeclaration.new(to_Ident(src_name), VHDL::AST::Type.new("bit"))
-                        association_statements << VHDL::AST::AssociationStatement.new(
-                            to_Ident(p.name), 
-                            to_Ident(src_name)
-                        )
-                        # * : No unplug here cause we will need informations for the link in the other way.
-                    end
+                    mdata=circuit_name.match(/\A(\D+)(\d*)/)
+                    op=mdata[1]
+                    card=(mdata[2] || "0").to_i
+                    circuit_instance=circuit_klass.new("test")
+                    assign_lhs=circuit_instance.get_outputs.first.name
+                    assign_rhs=circuit_instance.get_inputs.map{|input| input.name}.join(" #{op} ")
+                    assign_rhs="not #{assign_rhs}" if op=="not"
+                    assign="#{assign_lhs} <= #{assign_rhs} after delay;"
+                    func_code=assign
                 end
+        
+                code=Code.new
+                code << "--generated automatically"
+                code << ieee_header
+                code.newline
+                code << "entity #{circuit_name} is"
+                code.indent=2
+                code << "generic(delay : time := 1 ns);"
+                code << "port("
+                code.indent=4
+                # if circuit_instance.is_a?(Dff)
+                #     code << "clk : in std_logic;"
+                # end
+                circuit_instance.get_inputs.each do |input|
+                    code << "#{input.name} : in  std_logic;"
+                end
+                circuit_instance.get_outputs.each do |output|
+                    code << "#{output.name} : out std_logic;"
+                end
+                code.lines[-1].delete_suffix!(";")
+                code.indent=2
+                code << ");"
+                code.indent=0
+                code << "end #{circuit_name};"
+                code.newline
+                code << "architecture rtl of #{circuit_name} is"
+                code << "begin"
+                code.indent=2
+                code << func_code
+                code.indent=0
+                code << "end rtl;"
+        
+                filename=code.save_as("#{circuit_name}.vhd")
+                puts " |--[+] generated '#{filename}'"
             end
-
-            return VHDL::AST::PortMap.new(association_statements)
         end
-
-        def convWiring
-            statements = []
-
-            # # * : Global entries wiring
-            # @netlist.get_inputs.each do |p|
-            #     p.get_sinks.each do |sink|
-            #         statements << VHDL::AST::AssignStatement.new(
-            #             to_Ident(sink.get_full_name),
-            #             to_Ident(p.get_full_name) 
-            #         )
-
-            #         # sink.unplug(p.name) 
-            #     end
+    
+        def ieee_header
+            code=Code.new
+            code << "library ieee;"
+            code << "use ieee.std_logic_1164.all;"
+            code << "use ieee.numeric_std.all;"
+            code
+        end
+    
+        def generate circuit, delay_model = :one
+            code=Code.new
+            code << ieee_header
+            code.newline
+            code << "library gtech_lib;"
+            code.newline
+            code << "entity #{circuit.name} is"
+            code.indent=2
+            code << "port("
+            code.indent=4
+            code << "clk : in  std_logic;"
+            circuit.get_inputs.each{|i|  code << "#{i.name} : in  std_logic;"}
+            circuit.get_outputs.each{|o| code << "#{o.name} : out std_logic;"}
+            code.lines[-1].delete_suffix!(";")
+            code.indent=2
+            code << ");"
+            code.indent=0
+            code << "end #{circuit.name};"
+            code.newline
+            code << "architecture netenos of #{circuit.name} is"
+            code.indent=2
+            @sig_tab = {}
+            sources=(circuit.get_inputs + circuit.components.map{|comp| comp.get_outputs}).flatten
+            signals=circuit.components.collect{|comp| comp.get_outputs}.flatten # TODO : This line gets the wire cause each link is a wire in this netlist -> see how to make it with netenos netlist
+            signals.each do |sig|
+                code << "signal #{sig.get_full_name} : std_logic;"
+            end
+            code.indent=0
+            code << "begin"
+            code.indent=2
+            code << "----------------------------------"
+            code << "-- input to wire connexions "
+            code << "----------------------------------"
+            # circuit.get_inputs.each do |global_input| # TODO : 'wire' seems to match with my sinks, but in my case it won't be assign statements but only port maps
+            #     global_input.get_sinks.each{|sink| sink.name
+            #         code << "#{global_input.sink.name} <= #{input.name};"
+            #     } 
             # end
-
-            # * : Gates wiring (Converted into Binary or Unary Expressions)
-            @netlist.components.each do |comp|
+            
+            code << "----------------------------------"
+            code << "-- component interconnect "
+            code << "----------------------------------"
+            circuit.components.each do |comp|
+                comp_entity=comp.class.to_s.split("::").last.downcase
+                code << "#{comp.name} : entity gtech_lib.#{comp_entity}_d"
+                code.indent=4
                 if comp.is_a? Gate
-                    # ! : Possible optimization using a '_' separator between comp name and object unique ID
-                    operator = comp.name.split(/(?<=[A-Za-z])(?=\d)/)[0].downcase # * : Retrieve the gate type only without the object ID
-                    if @timed 
-                        if operator != "not"
-                            statements << convTimedBinary(comp, operator)
-                        else
-                            statements << convTimedUnary(comp,operator)
-                        end
-                    else
-                        if operator != "not" # BinaryExp
-                            statements << convBinaryExp(comp, operator)
-                        else # UnaryExp
-                            statements << convUnaryExp(comp, operator)
-                        end
-                    end
+                    code << "generic map(#{comp.propag_time[delay_model]*1000} ps)" # * Conversion from nanoseconds into picoseconds to avoid float in vhdl source code
                 end
-            end
-
-            # # *: Wires equivalent to Signals assignments 
-            # if @netlist.wires != []
-            #     @netlist.wires.each do |w|
-            #         w.get_sinks.each do |sink|
-            #             statements << VHDL::AST::AssignStatement.new(
-            #                 to_Ident(sink.get_full_name), 
-            #                 to_Ident(w.get_full_name)
-            #             )
-
-            #             # sink.unplug w.name
-            #         end
-            #     end
-            # end
-
-            @netlist.get_outputs.each do |outp|
-                # if !outp.get_source.is_global?
-                #     src = outp.get_source
-                #     src_name = src.get_full_name
-                #     if @sig_tab[src_name].nil?
-                #         @sig_tab[src_name] = VHDL::AST::SignalDeclaration.new(to_Ident(src_name), VHDL::AST::Type.new("bit"))
-                #     end
-                # else 
-                if outp.get_source.is_global?
-                    src_name = outp.get_source.name
-                    statements << VHDL::AST::AssignStatement.new(
-                        to_Ident(outp.name),
-                        to_Ident(src_name)
-                    )
+                code << "port map("
+                code.indent=6
+                # if comp.is_a? Dff
+                #     code << "clk => clk,"
+                # end
+                comp.get_inputs.each do |input|
+                    code << "#{input.name} => #{input.get_source.get_full_name},"
                 end
+                comp.get_outputs.each do |output|
+                    # wire=output.fanout.first
+                    code << "#{output.name} => #{output.get_full_name},"
+                end
+                code.lines[-1].delete_suffix!(",")
+                code.indent=4
+                code << ");"
             end
-
-            return statements
+            code.indent=2
+            code << "----------------------------------"
+            code << "-- input to wire to output connexions "
+            code << "----------------------------------"
+            circuit.get_outputs.each do |output|
+                code << "#{output.name} <= #{output.get_source.get_full_name};"
+            end
+            code.indent=0
+            code << "end netenos;"
+            filename=code.save_as("#{circuit.name}.vhd")
+            puts "[+] generated circuit '#{filename}'"
         end
-
-        def convTimedBinary comp, operator
-            association_statements = []
-            
-            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("a"), to_Ident(comp.get_inputs[0].get_source.get_full_name))
-            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("b"), to_Ident(comp.get_inputs[1].get_source.get_full_name))
-
-            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("o"), to_Ident(comp.get_outputs[0].get_sinks[0].get_full_name))
-
-            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}2_d"), to_Ident("netenos"), to_Ident("work"),  VHDL::AST::PortMap.new(association_statements))
-        end
-
-        def convTimedUnary comp, operator
-            association_statements = []
-            
-            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("a"), to_Ident(comp.get_inputs[0].get_source.get_full_name))
-
-            association_statements << VHDL::AST::AssociationStatement.new(to_Ident("o"), to_Ident(comp.get_outputs[0].get_sinks[0].get_full_name))
-
-            return VHDL::AST::InstantiateStatement.new(to_Ident(comp.name), to_Ident("#{operator}_d"), to_Ident("netenos"), to_Ident("work"), VHDL::AST::PortMap.new(association_statements))
-        end
-
-        def convUnaryExp comp, operator
-            i0 = comp.get_inputs[0]
-            
-            # * : Conversion to AST Signal Declaration, for components ports and for a global port
-            if !i0.get_source.is_global?
-                src = i0.get_source
-                operand_name = src.get_full_name
-                if @sig_tab[operand_name].nil?
-                    @sig_tab[operand_name] = VHDL::AST::SignalDeclaration.new(to_Ident(operand_name), VHDL::AST::Type.new("bit"))
-                end
-            else 
-                operand_name = i0.get_source.name
-            end
-
-            o0 = comp.get_outputs[0]
-
-            if (o0.get_sinks.length == 1) and o0.get_sinks[0].is_global? 
-               dest_name = o0.get_sinks[0].name
-           else
-                # * : The src_name created herer is a signal to avoid having problems with similar port names between components 
-                src = o0
-                dest_name = o0.get_full_name
-                if @sig_tab[dest_name].nil?
-                    @sig_tab[dest_name] = VHDL::AST::SignalDeclaration.new(to_Ident(dest_name), VHDL::AST::Type.new("bit"))
-                end
-                # * : No unplug here cause we will need informations for the link in the other way.
-           end
-
-            # i1.unplug operand_name
-            # o1.get_sinks[0].unplug o1.name
-            # o1.unplug dest_name
-
-            return VHDL::AST::AssignStatement.new( 
-                to_Ident(dest_name),
-                VHDL::AST::UnaryExp.new(
-                    VHDL::AST::Operator.new(operator), 
-                    to_Ident(operand_name), 
-                    VHDL::AST::Type.new("bit")
-                )
-            )
-        end
-
-        def convBinaryExp comp, operator
-            i0, i1 = comp.get_inputs
-            
-            if !i0.get_source.is_global?
-                src = i0.get_source
-                operand0_name = src.get_full_name
-                if @sig_tab[operand0_name].nil?
-                    @sig_tab[operand0_name] = VHDL::AST::SignalDeclaration.new(to_Ident(operand0_name), VHDL::AST::Type.new("bit"))
-                end
-            else 
-                operand0_name = i0.get_source.name
-            end
-
-            if !i1.get_source.is_global?
-                src = i1.get_source
-                operand1_name = src.get_full_name
-                if @sig_tab[operand1_name].nil?
-                    @sig_tab[operand1_name] = VHDL::AST::SignalDeclaration.new(to_Ident(operand1_name), VHDL::AST::Type.new("bit"))
-                end
-            else
-                operand1_name = i1.get_source.name
-            end
-            
-            o0 = comp.get_outputs[0]
-
-            if (o0.get_sinks.length == 1) and o0.get_sinks[0].is_global? 
-               dest_name = o0.get_sinks[0].name
-            else
-                # * : The src_name created here is a signal to avoid having problems with similar port names between components 
-                # ! :  'src' and 'src_name' should be renamed into 'sink' and 'sink_full_name'
-                src = o0
-                src_name = o0.get_full_name
-                if @sig_tab[src_name].nil?
-                    @sig_tab[src_name] = VHDL::AST::SignalDeclaration.new(to_Ident(src_name), VHDL::AST::Type.new("bit"))
-                end
-                dest_name = src_name
-                # * : No unplug here cause we will need informations for the link in the other way.
-            end
-
-            return VHDL::AST::AssignStatement.new(   
-                to_Ident(dest_name), 
-                VHDL::AST::BinaryExp.new(
-                    to_Ident(operand0_name), 
-                    VHDL::AST::Operator.new(operator), 
-                    to_Ident(operand1_name), 
-                    VHDL::AST::Type.new("bit")
-                )
-            )
-        end
-
     end
 
 end

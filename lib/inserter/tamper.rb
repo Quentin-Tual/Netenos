@@ -1,17 +1,34 @@
 require_relative "../netlist.rb"
 require_relative "ht.rb"
 require_relative "xor_and_ht.rb"
+require_relative "cotd_s38417.rb"
 
 module Netlist
 
     class Tamperer
+        attr_accessor :stages
 
-        def initialize netlist
+        def initialize netlist, stages = {}
             @netlist = netlist
-            @stages = {}
+            @stages = stages
             @ht = nil
-            scan_netlist # * : Gives a hash dividing the netlist by stages, each being the max distance of each components from a global input 
-            @inverted_stages = inside_out @stages # * : Reverse it to use the stage number as a key
+            @location = nil
+            if stages.empty?
+                scan_netlist # * : Gives a hash dividing the netlist by stages, each being the max distance of each components from a global input 
+                @inverted_stages = inside_out @stages # * : Reverse it to use the stage number as a key
+            else
+                @inverted_stages = a_to_h @stages
+            end
+        end
+
+        def a_to_h a
+            h = {}
+
+            a.length.times do |layer|
+                h[layer] = a[layer]
+            end
+
+            return h
         end
 
         def inside_out(h)
@@ -20,13 +37,9 @@ module Netlist
             g.merge(g) { |_,a| a.map(&:last) }
         end
 
-        # TODO : Add a method to get the trigger condition (boolean expression)
+        # * : A method to get the trigger condition (boolean expression)
         def get_trigger_conditions
-            # ! : Only works with a gate tree built with only one operator type
-            # ! : Move some parts in the ht instantiation function -> Xor_And has to be able to give his triggering sequence. Easier than to write it with the ht than to find it later with a generic function
             local_exp = [] 
-            # TODO : Récupérer le full_name des signaux contrôlant l'activation du trigger (signaux reliés aux premières portes AND du trigger, càd à son front-end)
-                # TODO : pour chaque porte front-end du trigger récupérer le full_name de chaque source
                 trig_list = @ht.get_triggers 
                 trig_list.length.times do |i|
                     if i.even?
@@ -42,10 +55,6 @@ module Netlist
             local_exp = to_global_exp(local_exp)
 
             return local_exp
-                # TODO : Pour chaque full_name du front-end récupérés au préalable 
-                    # TODO : Remonter jusqu'aux entrées globales liées et enregistrer les portes rencontrées sur le chemin dans l'ordre
-                    # TODO : A partir de ces portes mémorisées, reconstituer l'expression globale de ces signaux
-                # TODO : Remplacer les noms (full_name) dans l'expression locale par l'expression globale de chaque signaux
         end
 
         def to_global_exp local_exp
@@ -110,7 +119,7 @@ module Netlist
             end
             
             # * : Following each path
-            @netlist.get_inputs.each do |global_input|
+            @netlist.get_inputs.shuffle.each do |global_input|
                 global_input.get_sinks.each do |sink| 
                     visit_netlist sink.partof, 1
                 end 
@@ -163,17 +172,49 @@ module Netlist
                 else
                     @ht = Netlist::Xor_And.new(nb_trigger_sig)
                 end
+            when "cotd_s38417"
+                @ht = Netlist::Cotd_s38417.new
             else 
                 raise "Error : Unknown HT type #{type}. Please verify syntax."
             end
 
         end
 
-        def select_location location
+        def select_location location, nb_trigger_sig
             case location
             when "random"
-                stage = @inverted_stages.keys[2...-1].sample
-                return @inverted_stages[stage].sample.get_outputs.sample, stage
+                # nb_available_sig = @netlist.get_inputs.length
+                nb_available_sig = 0
+                stage_min = 0
+                # Fix a minimum stage with enough internal signals to 
+                @inverted_stages.keys[0..].sort.each do |stage|
+                    nb_available_sig += @inverted_stages[stage].length
+                    if nb_available_sig > nb_trigger_sig
+                        stage_min = stage
+                        break
+                    end
+                end
+
+                stage = @inverted_stages.keys[stage_min..].sample
+                 
+                if @inverted_stages[stage].nil? 
+                    raise "Error: Attribute valued nil\n -> @inverted_stages : #{@inverted_stages.nil?} @stages : #{@stages.nil?} @stages[stage] : #{@stages[stage]} stage : #{stage} stage_min : #{stage_min} stage_max : #{@inverted_stages.keys.max}"
+                end
+                ret = @inverted_stages[stage].sample
+                # if ret.class == Port
+                #     if ret.is_global? and ret.is_input?
+                #         raise "Error: HT won't be inserted on a primary input."
+                #     end
+                # end
+
+                if ret.get_output.get_sinks.empty? # ! DEBUG
+                    if !@netlist.components.include? ret
+                        puts "Unknown component, not found in the netlist"
+                    end
+                    raise "Error : selected insertion location has no sinks.\n -> #{ret.get_output.get_full_name}"
+                end
+
+                return ret.get_output, stage
             else
                 raise "Error : Unknown location type #{location}. Please verify syntax."
             end
@@ -182,7 +223,7 @@ module Netlist
         def select_triggers_sig n, max_stage
             
             # * : Constituting a pool of sources (Port instead of Circuit class objects) in which we can pick.  
-            pool = {}
+            pool = {-1 => @netlist.get_inputs}
             @inverted_stages.keys.each do |stage|
                 @inverted_stages[stage].each do |comp|
                     if comp.is_a? Netlist::Circuit
@@ -206,34 +247,50 @@ module Netlist
             # * : Then it is possible to pick in and modify the pool regarding evolving constraints. 
             selected_signals = []
             n.times do |nth|
-                stage = pool.keys[0...max_stage].sample
-                selected = pool[stage].delete(pool[stage].sample)
+                stage = pool.keys.sort[0..max_stage].sample
+                # if pool[stage].nil? # ! DEBUG
+                #     raise "ICI -------\n -> #{max_stage} #{n}" 
+                # end
+                if pool[stage].nil?
+                    raise "stage : #{stage} max_stage : #{max_stage} nb_stage : #{@stages.keys.length} nb_comp_avail : #{@stages.values.length} n : #{nth}"
+                end
+
+                selected = pool[stage].sample
+                pool[stage] -= [selected]
                 selected_signals << selected
+                # puts selected_signals.last.get_full_name # !DEBUG!
                 if pool[stage].empty?
                     pool.delete stage
                     max_stage = max_stage - 1
                 end
+                # if pool.empty?
+                #     break
+                # end
             end
-           
+
             return selected_signals
         end
 
         def insert
-            loc, max_stage = select_location "random"
+            loc, max_stage = select_location("random", @ht.get_triggers_nb)
 
             # * : Payload insertion (removing old links and creating new ones)
+            # puts "location no sinks ? : #{loc.get_sinks.empty?}"
+            # puts loc.get_full_name
+            # puts @netlist.components.include? loc.partof
+            # puts loc.partof.get_inputs[0].get_source.get_full_name
+
             loc.get_sinks.each{ |sink|
                 sink.unplug sink.get_source.name
                 sink <= @ht.get_payload_out
             }
             @ht.get_payload_in <= loc
-            loc = nil # Free space
 
             trig = select_triggers_sig(@ht.get_triggers_nb, max_stage)
 
             # * : Linking triggers slot to selected triggers signals (already existing in the authentic circuit).
-            trig.zip(@ht.get_triggers).each { |pair|
-                pair[1] <= pair[0]
+            trig.zip(@ht.get_triggers).each { |output, input|
+                input <= output
             }
 
             # * : Adding components added to the netlists components list (used for printing and format conversions).
@@ -241,9 +298,13 @@ module Netlist
                 @netlist << comp
             end
 
+            # @ht.get_triggers.each{|e| puts e.get_source.nil?}
+            # raise "stop"
             # * : Verification and printing informations 
+            @location = max_stage
+
             if @ht.is_inserted?
-                puts "HT inserted : \n\t- Payload : #{@ht.get_payload_in.partof.name}\n\t- Trigger type : #{@ht.get_payload_in.partof.get_inputs[1].get_source.partof.name} \n\t- Number of trigger signals : #{@ht.get_triggers_nb}\n\t- Stage : #{@stages[@ht.get_payload_in.get_source.partof]}"
+                puts "HT inserted : \n\t- Payload : #{@ht.get_payload_in.partof.name}\n\t- Trigger type : #{@ht.get_payload_in.partof.get_inputs[1].get_source.partof.name} \n\t- Number of trigger signals : #{@ht.get_triggers_nb}\n\t- Stage : #{max_stage}"
                 return @netlist
             else 
                 raise "Error : internal fault. Ht not correctly inserted."
@@ -251,7 +312,7 @@ module Netlist
         end
 
         def get_ht_stage 
-            return @stages[@ht.get_payload_in.get_source.partof]
+            return @location
         end
 
     end
