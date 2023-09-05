@@ -272,21 +272,33 @@ module VCD
 
             disp_index = {}
             mean.keys.each do |tau|
-                disp_index[tau] = mean[tau] / variance[tau]
+                disp_index[tau] = variance[tau] / mean[tau]
             end
 
             # * : Selected best 'tau' value is the one which has the highest disp_index  
-            best_tau = disp_index.key(disp_index.values.max)
+            # ! : comparison of Float wit NaN sometimes, Infinity values appears, check for another measurement instead of dispersion index (problem to have mean over variance is wide spreading values, sometimes really high ones)
+            best_tau = closest(disp_index, 0).last
+            # best_tau = disp_index.key(disp_index.values.min)
 
             # * Return a correlation score, here it is the mean of cross_correlation of each signal 
             corr_score = 0
             corr_by_sig[best_tau].keys.each do |sig|
                 corr_score += corr_by_sig[best_tau][sig]
             end
-            corr_score = ((corr_score / corr_by_sig[best_tau].keys.length) / a.values.first.length.to_f).round(3)
+            corr_score = ((corr_score / corr_by_sig[best_tau].keys.length) / a.values.first.length.to_f).floor(4)
 
             return corr_score
         end 
+
+        def closest h, target
+            # * : Return the minimum value with the index associated
+            dist = []
+            h.values.each do |e|
+                dist << (e - target).abs    
+            end
+            min_dist_index = dist.each_with_index.min.last
+            return h.values[min_dist_index], h.keys[min_dist_index]
+        end
 
         def get_diff_cycle_num trace_a, trace_b
             res = []

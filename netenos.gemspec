@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.files += Dir['[A-Z]*']
   # spec.require_paths = ['Hyle']
   spec.add_runtime_dependency 'Hyle', '~> 0.1.0'
+  spec.add_runtime_dependency 'oj'
   # spec.add_development_dependency 'Hyle'
 end
   

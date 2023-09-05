@@ -25,6 +25,7 @@ module Netlist
             @available_sources = {} # Contains available sources for each layer
             @already_used_sources = {} # Contains already used sources for each layer
             @sources_usage_count = {} # Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
+            @available_primary_output_sources = {}
         end
 
         def getRandomNetlist name = "rand_#{self.object_id}"
@@ -70,77 +71,133 @@ module Netlist
 
         # **** Components Wiring ****
 
+        # * : Wire the given sink to a randomly selected source located at a lower layer (than the given one)
         def wire_to_random_source sink, layer_max = @grid.length+1
-            
+            # * : Select all lower layers than the sink's one (layer_max)
             autorized_layers = @available_sources.keys.select{|layer| layer <= layer_max}
 
-            if !@available_sources.empty? and !autorized_layers.empty?
+            # * : Verify if the sink to wire is a primary output
+            if sink.is_global? and sink.is_output?
+            # TODO : Select a source in sources not already plugged to primary output
+                autorized_layers = @available_primary_output_sources.keys.select{|layer| layer <= layer_max}
+                if !@available_primary_output_sources.empty?
+                    selected_layer = autorized_layers[-1]
+                    selected_source = @available_primary_output_sources[selected_layer].sample
+                else
+                    raise "Error : Internal error encountered. Situation not yet handled, you can try changing netlist generation parameters."
+                end
+            # TODO : If none available (very low probability) then delete the output (at first sight, the best option)
+                sink <= selected_source
+                # * : Update variables
+                # @available_primary_output_sources[selected_layer].delete(selected_source)
+                @available_primary_output_sources[selected_layer].filter!{|source| source != selected_source}
+
+                if @available_primary_output_sources[selected_layer].empty?
+                    @available_primary_output_sources.delete selected_layer
+                end
+            # * : If there is not available sources (not used at all sources) at a lower layer
+            elsif !@available_sources.empty? and !autorized_layers.empty?
+                # * : Select an available source to be wired
                 selected_layer = autorized_layers.sample
                 selected_source = @available_sources[selected_layer].sample
                 
                 sink <= selected_source
+                # * : Update variables 
                 if @available_sources[selected_layer].length > 1
+                    # * : Delete the source wired from the available sources 
                     @available_sources[selected_layer].filter!{|source| source != selected_source}
                     @sources_usage_count[selected_source] = 1
+                    # * : Register the source as an @already_used_source 
                     if @already_used_sources.keys.include? selected_layer 
                         @already_used_sources[selected_layer] << selected_source
                     else 
                         @already_used_sources[selected_layer] = [selected_source]
                     end 
-                else
+                end
+
+                if @available_sources[selected_layer].empty?
+                    # * : If the layer is empty, clean it
                     @available_sources.delete selected_layer
                 end
             else
+                # * : Select a source already used respecting the layer_max constraint
                 autorized_layers = @already_used_sources.keys.select{|layer| layer <= layer_max}
                 selected_layer = autorized_layers.sample
                 selected_source = @already_used_sources[selected_layer].sample
 
                 sink <= selected_source
-
+                # * : Update the variables
                 @sources_usage_count[selected_source] += 1
             end
         end
 
+        # * : Fill the @available_sources variable
         def fill_state_variables
             curr_layer = 0
             @available_sources[curr_layer] = []
+
+            # * : For each primary input
             @netlist.get_inputs.each do |primary_input|
+                # * : Register the primary input as an available source
                 @available_sources[curr_layer] << primary_input
                 @sources_usage_count[primary_input] = 0
             end
 
+            # * : For each layer of the grid
             @grid.length.times do |layer|
+                # * : Use an offset cayse level 0 is for primary inputs
+                # * : Register each component output as an available source
                 @available_sources[layer+1] = []
+                @available_primary_output_sources[layer+1] = []
                 @grid[layer].each do |comp|  
                     comp.get_outputs.each do |comp_out|
                         @available_sources[layer+1] << comp_out
+                        @available_primary_output_sources[layer+1] << comp_out
                         @sources_usage_count[comp_out] = 0
                     end 
                 end
             end
         end
 
-        # Wire each sink to each source by layer
-
+        # * : Wire each sink to each source by layer
         def wire_all_sources
+            # * : For each layer in the grid
             @grid.length.times do |layer|
+                # * : For each component of a layer
                 @grid[layer].each do |comp|
+                    # * : For each input the this component
                     comp.get_inputs.each do |sink|
+                        # * : Wire the input(sink) with a randomly selected source (located at a lower layer )
                         wire_to_random_source sink, layer
                     end
                 end 
             end
 
+            # * : For each primary output 
             @netlist.get_outputs.each do |primary_output|
+                # * : Wire it to a randomly selected source
                 wire_to_random_source primary_output
+            end
+
+            @netlist.components.each do |comp|
+                o = comp.get_free_output
+                if o.nil?
+                    next
+                else
+                    nth = @netlist.ports[:out].length
+                    @netlist << Netlist::Port.new("o#{nth}", :out)
+                    @netlist.ports[:out][-1] <= o
+                end
             end
         end
 
-        ## ! WIP code, to be considered not functionnal
+ 
 
         def getNetlistInformations
             return @netlist.get_inputs.length, @netlist.get_outputs.length, @netlist.components.length, @netlist.crit_path_length    
         end
+
+        ## ! WIP code, to be considered not functionnal
 
         def scan_netlist
             # * : Inputs scanned first 

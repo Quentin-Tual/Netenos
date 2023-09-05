@@ -10,7 +10,7 @@ module Netlist
             ios circuit.ports
             wiring circuit
             circuit.components.each{|comp| comp_wiring comp }
-            foot circuit.name, path
+            return foot circuit.name, path
         end
 
         def head name
@@ -84,8 +84,10 @@ module Netlist
             # puts code.finalize # Debug print
             if path != []
                 code.save_as "#{path[0]}", verbose=true
+                return "#{path[0]}"
             else
                 code.save_as "#{circuit_name}.dot",verbose=true
+                return "#{circuit_name}.dot"
             end
         end
     end

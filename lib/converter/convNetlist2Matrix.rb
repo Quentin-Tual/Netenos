@@ -9,6 +9,7 @@ module Netlist
             @netlist = netlist
             @id_tab = {}
             @matrix = [] # * : Will be a 2dim array accessed as @matrix[source_index][sink_index]. Represents a directed acyclic graph.  
+            @list = []
             @index = 0
             @wires = {}
         end
@@ -64,7 +65,34 @@ module Netlist
             end
 
             sink_ids.each do |sink_id| 
-                @matrix[@id_tab[source_name]][sink_id] = 1
+                @matrix[@id_tab[source_name]][sink_id] = getGateType(sink_id)
+            end
+        end
+
+        def getGateType sink_full_name
+            if sink_full_name.split('_').length == 1
+                # * : It is a primary input/output name
+                return 1
+            else
+                # * : It is a component port name
+                case @netlist.get_component_named(sink_full_name.split('_')[0])
+                when And2
+                    return 2
+                when Or2
+                    return 3
+                when Nand2
+                    return 4
+                when Nor2
+                    return 5
+                when Xor2
+                    return 6
+                when Not
+                    return 7
+                when Wire
+                    raise "Error : Impossible state reached. Internal Error."
+                else
+                    raise "Error : Unknown gate type uncountered during netlist conversion to a matrix."
+                end
             end
         end
 
@@ -74,7 +102,7 @@ module Netlist
                     if sink.is_wire?
                         convWire(sink.get_full_name, ginp.name)
                     else
-                        @matrix[@id_tab[ginp.name]][@id_tab[sink.get_full_name.split('_')[0]]] = 1
+                        @matrix[@id_tab[ginp.name]][@id_tab[sink.get_full_name.split('_')[0]]] = getGateType(sink.get_full_name)
                     end
                 end
             end
@@ -87,7 +115,7 @@ module Netlist
                         if sink.is_wire?
                             convWire(sink.get_full_name, comp.name)
                         else
-                            @matrix[@id_tab[comp.name]][@id_tab[sink.get_full_name.split('_')[0]]] = 1
+                            @matrix[@id_tab[comp.name]][@id_tab[sink.get_full_name.split('_')[0]]] = getGateType(sink.get_full_name)
                         end
                     end
                 end
@@ -99,7 +127,29 @@ module Netlist
             convComponents
             return @matrix
         end
+        
+        def getAdjList
+            if @list.empty?
+                scanNetlist
+                convNetlist 
+                
+                @matrix.length.times do |row_i|
+                    @matrix.length.times do |col_j|
+                        if @matrix[row_i][col_j] == 0
+                            next
+                        else
+                            @list << [row_i,col_j,@matrix[row_i][col_j]]
+                        end
+                    end
+                end 
+            end
 
+            return @list
+        end
+
+        def get_id_for_signame sig_name
+            return @id_tab[sig_name]
+        end
     end
 
 end

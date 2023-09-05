@@ -54,7 +54,7 @@ module VCD
                     # if tmp.length == 1
                     if @id_tab.keys.collect{|id| tmp.include?("#{id}\n")}.include?(true)
                         tmp = tmp.chars
-                        @output_traces[@current_timestamp][tmp[1]] = tmp[0]
+                        @output_traces[@current_timestamp][@id_tab[tmp[1]]] = tmp[0]
                     end
                     # elsif tmp.length == 2 # ! Not sure it happens anytime with the generated testbenches
                     #     @output_traces[@current_timestamp][tmp[1]] = tmp[0]

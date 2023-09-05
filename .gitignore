@@ -4,3 +4,4 @@ git-story_media/
 .vscode
 tests/test_exp*.rb
 exp*/
+*.tmp
