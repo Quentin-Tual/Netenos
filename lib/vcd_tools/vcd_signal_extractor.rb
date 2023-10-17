@@ -73,7 +73,7 @@ module VCD
             # * : Returns the clock period for the given vcd file 
             # TODO : Find 'clk' VCD_ID in declarations section
                 # TODO : Go to line 17 -> recover the ID
-            id = @vcd[16].split[3]
+            id = @vcd[17].split[3]
 
             bounds = []
 
@@ -92,7 +92,7 @@ module VCD
             # TODO : Reuse the line splitted version of the file
             @vcd[events_line..].each do |line|
                 if bounds.length == 2
-                    # TODO : Compute the clk periof as 2x the second timestamp value
+                    # TODO : Compute the clk period as 2x the second timestamp value
                     return bounds[1]*2
                 elsif line[0]=='#'
                     # TODO : Memorize the last encountered timestamp (0 as the first) 

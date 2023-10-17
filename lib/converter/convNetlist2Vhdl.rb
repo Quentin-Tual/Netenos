@@ -23,9 +23,10 @@ module Netlist
             puts "[+] generating VHDL gtech "
             $GTECH.each do |circuit_klass|
                 circuit_name= circuit_klass.to_s.split('::').last.downcase.concat("_d")
-                case circuit_klass
-                when Not
-                    func_code="o0 <= not i0 after delay"
+                case circuit_name
+                when "not_d"
+                    circuit_instance=circuit_klass.new("test")
+                    func_code="o0 <= not i0 after delay;"
                 # when Dff
                 #     func_code=Code.new
                 #     func_code << "process(clk)"
@@ -116,7 +117,17 @@ module Netlist
             code.indent=2
             @sig_tab = {}
             sources=(circuit.get_inputs + circuit.components.map{|comp| comp.get_outputs}).flatten
-            signals=circuit.components.collect{|comp| comp.get_outputs}.flatten # TODO : This line gets the wire cause each link is a wire in this netlist -> see how to make it with netenos netlist
+            # wires = circuit.wires.collect{|wire| wire.get_full_name}.flatten
+            # wires.each do |wire|
+            #     code << "signal #{wire} : std_logic;"
+            # end
+            signals=circuit.components.collect{|comp| 
+                if comp.get_output.get_sinks[0].class == Wire
+                    comp.get_output.get_sinks[0]
+                else
+                    comp.get_outputs
+                end
+            }.flatten # TODO : This line gets the wire cause each link is a wire in this netlist -> see how to make it with netenos netlist
             signals.each do |sig|
                 code << "signal #{sig.get_full_name} : std_logic;"
             end
@@ -152,7 +163,11 @@ module Netlist
                 end
                 comp.get_outputs.each do |output|
                     # wire=output.fanout.first
-                    code << "#{output.name} => #{output.get_full_name},"
+                    if output.get_sinks[0].class == Wire
+                        code << "#{output.name} => #{output.get_sinks[0].get_full_name},"
+                    else
+                        code << "#{output.name} => #{output.get_full_name},"
+                    end
                 end
                 code.lines[-1].delete_suffix!(",")
                 code.indent=4

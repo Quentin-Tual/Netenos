@@ -1,11 +1,12 @@
 module Netlist
     class Wire
-        attr_accessor :name, :fanin, :fanout
+        attr_accessor :name, :fanin, :fanout, :partof
 
         def initialize name
             @name = name
             @fanin = nil # Always only one source to the input 
             @fanout = []
+            @partof = nil
         end
 
         def <= source 

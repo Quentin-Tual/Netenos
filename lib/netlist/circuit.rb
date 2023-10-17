@@ -28,6 +28,10 @@ module Netlist
                     @components << e
                     e.partof = self
 
+                when Wire
+                    @wires << e
+                    e.partof = self
+                
                 else raise "Error : Unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
             end
         end

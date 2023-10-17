@@ -65,7 +65,7 @@ module Netlist
                 w_name = "w_#{declaration.name.name}"
                 wire = Wire.new w_name
                 @wire_table[w_name] = wire
-                @netlist.wires << wire
+                @netlist << wire
             }
         end
 

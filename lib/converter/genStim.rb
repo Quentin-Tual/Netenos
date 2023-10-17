@@ -62,6 +62,40 @@ module Netlist
             return @stim
         end
 
+        # TODO : WIP
+        def gen_sig_hammer_stim nb_cycle
+            gen_random_stim nb_cycle
+
+            sigHammer_stim = {}
+
+            @stim.first[1].length.times do |n|
+                @stim.keys.each do |varying_in|
+                    @stim.keys.each do |prim_in|
+                        if sigHammer_stim[prim_in].nil?
+                            sigHammer_stim[prim_in] = [@stim[prim_in][n]]
+                        else
+                            sigHammer_stim[prim_in] << @stim[prim_in][n]
+                        end
+                    end
+
+                    @stim.keys.each do |prim_in|
+                        if prim_in == varying_in
+                            3.times do |i|
+                                sigHammer_stim[prim_in] << (sigHammer_stim[prim_in][-1] == "0" ? "1" : "0")
+                            end
+                        else
+                            3.times do |i|
+                                sigHammer_stim[prim_in] << @stim[prim_in][n]
+                            end
+                        end
+                    end
+                end
+            end
+
+            @stim = sigHammer_stim
+            return @stim
+        end
+
         def verify_ht_activation trig_cond
             # TODO : Iterate on the expression and stack the result obtained with different operations on generated entry values  
 

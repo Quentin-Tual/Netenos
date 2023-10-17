@@ -42,7 +42,7 @@ module Netlist
             end
 
             # * : Load the template and bind computed values to it
-            @engine = ERB.new(IO.read "../lib/converter/tb_template2.vhdl") # tb_template2 is used to only observe, inputs stimulis are entered at nominal frequency. 
+            @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) # tb_template2 is used to only observe, inputs stimulis are entered at nominal frequency. 
 
             return @engine.result(binding)
         end

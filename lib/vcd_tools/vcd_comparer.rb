@@ -340,39 +340,48 @@ module VCD
             return trace_a
         end
 
-        def trace_to_list trace, clk_period
+        def trace_to_list trace, clk_period, freq_mult
             # * : Return a list of values for each cycle in the trace and for each signal observed (outputs)
             list_trace = {}
             last_timestamp = {}
             timestamp_sorted_list = trace["output_traces"].keys.collect{|timestamp| timestamp.to_i}.sort
 
+            # * Iterate over event list
             timestamp_sorted_list.each do |timestamp|
+                # * Iterate over different primary outputs
                 trace["output_traces"][timestamp.to_s].keys.each do |sig|
-                    if last_timestamp[sig].nil?
-                        last_timestamp[sig] = 0
-                    end
+                    # * First event on this output
+                    # if last_timestamp[sig].nil?
+                    #     last_timestamp[sig] = 0
+                    # end
 
+                    # * Initial state then nothing to do
                     if timestamp == 0
+                        last_timestamp[sig] = timestamp
                         next
                     end
                     
-                    nb_cycles = ((timestamp - last_timestamp[sig])/clk_period).floor.to_i   
+                    # * Compute the number of cycles the value last on primary output 
+                    nb_cycles = ((timestamp - last_timestamp[sig])/clk_period).floor.to_i
 
+                    # * : If first values then store in a new array
                     if list_trace[sig].nil?
                         list_trace[sig] = Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
-                    else
+                    else # * : Else store in the array already created
                         list_trace[sig].concat Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
                     end
 
+                    # * : Value verification
                     if trace['output_traces'][last_timestamp[sig].to_s][sig].nil?
                         raise "Error : Corresponding value not found in traces"
                     end
 
+                    # * : Go to next event
                     last_timestamp[sig] = timestamp
                 end
             end 
 
-            # Récupérer le dernier timestamp de toute la 
+            # Récupérer le dernier timestamp de toute la trace
             trace_end = last_timestamp.values.max
             list_trace.keys.each do |sig|
                 nb_cycles = (trace_end - last_timestamp[sig]) / clk_period

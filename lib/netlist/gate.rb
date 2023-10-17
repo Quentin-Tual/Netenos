@@ -69,7 +69,7 @@ module Netlist
             @ports.each_value{|p| p[0].partof = self}
             @partof = partof
             @components = []
-            @propag_time = {:one => 1.0, :int => 1.0, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
+            @propag_time = {:one => 1, :int => 1.0, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
         end
 
         def <<(e)
