@@ -201,10 +201,10 @@ module VCD
             (a^b).to_s(2).count("1")
         end
 
-        def intercorrelation a, b
+        def intercorrelation a, b, max_tau = a.keys.length
             corr_by_sig = {}
 
-            a.values.first.length.times do |tau|
+            max_tau.times do |tau|
                 corr_by_sig[tau] = {}
                 a.keys.length.times do |sig_index|
                     sig = a.keys[sig_index]
@@ -224,12 +224,15 @@ module VCD
                         # end
 
                         # corr_by_sig[sig][tau] += val_a * val_b
-
+                        
+                        # * : Initialization 
                         if corr_by_sig[tau][sig].nil?
                             corr_by_sig[tau][sig] = 0
                         end
                         
-                        if val_a == val_b
+                        if val_b.nil?   # * : Unbiased thanks to this 
+                            next        # * : A nil value (or inexistant for example cause non-cyclic correlation here)  won't affect the final correlation score 
+                        elsif val_a == val_b
                             corr_by_sig[tau][sig] += 1
                         else
                             corr_by_sig[tau][sig] += -1
@@ -250,18 +253,25 @@ module VCD
                 # Calcul de la moyenne
                 corr_by_sig[tau].keys.each do |sig|
                 # * : Compute the mean cross correlation of signals for a fixes 'tau' value 
-                    acc += corr_by_sig[tau][sig] 
+                    # * : No absolute value here to avoid false negative with a inverting payload activated
+                    acc += corr_by_sig[tau][sig]
                     nb_val += 1
                 # * : Compute variance of these cross correlations (for every signals) with a fixed 'tau' value 
-                # * : Compute the "inverted" dispersion (density ?) of these values (mean/variance)  and associate it to corresponding 'tau' value in a hash structure.
+                # * : Compute the "inverted" dispersion (density ?) of these values (mean/variance) and associate it to corresponding 'tau' value in a hash structure.
                 end
-                mean[tau] = acc / nb_val
+                if nb_val == 0
+                    raise "Division by 0 !"
+                end 
+                # ? : Intercorrélation biaisée ici, peut-être mieux en non biaisée !
+                # ? : Apply the absolute value before using it ? Allow to detect inverted pattern like a not gate in some cases !
+                mean[tau] = acc / nb_val # ! Random Issue : divided by zero
+               
 
                 # Calcul de la variance
                 acc = 0
                 nb_val = 0
                 corr_by_sig[tau].keys.each do |sig|
-                    # * : Compute the mean cross correlation of signals for a fixed 'tau' value  
+                    # * : Compute the mean cross correlation of signals for a fixed 'tau' value
                         acc += (corr_by_sig[tau][sig] - mean[tau])**2
                         nb_val += 1
                     # * : Compute variance of these correlations (for every signals) with a fixed 'tau'
@@ -276,7 +286,6 @@ module VCD
             end
 
             # * : Selected best 'tau' value is the one which has the highest disp_index  
-            # ! : comparison of Float wit NaN sometimes, Infinity values appears, check for another measurement instead of dispersion index (problem to have mean over variance is wide spreading values, sometimes really high ones)
             best_tau = closest(disp_index, 0).last
             # best_tau = disp_index.key(disp_index.values.min)
 
@@ -340,7 +349,7 @@ module VCD
             return trace_a
         end
 
-        def trace_to_list trace, clk_period, freq_mult
+        def trace_to_list trace, clk_period
             # * : Return a list of values for each cycle in the trace and for each signal observed (outputs)
             list_trace = {}
             last_timestamp = {}
@@ -354,21 +363,41 @@ module VCD
                     # if last_timestamp[sig].nil?
                     #     last_timestamp[sig] = 0
                     # end
+                    if sig.nil? 
+                        raise "Error : Nil signal name encountered"
+                    end
+
+                    if (timestamp % clk_period) != 0
+                        raise "Asynchronous transition detected on a synchronous signal \n -> timestamp = #{timestamp}; clk_period = #{clk_period}; modulo : #{timestamp % clk_period}; signal : #{sig}"
+                    end
 
                     # * Initial state then nothing to do
                     if timestamp == 0
                         last_timestamp[sig] = timestamp
                         next
+                    # elsif timestamp <= clk_period
+                    #     list_trace[sig] = Array.new(1, trace['output_traces'][last_timestamp[sig].to_s][sig])
+                    #     last_timestamp[sig] = timestamp
+                    #     next
                     end
                     
                     # * Compute the number of cycles the value last on primary output 
                     nb_cycles = ((timestamp - last_timestamp[sig])/clk_period).floor.to_i
+                    # puts nb_cycles
 
                     # * : If first values then store in a new array
                     if list_trace[sig].nil?
+                        # if nb_cycles == 0
+                        #     nb_cycles = 1 
+                        # end
                         list_trace[sig] = Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
                     else # * : Else store in the array already created
                         list_trace[sig].concat Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
+                    end
+
+                    if list_trace.first[1].empty? # ! : DEBUG
+                        puts "ici : #{sig} #{timestamp} #{clk_period}"
+                        puts
                     end
 
                     # * : Value verification
@@ -377,13 +406,19 @@ module VCD
                     end
 
                     # * : Go to next event
-                    last_timestamp[sig] = timestamp
+                    # if nb_cycles > 0
+
+                        last_timestamp[sig] = timestamp
+                    # end
                 end
             end 
 
             # Récupérer le dernier timestamp de toute la trace
             trace_end = last_timestamp.values.max
             list_trace.keys.each do |sig|
+                if sig.nil?
+                    raise "Error : Nil signal name encountered"
+                end
                 nb_cycles = (trace_end - last_timestamp[sig]) / clk_period
                 if list_trace[sig].nil?
                     list_trace[sig] = Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
@@ -398,6 +433,9 @@ module VCD
             #         list_trace[sig].delete_at 0
             #     end
             # end
+            if list_trace.keys.include? nil
+                raise "Error : Nil signal name encountered"
+            end
 
             return list_trace
         end

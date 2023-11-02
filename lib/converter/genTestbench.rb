@@ -10,7 +10,6 @@ module Netlist
             @netlist_data = data_extraction(netlist)
             @tb_src = Code.new
             @portmap = ""
-            
         end
 
         def data_extraction netlist
@@ -27,7 +26,7 @@ module Netlist
             return ret
         end
 
-        def gen_testbench stim_type = :random, freq = 1, nb_cycle = 20
+        def gen_testbench stim_type = :random, freq = 1, circ_name = "circ", nb_cycle = 20
             # * : Generates a VHDL testbench in text format based on a ERB template stored in the project. The option stim is used to indicates if we want stimuli in it or not, the type of stimuli are indicated (random). Frequency at which the circuit will be stimulated can also be specified in args as a multipler of the critical path length.  
             @freq = freq
 
@@ -40,17 +39,22 @@ module Netlist
             else
                 @stimuli = ""
             end
-
             # * : Load the template and bind computed values to it
             @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) # tb_template2 is used to only observe, inputs stimulis are entered at nominal frequency. 
+            
+            src = @engine.result(binding)
 
-            return @engine.result(binding)
+            filename = "./#{circ_name}_#{freq.to_s.split('.').join}_tb.vhd"
+            File.open(filename,'w'){|f| f.puts(src)}
+            puts " |--[+] generated '#{filename}'"
+
+            return src # ! legacy but not necessary, src generated already stored in a file  
         end
 
         def gen_arch_body_uut_portmap
             # * : Generates uut instantiation and port map 
             @portmap = ""
-            @portmap.concat "       nom_clk,\n"
+            # @portmap.concat "       nom_clk,\n"
             @netlist_data[:ports][:in].each {|pname|    
                 @portmap.concat "       tb_#{pname}"
                 @portmap.concat ", \n"

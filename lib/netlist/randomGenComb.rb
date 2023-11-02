@@ -36,7 +36,7 @@ module Netlist
             fill_state_variables
             wire_all_sources
 
-            @netlist.crit_path_length = grid.length
+            @netlist.crit_path_length = @grid.length
 
             return @netlist
         end

@@ -58,7 +58,6 @@ module Netlist
                     end
                 end
             end
-            puts
             return @stim
         end
 

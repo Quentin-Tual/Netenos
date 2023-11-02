@@ -14,7 +14,7 @@ module Netlist
         end
 
         def head name
-            @code << "# Test"
+            # @code << "# Test"
             @code << "digraph #{name} {"
             @code.indent=2
             @code << "graph [rankdir = LR];"
@@ -83,10 +83,12 @@ module Netlist
             code << "}"
             # puts code.finalize # Debug print
             if path != []
-                code.save_as "#{path[0]}", verbose=true
+                code.save_as "#{path[0]}",false,true
+                puts "[+] Schematic generated : \'#{path[0]}\'"
                 return "#{path[0]}"
             else
-                code.save_as "#{circuit_name}.dot",verbose=true
+                code.save_as "#{circuit_name}.dot",false,true
+                puts "[+] Schematic generated : \'#{circuit_name}.dot\'"
                 return "#{circuit_name}.dot"
             end
         end

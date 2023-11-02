@@ -27,7 +27,7 @@ module Netlist
             if @fanin.nil?
                 @fanin = source
             else
-                raise "Error : Interface #{self.get_full_name} already has a source, please verify."
+                raise "Error : Interface #{self.get_full_name} of #{self.partof.name} already has a source, please verify."
             end
         end
 

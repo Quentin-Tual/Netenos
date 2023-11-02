@@ -100,8 +100,22 @@ module Netlist
             return nil
         end
 
+        def save_as path
+            if !path.nil?
+                if path[-1] == "/"  
+                    sep = ""
+                else
+                    sep = "/"
+                end
+            else 
+                sep = ""
+            end
+            File.write("#{path}#{sep}#{@name}.enl", Marshal.dump(self))
+        end
+
         def contains_registers?
             return components.collect{|comp| comp.is_a? Netlist::Register}.include?(true)
         end
+
     end
 end

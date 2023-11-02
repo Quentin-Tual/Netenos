@@ -5,3 +5,4 @@ git-story_media/
 tests/test_exp*.rb
 exp*/
 *.tmp
+lib/experiment*

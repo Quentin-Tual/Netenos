@@ -14,11 +14,11 @@ module VCD
         end
 
         # * : Start the extraction, kind of the FSM controler
-        def extract
+        def extract compiler
             if @vcd.nil?
                 raise "Error : A VCD file must be loaded with 'load_vcd()' first."
             end
-            traces_definition
+            traces_definition compiler
             selected_traces_extraction
             return {    "output_traces" => @output_traces, 
                         "id_tab" => @id_tab }
@@ -26,12 +26,13 @@ module VCD
 
         # * : Defines traces to follow and their identifier in the vcd file (header data extraction)
         # ? : Renommer en get_ids ou id_extraction ou extract_definitions 
-        def traces_definition
+        def traces_definition compiler
             @vcd.shift(8)
             tmp = next_output
+            data_type = (compiler == :nvc) ? "logic" : "reg";
 
             until tmp == "$enddefinitions $end" 
-                if tmp.match?(/\$var reg [0-9]+ .+ tb_o[0-9]+_s .+/) # ! : Not really optimized, certainly could be improved
+                if tmp.match?(/\$var #{data_type} [0-9]+ .+ tb_o[0-9]+_s .+/) # ! : Not really optimized, certainly could be improved
                     tmp = tmp.split
                     @id_tab[tmp[3]] = tmp[4] # * : The original signal name (tmp[4]) is associated to VCD ID (tmp[3]).
                     # @output_traces[tmp[3]] = {} # * : Hash initialization allowing to add timestamp/value pairs later 
@@ -45,16 +46,22 @@ module VCD
             # * Only keeps the output signals
             tmp = next_output
             until tmp.nil?
-                if tmp.match?(/\A#\d+/) # * : new timestamp detected, update it
+                if tmp[0] == '#' # * : new timestamp detected, update it
                     update_timestamp tmp.delete_prefix("#")
                 # * : Unexpected syntax are covered by the raise in the next conditionnal branchement
                 else
                     tmp.concat("\n")
                     # tmp.map!{|e| e.concat "\n"}
                     # if tmp.length == 1
-                    if @id_tab.keys.collect{|id| tmp.include?("#{id}\n")}.include?(true)
-                        tmp = tmp.chars
-                        @output_traces[@current_timestamp][@id_tab[tmp[1]]] = tmp[0]
+                    id = @id_tab.keys.collect{|id| tmp.include?("#{id}\n") ? id : nil}.compact
+                    if id.length > 0
+                        id = id[0]
+                        # if @id_tab[tmp[1]].nil?
+                        #     puts "here"
+                        # end
+                        # tmp = tmp.chars  # ! Passage en chars problématique si id sur deux caractères
+                        @output_traces[@current_timestamp][@id_tab[id]] = tmp[0]
+
                     end
                     # elsif tmp.length == 2 # ! Not sure it happens anytime with the generated testbenches
                     #     @output_traces[@current_timestamp][tmp[1]] = tmp[0]
@@ -70,10 +77,19 @@ module VCD
         end
 
         def get_clock_period
-            # * : Returns the clock period for the given vcd file 
-            # TODO : Find 'clk' VCD_ID in declarations section
-                # TODO : Go to line 17 -> recover the ID
-            id = @vcd[17].split[3]
+            # * : Returns the OBSERVATION clock period for the given vcd file 
+            # * Find 'obs_clk' VCD_ID in declarations section
+                # * Go to line 18 -> recover the ID, line 18 equals 17th element cause ther is a 0 ranked element in @vcd
+            # id = @vcd[17].split[3]
+            id = nil
+            @vcd.each do |line|
+                if line.split.include? "obs_clk"
+                    id = line.split[3]
+                    break
+                else
+                    next
+                end
+            end
 
             bounds = []
 
@@ -89,19 +105,19 @@ module VCD
 
             last_timestamp = 0
 
-            # TODO : Reuse the line splitted version of the file
-            @vcd[events_line..].each do |line|
+            # * Reuse the line splitted version of the file
+            @vcd[events_line..-1].each do |line|
                 if bounds.length == 2
-                    # TODO : Compute the clk period as 2x the second timestamp value
+                    # * Compute the clk period as 2x the second timestamp value
                     return bounds[1]*2
                 elsif line[0]=='#'
-                    # TODO : Memorize the last encountered timestamp (0 as the first) 
-                    # TODO : When found memorize the timestamp 
+                    # * Memorize the last encountered timestamp (0 as the first) 
+                    # * When found memorize the timestamp 
                     last_timestamp = line.delete_prefix("#")
                 elsif line.include?(id) and (line.length < 3)
-                    # TODO : Check if the ID has an event in this timestamp until it is another timestamp, then update the last uncountered timestamp
+                    # * Check if the ID has an event in this timestamp until it is another timestamp, then update the last uncountered timestamp
                     bounds << last_timestamp.to_i
-                # TODO : When 2 timestamp are found by this way (first should be 0, second is half the period) 
+                # * When 2 timestamp are found by this way (first should be 0, second is half the period) 
                 else
                     next
                 end

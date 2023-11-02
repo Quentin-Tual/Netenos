@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.files += Dir['lib/converter/tb_template2.vhdl']
   # spec.require_paths = ['Hyle']
   spec.add_runtime_dependency 'Hyle', '~> 0.1.0'
-  spec.add_runtime_dependency 'oj'
+  spec.add_runtime_dependency 'oj', '>= 3.0.0'
   # spec.add_development_dependency 'Hyle'
 end
   

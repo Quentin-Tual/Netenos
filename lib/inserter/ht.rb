@@ -41,6 +41,51 @@ module Netlist
         def get_triggers
             return @triggers
         end
+
+        def get_transition_probability curr_gate = @payload_in.partof.get_inputs[1].get_source.partof  
+
+            if @components.include? curr_gate
+                if !curr_gate.is_a? Netlist::Not
+                    return compute_transit_proba(
+                        get_transition_probability(curr_gate.get_inputs[0].get_source.partof),
+                        get_transition_probability(curr_gate.get_inputs[1].get_source.partof),
+                        curr_gate
+                    )
+                else
+                    return compute_transit_proba(
+                        get_transition_probability(curr_gate.get_inputs[0].get_source.partof),
+                        nil,
+                        curr_gate
+                    )
+                end
+            else
+                return 0.5
+            end
+            
+        end
+
+        def compute_transit_proba proba_ix, proba_iy, gate
+            output_transit_proba = 0.0
+
+            case gate
+            when And2
+                output_transit_proba = (1.0 - proba_ix * proba_iy) * (proba_ix * proba_iy)
+            when Or2
+                output_transit_proba = (1.0 - proba_ix) * (1.0 - proba_iy) * (1.0 -((1.0 - proba_ix) * (1.0 - proba_iy)))
+            when Not
+                output_transit_proba = (1.0 - proba_ix) * proba_ix
+            when Nand2
+                output_transit_proba = (proba_ix * proba_iy) * (1.0 - (proba_ix * proba_iy))
+            when Nor2
+                output_transit_proba = (1.0 - (1.0 - proba_ix) * (1.0 - proba_iy)) * (1.0 - proba_ix) * (1.0 - proba_iy)
+            when Xor2
+                output_transit_proba = (1.0 - (proba_ix + proba_iy - 2.0 * proba_ix * proba_iy)) * (proba_ix + proba_iy - 2.0 * proba_ix * proba_iy)
+            else
+                puts "Error : Unknown gate #{gate.name} encountered. Please verify."
+            end
+
+            return output_transit_proba
+        end
         
         def get_components
             return @components

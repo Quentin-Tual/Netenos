@@ -11,7 +11,7 @@ class Code
   def <<(thing)
     if (code=thing).is_a? Code
       code.lines.each do |line|
-        @lines << " "*@indent+line.to_s
+        @lines << "\t"*@indent+line.to_s
       end
     elsif thing.is_a? Array
       thing.each do |kode|
@@ -19,7 +19,7 @@ class Code
       end
     elsif thing.nil?
     else
-      @lines << " "*@indent+thing.to_s
+      @lines << "\t"*@indent+thing.to_s
     end
   end
 
@@ -36,10 +36,15 @@ class Code
     @lines << " "
   end
 
-  def save_as filename,verbose=false,sep="\n"
+  def save_as filename,append=false,verbose=false,sep="\n"
     str=self.finalize
-    File.open(filename,'w'){|f| f.puts(str)}
-    puts "=> code saved as : #{filename}" if verbose
+    if File.exists?(filename) and append
+      File.open(filename, 'a'){|f| f.puts(str)}
+    else
+      File.open(filename,'w'){|f| f.puts(str)}
+    # puts "=> code saved as : #{filename}" if verbose
+    end
+    
     return filename
   end
 

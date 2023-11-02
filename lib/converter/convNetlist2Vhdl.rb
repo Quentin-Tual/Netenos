@@ -1,10 +1,10 @@
-require_relative '../vhdl.rb'
+# require_relative '../vhdl.rb'
 require_relative '../netlist.rb'
 
 module Netlist
 
     class ConvNetlist2Vhdl
-        # * : Convert a Netlsit to a Vhdl not decorated AST.
+        # * : Convert a Netlist to a Vhdl not decorated AST.
         # * : Then it will need to be visited to decorate it and verify its correctness.
         # * : Finally the decorated AST will be ready to be deparsed to recover a VHDL source code file (structural). 
 
@@ -14,13 +14,13 @@ module Netlist
         def initialize netlist = nil
             @netlist = netlist
             @sig_tab = {}
-            @ast = VHDL::AST::Root.new
+            # @ast = VHDL::AST::Root.new
             @timed = false
             @tb = false
         end
 
         def gen_gtech
-            puts "[+] generating VHDL gtech "
+            puts "[+] generating VHDL gtech"
             $GTECH.each do |circuit_klass|
                 circuit_name= circuit_klass.to_s.split('::').last.downcase.concat("_d")
                 case circuit_name
@@ -56,7 +56,7 @@ module Netlist
                 code.newline
                 code << "entity #{circuit_name} is"
                 code.indent=2
-                code << "generic(delay : time := 1 ns);"
+                code << "generic(delay : time := 1 ps);"
                 code << "port("
                 code.indent=4
                 # if circuit_instance.is_a?(Dff)
@@ -91,7 +91,7 @@ module Netlist
             code << "library ieee;"
             code << "use ieee.std_logic_1164.all;"
             code << "use ieee.numeric_std.all;"
-            code
+            return code
         end
     
         def generate circuit, delay_model = :one
@@ -104,7 +104,7 @@ module Netlist
             code.indent=2
             code << "port("
             code.indent=4
-            code << "clk : in  std_logic;"
+            # code << "clk : in  std_logic;"
             circuit.get_inputs.each{|i|  code << "#{i.name} : in  std_logic;"}
             circuit.get_outputs.each{|o| code << "#{o.name} : out std_logic;"}
             code.lines[-1].delete_suffix!(";")
@@ -151,7 +151,7 @@ module Netlist
                 code << "#{comp.name} : entity gtech_lib.#{comp_entity}_d"
                 code.indent=4
                 if comp.is_a? Gate
-                    code << "generic map(#{comp.propag_time[delay_model]*1000} ps)" # * Conversion from nanoseconds into picoseconds to avoid float in vhdl source code
+                    code << "generic map(#{comp.propag_time[delay_model]*1000} fs)" # * Conversion from nanoseconds into picoseconds to avoid float in vhdl source code
                 end
                 code << "port map("
                 code.indent=6

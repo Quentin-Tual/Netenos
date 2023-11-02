@@ -7,7 +7,7 @@ end entity <%="#{@netlist_data[:entity_name]}_#{@freq.to_s.split('.').join}_tb"%
 
 architecture netenos of <%="#{@netlist_data[:entity_name]}_#{@freq.to_s.split('.').join}_tb"%> is
 
-    constant unit_delay : time := 1 ns; -- default already is 1, thus this line is not mandatory
+    constant unit_delay : time := 1 ps; -- default already is 1, thus this line is not mandatory
     -- With a 1-unit model, the maximum path length is equivalent to the minimal period for nominal behavior 
     -- Which means minimum period is 4 for a unit_delay value of 1 (default value) 
     constant nom_period : time := (unit_delay * <%=@netlist_data[:crit_path_length]%>);
@@ -40,6 +40,10 @@ begin
             <%=@netlist_data[:ports][:out].collect do |port_name|
                 "tb_#{port_name}_s <= tb_#{port_name};\n"
             end.join%>
+        else 
+            <%=@netlist_data[:ports][:out].collect do |port_name|
+                "tb_#{port_name}_s <= tb_#{port_name}_s;\n"
+            end.join%>
         end if;
     end process;
 
@@ -52,6 +56,7 @@ begin
 <%=@stimuli%> 
 
         -- wait for period;
+        wait for nom_period;
         running <= false;
         report "Stopping simulation";
         wait;

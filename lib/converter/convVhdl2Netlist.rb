@@ -1,3 +1,5 @@
+# ! Should call vhdl.rb, for the moment some problems with ruby versions 
+
 module Netlist
 
     class ConvVhdl2Netlist

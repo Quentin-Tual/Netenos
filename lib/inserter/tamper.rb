@@ -2,6 +2,8 @@ require_relative "../netlist.rb"
 require_relative "ht.rb"
 require_relative "xor_and_ht.rb"
 require_relative "cotd_s38417.rb"
+require_relative "og_s38417_T100.rb"
+require_relative "inverted_trigger_s38417.rb"
 
 module Netlist
 
@@ -174,6 +176,10 @@ module Netlist
                 end
             when "cotd_s38417"
                 @ht = Netlist::Cotd_s38417.new
+            when "og_s38417"
+                @ht = Netlist::Og_s38417.new nb_trigger_sig
+            when "it_s38417"
+                @ht = Netlist::It_s38417.new nb_trigger_sig
             else 
                 raise "Error : Unknown HT type #{type}. Please verify syntax."
             end
@@ -187,7 +193,7 @@ module Netlist
                 nb_available_sig = 0
                 stage_min = 0
                 # Fix a minimum stage with enough internal signals to 
-                @inverted_stages.keys[0..].sort.each do |stage|
+                @inverted_stages.keys[0..-1].sort.each do |stage|
                     nb_available_sig += @inverted_stages[stage].length
                     if nb_available_sig > nb_trigger_sig
                         stage_min = stage
@@ -195,7 +201,7 @@ module Netlist
                     end
                 end
 
-                stage = @inverted_stages.keys[stage_min..].sample
+                stage = @inverted_stages.keys[stage_min..-1].sample
                  
                 if @inverted_stages[stage].nil? 
                     raise "Error: Attribute valued nil\n -> @inverted_stages : #{@inverted_stages.nil?} @stages : #{@stages.nil?} @stages[stage] : #{@stages[stage]} stage : #{stage} stage_min : #{stage_min} stage_max : #{@inverted_stages.keys.max}"
@@ -251,9 +257,9 @@ module Netlist
                 # if pool[stage].nil? # ! DEBUG
                 #     raise "ICI -------\n -> #{max_stage} #{n}" 
                 # end
-                if pool[stage].nil?
-                    raise "stage : #{stage} max_stage : #{max_stage} nb_stage : #{@stages.keys.length} nb_comp_avail : #{@stages.values.length} n : #{nth}"
-                end
+                # if pool[stage].nil? # ! DEBUG
+                #     raise "stage : #{stage} max_stage : #{max_stage} nb_stage : #{@stages.keys.length} nb_comp_avail : #{@stages.values.length} n : #{nth}"
+                # end
 
                 selected = pool[stage].sample
                 pool[stage] -= [selected]
@@ -273,7 +279,7 @@ module Netlist
 
         def insert
             loc, max_stage = select_location("random", @ht.get_triggers_nb)
-
+            puts max_stage # ! DEBUG
             # * : Payload insertion (removing old links and creating new ones)
             # puts "location no sinks ? : #{loc.get_sinks.empty?}"
             # puts loc.get_full_name
@@ -304,7 +310,7 @@ module Netlist
             @location = max_stage
 
             if @ht.is_inserted?
-                puts "HT inserted : \n\t- Payload : #{@ht.get_payload_in.partof.name}\n\t- Trigger type : #{@ht.get_payload_in.partof.get_inputs[1].get_source.partof.name} \n\t- Number of trigger signals : #{@ht.get_triggers_nb}\n\t- Stage : #{max_stage}"
+                # puts "HT inserted : \n\t- Payload : #{@ht.get_payload_in.partof.name}\n\t- Trigger proba. : #{@ht.get_transition_probability} \n\t- Number of trigger signals : #{@ht.get_triggers_nb}\n\t- Stage : #{max_stage}"
                 return @netlist
             else 
                 raise "Error : internal fault. Ht not correctly inserted."

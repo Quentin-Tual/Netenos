@@ -15,7 +15,7 @@ module Netlist
             @ports.each_value{|io| io.each{|p| p.partof = self}}
             @partof = partof
             @components = [] 
-            @propag_time = {:one => 1, :int => (((nb_inputs+1.0)/2.0)).round(3), :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3), :fract => (0.3 + ((((nb_inputs+1.0)/2.0)*rand(0.9..1.1))/2.2)).round(3)} # Supposedly in nanoseconds, 2.2 is the max value , 0.3 is the offset to center the distribution at 1.(normalization to fit in the other model)
+            @propag_time = {:one => 1.0, :int => (((nb_inputs+1.0)/2.0)).round(3), :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3), :fract => (0.3 + ((((nb_inputs+1.0)/2.0)*rand(0.9..1.1))/2.2)).round(3)} # Supposedly in nanoseconds, 2.2 is the max value , 0.3 is the offset to center the distribution at 1.(normalization to fit in the other model)
         end
         def <<(e)
             e.partof = self
@@ -69,7 +69,7 @@ module Netlist
             @ports.each_value{|p| p[0].partof = self}
             @partof = partof
             @components = []
-            @propag_time = {:one => 1, :int => 1.0, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
+            @propag_time = {:one => 1.0, :int => 1.0, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
         end
 
         def <<(e)

@@ -1,4 +1,4 @@
-require './lib/vhdl.rb'
+#require './lib/vhdl.rb'
 require './lib/netlist.rb'
 
 module Netlist
