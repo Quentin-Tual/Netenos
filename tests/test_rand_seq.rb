@@ -5,7 +5,7 @@ require_relative "../lib/enoslist.rb"
 generator = Netlist::RandomGenSeq.new 150, 30, 40
 rand_circ = generator.getRandomNetlist "test"
 
-Netlist::DotGen.new.dot generator.netlist, "./rand_circ.dot"
+Converter::DotGen.new.dot generator.netlist, "./rand_circ.dot"
 
 inf = generator.getNetlistInformations
 puts "Input number : #{inf[0]}"

@@ -19,13 +19,13 @@ visitor = VHDL::Visitor.new
 decorated_ast = visitor.visitAST ast
 visitor.exportDecAst ".tmp"
 
-converter = Netlist::ConvVhdl2Netlist.new
+converter = Converter::ConvVhdl2Netlist.new
 converter.load ".tmp"
 recovNetlist = converter.convAst
 
 DotGen.new.dot recovNetlist
 
-unconverter = Netlist::ConvNetlist2Vhdl.new
+unconverter = Converter::ConvNetlist2Vhdl.new
 rev_source_code = unconverter.get_timed_vhdl recovNetlist
 puts rev_source_code
 

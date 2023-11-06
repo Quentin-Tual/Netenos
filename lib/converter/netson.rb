@@ -1,7 +1,7 @@
 require 'json'
 require_relative "../netlist.rb"
 
-module Netlist
+module Converter
     class Netson
 
         def initialize

@@ -11,10 +11,10 @@ require_relative "../lib/netenos.rb"
     generator.getRandomNetlist "test"
     # generator = nil
 
-    viewer = Netlist::DotGen.new
+    viewer = Converter::DotGen.new
     viewer.dot generator.netlist, "./rand_circ.dot"
 
-    modifier = Netlist::Tamperer.new(generator.netlist)
+    modifier = Inserter::Tamperer.new(generator.netlist)
     modifier.select_ht("cotd_s38417")
     modified = modifier.insert 
 

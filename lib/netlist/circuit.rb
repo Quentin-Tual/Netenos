@@ -1,4 +1,5 @@
 require_relative 'port.rb'
+
 module Netlist
     class Circuit
         attr_accessor :name, :ports, :components, :partof, :wires, :crit_path_length

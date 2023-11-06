@@ -1,6 +1,6 @@
 require_relative '../converter.rb'
 
-module Netlist
+module Converter
 
     class GenStim
         attr_accessor :inputs

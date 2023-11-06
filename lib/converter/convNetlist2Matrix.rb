@@ -1,6 +1,6 @@
 require_relative "../netlist.rb"
 
-module Netlist
+module Converter
 
     class ConvNetlist2Matrix 
         attr_reader :id_tab

@@ -1,7 +1,7 @@
 # require_relative '../vhdl.rb'
 require_relative '../netlist.rb'
 
-module Netlist
+module Converter
 
     class ConvNetlist2Vhdl
         # * : Convert a Netlist to a Vhdl not decorated AST.
@@ -115,19 +115,18 @@ module Netlist
             code.newline
             code << "architecture netenos of #{circuit.name} is"
             code.indent=2
-            @sig_tab = {}
-            sources=(circuit.get_inputs + circuit.components.map{|comp| comp.get_outputs}).flatten
-            # wires = circuit.wires.collect{|wire| wire.get_full_name}.flatten
-            # wires.each do |wire|
-            #     code << "signal #{wire} : std_logic;"
-            # end
+            wires = circuit.wires.collect{|wire| wire.get_full_name}
+            wires.each do |wire_name|
+                code << "signal #{wire_name} : std_logic;"
+            end
             signals=circuit.components.collect{|comp| 
-                if comp.get_output.get_sinks[0].class == Wire
+                if comp.get_output.get_sinks[0].class == Netlist::Wire
                     comp.get_output.get_sinks[0]
                 else
                     comp.get_outputs
                 end
-            }.flatten # TODO : This line gets the wire cause each link is a wire in this netlist -> see how to make it with netenos netlist
+            }.flatten
+
             signals.each do |sig|
                 code << "signal #{sig.get_full_name} : std_logic;"
             end
@@ -150,8 +149,8 @@ module Netlist
                 comp_entity=comp.class.to_s.split("::").last.downcase
                 code << "#{comp.name} : entity gtech_lib.#{comp_entity}_d"
                 code.indent=4
-                if comp.is_a? Gate
-                    code << "generic map(#{comp.propag_time[delay_model]*1000} fs)" # * Conversion from nanoseconds into picoseconds to avoid float in vhdl source code
+                if comp.is_a? Netlist::Gate
+                    code << "generic map(#{(comp.propag_time[delay_model]*1000).to_i} fs)" # * Conversion from nanoseconds into picoseconds to avoid float in vhdl source code
                 end
                 code << "port map("
                 code.indent=6
@@ -163,7 +162,7 @@ module Netlist
                 end
                 comp.get_outputs.each do |output|
                     # wire=output.fanout.first
-                    if output.get_sinks[0].class == Wire
+                    if output.get_sinks[0].class == Netlist::Wire
                         code << "#{output.name} => #{output.get_sinks[0].get_full_name},"
                     else
                         code << "#{output.name} => #{output.get_full_name},"

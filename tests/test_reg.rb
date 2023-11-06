@@ -65,10 +65,10 @@ global.get_port_named("o2") <= c1.get_port_named("o2")
 
 # pp global.name
 
-tester = Netlist::Wrapper.new global.dup
+tester = Interface::Wrapper.new global.dup
 
 tester.export "/tmp/~.json", 'json'
-another_tester = Netlist::Wrapper.new 
+another_tester = Interface::Wrapper.new 
 another_tester.import "/tmp/~.json"
 
 tester.show

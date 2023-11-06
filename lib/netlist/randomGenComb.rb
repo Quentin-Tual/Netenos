@@ -29,6 +29,12 @@ module Netlist
         end
 
         def getRandomNetlist name = "rand_#{self.object_id}"
+            # Initialize variables to fill the sources pool later
+            @available_sources = {} # Contains available sources for each layer
+            @already_used_sources = {} # Contains already used sources for each layer
+            @sources_usage_count = {} # Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
+            @available_primary_output_sources = {}
+            
             @netlist = Netlist::Circuit.new name
             @grid = Array.new(@caracs[:height])
 

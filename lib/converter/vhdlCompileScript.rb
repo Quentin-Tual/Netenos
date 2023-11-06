@@ -1,7 +1,7 @@
 # require_relative '../vhdl.rb'
 require_relative '../netlist.rb'
 
-module Netlist
+module Converter
 
     class VhdlCompiler
 

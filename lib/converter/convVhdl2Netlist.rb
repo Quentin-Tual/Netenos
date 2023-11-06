@@ -1,6 +1,6 @@
 # ! Should call vhdl.rb, for the moment some problems with ruby versions 
 
-module Netlist
+module Converter
 
     class ConvVhdl2Netlist
 

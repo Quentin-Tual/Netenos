@@ -17,7 +17,7 @@ Dir.mkdir(path) unless File.exists?(path)
 Dir.chdir(path) do
 
     # TODO : Generate GTECH  
-    vhdl_converter = Netlist::ConvNetlist2Vhdl_refactor.new
+    vhdl_converter = Converter::ConvNetlist2Vhdl_refactor.new
     vhdl_converter.gen_gtech
 
     # TODO : Generate a netlist
@@ -28,7 +28,7 @@ Dir.chdir(path) do
     vhdl_converter.generate circ_init
 
     # TODO : (optionnal) Generate a .dot file
-    viewer = Netlist::DotGen.new
+    viewer = Converter::DotGen.new
     viewer.dot circ_init
 
     # TODO : Generate a second netlist, half chance to be an altered version of the first, else it is the same one 
@@ -36,7 +36,7 @@ Dir.chdir(path) do
         if [1].sample == 1  # ! TEST add a 0 in the list, removed for tests
             # todo : alter it
             suffix = "altered"
-            inserter = Netlist::Tamperer. new(circ_init.clone)
+            inserter = Inserter::Tamperer. new(circ_init.clone)
             inserter.select_ht("xor_and", nb_trig)
             circ_test = inserter.insert
             # trig_cond =  inserter.get_trigger_conditions
@@ -56,10 +56,10 @@ Dir.chdir(path) do
     # netlistGenerator.netlist = circ_test
     # carac_test = netlistGenerator.getNetlistInformations
 
-    stim_seq = Netlist::GenStim.new(circ_init).gen_random_stim(nb_sim_cycle)#, trig_cond)
+    stim_seq = Converter::GenStim.new(circ_init).gen_random_stim(nb_sim_cycle)#, trig_cond)
     
     # TODO : Generate testbench for nominal frequency 
-    tb_gen = Netlist::GenTestbench.new(circ_init)
+    tb_gen = Converter::GenTestbench.new(circ_init)
     tb_gen.stimuli = stim_seq
     tb_init = tb_gen.gen_testbench :passed, test_frequencies.first
 
@@ -76,7 +76,7 @@ Dir.chdir(path) do
     vhdl_converter.generate circ_test
 
     # TODO : Generate the compile and simulate script (convNetlist2Vhdl copy)
-    vhdl_CS_script = Netlist::VhdlCompiler.new 
+    vhdl_CS_script = Converter::VhdlCompiler.new 
     # TODO : Only for nominal frequency at first
     vhdl_CS_script.generate_compile_script circ_init, [test_frequencies.first]
     vhdl_CS_script.generate_compile_script circ_test, [test_frequencies.first]
@@ -111,7 +111,7 @@ Dir.chdir(path) do
     results << comparer.compare_lists_detailed(traces_test, traces_init)
 
     # TODO : Generate testbench for nominal frequency 
-    tb_gen = Netlist::GenTestbench.new(circ_init)
+    tb_gen = Converter::GenTestbench.new(circ_init)
     tb_gen.stimuli = stim_seq
     tb_init = tb_gen.gen_testbench :passed, test_frequencies.first
 

@@ -9,7 +9,7 @@ ht = Og_s38417.new 8
 wrapper = Circuit.new "test"
 ht.components.map {|comp| wrapper << comp}
 
-viewer = DotGen.new
+viewer = Converter::DotGen.new
 viewer.dot wrapper
 
 

@@ -9,7 +9,7 @@ generator = Netlist::RandomGenComb.new 100, 20, 20
 rand_circ = generator.getRandomNetlist "test"
 
 
-Netlist::DotGen.new.dot generator.netlist, "./rand_circ3.dot"
+Converter::DotGen.new.dot generator.netlist, "./rand_circ3.dot"
 
 `xdot ./rand_circ3.dot`
 

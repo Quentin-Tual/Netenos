@@ -59,10 +59,10 @@ global.get_port_named("o2") <= c1.get_port_named("o2")
 
 # pp global.name
 
-viewer = DotGen.new
+viewer = Converter::DotGen.new
 viewer.dot global
 
-netson = Netson.new
+netson = Converter::Netson.new
 netson.save_as_json(global)
 
 import_test = netson.load("./test_circ.json")

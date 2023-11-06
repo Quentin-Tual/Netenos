@@ -59,11 +59,11 @@ global.get_port_named("o2") <= c1.get_port_named("o2")
 
 # pp global.name
 
-viewer = DotGen.new
+viewer = Converter::DotGen.new
 viewer.dot global
 
 # Insert an HT using Tamperer
-modifier = Netlist::Tamperer.new(global)
+modifier = Inserter::Tamperer.new(global)
 modifier.select_ht("cotd_s38417")
 modified = modifier.insert 
 modifier = nil

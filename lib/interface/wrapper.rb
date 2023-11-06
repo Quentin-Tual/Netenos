@@ -1,4 +1,4 @@
-module Netlist
+module Interface
 
     class Wrapper
         attr_accessor :netlist

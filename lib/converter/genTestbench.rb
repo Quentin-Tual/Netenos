@@ -2,7 +2,7 @@
 require_relative '../converter.rb'
 require 'erb'
 
-module Netlist
+module Converter
     class GenTestbench
         attr_accessor :stimuli, :netlist_data
 

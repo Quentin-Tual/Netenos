@@ -9,7 +9,7 @@ ht = Cotd_s38417.new
 wrapper = Circuit.new "test"
 ht.components.each {|comp| wrapper << comp}
 
-viewer = DotGen.new
+viewer = Converter::DotGen.new
 viewer.dot wrapper
 
 

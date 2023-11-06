@@ -1,4 +1,4 @@
-module Netlist
+module Converter
     class DotGen
         attr_accessor :code
 
@@ -24,7 +24,7 @@ module Netlist
             ports.each do |dir,ports|
                 ports.each do |port|
                   @code << "#{port.name}[shape=cds,xlabel=\"#{port.name}\"]"
-                  @sym_tab[port.name] = Port
+                  @sym_tab[port.name] = Netlist::Port
                 end
             end
         end
@@ -37,14 +37,14 @@ module Netlist
                 fanout="{#{outputs}}"
                 label="{#{fanin}| #{comp.name} |#{fanout}}"
                 code << "#{comp.name}[shape=record; style=filled;color=cadetblue; label=\"#{label}\"]"
-                @sym_tab[comp.name] = Circuit
+                @sym_tab[comp.name] = Netlist::Circuit
             end
         end
 
         def wiring circuit
             circuit.get_inputs.each{ |source|
                 source.get_sinks.each{ |sink|
-                    if sink.class == Wire
+                    if sink.class == Netlist::Wire
                         wire sink, source
                     else
                         write_wiring source, sink
@@ -56,7 +56,7 @@ module Netlist
         def comp_wiring comp
             comp.get_outputs.each{ |source|
                 source.get_sinks.each{ |sink|
-                    if sink.class == Wire
+                    if sink.class == Netlist::Wire
                         wire sink, source
                     else
                         write_wiring source, sink

@@ -1,7 +1,7 @@
 require_relative "ht.rb"
 require_relative "../netlist.rb"
 
-module Netlist 
+module Inserter
     attr_accessor :components
 
     class Cotd_s38417 < HT

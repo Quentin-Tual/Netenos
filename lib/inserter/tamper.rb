@@ -5,7 +5,7 @@ require_relative "cotd_s38417.rb"
 require_relative "og_s38417_T100.rb"
 require_relative "inverted_trigger_s38417.rb"
 
-module Netlist
+module Inserter
 
     class Tamperer
         attr_accessor :stages
@@ -170,16 +170,16 @@ module Netlist
             case type 
             when "xor_and"
                 if nb_trigger_sig.nil?
-                    @ht = Netlist::Xor_And.new
+                    @ht = Inserter::Xor_And.new
                 else
-                    @ht = Netlist::Xor_And.new(nb_trigger_sig)
+                    @ht = Inserter::Xor_And.new(nb_trigger_sig)
                 end
             when "cotd_s38417"
-                @ht = Netlist::Cotd_s38417.new
+                @ht = Inserter::Cotd_s38417.new
             when "og_s38417"
-                @ht = Netlist::Og_s38417.new nb_trigger_sig
+                @ht = Inserter::Og_s38417.new nb_trigger_sig
             when "it_s38417"
-                @ht = Netlist::It_s38417.new nb_trigger_sig
+                @ht = Inserter::It_s38417.new nb_trigger_sig
             else 
                 raise "Error : Unknown HT type #{type}. Please verify syntax."
             end
@@ -282,7 +282,6 @@ module Netlist
 
         def insert
             loc, max_stage = select_location("random", @ht.get_triggers_nb)
-            puts max_stage # ! DEBUG
             # * : Payload insertion (removing old links and creating new ones)
             # puts "location no sinks ? : #{loc.get_sinks.empty?}"
             # puts loc.get_full_name
