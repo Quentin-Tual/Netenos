@@ -114,7 +114,7 @@ module Netlist
 
                 code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
                 code << "nvc --work=#{circ_init_name}_lib -L ../../gtech/ -a #{circ_init_name}.vhd"
-                freq_list.map! do |freq|
+                freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end 
                 freq_list.each do |freq|
@@ -129,7 +129,7 @@ module Netlist
             when :ghdl2
                 code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
                 code << "ghdl -a --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}.vhd"
-                freq_list.map! do |freq|
+                freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end
                 freq_list.each do |freq|
@@ -145,7 +145,7 @@ module Netlist
             else # :ghdl3 as default option
                 code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
                 code << "ghdl -a --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}.vhd"
-                freq_list.map! do |freq|
+                freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end
                 freq_list.each do |freq|

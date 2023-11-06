@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Netlist::GenTestbench
+  
+    &mdash; Documentation by YARD 0.9.34
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Netlist::GenTestbench";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (G)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span>
+     &raquo; 
+    <span class="title">GenTestbench</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Netlist::GenTestbench
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Netlist::GenTestbench</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/converter/genTestbench.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#netlist_data-instance_method" title="#netlist_data (instance method)">#<strong>netlist_data</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute netlist_data.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stimuli-instance_method" title="#stimuli (instance method)">#<strong>stimuli</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute stimuli.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#data_extraction-instance_method" title="#data_extraction (instance method)">#<strong>data_extraction</strong>(netlist)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_arch_body_stim_assign-instance_method" title="#gen_arch_body_stim_assign (instance method)">#<strong>gen_arch_body_stim_assign</strong>(stim_hash)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>, nb_cycle.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_arch_body_uut_portmap-instance_method" title="#gen_arch_body_uut_portmap (instance method)">#<strong>gen_arch_body_uut_portmap</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_stimuli-instance_method" title="#gen_stimuli (instance method)">#<strong>gen_stimuli</strong>(stim_type, nb_cycle)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_testbench-instance_method" title="#gen_testbench (instance method)">#<strong>gen_testbench</strong>(stim_type = :random, freq = 1, circ_name = &quot;circ&quot;, nb_cycle = 20)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(netlist)  &#x21d2; GenTestbench </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of GenTestbench.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(netlist)  &#x21d2; <tt><span class='object_link'><a href="" title="Netlist::GenTestbench (class)">GenTestbench</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of GenTestbench.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/genTestbench.rb', line 9</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_netlist'>netlist</span>
+    <span class='ivar'>@netlist_data</span> <span class='op'>=</span> <span class='id identifier rubyid_data_extraction'>data_extraction</span><span class='lparen'>(</span><span class='id identifier rubyid_netlist'>netlist</span><span class='rparen'>)</span>
+    <span class='ivar'>@tb_src</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span>
+    <span class='ivar'>@portmap</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="netlist_data=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="netlist_data-instance_method">
+  
+    #<strong>netlist_data</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute netlist_data.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/genTestbench.rb', line 7</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_netlist_data'>netlist_data</span>
+  <span class='ivar'>@netlist_data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="stimuli=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="stimuli-instance_method">
+  
+    #<strong>stimuli</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute stimuli.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/genTestbench.rb', line 7</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stimuli'>stimuli</span>
+  <span class='ivar'>@stimuli</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="data_extraction-instance_method">
+  
+    #<strong>data_extraction</strong>(netlist)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/genTestbench.rb', line 15</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_data_extraction'>data_extraction</span> <span class='id identifier rubyid_netlist'>netlist</span>
+    <span class='comment'># * : Extracts data used in testbench ERB template 
+</span>    <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_ret'>ret</span><span class='lbracket'>[</span><span class='symbol'>:entity_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_netlist'>netlist</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+    <span class='id identifier rubyid_ret'>ret</span><span class='lbracket'>[</span><span class='symbol'>:ports</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+        <span class='lparen'>(</span><span class='symbol'>:in</span><span class='rparen'>)</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_netlist'>netlist</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span><span class='comma'>,</span>
+        <span class='lparen'>(</span><span class='symbol'>:out</span><span class='rparen'>)</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_netlist'>netlist</span><span class='period'>.</span><span class='id identifier rubyid_get_outputs'>get_outputs</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span>
+    <span class='rbrace'>}</span>
+    <span class='comment'># @netlist_data[:nb_port] = netlist.get_ports.length
+</span>    <span class='id identifier rubyid_ret'>ret</span><span class='lbracket'>[</span><span class='symbol'>:crit_path_length</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_netlist'>netlist</span><span class='period'>.</span><span class='id identifier rubyid_crit_path_length'>crit_path_length</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>3</span>
+ 
+    <span class='kw'>return</span> <span class='id identifier rubyid_ret'>ret</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_arch_body_stim_assign-instance_method">
+  
+    #<strong>gen_arch_body_stim_assign</strong>(stim_hash)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>, nb_cycle</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/genTestbench.rb', line 91</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_arch_body_stim_assign'>gen_arch_body_stim_assign</span> <span class='id identifier rubyid_stim_hash'>stim_hash</span> <span class='comment'>#, nb_cycle
+</span>    <span class='comment'># * : Only if stimulation option is on, generates stimuli and generates the corresponding assign statements in stim process.
+</span>    <span class='id identifier rubyid_stim_src'>stim_src</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> 
+
+    <span class='id identifier rubyid_nb_cycle'>nb_cycle</span> <span class='op'>=</span> <span class='id identifier rubyid_stim_hash'>stim_hash</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='comment'># ! Verify if it is really what is expected
+</span>
+    <span class='id identifier rubyid_nb_cycle'>nb_cycle</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+        <span class='ivar'>@netlist_data</span><span class='lbracket'>[</span><span class='symbol'>:ports</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:in</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pin'>pin</span><span class='op'>|</span>
+            <span class='id identifier rubyid_stim_src'>stim_src</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>           tb_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pin'>pin</span><span class='embexpr_end'>}</span><span class='tstring_content'> &lt;= &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_stim_hash'>stim_hash</span><span class='lbracket'>[</span><span class='id identifier rubyid_pin'>pin</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;;\n</span><span class='tstring_end'>&quot;</span></span>
+        <span class='rbrace'>}</span>
+        <span class='id identifier rubyid_stim_src'>stim_src</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>       wait for nom_period;\n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rbrace'>}</span>
+
+    <span class='kw'>return</span> <span class='id identifier rubyid_stim_src'>stim_src</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_arch_body_uut_portmap-instance_method">
+  
+    #<strong>gen_arch_body_uut_portmap</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/genTestbench.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_arch_body_uut_portmap'>gen_arch_body_uut_portmap</span>
+    <span class='comment'># * : Generates uut instantiation and port map 
+</span>    <span class='ivar'>@portmap</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='comment'># @portmap.concat &quot;       nom_clk,\n&quot;
+</span>    <span class='ivar'>@netlist_data</span><span class='lbracket'>[</span><span class='symbol'>:ports</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:in</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_pname'>pname</span><span class='op'>|</span>    
+        <span class='ivar'>@portmap</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>       tb_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pname'>pname</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='ivar'>@portmap</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, \n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rbrace'>}</span>
+    <span class='ivar'>@netlist_data</span><span class='lbracket'>[</span><span class='symbol'>:ports</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:out</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_pname'>pname</span><span class='op'>|</span>    
+        <span class='ivar'>@portmap</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>       tb_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pname'>pname</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='ivar'>@portmap</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, \n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rbrace'>}</span>
+    <span class='ivar'>@portmap</span><span class='period'>.</span><span class='id identifier rubyid_delete_suffix!'>delete_suffix!</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, \n</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_stimuli-instance_method">
+  
+    #<strong>gen_stimuli</strong>(stim_type, nb_cycle)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/genTestbench.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_stimuli'>gen_stimuli</span> <span class='id identifier rubyid_stim_type'>stim_type</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span>
+
+    <span class='id identifier rubyid_inputs_data'>inputs_data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='ivar'>@netlist_data</span><span class='lbracket'>[</span><span class='symbol'>:ports</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:in</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pin'>pin</span><span class='op'>|</span>
+        <span class='id identifier rubyid_inputs_data'>inputs_data</span><span class='lbracket'>[</span><span class='id identifier rubyid_pin'>pin</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>std_logic</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rbrace'>}</span>
+    <span class='comment'># netlist_data[:ports][:out].each{ |pout|
+</span>    <span class='comment'>#     inputs_data[pout] = &quot;bit&quot;
+</span>    <span class='comment'># }
+</span>    <span class='id identifier rubyid_generator'>generator</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="GenStim.html" title="Netlist::GenStim (class)">GenStim</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="GenStim.html#initialize-instance_method" title="Netlist::GenStim#initialize (method)">new</a></span></span>
+    <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_inputs'>inputs</span> <span class='op'>=</span> <span class='id identifier rubyid_inputs_data'>inputs_data</span>
+
+    <span class='kw'>case</span> <span class='id identifier rubyid_stim_type'>stim_type</span>
+    <span class='kw'>when</span> <span class='symbol'>:random</span>
+        <span class='id identifier rubyid_stim_hash'>stim_hash</span> <span class='op'>=</span> <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_gen_random_stim'>gen_random_stim</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span>
+    <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : unknown stimulation pattern.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+    <span class='kw'>return</span> <span class='id identifier rubyid_stim_hash'>stim_hash</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_testbench-instance_method">
+  
+    #<strong>gen_testbench</strong>(stim_type = :random, freq = 1, circ_name = &quot;circ&quot;, nb_cycle = 20)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/genTestbench.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_testbench'>gen_testbench</span> <span class='id identifier rubyid_stim_type'>stim_type</span> <span class='op'>=</span> <span class='symbol'>:random</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span> <span class='op'>=</span> <span class='int'>1</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_name'>circ_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>circ</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span> <span class='op'>=</span> <span class='int'>20</span>
+    <span class='comment'># * : Generates a VHDL testbench in text format based on a ERB template stored in the project. The option stim is used to indicates if we want stimuli in it or not, the type of stimuli are indicated (random). Frequency at which the circuit will be stimulated can also be specified in args as a multipler of the critical path length.  
+</span>    <span class='ivar'>@freq</span> <span class='op'>=</span> <span class='id identifier rubyid_freq'>freq</span>
+
+    <span class='id identifier rubyid_gen_arch_body_uut_portmap'>gen_arch_body_uut_portmap</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_stim_type'>stim_type</span>
+    <span class='kw'>when</span> <span class='symbol'>:passed</span>
+        <span class='ivar'>@stimuli</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_arch_body_stim_assign'>gen_arch_body_stim_assign</span><span class='lparen'>(</span><span class='ivar'>@stimuli</span><span class='rparen'>)</span>
+    <span class='kw'>when</span> <span class='symbol'>:random</span>
+        <span class='ivar'>@stimuli</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_arch_body_stim_assign'>gen_arch_body_stim_assign</span><span class='lparen'>(</span><span class='id identifier rubyid_gen_stimuli'>gen_stimuli</span><span class='lparen'>(</span><span class='id identifier rubyid_stim_type'>stim_type</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+        <span class='ivar'>@stimuli</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='comment'># * : Load the template and bind computed values to it
+</span>    <span class='ivar'>@engine</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/tb_template2.vhdl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='comment'># tb_template2 is used to only observe, inputs stimulis are entered at nominal frequency. 
+</span>    
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>=</span> <span class='ivar'>@engine</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='lparen'>(</span><span class='id identifier rubyid_binding'>binding</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vhd</span><span class='tstring_end'>&quot;</span></span>
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='id identifier rubyid_src'>src</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |--[+] generated &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_filename'>filename</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
+
+    <span class='kw'>return</span> <span class='id identifier rubyid_src'>src</span> <span class='comment'># ! legacy but not necessary, src generated already stored in a file  
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Nov  2 16:28:40 2023 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.34 (ruby-3.1.2).
+</div>
+
+    </div>
+  </body>
+</html>

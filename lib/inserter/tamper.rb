@@ -188,11 +188,14 @@ module Netlist
 
         def select_location location, nb_trigger_sig
             case location
+            when "near_input"
+            when "near_output"
+            when "middle"
             when "random"
                 # nb_available_sig = @netlist.get_inputs.length
                 nb_available_sig = 0
                 stage_min = 0
-                # Fix a minimum stage with enough internal signals to 
+                # Fix a minimum stage with enough internal signals to insert the ht
                 @inverted_stages.keys[0..-1].sort.each do |stage|
                     nb_available_sig += @inverted_stages[stage].length
                     if nb_available_sig > nb_trigger_sig

@@ -48,7 +48,7 @@ module Netlist
             File.open(filename,'w'){|f| f.puts(src)}
             puts " |--[+] generated '#{filename}'"
 
-            return src # ! legacy but not necessary, src generated already stored in a file  
+            return src # ! legacy but not necessary, generated src is already stored in a file  
         end
 
         def gen_arch_body_uut_portmap

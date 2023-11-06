@@ -35,7 +35,7 @@ module Netlist
             gen_profile @caracs[:nb_inputs], @caracs[:nb_outputs]
             fill_state_variables
             wire_all_sources
-
+            
             @netlist.crit_path_length = @grid.length
 
             return @netlist
@@ -58,15 +58,13 @@ module Netlist
             # comp_number = 0 # ! Results from the other parameters  
 
             @grid.length.times do |layer|
-                @grid[layer] = Array.new(@ng.call(layer))
+                @grid[layer] = Array.new(@ng.call(layer)) # calling ng being number of gates per layer depending on a lambda function (shape of the netlist defined by this lambda)
                 @grid[layer].length.times do |cell|
                     @grid[layer][cell] = $GTECH.sample.new
-                    @netlist << @grid[layer][cell]
-                    # comp_number += 1
+                    @netlist << @grid[layer][cell] # Adding each components to the netlist components list
                 end 
             end
 
-            # return comp_number
         end
 
         # **** Components Wiring ****
@@ -88,6 +86,11 @@ module Netlist
                 end
             # TODO : If none available (very low probability) then delete the output (at first sight, the best option)
                 sink <= selected_source
+
+
+
+                @sources_usage_count[selected_source] += 1
+
                 # * : Update variables
                 # @available_primary_output_sources[selected_layer].delete(selected_source)
                 @available_primary_output_sources[selected_layer].filter!{|source| source != selected_source}
@@ -101,9 +104,14 @@ module Netlist
                 selected_layer = autorized_layers.sample
                 selected_source = @available_sources[selected_layer].sample
                 
+
+
                 sink <= selected_source
+
+                @sources_usage_count[selected_source] += 1
+
                 # * : Update variables 
-                if @available_sources[selected_layer].length > 1
+                if @available_sources[selected_layer].length > 0
                     # * : Delete the source wired from the available sources 
                     @available_sources[selected_layer].filter!{|source| source != selected_source}
                     @sources_usage_count[selected_source] = 1
@@ -145,7 +153,7 @@ module Netlist
 
             # * : For each layer of the grid
             @grid.length.times do |layer|
-                # * : Use an offset cayse level 0 is for primary inputs
+                # * : Use an offset cause level 0 is for primary inputs
                 # * : Register each component output as an available source
                 @available_sources[layer+1] = []
                 @available_primary_output_sources[layer+1] = []

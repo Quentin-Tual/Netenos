@@ -4,17 +4,13 @@ require_relative "../lib/netlist.rb"
 include Netlist
 include VHDL
 
-generator = Netlist::RandomGenComb.new 100, 20, 20, 25
+generator = Netlist::RandomGenComb.new 100, 20, 20
+# generator = Netlist::RandomGenComb.new 20, 5, 10
 rand_circ = generator.getRandomNetlist "test"
 
 
 Netlist::DotGen.new.dot generator.netlist, "./rand_circ3.dot"
 
-# if generator.verifyLoop
-#     generator.fixLoops
-# end
+`xdot ./rand_circ3.dot`
 
-# Netlist::DotGen.new.dot generator.netlist, "./rand_circ3_fixed.dot"
-
-
-pp "Terminated."
+# puts "Terminated."
