@@ -68,17 +68,17 @@ module Inserter
             output_transit_proba = 0.0
 
             case gate
-            when And2
+            when Netlist::And2
                 output_transit_proba = (1.0 - proba_ix * proba_iy) * (proba_ix * proba_iy)
-            when Or2
+            when Netlist::Or2
                 output_transit_proba = (1.0 - proba_ix) * (1.0 - proba_iy) * (1.0 -((1.0 - proba_ix) * (1.0 - proba_iy)))
-            when Not
+            when Netlist::Not
                 output_transit_proba = (1.0 - proba_ix) * proba_ix
-            when Nand2
+            when Netlist::Nand2
                 output_transit_proba = (proba_ix * proba_iy) * (1.0 - (proba_ix * proba_iy))
-            when Nor2
+            when Netlist::Nor2
                 output_transit_proba = (1.0 - (1.0 - proba_ix) * (1.0 - proba_iy)) * (1.0 - proba_ix) * (1.0 - proba_iy)
-            when Xor2
+            when Netlist::Xor2
                 output_transit_proba = (1.0 - (proba_ix + proba_iy - 2.0 * proba_ix * proba_iy)) * (proba_ix + proba_iy - 2.0 * proba_ix * proba_iy)
             else
                 puts "Error : Unknown gate #{gate.name} encountered. Please verify."

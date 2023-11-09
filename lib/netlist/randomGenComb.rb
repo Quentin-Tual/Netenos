@@ -14,8 +14,8 @@ module Netlist
 
         def initialize nb_inputs = 10, nb_outputs = 5, height = 5
             @netlist = nil
-            # ng = lambda {|l| nb_inputs/2} # Rectangle shape
-            @ng = lambda {|l| nb_inputs/(2+l)} # Inverted Pyramid shape
+            @ng = lambda {|l| nb_inputs/2} # Rectangle shape
+            # @ng = lambda {|l| nb_inputs/(2+l)} # Inverted Pyramid shape
             @caracs = {
                 :nb_inputs => nb_inputs,
                 :nb_outputs => nb_outputs,
