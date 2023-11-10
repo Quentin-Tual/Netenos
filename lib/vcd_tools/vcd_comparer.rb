@@ -340,7 +340,7 @@ module VCD
                 list.sort.each do |i|
                     if trace_a[sig][i] == "0"
                         trace_a[sig][i] = "1"
-                    elsif trace_a[sig][i] == "1"  
+                    elsif trace_a[sig][i] == "1"
                         trace_a[sig][i] = "0"
                     end
                 end

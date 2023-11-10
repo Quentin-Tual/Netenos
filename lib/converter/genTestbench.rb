@@ -33,14 +33,27 @@ module Converter
             gen_arch_body_uut_portmap
             case stim_type
             when :passed
-                @stimuli = gen_arch_body_stim_assign(@stimuli)
+                # TODO : Remplacer par un fichier (chemin)
+                # gen_arch_body_filebased_stim(@stimuli, circ_name)
+                if circ_name.include?("_altered")
+                    circ_init_name = circ_name.split("_altered").join
+                elsif circ_name.include?("_copied")
+                    circ_init_name = circ_name.split("_copied").join
+                else 
+                    circ_init_name = circ_name
+                end
+                @stim_file_path = "#{circ_init_name}.txt"
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template3.vhdl")) 
             when :random
                 @stimuli = gen_arch_body_stim_assign(gen_stimuli(stim_type, nb_cycle))
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) 
             else
                 @stimuli = ""
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) 
+                puts "Warning: No stimuli in testbench for #{circ_name}."
             end
             # * : Load the template and bind computed values to it
-            @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) # tb_template2 is used to only observe, inputs stimulis are entered at nominal frequency. 
+            # @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) # tb_template2 is used to only observe, inputs stimulis are entered at nominal frequency. 
             
             src = @engine.result(binding)
 
@@ -55,12 +68,12 @@ module Converter
             # * : Generates uut instantiation and port map 
             @portmap = ""
             # @portmap.concat "       nom_clk,\n"
-            @netlist_data[:ports][:in].each {|pname|    
-                @portmap.concat "       tb_#{pname}"
+            @netlist_data[:ports][:in].length.times {|pname|    
+                @portmap.concat "       tb_in(#{pname})"
                 @portmap.concat ", \n"
             }
-            @netlist_data[:ports][:out].each {|pname|    
-                @portmap.concat "       tb_#{pname}"
+            @netlist_data[:ports][:out].length.times {|pname|    
+                @portmap.concat "       tb_out(#{pname})"
                 @portmap.concat ", \n"
             }
             @portmap.delete_suffix! ", \n"
@@ -95,8 +108,8 @@ module Converter
             nb_cycle = stim_hash.values[0].length # ! Verify if it is really what is expected
 
             nb_cycle.times{ |i|
-                @netlist_data[:ports][:in].each{ |pin|
-                    stim_src.concat "           tb_#{pin} <= '#{stim_hash[pin][i]}';\n"
+                @netlist_data[:ports][:in].length.times{ |pin|
+                    stim_src.concat "           tb_in(#{pin}) <= '#{stim_hash[pin][i]}';\n"
                 }
                 stim_src.concat "       wait for nom_period;\n"
             }

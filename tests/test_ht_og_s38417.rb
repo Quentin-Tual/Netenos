@@ -1,6 +1,7 @@
-require './lib/netenos.rb'
+require '../lib/netenos.rb'
 
 include Netlist
+include Inserter
 
 # ! Need to uncomment the DEBUG commented line in lib/inserter/og_s38417_T100.rb
 

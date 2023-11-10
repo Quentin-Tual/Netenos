@@ -3,7 +3,7 @@ require_relative '../converter.rb'
 module Converter
 
     class GenStim
-        attr_accessor :inputs
+        attr_accessor :inputs, :stim
 
         def initialize netlist = nil
             if netlist.nil?
@@ -201,9 +201,30 @@ module Converter
                 src << line
             }
 
-            src.save_as path, true
+            src.save_as path
         end
-    end
+    
+ 
+        def save_as_txt path
+            if path[-4..-1]!=".txt"
+                path.concat ".txt"
+            end
+
+            src = Code.new
+            src << "# Stimuli sequence"
+
+            @stim.values[0].length.times do |cycle|
+                line = ""
+                @stim.keys.each do |pname|
+                    line << @stim[pname][cycle]
+                end
+                src << line
+            end
+
+            src.save_as path
+        end 
+    
 
     # TODO : Add chessboard pattern, full one, full zero, moving one, moving zero, ... simple patterns ?
+    end
 end

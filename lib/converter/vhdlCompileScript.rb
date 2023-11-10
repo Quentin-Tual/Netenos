@@ -21,7 +21,7 @@ module Converter
                 when :nvc
                     code << "nvc --work=gtech_lib -a #{entity}.vhd"
                 else
-                    code << "ghdl -a --work=gtech_lib #{entity}.vhd"
+                    code << "ghdl -a --std=08 --work=gtech_lib #{entity}.vhd"
                 end
             end
             code.indent=0
@@ -128,31 +128,31 @@ module Converter
                 end
             when :ghdl2
                 code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
-                code << "ghdl -a --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}.vhd"
+                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}.vhd"
                 freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end
                 freq_list.each do |freq|
                     code << "echo \" |-- [+] compiling #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl -a --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
+                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
                     code << "echo \" |-- [+] elaborating #{circ_init_name}_#{freq}_tb\""
                     code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl --elab-run --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     # code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
                     # code << "ghdl -r #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     code.newline
                 end
             else # :ghdl3 as default option
                 code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
-                code << "ghdl -a --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}.vhd"
+                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}.vhd"
                 freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end
                 freq_list.each do |freq|
                     code << "echo \" |-- [+] compiling #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl -a --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
+                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
                     code << "echo \" |-- [+] elaborating #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl -e --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb"
+                    code << "ghdl -e --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb"
                     code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
                     code << "ghdl -r #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     code.newline

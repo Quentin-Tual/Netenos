@@ -39,6 +39,7 @@ module VCD
                 end
                 tmp = next_output
             end
+
         end
 
         def selected_traces_extraction
@@ -53,7 +54,7 @@ module VCD
                     tmp.concat("\n")
                     # tmp.map!{|e| e.concat "\n"}
                     # if tmp.length == 1
-                    id = @id_tab.keys.collect{|id| tmp.include?("#{id}\n") ? id : nil}.compact
+                    id = @id_tab.keys.collect{|id| ((tmp.include?("#{id}\n")) and (tmp.length == id.length+2)) ? id : nil}.compact
                     if id.length > 0
                         id = id[0]
                         # if @id_tab[tmp[1]].nil?
