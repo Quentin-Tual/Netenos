@@ -51,18 +51,18 @@ module VCD
                     update_timestamp tmp.delete_prefix("#")
                 # * : Unexpected syntax are covered by the raise in the next conditionnal branchement
                 else
-                    tmp.concat("\n")
+                    # tmp.concat("\n")
                     # tmp.map!{|e| e.concat "\n"}
                     # if tmp.length == 1
-                    id = @id_tab.keys.collect{|id| ((tmp.include?("#{id}\n")) and (tmp.length == id.length+2)) ? id : nil}.compact
-                    if id.length > 0
-                        id = id[0]
+                    value = tmp[0]
+                    id = tmp[1..] # -2 for '\n' removal
+                    if !@id_tab[id].nil?
+                        id = id[0..-1]
                         # if @id_tab[tmp[1]].nil?
                         #     puts "here"
                         # end
                         # tmp = tmp.chars  # ! Passage en chars problématique si id sur deux caractères
-                        @output_traces[@current_timestamp][@id_tab[id]] = tmp[0]
-
+                        @output_traces[@current_timestamp][@id_tab[id]] = value
                     end
                     # elsif tmp.length == 2 # ! Not sure it happens anytime with the generated testbenches
                     #     @output_traces[@current_timestamp][tmp[1]] = tmp[0]
@@ -115,7 +115,7 @@ module VCD
                     # * Memorize the last encountered timestamp (0 as the first) 
                     # * When found memorize the timestamp 
                     last_timestamp = line.delete_prefix("#")
-                elsif line.include?(id) and (line.length < 3)
+                elsif line.include?(id) and (line.length < 3) # We know the clock is alwaysin  the first symbol attribution so its ID is only one symbol long 
                     # * Check if the ID has an event in this timestamp until it is another timestamp, then update the last uncountered timestamp
                     bounds << last_timestamp.to_i
                 # * When 2 timestamp are found by this way (first should be 0, second is half the period) 

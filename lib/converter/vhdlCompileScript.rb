@@ -137,11 +137,13 @@ module Converter
                     code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
                     code << "echo \" |-- [+] elaborating #{circ_init_name}_#{freq}_tb\""
                     code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     # code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
                     # code << "ghdl -r #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     code.newline
+                    generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
                 end
+                
             else # :ghdl3 as default option
                 code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
                 code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}.vhd"
@@ -154,13 +156,25 @@ module Converter
                     code << "echo \" |-- [+] elaborating #{circ_init_name}_#{freq}_tb\""
                     code << "ghdl -e --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb"
                     code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl -r #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     code.newline
-                end
+                    generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
+                end 
             end
             
             code.save_as("#{path}/compile.sh",append)
             system("chmod +x #{path}/compile.sh")
+        end
+
+        def generate_wave_opt_file testbench_name, path
+            str = "$ version 1.1
+
+            # Signals in packages :
+            
+            # Signals in entities :
+            /#{testbench_name}/*
+            "
+            File.open("#{path}/#{testbench_name}.opt",'w'){|f| f.puts(str)}
         end
 
         def generate_compile_script circuit, test_frequencies = nil

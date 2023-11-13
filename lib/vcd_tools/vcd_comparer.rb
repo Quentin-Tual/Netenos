@@ -263,8 +263,7 @@ module VCD
                     raise "Division by 0 !"
                 end 
                 # ? : Intercorrélation biaisée ici, peut-être mieux en non biaisée !
-                # ? : Apply the absolute value before using it ? Allow to detect inverted pattern like a not gate in some cases !
-                mean[tau] = acc / nb_val # ! Random Issue : divided by zero
+                mean[tau] = acc.to_f / nb_val # ! Random Issue : divided by zero
                
 
                 # Calcul de la variance
@@ -274,19 +273,28 @@ module VCD
                     # * : Compute the mean cross correlation of signals for a fixed 'tau' value
                         acc += (corr_by_sig[tau][sig] - mean[tau])**2
                         nb_val += 1
-                    # * : Compute variance of these correlations (for every signals) with a fixed 'tau'
-                    # * : Compute the inverted dispersion (density ?) of these values (mean/variance)  and associate it to corresponding 'tau' value in a hash structure.
+                    # * : Compute variance of these correlations (for every signals) with a fixed 'tau'    
                 end
                 variance[tau] = acc.to_f / nb_val
             end
 
+            # * : Compute dispersion of these values (variance/mean) and associate it to corresponding 'tau' value in a hash structure.
             disp_index = {}
             mean.keys.each do |tau|
-                disp_index[tau] = variance[tau] / mean[tau]
+                if mean[tau] == 0.0 and variance[tau] == 0.0
+                    disp_index[tau] = 0.0
+                else
+                    disp_index[tau] = variance[tau] / mean[tau]
+                end
             end
 
-            # * : Selected best 'tau' value is the one which has the highest disp_index  
-            best_tau = closest(disp_index, 0).last
+            # * : Selected best 'tau' value is the one which has the closest to 0 variance/mean
+            begin
+                best_tau = closest(disp_index, 0).last
+            rescue => exception
+                raise "Error: 'disp_index' values comparison impossible\n -> #{disp_index}"
+            end
+            
             # best_tau = disp_index.key(disp_index.values.min)
 
             # * Return a correlation score, here it is the mean of cross_correlation of each signal 
