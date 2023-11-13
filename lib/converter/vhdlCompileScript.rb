@@ -91,7 +91,7 @@ module Converter
             nb_batch.times do |i|
                 code << "compile_batch#{i}:"
                 code.indent=1
-                code << "$(MAKE) -C batch#{i} -j#{batch_size}"
+                code << "$(MAKE) -C batch#{i}"# -j#{batch_size}"
                 code.indent=0
                 code.newline
             end
