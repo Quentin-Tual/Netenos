@@ -49,6 +49,7 @@ module Converter
                 code.indent=1
                 code << "rm circ#{i}/*.o"
                 code << "rm circ#{i}/*.cf"
+                code << "rm circ#{i}/*.txt"
                 # code << "rm circ#{i}/"
                 # code << "find circ#{i} -type f -executable -delete"
                 code << "find circ#{i} -type f -not -iname \"*.*\" -delete"
