@@ -45,24 +45,26 @@ module Converter
             code.newline
 
             batch_size.times do |i|
+                code << "clean#{i}:"
+                code.indent=1
+                code << "rm circ#{i}/*.o"
+                code << "rm circ#{i}/*.cf"
+                # code << "rm circ#{i}/"
+                # code << "find circ#{i} -type f -executable -delete"
+                code << "find circ#{i} -type f -not -iname \"*.*\" -delete"
+                # code << "rm circ#{i}/*.vcd"
+                # code << "rm circ#{i}/*.vhd" # might be removed
+                # code << "find circ0 -name 'circ#{i}_*_tb' -delete"
+                code.indent=0
+                code.newline
+
                 code << "compile_circ#{i}:"
                 code.indent=1
                 code << "cd circ#{i} && ./compile.sh"
+                code << "$(MAKE) clean#{i}"
                 code.indent=0
                 code.newline
             end
-
-            code << "clean:"
-            code.indent=1
-            batch_size.times do |i|
-                code << "rm circ#{i}/*.o"
-                code << "rm circ#{i}/*.cf"
-                code << "rm circ#{i}/*.vcd"
-                code << "rm circ#{i}/*.vhd" # might be removed
-                code << "find circ0 -name 'circ#{i}_*_tb' -delete"
-            end
-            code.indent=0
-            code.newline
 
             code.save_as("#{path}/makefile")
         end
@@ -94,16 +96,15 @@ module Converter
                 code << "$(MAKE) -C batch#{i} -j#{batch_size}"
                 code.indent=0
                 code.newline
-            end
+            
 
-            code << "clean:"
-            code.indent=1
-            nb_batch.times do |i|
-                code << "$(MAKE) -C batch#{i} clean"
+                code << "clean#{i}:"
+                code.indent=1
+                code << "$(MAKE) -C batch#{i} clean#{i}"
+                code.indent=0
+                code.newline
             end
-            code.indent=0
-            code.newline
-
+            
             code.save_as("#{path}/makefile")
         end
 
