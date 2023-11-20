@@ -1,0 +1,18 @@
+digraph test {
+		graph [rankdir = LR];
+		Xor260[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| Xor260 |{<o0>o0}}"]
+		And280[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And280 |{<o0>o0}}"]
+		And2100[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And2100 |{<o0>o0}}"]
+		And2120[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And2120 |{<o0>o0}}"]
+		And2140[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And2140 |{<o0>o0}}"]
+		And2160[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And2160 |{<o0>o0}}"]
+		And2180[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And2180 |{<o0>o0}}"]
+		And2200[shape=record; style=filled;color=cadetblue; label="{{<i0>i0|<i1>i1}| And2200 |{<o0>o0}}"]
+		And280:o0 -> And2160:i0;
+		And2100:o0 -> And2160:i1;
+		And2120:o0 -> And2180:i0;
+		And2140:o0 -> And2180:i1;
+		And2160:o0 -> And2200:i0;
+		And2180:o0 -> And2200:i1;
+		And2200:o0 -> Xor260:i1;
+}

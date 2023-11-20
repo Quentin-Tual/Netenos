@@ -4,7 +4,7 @@ require_relative "../netlist.rb"
 module Inserter
 
     class Og_s38417 < HT
-        # attr_accessor :components # DEBUG
+        attr_accessor :components # DEBUG
 
         def initialize nb_trigger
             # * : For the moment the only parameters allowed are power of 2 numbers. This is faster to develop and easier for a start. It may evolve later to allow more possibilities.

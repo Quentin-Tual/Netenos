@@ -1,10 +1,11 @@
 require '../lib/netenos.rb'
 
 include Netlist
-
-# ! Need to uncomment the DEBUG commented line in lib/inserter/og_s38417_T100.rb
+include Inserter
 
 ht = Cotd_s38417.new 
+
+puts "HT inserted : \n\t- Payload : #{ht.get_payload_in.partof.name}\n\t- Trigger proba. : #{ht.get_transition_probability} \n\t- Number of trigger signals : #{ht.get_triggers_nb}"
 
 wrapper = Circuit.new "test"
 ht.components.each {|comp| wrapper << comp}

@@ -2,7 +2,7 @@ module Inserter
         
     class HT 
 
-        # * : An HT netlist is considered as the referense pointing on its payload instance 
+        # * : An HT netlist is considered as the reference pointing on its payload instance 
         def initialize netlist = nil #, triggers, payload_out, payload_in=nil
             @netlist = nil
             @triggers = []
@@ -46,9 +46,24 @@ module Inserter
 
             if @components.include? curr_gate
                 if !curr_gate.is_a? Netlist::Not
+                    source0=curr_gate.get_inputs[0].get_source
+                    source1=curr_gate.get_inputs[1].get_source
+
+                    if source0.nil?
+                        transi_proba0 = 0.5
+                    else 
+                        transi_proba0 = get_transition_probability(source0.partof)
+                    end
+
+                    if source1.nil?
+                        transi_proba1 = 0.5
+                    else
+                        transi_proba1 = get_transition_probability(source1.partof)
+                    end
+
                     return compute_transit_proba(
-                        get_transition_probability(curr_gate.get_inputs[0].get_source.partof),
-                        get_transition_probability(curr_gate.get_inputs[1].get_source.partof),
+                        transi_proba0,
+                        transi_proba1,
                         curr_gate
                     )
                 else
