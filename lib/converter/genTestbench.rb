@@ -59,7 +59,7 @@ module Converter
 
             filename = "./#{circ_name}_#{freq.to_s.split('.').join}_tb.vhd"
             File.open(filename,'w'){|f| f.puts(src)}
-            puts " |--[+] generated '#{filename}'"
+            # puts " |--[+] generated '#{filename}'"
 
             return src # ! legacy but not necessary, generated src is already stored in a file  
         end

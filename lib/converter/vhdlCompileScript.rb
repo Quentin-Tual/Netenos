@@ -129,11 +129,11 @@ module Converter
                     freq.to_s.split('.').join
                 end 
                 freq_list.each do |freq|
-                    code << "echo \" |-- [+] compiling #{circ_init_name}_#{freq}_tb\""
+                    code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
                     code << "nvc --work=#{circ_init_name}_lib -L ../../gtech/ -M 1g -a #{circ_init_name}_#{freq}_tb.vhd "
-                    code << "echo \" |-- [+] elaborating #{circ_init_name}_#{freq}_tb\""
+                    code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
                     code << "nvc --work=#{circ_init_name}_lib -L ../../gtech/ -M 1g -e #{circ_init_name}_#{freq}_tb"
-                    code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
+                    code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     code << "nvc --work=#{circ_init_name}_lib -L ../../gtech/ -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
                     code.newline
                 end
@@ -144,10 +144,10 @@ module Converter
                     freq.to_s.split('.').join
                 end
                 freq_list.each do |freq|
-                    code << "echo \" |-- [+] compiling #{circ_init_name}_#{freq}_tb\""
+                    code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
                     code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
-                    code << "echo \" |-- [+] elaborating #{circ_init_name}_#{freq}_tb\""
-                    code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
+                    code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
+                    code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     # code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
                     # code << "ghdl -r #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
@@ -162,11 +162,11 @@ module Converter
                     freq.to_s.split('.').join
                 end
                 freq_list.each do |freq|
-                    code << "echo \" |-- [+] compiling #{circ_init_name}_#{freq}_tb\""
+                    code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
                     code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
-                    code << "echo \" |-- [+] elaborating #{circ_init_name}_#{freq}_tb\""
+                    code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
                     # code << "ghdl -e --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb"
-                    code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
+                    code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     # code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     code.newline

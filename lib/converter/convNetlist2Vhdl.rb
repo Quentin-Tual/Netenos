@@ -133,9 +133,9 @@ module Converter
             code.indent=0
             code << "begin"
             code.indent=2
-            code << "----------------------------------"
-            code << "-- input to wire connexions "
-            code << "----------------------------------"
+            # code << "----------------------------------"
+            # code << "-- input to wire connexions "
+            # code << "----------------------------------"
             # circuit.get_inputs.each do |global_input| # TODO : 'wire' seems to match with my sinks, but in my case it won't be assign statements but only port maps
             #     global_input.get_sinks.each{|sink| sink.name
             #         code << "#{global_input.sink.name} <= #{input.name};"
@@ -143,7 +143,7 @@ module Converter
             # end
             
             code << "----------------------------------"
-            code << "-- component interconnect "
+            code << "-- Components interconnect "
             code << "----------------------------------"
             circuit.components.each do |comp|
                 comp_entity=comp.class.to_s.split("::").last.downcase
@@ -174,7 +174,7 @@ module Converter
             end
             code.indent=2
             code << "----------------------------------"
-            code << "-- input to wire to output connexions "
+            code << "-- Wiring primary ouputs "
             code << "----------------------------------"
             circuit.get_outputs.each do |output|
                 code << "#{output.name} <= #{output.get_source.get_full_name};"
