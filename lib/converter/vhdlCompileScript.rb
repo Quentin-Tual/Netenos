@@ -39,7 +39,7 @@ module Converter
 
             all_statement = "all: "
             batch_size.times do |i|
-                all_statement.concat("compile_circ#{i} ")
+                all_statement.concat("compile_clean#{i} ")
             end
             code << all_statement
             code.newline
@@ -49,22 +49,31 @@ module Converter
                 code.indent=1
                 code << "rm circ#{i}/*.o"
                 code << "rm circ#{i}/*.cf"
-                code << "rm circ#{i}/*.txt"
+                code << "find circ#{i} -type f -not -iname \"*.*\" -delete"
+                code.indent=0
+                code.newline
+                # code << "rm circ#{i}/*.txt"
                 # code << "rm circ#{i}/"
                 # code << "find circ#{i} -type f -executable -delete"
-                code << "find circ#{i} -type f -not -iname \"*.*\" -delete"
                 # code << "rm circ#{i}/*.vcd"
                 # code << "rm circ#{i}/*.vhd" # might be removed
                 # code << "find circ0 -name 'circ#{i}_*_tb' -delete"
-                code.indent=0
-                code.newline
+                
 
                 code << "compile_circ#{i}:"
                 code.indent=1
                 code << "cd circ#{i} && ./compile.sh"
-                code << "$(MAKE) clean#{i}"
+                # code << "$(MAKE) clean#{i}"
                 code.indent=0
                 code.newline
+
+                code << "compile_clean#{i}: compile_circ#{i}"
+                code.indent=1
+                code << "echo \"[+] Cleaning circ#{i}\""
+                # code << "$(MAKE) clean#{i}"
+                code.indent=0
+                code.newline
+
             end
 
             code.save_as("#{path}/makefile")
@@ -94,7 +103,7 @@ module Converter
             nb_batch.times do |i|
                 code << "compile_batch#{i}:"
                 code.indent=1
-                code << "$(MAKE) -C batch#{i} -j#{batch_size}"
+                code << "$(MAKE) -C batch#{i} all -j#{batch_size}"
                 code.indent=0
                 code.newline
             
@@ -156,9 +165,10 @@ module Converter
                     code << "echo \" |-- [+] compiling #{circ_init_name}_#{freq}_tb\""
                     code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
                     code << "echo \" |-- [+] elaborating #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl -e --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb"
+                    # code << "ghdl -e --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb"
                     code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    # code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     code.newline
                     generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
                 end 
