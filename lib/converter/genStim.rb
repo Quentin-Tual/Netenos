@@ -33,41 +33,88 @@ module Converter
         #     return @stim
         # end
 
-        def gen_random_stim nb_cycle, trig_cond = nil
+        def gen_exhaustive_incr_stim
 
+            @inputs.each do |pname, datatype|
+                @stim[pname] = ""
+            end
+
+            max_value = 2**@inputs.length
+
+            # Generate all possible test vectors (incremental method)
+            vec_list = []
+            max_value.times do |value|
+                bin_value = '%0*b' % [@inputs.length, value]
+                vec_list << bin_value.reverse # reverse the list to keep the LSB for i0 and the MSB for iN (N : number of inputs - 1)
+            end
+
+            # Compute all possible transitions from one vector to another
+            # vec_list = vec_list.permutation(2).to_a.flatten
+            pp vec_list.length
+            tmp = []
+            vec_list.each_with_index do |x,i|
+                vec_list[i+1..].each do |y|
+                    tmp << [x,y]
+                end
+            end
+            tmp << vec_list[0]
+            vec_list = tmp.flatten!
+            pp vec_list.length
+
+            vec_list.each do |vec| 
+                @inputs.each_with_index do |pname, index|
+                    @stim[pname[0]].concat vec[index]
+                end
+            end
+
+            # max_value.times do |value|
+            #     bin_value = '%0*b' % [@inputs.length, value]
+            #     @inputs.each_with_index do |pname, index|
+            #         @stim[pname[0]].concat bin_value[index]
+            #     end
+            # end
+
+            return @stim
+        end
+
+        def gen_random_stim nb_cycle, trig_cond = nil
             @inputs.each { |pname, pdatatype|
-                @stim[pname] = []
+                rand_num = Random.new.rand(2**nb_cycle) 
+                @stim[pname] = '%0*b' % [nb_cycle, rand_num] # preferred for bit stuffing MSBs 0s, forgot if using '.to_s(2). method
             }
 
             # ! : Replace by until in order to always have the right stimuli number, even when some are deleted to avoid HT triggering ?
             # until @stim.values.last.length == nb_cycle
             # print"Removed cycle : "
-            nb_cycle.times do |j|
-                @inputs.each { |pname, pdatatype|
-                    @stim[pname] << get_rand_val(pdatatype)
-                }
-                # For each cycle generated, verify if the stimuli added activates the ht trigger, if it does remove them. 
-                if !trig_cond.nil?
-                    # raise "Error : Work In Progress"
-                    if verify_ht_activation(trig_cond)
-                        # puts "Another one : #{j}"
-                        # puts "triggered by :"
-                        # @stim.keys.each{|pname| print "#{@stim[pname].last}, "}
-                        remove_last_stim
-                        # print "#{j}, "
-                    end
-                end
-            end
+            # nb_cycle.times do |j|
+            #     @inputs.each { |pname, pdatatype|
+            #         @stim[pname] << get_rand_val(pdatatype)
+            #     }
+            #     # For each cycle generated, verify if the stimuli added activates the ht trigger, if it does remove them. 
+            #     if !trig_cond.nil?
+            #         if verify_ht_activation(trig_cond)
+            #             # puts "Another one : #{j}"
+            #             # puts "triggered by :"
+            #             # @stim.keys.each{|pname| print "#{@stim[pname].last}, "}
+            #             remove_last_stim
+            #             # print "#{j}, "
+            #         end
+            #     end
+            # end
+
             return @stim
         end
 
         # TODO : WIP
         def gen_sig_hammer_stim nb_cycle
+            # ! : Easier to use with nb_cycle >= 1000
+            nb_cycle = nb_cycle/(@inputs.length*4) # 3 transition following each stimuli # ? : Avoid the difference between the given nb_cycle and resulting nb_cycle
+
             gen_random_stim nb_cycle
 
             sigHammer_stim = {}
 
-            @stim.first[1].length.times do |n|
+            nb_cycle.times do |n|
                 @stim.keys.each do |varying_in|
                     @stim.keys.each do |prim_in|
                         if sigHammer_stim[prim_in].nil?
@@ -204,7 +251,6 @@ module Converter
             src.save_as path
         end
     
- 
         def save_as_txt path
             if path[-4..-1]!=".txt"
                 path.concat ".txt"
