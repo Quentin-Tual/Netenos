@@ -37,6 +37,10 @@ module Netlist
             end
         end
 
+        def getNetlistInformations
+            return self.get_inputs.length, self.get_outputs.length, self.components.length, self.crit_path_length    
+        end
+
         def to_hash
             return {
                 :circuit => {   
