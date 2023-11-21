@@ -50,7 +50,6 @@ module Converter
 
             # Compute all possible transitions from one vector to another
             # vec_list = vec_list.permutation(2).to_a.flatten
-            pp vec_list.length
             tmp = []
             vec_list.each_with_index do |x,i|
                 vec_list[i+1..].each do |y|
@@ -59,7 +58,6 @@ module Converter
             end
             tmp << vec_list[0]
             vec_list = tmp.flatten!
-            pp vec_list.length
 
             vec_list.each do |vec| 
                 @inputs.each_with_index do |pname, index|
