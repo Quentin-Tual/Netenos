@@ -12,9 +12,9 @@ module Netlist
     class RandomGenComb
         attr_accessor :netlist, :grid
 
-        def initialize nb_inputs = 10, nb_outputs = 5, height = 5
+        def initialize nb_inputs = 10, nb_outputs = 5, height = 5, gate_dist = lambda {|l| nb_inputs/2}
             @netlist = nil
-            @ng = lambda {|l| nb_inputs/2} # Rectangle shape
+            @ng = gate_dist # Rectangle shape
             # @ng = lambda {|l| nb_inputs/(2+l)} # Inverted Pyramid shape
             @caracs = {
                 :nb_inputs => nb_inputs,
@@ -42,7 +42,7 @@ module Netlist
             fill_state_variables
             wire_all_sources
             
-            @netlist.crit_path_length = @grid.length
+            # @netlist.crit_path_length = @grid.length
 
             return @netlist
         end
@@ -205,10 +205,8 @@ module Netlist
             end
         end
 
- 
-
-        def getNetlistInformations
-            return @netlist.get_inputs.length, @netlist.get_outputs.length, @netlist.components.length, @netlist.crit_path_length    
+        def getNetlistInformations delay_model
+            return @netlist.getNetlistInformations delay_model
         end
 
         ## ! WIP code, to be considered not functionnal

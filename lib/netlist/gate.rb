@@ -2,8 +2,15 @@ require_relative 'port.rb'
 
 module Netlist
 
+    MEAN_DELAY = {
+            :one => 1.0,
+            :int => 1.5,
+            :int_rand => 1.5,
+            :fract => 1.0
+    }
+
     class Gate < Circuit
-        attr_accessor :name, :ports, :partof, :propag_time
+        attr_accessor :name, :ports, :partof, :propag_time, :cumulated_propag_time
 
         def initialize name = "#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs = self.class.name.split("::")[1].chars[-1].to_i
             @name = name
@@ -16,6 +23,7 @@ module Netlist
             @partof = partof
             @components = [] 
             @propag_time = {:one => 1.0, :int => (((nb_inputs+1.0)/2.0)).round(3), :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3), :fract => (0.3 + ((((nb_inputs+1.0)/2.0)*rand(0.9..1.1))/2.2)).round(3)} # Supposedly in nanoseconds, 2.2 is the max value , 0.3 is the offset to center the distribution at 1.(normalization to fit in the other model)
+            @cumulated_propag_time = 0
         end
         def <<(e)
             e.partof = self
@@ -47,6 +55,15 @@ module Netlist
         def get_output
             @ports[:out][0]
         end
+
+        def update_path_delay elapsed, delay_model
+            @cumulated_propag_time = [elapsed + @propag_time[delay_model], @cumulated_propag_time].max
+            get_output.get_sinks.each do |sink|
+                if !sink.is_global?
+                    sink.partof.update_path_delay @cumulated_propag_time, delay_model
+                end
+            end
+        end
     end
 
     class And3 < Gate; end
@@ -70,6 +87,7 @@ module Netlist
             @partof = partof
             @components = []
             @propag_time = {:one => 1.0, :int => 1.0, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
+            @cumulated_propag_time = 0
         end
 
         def <<(e)

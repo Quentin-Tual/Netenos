@@ -7,7 +7,7 @@ ht = Cotd_s38417.new
 
 puts "HT inserted : \n\t- Payload : #{ht.get_payload_in.partof.name}\n\t- Trigger proba. : #{ht.get_transition_probability} \n\t- Number of trigger signals : #{ht.get_triggers_nb}"
 
-wrapper = Circuit.new "test"
+wrapper = Circuit.new "cotd_s38417"
 ht.components.each {|comp| wrapper << comp}
 
 viewer = Converter::DotGen.new

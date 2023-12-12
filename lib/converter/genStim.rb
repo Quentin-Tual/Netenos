@@ -33,8 +33,7 @@ module Converter
         #     return @stim
         # end
 
-        def gen_exhaustive_incr_stim
-
+        def gen_exhaustive_trans_stim
             @inputs.each do |pname, datatype|
                 @stim[pname] = ""
             end
@@ -73,6 +72,67 @@ module Converter
             # end
 
             return @stim
+        end
+
+        def gen_exhaustive_incr_stim nb_inputs=nil
+
+            @inputs.each do |pname, datatype|
+                @stim[pname] = ""
+            end
+
+
+            max_value = 2**@inputs.length
+
+            # Generate all possible test vectors (incremental method)
+            vec_list = []
+            max_value.times do |value|
+                bin_value = '%0*b' % [@inputs.length, value]
+                vec_list << bin_value.reverse # reverse the list to keep the LSB for i0 and the MSB for iN (N : number of inputs - 1)
+            end
+
+            # Compute all possible transitions from one vector to another
+            # vec_list = vec_list.permutation(2).to_a.flatten
+            # tmp = []
+            # vec_list.each_with_index do |x,i|
+            #     vec_list[i+1..].each do |y|
+            #         tmp << [x,y]
+            #     end
+            # end
+            # tmp << vec_list[0]
+            # vec_list = tmp.flatten!
+
+            # Conv from a list of vector to a dict of vector by signals
+            vec_list.each do |vec| 
+                @inputs.each_with_index do |pname, index|
+                    @stim[pname[0]].concat vec[index]
+                end
+            end
+
+            # max_value.times do |value|
+            #     bin_value = '%0*b' % [@inputs.length, value]
+            #     @inputs.each_with_index do |pname, index|
+            #         @stim[pname[0]].concat bin_value[index]
+            #     end
+            # end
+
+            return @stim
+        end
+
+        def extend_exhaustive_all_trans vec_list
+            # @stim (re)initialization
+            # @inputs.each do |pname, datatype|
+            #     @stim[pname] = ""
+            # end
+
+            tmp = []
+            vec_list.each_with_index do |x,i|
+                vec_list[i+1..].each do |y|
+                    tmp << [x,y]
+                end
+            end
+            tmp << vec_list[0]
+
+            return tmp.flatten
         end
 
         def gen_random_stim nb_cycle, trig_cond = nil
@@ -250,25 +310,78 @@ module Converter
         end
     
         def save_as_txt path
-            if path[-4..-1]!=".txt"
+            if path[-4..-1]!=".txt" and path[-5..-1]!=".stim"
                 path.concat ".txt"
             end
 
             src = Code.new
             src << "# Stimuli sequence"
 
-            @stim.values[0].length.times do |cycle|
-                line = ""
-                @stim.keys.each do |pname|
-                    line << @stim[pname][cycle]
+            if !@stim.nil? 
+                @stim.values[0].length.times do |cycle|
+                    line = ""
+                    @stim.keys.each do |pname|
+                        line << @stim[pname][cycle]
+                    end
+                    src << line
                 end
-                src << line
             end
 
             src.save_as path
         end 
-    
 
+        def load_txt path
+            if path[-4..-1]!=".txt" and path[-5..-1]!=".stim"
+                path.concat ".txt"
+            end
+
+            vec_list = File.read(path).split("\n")[1..]
+
+            return vec_list
+            # vec_list.each do |vec| 
+            #     @inputs.each_with_index do |pname, index|
+            #         @stim[pname[0]].concat vec[index]
+            #     end
+            # end
+            
+            # puts src
+        end 
+
+        def convert_vec_list_2_stim vec_list
+            
+            # Reinitialize
+            @inputs.each do |pname, datatype|
+                @stim[pname] = ""
+            end
+
+            if vec_list == nil 
+                return vec_list
+            end
+
+            # convert
+            vec_list.each do |vec| 
+                @inputs.each_with_index do |pname, index|
+                    @stim[pname[0]].concat vec[index]
+                end
+            end
+
+            return @stim
+        end
+
+
+        def save_vec_list path, vec_list 
+            src = Code.new
+            src << "# Stimuli sequence"
+
+            vec_list.each do |vec|
+                if !vec.nil? # ! TEST DEBUG
+                    src << vec.reverse
+                end
+            end 
+
+            src.save_as path
+        end
+    
     # TODO : Add chessboard pattern, full one, full zero, moving one, moving zero, ... simple patterns ?
     end
 end

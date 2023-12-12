@@ -37,8 +37,20 @@ module Netlist
             end
         end
 
-        def getNetlistInformations
+        def getNetlistInformations delay_model
+            self.get_exact_crit_path_length delay_model
             return self.get_inputs.length, self.get_outputs.length, self.components.length, self.crit_path_length    
+        end
+
+        def get_exact_crit_path_length delay_model 
+            get_inputs.each do |p_in|
+                p_in.get_sinks.each do |sink|
+                    sink.partof.update_path_delay 0, delay_model
+                end
+            end
+
+            @crit_path_length = get_outputs.collect{|p_out| p_out.get_source.partof.cumulated_propag_time}.max
+            return @crit_path_length
         end
 
         def to_hash

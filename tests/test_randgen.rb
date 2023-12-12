@@ -4,8 +4,8 @@ require_relative "../lib/netlist.rb"
 include Netlist
 include VHDL
 
-# generator = Netlist::RandomGenComb.new 100, 20, 20
-generator = Netlist::RandomGenComb.new 20, 5, 5
+generator = Netlist::RandomGenComb.new 35, 20, 30
+# generator = Netlist::RandomGenComb.new 200, 10, 10
 rand_circ = generator.getRandomNetlist "test"
 puts "Gates amount : #{rand_circ.components.length}"
 

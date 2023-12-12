@@ -6,13 +6,13 @@ module Converter
     class GenTestbench
         attr_accessor :stimuli, :netlist_data
 
-        def initialize netlist
-            @netlist_data = data_extraction(netlist)
+        def initialize netlist, margin
+            @netlist_data = data_extraction(netlist, margin)
             @tb_src = Code.new
             @portmap = ""
         end
 
-        def data_extraction netlist
+        def data_extraction netlist, margin = 6
             # * : Extracts data used in testbench ERB template 
             ret = {}
             ret[:entity_name] = netlist.name
@@ -21,7 +21,7 @@ module Converter
                 (:out) => netlist.get_outputs.collect{|p| p.name}
             }
             # @netlist_data[:nb_port] = netlist.get_ports.length
-            ret[:crit_path_length] = (netlist.crit_path_length) + 3
+            ret[:crit_path_length] = (netlist.crit_path_length) + margin
  
             return ret
         end
@@ -32,6 +32,9 @@ module Converter
 
             gen_arch_body_uut_portmap
             case stim_type
+            when String 
+                @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template3.vhdl")) 
             when :passed
                 # TODO : Remplacer par un fichier (chemin)
                 # gen_arch_body_filebased_stim(@stimuli, circ_name)

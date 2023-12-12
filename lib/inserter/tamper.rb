@@ -251,29 +251,29 @@ module Inserter
             end
 
             if !max_stage.nil? and max_stage <= min_stage 
-                raise "Error:  Not enough space to insert this trojan so close to the inputs. Try another trojan or increase the circuit size."
+                raise "Error:  Not enough space to insert this trojan, too close to the inputs. Try another trojan or increase the circuit size."
             end
 
             stage = @stages.keys[min_stage...max_stage].sample
                  
-                if @stages[stage].nil? 
-                    raise "Error: Attribute valued nil\n -> @stages : #{@stages.nil?} @stages[stage] : #{@stages[stage]} stage : #{stage} min_stage : #{min_stage} stage_max : #{@stages.keys.max}"
-                end
-                attacked_sig = @stages[stage].sample.get_output
-                # if comp.class == Port
-                #     if comp.is_global? and comp.is_input?
-                #         raise "Error: HT won't be inserted on a primary input."
-                #     end
-                # end
+            if @stages[stage].nil? 
+                raise "Error: Attribute valued nil\n -> @stages : #{@stages.nil?} @stages[stage] : #{@stages[stage]} stage : #{stage} min_stage : #{min_stage} stage_max : #{@stages.keys.max}"
+            end
+            attacked_sig = @stages[stage].sample.get_output
+            # if comp.class == Port
+            #     if comp.is_global? and comp.is_input?
+            #         raise "Error: HT won't be inserted on a primary input."
+            #     end
+            # end
 
-                if attacked_sig.get_sinks.empty? # ! DEBUG
-                    if !@netlist.components.include? attacked_sig.partof
-                        puts "Error: Unknown component, not found in the netlist"
-                    end
-                    raise "Error: selected insertion location has no sink.\n -> #{attacked_sig.get_full_name}"
+            if attacked_sig.get_sinks.empty? # ! DEBUG
+                if !@netlist.components.include? attacked_sig.partof
+                    puts "Error: Unknown component, not found in the netlist"
                 end
+                raise "Error: selected insertion location has no sink.\n -> #{attacked_sig.get_full_name}"
+            end
 
-                return attacked_sig, stage
+            return attacked_sig, stage
         end
 
         def select_triggers_sig n, max_stage
@@ -368,6 +368,10 @@ module Inserter
 
         def get_ht_stage 
             return @location
+        end
+
+        def get_ht_size 
+            return @ht.get_components.length
         end
 
     end

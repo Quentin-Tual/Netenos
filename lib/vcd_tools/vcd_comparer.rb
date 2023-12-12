@@ -323,7 +323,7 @@ module VCD
             trace_a.keys.each do |sig|
                 trace_a[sig].length.times do |i|
                     if trace_a[sig][i] != trace_b[sig][i]
-                        res << (i-2) # outputs sampled by a register so the stimuli at previous cycle are responsible of the seen output
+                        res << i-2 # outputs sampled by a register so the stimuli at previous cycle are responsible of the seen output
                     end
                 end
             end
@@ -335,7 +335,8 @@ module VCD
             trace_a.keys.each do |sig|
                 removed = 0 # Should be 0
                 list.sort.each do |i|
-                    trace_a[sig].delete_at(i - removed)
+                    # trace_a[sig].delete_at(i - removed)
+                    trace_a[sig].slice!(i - removed)
                     removed += 1
                 end
             end

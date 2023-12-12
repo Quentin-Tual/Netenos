@@ -39,7 +39,7 @@ module Converter
 
             all_statement = "all: "
             batch_size.times do |i|
-                all_statement.concat("compile_clean#{i} ")
+                all_statement.concat("compile_circ#{i} ")
             end
             code << all_statement
             code.newline
@@ -50,12 +50,13 @@ module Converter
                 code << "rm circ#{i}/*.o"
                 code << "rm circ#{i}/*.cf"
                 code << "find circ#{i} -type f -not -iname \"*.*\" -delete"
+                # code << "rm circ#{i}/*.vcd"
                 code.indent=0
                 code.newline
                 # code << "rm circ#{i}/*.txt"
                 # code << "rm circ#{i}/"
                 # code << "find circ#{i} -type f -executable -delete"
-                # code << "rm circ#{i}/*.vcd"
+                
                 # code << "rm circ#{i}/*.vhd" # might be removed
                 # code << "find circ0 -name 'circ#{i}_*_tb' -delete"
                 
@@ -67,9 +68,9 @@ module Converter
                 code.indent=0
                 code.newline
 
-                code << "compile_clean#{i}: compile_circ#{i}"
-                code.indent=1
-                code << "echo \"[+] Cleaning circ#{i}\""
+                # code << "compile_clean#{i}: compile_circ#{i}"
+                # code.indent=1
+                # code << "echo \"[+] Cleaning circ#{i}\""
                 # code << "$(MAKE) clean#{i}"
                 code.indent=0
                 code.newline
@@ -169,6 +170,12 @@ module Converter
                     code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     # code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    # * Clean work directory
+                    code << "rm #{circ_init_name}_#{freq}_tb.o"
+                    code << "rm e~#{circ_init_name}_#{freq}_tb.o"
+                    code << "rm #{circ_init_name}_#{freq}_tb.opt"
+                    code << "rm #{circ_init_name}_#{freq}_tb"
+                    # code << "find . -type f -not -iname \"*.*\" -and -not -iname \"ht_carac\" -delete"
                     code.newline
                     generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
                 end 
