@@ -14,30 +14,41 @@ module VCD
         end
 
         # * : Start the extraction, kind of the FSM controler
-        def extract compiler
+        def extract compiler, signals = :outputs_only
             if @vcd.nil?
                 raise "Error : A VCD file must be loaded with 'load_vcd()' first."
             end
-            traces_definition compiler
+
+            traces_definition compiler, signals
             selected_traces_extraction
             return {    "output_traces" => @output_traces, 
                         "id_tab" => @id_tab }
         end
 
         # * : Defines traces to follow and their identifier in the vcd file (header data extraction)
-        # ? : Renommer en get_ids ou id_extraction ou extract_definitions 
-        def traces_definition compiler
+        def traces_definition compiler, opt=:outputs_only
             @vcd.shift(8)
             tmp = next_output
             data_type = (compiler == :nvc) ? "logic" : "reg";
 
-            until tmp == "$enddefinitions $end" 
-                if tmp.match?(/\$var #{data_type} [0-9]+ .+ tb_o[0-9]+_s .+/) # ! : Not really optimized, certainly could be improved
-                    tmp = tmp.split
-                    @id_tab[tmp[3]] = tmp[4] # * : The original signal name (tmp[4]) is associated to VCD ID (tmp[3]).
-                    # @output_traces[tmp[3]] = {} # * : Hash initialization allowing to add timestamp/value pairs later 
+            if opt.is_a? Array # * 'opt' is a list of signals to monitor
+                until tmp == "$enddefinitions $end" 
+                    if opt.include? tmp.split(" ")[4] 
+                        tmp = tmp.split
+                        @id_tab[tmp[3]] = tmp[4] # * : The original signal name (tmp[4]) is associated to VCD ID (tmp[3]).
+                    end
+                    tmp = next_output
                 end
-                tmp = next_output
+            elsif opt == :outputs_only
+                until tmp == "$enddefinitions $end" 
+                    if tmp.match?(/\$var #{data_type} [0-9]+ .+ tb_o[0-9]+_s .+/) # ! : Not really optimized, certainly could be improved
+                        tmp = tmp.split
+                        @id_tab[tmp[3]] = tmp[4] # * : The original signal name (tmp[4]) is associated to VCD ID (tmp[3]).
+                    end
+                    tmp = next_output
+                end
+            else # :all_sig for example
+                raise "Error : Functionnality not available yet ! WIP"
             end
 
         end
@@ -45,46 +56,42 @@ module VCD
         def selected_traces_extraction
             @output_traces = {}
             # * Only keeps the output signals
-            tmp = next_output
+            tmp = next_output # init
+
             until tmp.nil?
                 if tmp[0] == '#' # * : new timestamp detected, update it
                     update_timestamp tmp.delete_prefix("#")
                 # * : Unexpected syntax are covered by the raise in the next conditionnal branchement
                 else
-                    # tmp.concat("\n")
-                    # tmp.map!{|e| e.concat "\n"}
-                    # if tmp.length == 1
                     value = tmp[0]
-                    id = tmp[1..] # -2 for '\n' removal
+                    id = tmp[1..]
                     if !@id_tab[id].nil?
                         id = id[0..-1]
-                        # if @id_tab[tmp[1]].nil?
-                        #     puts "here"
-                        # end
-                        # tmp = tmp.chars  # ! Passage en chars problématique si id sur deux caractères
                         @output_traces[@current_timestamp][@id_tab[id]] = value
                     end
-                    # elsif tmp.length == 2 # ! Not sure it happens anytime with the generated testbenches
-                    #     @output_traces[@current_timestamp][tmp[1]] = tmp[0]
-                    # else 
-                    #     raise "Internal error : Unexpected syntax encountered."
-                    # end
                 end
 
-                tmp = next_output # TODO : Move it to the start of teh loop, deleting initialization just before the loop ?
+                tmp = next_output
             end
 
             @output_traces.each{|key,val| if val.empty? then @output_traces.delete(key) end}
         end
 
-        def get_clock_period
-            # * : Returns the OBSERVATION clock period for the given vcd file 
-            # * Find 'obs_clk' VCD_ID in declarations section
-                # * Go to line 18 -> recover the ID, line 18 equals 17th element cause ther is a 0 ranked element in @vcd
-            # id = @vcd[17].split[3]
+        def get_last_timestamp
+            @vcd.reverse_each do |line|
+                if line[0] == '#'
+                    return line.delete_prefix('#').to_i
+                end 
+            end
+
+            raise "Error: clock not found"
+        end
+
+        def get_clock_period clk_name="obs_clk"
+            # * : Returns the clock period for the given vcd file (by default the OBSERVATION clock named 'obs_clk')
             id = nil
             @vcd.each do |line|
-                if line.split.include? "obs_clk"
+                if line.split.include? clk_name
                     id = line.split[3]
                     break
                 else
@@ -115,7 +122,7 @@ module VCD
                     # * Memorize the last encountered timestamp (0 as the first) 
                     # * When found memorize the timestamp 
                     last_timestamp = line.delete_prefix("#")
-                elsif line.include?(id) and (line.length < 3) # We know the clock is alwaysin  the first symbol attribution so its ID is only one symbol long 
+                elsif line.include?(id) and (line.length < 3) # We know the clock is always in the first symbol attribution so its ID is only one symbol long 
                     # * Check if the ID has an event in this timestamp until it is another timestamp, then update the last uncountered timestamp
                     bounds << last_timestamp.to_i
                 # * When 2 timestamp are found by this way (first should be 0, second is half the period) 

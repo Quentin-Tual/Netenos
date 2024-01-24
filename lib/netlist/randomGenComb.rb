@@ -1,21 +1,22 @@
 require_relative "../netenos.rb"
 
 module Netlist
-# ! : Avoid multiple primary output using the same signal as source
-    # TODO : If it's a primary output (global_output)
-    # TODO : Create a temporary pool (hash) only containing gates not connected to primary outputs 
-    # TODO : Delete empty layers 
-    # TODO : effectuer les mêmes opération que d'habitude mais sur cette pool
-    # TODO : Do same operations as usual but on this pool, keeping it updated with only not to gate primary outputs
-    # TODO : Keep coherence between differents "pools"
 
     class RandomGenComb
-        attr_accessor :netlist, :grid
+        attr_accessor :netlist, :grid, :ng
 
-        def initialize nb_inputs = 10, nb_outputs = 5, height = 5, gate_dist = lambda {|l| nb_inputs/2}
+        def initialize nb_inputs = 10, nb_outputs = 5, height = 5, gate_distrib = [:even, 0.5]
             @netlist = nil
-            @ng = gate_dist # Rectangle shape
-            # @ng = lambda {|l| nb_inputs/(2+l)} # Inverted Pyramid shape
+            if gate_distrib[0] == :even    
+                @ng = lambda {|l| nb_inputs*gate_distrib[1]} # Rectangle shape
+            elsif gate_distrib[0] == :decreasing
+                @ng = lambda {|l| nb_inputs/((1/gate_distrib[1])+l)} # Inverted Pyramid shape
+            elsif gate_distrib[0] == :custom
+                b = nb_inputs * gate_distrib[1]
+                a = (nb_outputs - b)/height
+                @ng = lambda {|l| a*l + b}
+            end
+
             @caracs = {
                 :nb_inputs => nb_inputs,
                 :nb_outputs => nb_outputs,
@@ -26,13 +27,14 @@ module Netlist
             @already_used_sources = {} # Contains already used sources for each layer
             @sources_usage_count = {} # Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
             @available_primary_output_sources = {}
+            @gate_pool = $GTECH.select{|klass| klass != Buffer}
         end
 
         def getRandomNetlist name = "rand_#{self.object_id}"
             # Initialize variables to fill the sources pool later
             @available_sources = {} # Contains available sources for each layer
             @already_used_sources = {} # Contains already used sources for each layer
-            @sources_usage_count = {} # Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
+            # @sources_usage_count = {} # Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
             @available_primary_output_sources = {}
             
             @netlist = Netlist::Circuit.new name
@@ -41,8 +43,6 @@ module Netlist
             gen_profile @caracs[:nb_inputs], @caracs[:nb_outputs]
             fill_state_variables
             wire_all_sources
-            
-            # @netlist.crit_path_length = @grid.length
 
             return @netlist
         end
@@ -61,12 +61,11 @@ module Netlist
             }
 
             # **** Components Grid Generation ****
-            # comp_number = 0 # ! Results from the other parameters  
 
             @grid.length.times do |layer|
-                @grid[layer] = Array.new(@ng.call(layer)) # calling ng being number of gates per layer depending on a lambda function (shape of the netlist defined by this lambda)
+                @grid[layer] = Array.new(@ng.call(layer).to_i) # calling ng being number of gates per layer depending on a lambda function (shape of the netlist defined by this lambda)
                 @grid[layer].length.times do |cell|
-                    @grid[layer][cell] = $GTECH.sample.new
+                    @grid[layer][cell] = @gate_pool.sample.new
                     @netlist << @grid[layer][cell] # Adding each components to the netlist components list
                 end 
             end
@@ -82,20 +81,18 @@ module Netlist
 
             # * : Verify if the sink to wire is a primary output
             if sink.is_global? and sink.is_output?
-            # TODO : Select a source in sources not already plugged to primary output
+            # * : Select a source in sources not already plugged to primary output
                 autorized_layers = @available_primary_output_sources.keys.select{|layer| layer <= layer_max}
+
                 if !@available_primary_output_sources.empty?
                     selected_layer = autorized_layers[-1]
+                   
                     selected_source = @available_primary_output_sources[selected_layer].sample
                 else
                     raise "Error : Internal error encountered. Situation not yet handled, you can try changing netlist generation parameters."
                 end
-            # TODO : If none available (very low probability) then delete the output (at first sight, the best option)
+            # * : If none available then delete the output (at first sight, the best option)
                 sink <= selected_source
-
-
-
-                @sources_usage_count[selected_source] += 1
 
                 # * : Update variables
                 # @available_primary_output_sources[selected_layer].delete(selected_source)
@@ -108,26 +105,25 @@ module Netlist
             elsif !@available_sources.empty? and !autorized_layers.empty?
                 # * : Select an available source to be wired
                 selected_layer = autorized_layers.sample
-                selected_source = @available_sources[selected_layer].sample
+
+                min_value = @sources_usage_count[selected_layer].values.min
+                min_pairs = @sources_usage_count[selected_layer].each_with_object([]) { |(key, value), arr| arr << [key, value] if value == min_value }
+
+                selected_source = (min_pairs.sample)[0]
                 
-
-
                 sink <= selected_source
 
-                @sources_usage_count[selected_source] += 1
+                @sources_usage_count[selected_layer][selected_source] += 1
 
                 # * : Update variables 
-                if @available_sources[selected_layer].length > 0
-                    # * : Delete the source wired from the available sources 
-                    @available_sources[selected_layer].filter!{|source| source != selected_source}
-                    @sources_usage_count[selected_source] = 1
-                    # * : Register the source as an @already_used_source 
-                    if @already_used_sources.keys.include? selected_layer 
-                        @already_used_sources[selected_layer] << selected_source
-                    else 
-                        @already_used_sources[selected_layer] = [selected_source]
-                    end 
-                end
+                # * : Delete the source wired from the available sources 
+                @available_sources[selected_layer].filter!{|source| source != selected_source}
+                # * : Register the source as an @already_used_source 
+                if @already_used_sources.keys.include? selected_layer 
+                    @already_used_sources[selected_layer] << selected_source
+                else 
+                    @already_used_sources[selected_layer] = [selected_source]
+                end 
 
                 if @available_sources[selected_layer].empty?
                     # * : If the layer is empty, clean it
@@ -137,11 +133,15 @@ module Netlist
                 # * : Select a source already used respecting the layer_max constraint
                 autorized_layers = @already_used_sources.keys.select{|layer| layer <= layer_max}
                 selected_layer = autorized_layers.sample
-                selected_source = @already_used_sources[selected_layer].sample
+
+                min_value = @sources_usage_count[selected_layer].values.min
+                min_pairs = @sources_usage_count[selected_layer].each_with_object([]) { |(key, value), arr| arr << [key, value] if value == min_value }
+
+                selected_source = (min_pairs.sample)[0]
 
                 sink <= selected_source
                 # * : Update the variables
-                @sources_usage_count[selected_source] += 1
+                @sources_usage_count[selected_layer][selected_source] += 1
             end
         end
 
@@ -149,12 +149,13 @@ module Netlist
         def fill_state_variables
             curr_layer = 0
             @available_sources[curr_layer] = []
+            @sources_usage_count[curr_layer] = {}
 
             # * : For each primary input
             @netlist.get_inputs.each do |primary_input|
                 # * : Register the primary input as an available source
                 @available_sources[curr_layer] << primary_input
-                @sources_usage_count[primary_input] = 0
+                @sources_usage_count[curr_layer][primary_input] = 0
             end
 
             # * : For each layer of the grid
@@ -163,11 +164,12 @@ module Netlist
                 # * : Register each component output as an available source
                 @available_sources[layer+1] = []
                 @available_primary_output_sources[layer+1] = []
+                @sources_usage_count[layer+1] = {}
                 @grid[layer].each do |comp|  
                     comp.get_outputs.each do |comp_out|
                         @available_sources[layer+1] << comp_out
                         @available_primary_output_sources[layer+1] << comp_out
-                        @sources_usage_count[comp_out] = 0
+                        @sources_usage_count[layer+1][comp_out] = 0
                     end 
                 end
             end
@@ -209,8 +211,7 @@ module Netlist
             return @netlist.getNetlistInformations delay_model
         end
 
-        ## ! WIP code, to be considered not functionnal
-
+        ## ! WIP code, not functionnal
         def scan_netlist
             # * : Inputs scanned first 
             @netlist.get_inputs.each do |global_input|
@@ -222,8 +223,6 @@ module Netlist
             @netlist.get_inputs.each do |global_input|
                 global_input.get_sinks.each do |sink| 
                     visit_netlist sink.partof, 1
-                    # ! : TEST
-                    # visit_netlist2(sink.partof, 0)
                 end 
             end
             
@@ -236,6 +235,8 @@ module Netlist
             return @stages.values.max
         end
 
+
+        ## ! WIP code, not functionnal
         def get_back
             # puts("Entered get_back") # DEBUG
             if @branch_points.empty?
@@ -273,6 +274,8 @@ module Netlist
             return curr_comp, curr_stage
         end
 
+
+        ## ! WIP code, not functionnal
         def get_forward curr_comp, curr_stage, curr_port
             # puts("Entered get_forward") # DEBUG
             @stages[curr_comp] = curr_stage
@@ -299,6 +302,7 @@ module Netlist
             return curr_comp, curr_stage, curr_port
         end
 
+        ## ! WIP code, not functionnal
         def visit_netlist2 curr_comp, curr_stage
             # @branch_points = {curr_comp => curr_stage} # ! déterminer le cas initial permettant de rentrer dans la boucle
             # * : curr_port = output ports 
@@ -325,6 +329,7 @@ module Netlist
             return @stages
         end
 
+        ## ! WIP code, not functionnal
         def propag_visit sink_comp, curr_stage
         # * : Allows to propagate the visit along the path, taking in account every object types possibly encountered.
             sink_comp.get_outputs.each do |sink_comp_outport|
@@ -338,6 +343,7 @@ module Netlist
             end
         end
 
+        ## ! WIP code, not functionnal
         def visit_netlist sink_comp, curr_stage
         # * : Recursive function used to fill the @stages attribute, going through the paths from inputs to outputs.
             if sink_comp.partof.nil? 
@@ -355,8 +361,3 @@ module Netlist
         end
     end
 end
-
-# viewer = Netlist::DotGen.new
-# viewer.dot @netlist
-
-# pp comp_number

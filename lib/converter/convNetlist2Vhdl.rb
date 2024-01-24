@@ -4,12 +4,7 @@ require_relative '../netlist.rb'
 module Converter
 
     class ConvNetlist2Vhdl
-        # * : Convert a Netlist to a Vhdl not decorated AST.
-        # * : Then it will need to be visited to decorate it and verify its correctness.
-        # * : Finally the decorated AST will be ready to be deparsed to recover a VHDL source code file (structural). 
-
-        # TODO : Add a "library/use" in headers of the generated file
-        # TODO : create a directory containing the vhdl generated and another directory in it with delayed operators package.
+        # * : Convert a Netlist to a Vhdl format
 
         def initialize netlist = nil
             @netlist = netlist
@@ -25,24 +20,16 @@ module Converter
                 circuit_name= circuit_klass.to_s.split('::').last.downcase.concat("_d")
                 case circuit_name
                 when "not_d"
-                    circuit_instance=circuit_klass.new("test")
+                    circuit_instance=circuit_klass.new
                     func_code="o0 <= not i0 after delay;"
-                # when Dff
-                #     func_code=Code.new
-                #     func_code << "process(clk)"
-                #     func_code.indent=2
-                #     func_code << "if rising_edge(clk) then"
-                #     func_code.indent=4
-                #     func_code << "q <= d;"
-                #     func_code.indent=2
-                #     func_code << "end if;"
-                #     func_code.indent=0
-                #     func_code << "end process;"
+                when "buffer_d"
+                    circuit_instance=circuit_klass.new
+                    func_code="o0 <= i0 after delay;"
                 else
                     mdata=circuit_name.match(/\A(\D+)(\d*)/)
                     op=mdata[1]
                     card=(mdata[2] || "0").to_i
-                    circuit_instance=circuit_klass.new("test")
+                    circuit_instance=circuit_klass.new
                     assign_lhs=circuit_instance.get_outputs.first.name
                     assign_rhs=circuit_instance.get_inputs.map{|input| input.name}.join(" #{op} ")
                     assign_rhs="not #{assign_rhs}" if op=="not"
@@ -119,13 +106,7 @@ module Converter
             wires.each do |wire_name|
                 code << "signal #{wire_name} : std_logic;"
             end
-            signals=circuit.components.collect{|comp| 
-                if comp.get_output.get_sinks[0].class == Netlist::Wire
-                    comp.get_output.get_sinks[0]
-                else
-                    comp.get_outputs
-                end
-            }.flatten
+            signals=circuit.components.collect{|comp| comp.get_outputs}.flatten
 
             signals.each do |sig|
                 code << "signal #{sig.get_full_name} : std_logic;"
@@ -133,14 +114,6 @@ module Converter
             code.indent=0
             code << "begin"
             code.indent=2
-            # code << "----------------------------------"
-            # code << "-- input to wire connexions "
-            # code << "----------------------------------"
-            # circuit.get_inputs.each do |global_input| # TODO : 'wire' seems to match with my sinks, but in my case it won't be assign statements but only port maps
-            #     global_input.get_sinks.each{|sink| sink.name
-            #         code << "#{global_input.sink.name} <= #{input.name};"
-            #     } 
-            # end
             
             code << "----------------------------------"
             code << "-- Components interconnect "

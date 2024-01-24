@@ -15,6 +15,7 @@ module Inserter
             @stages = stages
             @ht = nil
             @location = nil
+
             # if stages.empty? # ! : Legacy cause not used anymore, scan_netlist is not functional as this.
             #     scan_netlist # * : Gives a hash dividing the netlist by stages, each being the max distance of each components from a global input 
             #     @stages = inside_out @stages # * : Reverse it to use the stage number as a key
@@ -116,7 +117,7 @@ module Inserter
             return not(port_name.split('_').length > 1)
         end
 
-        # ! : Legacy
+        # ! : Legacy / Not working
         # def scan_netlist
         #     # * : Inputs scanned first 
         #     @netlist.get_inputs.each do |global_input|
@@ -139,7 +140,7 @@ module Inserter
         #     return @stages.values.max
         # end
 
-        # ! : Legacy
+        # ! : Legacy / Not working
         # def propag_visit sink_comp, curr_stage
         # # * : Allows to propagate the visit along the path, taking in account every object types possibly encountered.
         #     sink_comp.get_outputs.each do |sink_comp_outport|
@@ -153,7 +154,7 @@ module Inserter
         #     end
         # end 
 
-        # ! : Legacy
+        # ! : Legacy / Not working
         # def visit_netlist sink_comp, curr_stage
         # # * : Recursive function used to fill the @stages attribute, going through the paths from inputs to outputs.
         #     if sink_comp.partof.nil? 
@@ -187,6 +188,10 @@ module Inserter
                 @ht = Inserter::It_s38417.new nb_trigger_sig
             else 
                 raise "Error : Unknown HT type #{type}. Please verify syntax."
+            end
+
+            @ht.components.each do |comp|
+                comp.tag = :ht
             end
 
         end
@@ -304,17 +309,10 @@ module Inserter
             selected_signals = []
             n.times do |nth|
                 stage = pool.keys.sort[0..max_stage].sample
-                # if pool[stage].nil? # ! DEBUG
-                #     raise "ICI -------\n -> #{max_stage} #{n}" 
-                # end
-                # if pool[stage].nil? # ! DEBUG
-                #     raise "stage : #{stage} max_stage : #{max_stage} nb_stage : #{@stages.keys.length} nb_comp_avail : #{@stages.values.length} n : #{nth}"
-                # end
 
                 selected = pool[stage].sample
                 pool[stage] -= [selected]
                 selected_signals << selected
-                # puts selected_signals.last.get_full_name # !DEBUG!
                 if pool[stage].empty?
                     pool.delete stage
                     max_stage = max_stage - 1
@@ -356,7 +354,7 @@ module Inserter
             # @ht.get_triggers.each{|e| puts e.get_source.nil?}
             # raise "stop"
             # * : Verification and printing informations 
-            @location = max_stage
+            @location = (max_stage.to_f / @stages.keys.last).round(3)
 
             if @ht.is_inserted?
                 # puts "HT inserted : \n\t- Payload : #{@ht.get_payload_in.partof.name}\n\t- Trigger proba. : #{@ht.get_transition_probability} \n\t- Number of trigger signals : #{@ht.get_triggers_nb}\n\t- Stage : #{max_stage}"
@@ -366,8 +364,19 @@ module Inserter
             end
         end
 
+        def get_ht_delay
+            payload_cumulated_delay = @ht.netlist.cumulated_propag_time 
+            trigger_cumulated_delay = @ht.triggers.collect{|trig| trig.partof.cumulated_propag_time}.min
+
+            return payload_cumulated_delay - trigger_cumulated_delay
+        end 
+
+        def get_payload_cumulated_delay
+            return @ht.netlist.cumulated_propag_time
+        end
+
         def get_ht_stage 
-            return @location
+            return @location 
         end
 
         def get_ht_size 

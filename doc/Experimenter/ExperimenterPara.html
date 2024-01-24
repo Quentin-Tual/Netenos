@@ -94,8 +94,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/experiments/experimenter_para.rb<span class="defines">,<br />
-  lib/experiments/experimenter_para_WIP.rb</span>
+    <dd>lib/experiments/experimenter_para_WIP.rb<span class="defines">,<br />
+  lib/experiments/experimenter_full_para.rb</span>
 </dd>
   </dl>
   
@@ -401,7 +401,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#gen_testbenchs-instance_method" title="#gen_testbenchs (instance method)">#<strong>gen_testbenchs</strong>(circ_init, circ_test, freq, stim_seq)  &#x21d2; Object </a>
+      <a href="#gen_testbenchs-instance_method" title="#gen_testbenchs (instance method)">#<strong>gen_testbenchs</strong>(circ_init, circ_test, freq)  &#x21d2; Object </a>
     
 
     
@@ -475,7 +475,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#save_data-instance_method" title="#save_data (instance method)">#<strong>save_data</strong>(batch_id, circ_id, freq, insertion_id)  &#x21d2; Object </a>
+      <a href="#save_data-instance_method" title="#save_data (instance method)">#<strong>save_data</strong>(batch_id, circ_id, freq)  &#x21d2; Object </a>
     
 
     
@@ -497,7 +497,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#save_results-instance_method" title="#save_results (instance method)">#<strong>save_results</strong>(batch_id, circ_id, freq, insertion_id)  &#x21d2; Object </a>
+      <a href="#save_results-instance_method" title="#save_results (instance method)">#<strong>save_results</strong>(batch_id, circ_id, freq)  &#x21d2; Object </a>
     
 
     
@@ -543,7 +543,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#traces_recovery-instance_method" title="#traces_recovery (instance method)">#<strong>traces_recovery</strong>(batch_id, circ_id, freq, insertion_id)  &#x21d2; Object </a>
+      <a href="#traces_recovery-instance_method" title="#traces_recovery (instance method)">#<strong>traces_recovery</strong>(batch_id, circ_id, freq)  &#x21d2; Object </a>
     
 
     
@@ -567,7 +567,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update_stim-instance_method" title="#update_stim (instance method)">#<strong>update_stim</strong>(batch_id, circ_id, insertion_id)  &#x21d2; Object </a>
+      <a href="#update_stim-instance_method" title="#update_stim (instance method)">#<strong>update_stim</strong>(batch_id, circ_id)  &#x21d2; Object </a>
     
 
     
@@ -620,6 +620,7 @@
       <pre class="lines">
 
 
+9
 10
 11
 12
@@ -692,15 +693,10 @@
 79
 80
 81
-82
-83
-84
-85
-86
-87</pre>
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 9</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_parameters'>parameters</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_parameters'>parameters</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -708,20 +704,20 @@
 </span>        <span class='ivar'>@parameters</span> <span class='op'>=</span><span class='lbrace'>{</span>
             <span class='symbol'>:path</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./exp_para</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
             <span class='symbol'>:dot_file</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
-            <span class='symbol'>:test_frequencies</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='float'>1.5</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>4</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span><span class='comma'>,</span>
-            <span class='comment'># :test_frequencies =&gt; [1, 2, 4, 8],
-</span>            <span class='symbol'>:nb_netlist</span> <span class='op'>=&gt;</span> <span class='int'>10</span><span class='comma'>,</span>
-            <span class='symbol'>:nb_insertion_per_netlist</span> <span class='op'>=&gt;</span> <span class='int'>1</span><span class='comma'>,</span>
+            <span class='comment'># :test_frequencies =&gt; [1, 1.5, 2, 4, 8],
+</span>            <span class='symbol'>:test_frequencies</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>1</span><span class='comma'>,</span> <span class='float'>1.5</span><span class='comma'>,</span> <span class='int'>2</span><span class='comma'>,</span> <span class='int'>3</span><span class='comma'>,</span> <span class='int'>4</span><span class='rbracket'>]</span><span class='comma'>,</span>
+            <span class='symbol'>:nb_netlist</span> <span class='op'>=&gt;</span> <span class='int'>10</span><span class='comma'>,</span>
+            <span class='symbol'>:nb_insertion_per_netlist</span> <span class='op'>=&gt;</span> <span class='int'>10</span><span class='comma'>,</span>
             <span class='symbol'>:nb_sim_cycle</span> <span class='op'>=&gt;</span> <span class='int'>100</span><span class='comma'>,</span>
             <span class='comment'># :ht_type =&gt; &quot;og_s38417&quot;,
 </span>            <span class='comment'># :ht_type =&gt; &quot;cotd_s38417&quot;,
-</span>            <span class='symbol'>:ht_type</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>xor_and</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-            <span class='comment'># :ht_type =&gt; &quot;it_s38417&quot;,
-</span>            <span class='symbol'>:nb_trig</span> <span class='op'>=&gt;</span> <span class='int'>4</span><span class='comma'>,</span>
-            <span class='symbol'>:netlist_carac</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>20</span><span class='comma'>,</span> <span class='int'>10</span><span class='comma'>,</span> <span class='int'>10</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='comment'># Mini ---&gt; 36 gates
-</span>            <span class='comment'># :netlist_carac =&gt; [50, 20, 10], # Tiny ---&gt; 98 gates 
-</span>            <span class='comment'># :netlist_carac =&gt; [100, 30, 20], # Small in the middle between both ---&gt; 258 gates
-</span>            <span class='comment'># :netlist_carac =&gt; [500, 150, 100], # Medium ---&gt; ~2500 gates
+</span>            <span class='comment'># :ht_type =&gt; &quot;xor_and&quot;,
+</span>            <span class='symbol'>:ht_type</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>it_s38417</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+            <span class='symbol'>:nb_trig</span> <span class='op'>=&gt;</span> <span class='int'>8</span><span class='comma'>,</span>
+            <span class='comment'># :netlist_carac =&gt; [20, 10, 10],
+</span>            <span class='comment'># :netlist_carac =&gt; [50, 20, 10],
+</span>            <span class='symbol'>:netlist_carac</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='int'>100</span><span class='comma'>,</span> <span class='int'>30</span><span class='comma'>,</span> <span class='int'>20</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='comment'># Tiny/Small in the middle between both ---&gt; 258 gates
+</span>            <span class='comment'># :netlist_carac =&gt; [500, 150, 100], # Small
 </span>            <span class='symbol'>:delay_models</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:int</span><span class='comma'>,</span><span class='symbol'>:int</span><span class='rbracket'>]</span><span class='comma'>,</span>
             <span class='symbol'>:compiler</span> <span class='op'>=&gt;</span> <span class='symbol'>:ghdl</span><span class='comma'>,</span>
             <span class='symbol'>:jobs</span> <span class='op'>=&gt;</span> <span class='int'>10</span><span class='comma'>,</span>
@@ -749,7 +745,7 @@
     <span class='rparen'>)</span>
     <span class='ivar'>@viewer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Converter.html" title="Converter (module)">Converter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Converter/DotGen.html" title="Converter::DotGen (class)">DotGen</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
     <span class='ivar'>@matrix_converter</span> <span class='op'>=</span> <span class='kw'>nil</span>
-    <span class='ivar'>@inserter</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@inserter</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
     <span class='ivar'>@script_generator</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Converter.html" title="Converter (module)">Converter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Converter/VhdlCompiler.html" title="Converter::VhdlCompiler (class)">VhdlCompiler</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
     <span class='ivar'>@extractor_init</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='ivar'>@extractor_test</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -765,21 +761,17 @@
     <span class='ivar'>@carac_init</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
     <span class='ivar'>@traces_init</span> <span class='op'>=</span> <span class='kw'>nil</span>
 
-    <span class='ivar'>@circ_test</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='comment'># TODO : insertions multiples -&gt; passer en hash
+    <span class='ivar'>@circ_test</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='comment'># ? : insertions multiples -&gt; passer en hash
 </span>    <span class='ivar'>@ht_layer</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
     <span class='ivar'>@carac_test</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='ivar'>@traces_test</span> <span class='op'>=</span> <span class='kw'>nil</span>
-    
 
     <span class='ivar'>@data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
     <span class='ivar'>@results</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-    <span class='ivar'>@result_csv</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name,freq,correlation_based_similarity,ht_stage, nb_layer_init, expected,logic_testing_detections\n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='ivar'>@result_csv</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name,freq,correlation_based_similarity,ht_st, nb_layer_init,logic_testing_detections\n</span><span class='tstring_end'>&quot;</span></span>
 
-    <span class='kw'>if</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:compiler</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='symbol'>:ghdl</span>
-        <span class='id identifier rubyid_version'>version</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>ghdl -v</span><span class='tstring_end'>`</span></span>
-        <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:compiler</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:compiler</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span><span class='lparen'>(</span><span class='id identifier rubyid_version'>version</span><span class='lbracket'>[</span><span class='int'>5</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-    <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+    <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_insertion_per_netlist</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>10</span> <span class='comment'># ! DEBUG
+</span><span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -807,27 +799,6 @@
       <pre class="lines">
 
 
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404
 405
 406
 407
@@ -849,10 +820,27 @@
 423
 424
 425
-426</pre>
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 384</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 405</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_analyze'>analyze</span> 
     <span class='comment'># * : Recover the vcd files from the simulation for each netlist pairs, compare it with intercorrelation, then save the results (result.csv) and the data from experience (data.json)
@@ -862,40 +850,36 @@
             <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:batch_size</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='op'>|</span>
                 <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
                     <span class='ivar'>@id</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-                    <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:uuv_responses</span><span class='rbracket'>]</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span>
-                    <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:ref_responses</span><span class='rbracket'>]</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span>
-                    <span class='id identifier rubyid_time'>time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-                    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Post-simulation steps for batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>     </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_day'>day</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_month'>month</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_year'>year</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span>
-                    <span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-                    <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_freq'>freq</span><span class='op'>|</span>
-                        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |--[+] Simulation traces recovery for frequency multiplier x</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-                        <span class='comment'># TODO : utiliser &#39;traces_recovery&#39; pour récupérer les traces
-</span>                        <span class='ivar'>@traces_init</span><span class='comma'>,</span> <span class='ivar'>@traces_test</span> <span class='op'>=</span> <span class='id identifier rubyid_traces_recovery'>traces_recovery</span><span class='lparen'>(</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span><span class='id identifier rubyid_freq'>freq</span><span class='rparen'>)</span>
-                        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |--[+] Traces analysis for batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-                        <span class='comment'># TODO : utiliser l&#39;intercorrélation pour les comparer
-</span>                        <span class='ivar'>@results</span><span class='lbracket'>[</span><span class='id identifier rubyid_freq'>freq</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@comparator</span><span class='period'>.</span><span class='id identifier rubyid_intercorrelation'>intercorrelation</span><span class='lparen'>(</span><span class='ivar'>@traces_test</span><span class='comma'>,</span><span class='ivar'>@traces_init</span><span class='comma'>,</span> <span class='ivar'>@carac_init</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
+                    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_copied.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+                        <span class='id identifier rubyid_nb_insertion'>nb_insertion</span> <span class='op'>=</span> <span class='int'>1</span>
+                    <span class='kw'>else</span>
+                        <span class='id identifier rubyid_nb_insertion'>nb_insertion</span> <span class='op'>=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_insertion_per_netlist</span><span class='rbracket'>]</span>
+                    <span class='kw'>end</span>
 
-                        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |--[+] Data preparation for batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-                        <span class='comment'># TODO : Préparer les données pour la sauvegarde
-</span>                        <span class='id identifier rubyid_prepare_data'>prepare_data</span> 
+                    <span class='id identifier rubyid_nb_insertion'>nb_insertion</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='op'>|</span>
+                        <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:uuv_responses</span><span class='rbracket'>]</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span>
+                        <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:ref_responses</span><span class='rbracket'>]</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span>
+                        <span class='ivar'>@results</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+                        <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_freq'>freq</span><span class='op'>|</span>
+                                <span class='ivar'>@traces_init</span><span class='comma'>,</span> <span class='ivar'>@traces_test</span> <span class='op'>=</span> <span class='id identifier rubyid_traces_recovery'>traces_recovery</span><span class='lparen'>(</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span><span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rparen'>)</span>
+                                <span class='ivar'>@results</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_freq'>freq</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@comparator</span><span class='period'>.</span><span class='id identifier rubyid_intercorrelation'>intercorrelation</span><span class='lparen'>(</span><span class='ivar'>@traces_test</span><span class='comma'>,</span><span class='ivar'>@traces_init</span><span class='comma'>,</span> <span class='ivar'>@carac_init</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
+                                
 
-                        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |--[+] Data saving for batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-                        <span class='comment'># TODO : sauver les résultats et les données
-</span>                        <span class='id identifier rubyid_save_data'>save_data</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span>
-                        <span class='id identifier rubyid_save_results'>save_results</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span>
+                                <span class='id identifier rubyid_prepare_data'>prepare_data</span> 
+
+                                <span class='id identifier rubyid_save_data'>save_data</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='id identifier rubyid_insertion_id'>insertion_id</span>
+                                <span class='id identifier rubyid_save_results'>save_results</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='id identifier rubyid_insertion_id'>insertion_id</span>
+                        <span class='kw'>end</span>
                     <span class='kw'>end</span>
                 <span class='kw'>end</span>
             <span class='kw'>end</span>
         <span class='kw'>end</span>
 
-        <span class='id identifier rubyid_time'>time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Saving data        </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_day'>day</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_month'>month</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_year'>year</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
         <span class='comment'># * Save complete traces in a json file 
 </span>        <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>data.json</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span><span class='const'>Oj</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='comma'>,</span> <span class='symbol'>:mode</span> <span class='op'>=&gt;</span> <span class='symbol'>:json</span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='comment'># * Save the results (detection performances for example) in a csv file 
 </span>        <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>result.csv</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@result_csv</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
-
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -928,20 +912,6 @@
       <pre class="lines">
 
 
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
 324
 325
 326
@@ -964,15 +934,35 @@
 343
 344
 345
-346</pre>
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 310</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 324</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build'>build</span>
     <span class='ivar'>@script_generator</span><span class='period'>.</span><span class='id identifier rubyid_experience_makefile'>experience_makefile</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_batch</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:jobs</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_gen_gtech_dir'>gen_gtech_dir</span>
-    
     <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_batch</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='op'>|</span>
         <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mkdir'>mkdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
         <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
@@ -981,6 +971,7 @@
                 <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mkdir'>mkdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
                 <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
                     <span class='ivar'>@id</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+                    <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
                     <span class='id identifier rubyid_gen_circuits'>gen_circuits</span> <span class='id identifier rubyid_circ_id'>circ_id</span>
                     <span class='id identifier rubyid_gen_nominal_sim'>gen_nominal_sim</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span>
                 <span class='kw'>end</span> <span class='comment'># chdir
@@ -998,7 +989,14 @@
             <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
                 <span class='ivar'>@id</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
                 <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Complete simulation preparation batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-                <span class='id identifier rubyid_update_stim'>update_stim</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span>
+                <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_copied.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+                    <span class='id identifier rubyid_nb_insertion'>nb_insertion</span> <span class='op'>=</span> <span class='int'>1</span>
+                <span class='kw'>else</span>
+                    <span class='id identifier rubyid_nb_insertion'>nb_insertion</span> <span class='op'>=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_insertion_per_netlist</span><span class='rbracket'>]</span>
+                <span class='kw'>end</span>
+                <span class='id identifier rubyid_nb_insertion'>nb_insertion</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='op'>|</span>
+                    <span class='id identifier rubyid_update_stim'>update_stim</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_insertion_id'>insertion_id</span>
+                <span class='kw'>end</span>
                 <span class='id identifier rubyid_gen_all_sim'>gen_all_sim</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span>
             <span class='kw'>end</span>
         <span class='kw'>end</span>
@@ -1026,21 +1024,21 @@
       <pre class="lines">
 
 
-428
-429
-430
-431
-432
-433
-434
-435
-436
-437
-438
-439</pre>
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 428</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_full_para.rb', line 474</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_clean_working_dir'>clean_working_dir</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_test'>circ_test</span>
     <span class='comment'># * Move the VHD files, C&amp;S script, VCD to a new directory named following the init circuit.
@@ -1074,14 +1072,14 @@
       <pre class="lines">
 
 
-123
-124
-125
-126
-127</pre>
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_export_config'>export_config</span> <span class='id identifier rubyid_path'>path</span>
     <span class='id identifier rubyid_f'>f</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>w</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1119,6 +1117,25 @@
       <pre class="lines">
 
 
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
 170
 171
 172
@@ -1140,40 +1157,51 @@
 188
 189
 190
-191
-192
-193
-194
-195</pre>
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_all_sim'>gen_all_sim</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span>
     <span class='comment'># * : Generate testbench and compile scripts for simulation at all frequencies 
-</span>    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |--[+] Simulation generation at all frequencies for batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+</span>    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |-- [+] Simulation generation at all frequencies for batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 
-    <span class='comment'># * : Load the netlists :
-</span>    <span class='comment'># TODO : Aussi possible de lister (genre de grep) tous les .enl et de les charger un à un, a voir pour palier au cas du copied plutôt que altered (2 cas diff à traiter rien de trop complexe en théorie) 
-</span>    <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_circ_test'>circ_test</span> <span class='op'>=</span> <span class='const'>Marshal</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
-    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_altered.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_copied.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : Found an altered and a copied version of the same netlist. It should not be possible. </span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>elsif</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_altered.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_altered.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_copied.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
+    <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_circ_init'>circ_init</span> <span class='op'>=</span> <span class='const'>Marshal</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
 
-    <span class='comment'># * : For each freq, generate associated testbench for circ_init and circ_test
-</span>    <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_freq'>freq</span><span class='op'>|</span>
+    <span class='id identifier rubyid_circ_test'>circ_test</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+    <span class='comment'># Si le fichier .enl contient &#39;copied&#39; alors insertion_id = 0
+</span>    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_copied.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_copied.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_insertion_id'>insertion_id</span> <span class='op'>=</span> <span class='int'>0</span>
+        <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Marshal</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+    
+        <span class='comment'># * : For each freq, generate associated testbench for circ_init and circ_test
+</span>        <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_freq'>freq</span><span class='op'>|</span>
             <span class='id identifier rubyid_print'>print</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>     |-- </span><span class='tstring_end'>&quot;</span></span>           
-            <span class='id identifier rubyid_gen_testbenchs'>gen_testbenchs</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span>
-    <span class='kw'>end</span> <span class='comment'># each
-</span>
+            <span class='id identifier rubyid_gen_testbenchs'>gen_testbenchs</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span>
+        <span class='kw'>end</span> <span class='comment'># each
+</span>    <span class='comment'>#   générer les testbenchs pour chaque fréquence pour le circuit copié (avec les nouveaux stimulis)
+</span>    <span class='comment'># Sinon c&#39;est un circuit altéré donc itération sur @parameters[:nb_insertion] et pour chaque &quot;insertion_id&quot;
+</span>    <span class='kw'>else</span>
+        <span class='comment'>#   Charger le circuit altéré correspondant
+</span>        <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_insertion_per_netlist</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='op'>|</span>
+            <span class='comment'>#   Charger le fichier .enl
+</span>            <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_altered_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>.enl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Marshal</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+            <span class='comment'># * : For each freq, generate associated testbench for circ_init and circ_test
+</span>            <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_freq'>freq</span><span class='op'>|</span>
+                <span class='id identifier rubyid_print'>print</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>     |-- </span><span class='tstring_end'>&quot;</span></span>           
+                <span class='id identifier rubyid_gen_testbenchs'>gen_testbenchs</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span>
+            <span class='kw'>end</span> <span class='comment'># each
+</span>        <span class='kw'>end</span>
+    <span class='comment'>#   POur chaque fréquence, générer le testbench pour chaque circuit
+</span>    <span class='kw'>end</span>
+    
     <span class='comment'># * Generate compile and simulate script
-</span>    <span class='id identifier rubyid_gen_CS_scripts'>gen_CS_scripts</span> <span class='lbracket'>[</span><span class='id identifier rubyid_circ_init'>circ_init</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:compiler</span><span class='rbracket'>]</span>
+</span>    <span class='id identifier rubyid_circ_test_name_list'>circ_test_name_list</span> <span class='op'>=</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ'>circ</span><span class='op'>|</span> <span class='id identifier rubyid_circ'>circ</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_gen_CS_scripts'>gen_CS_scripts</span> <span class='lbracket'>[</span><span class='id identifier rubyid_circ_init'>circ_init</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_test_name_list'>circ_test_name_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:compiler</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1206,23 +1234,21 @@
       <pre class="lines">
 
 
-138
-139
-140
-141
-142
-143
-144
-145
-146</pre>
+114
+115
+116
+117
+118
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_circuits'>gen_circuits</span> <span class='id identifier rubyid_circ_id'>circ_id</span>
     <span class='comment'># * : Generate circuits and save them in vhdl format
 </span>    <span class='ivar'>@circ_init</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_init_circ'>gen_init_circ</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:delay_models</span><span class='rbracket'>]</span>
-    <span class='ivar'>@inserter</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Inserter.html" title="Inserter (module)">Inserter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Inserter/Tamperer.html" title="Inserter::Tamperer (class)">Tamperer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Inserter/Tamperer.html#initialize-instance_method" title="Inserter::Tamperer#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@circ_init</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span><span class='comma'>,</span> <span class='ivar'>@layers_init</span><span class='rparen'>)</span>
 
     <span class='comment'># * Initialization needed for later
 </span>    <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1259,18 +1285,18 @@
       <pre class="lines">
 
 
-262
-263
-264
-265
-266
-267
-268
-269
-270</pre>
+276
+277
+278
+279
+280
+281
+282
+283
+284</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 262</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 276</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_CS_scripts'>gen_CS_scripts</span> <span class='id identifier rubyid_circ_name_list'>circ_name_list</span><span class='comma'>,</span> <span class='id identifier rubyid_freq_list'>freq_list</span><span class='comma'>,</span> <span class='id identifier rubyid_compiler'>compiler</span>
     <span class='comment'># * Write a compile.sh for the first circuit
@@ -1312,17 +1338,17 @@
       <pre class="lines">
 
 
-129
-130
-131
-132
-133
-134
-135
-136</pre>
+105
+106
+107
+108
+109
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_gtech_dir'>gen_gtech_dir</span>
     <span class='comment'># * Generate GTECH  
@@ -1363,6 +1389,10 @@
       <pre class="lines">
 
 
+193
+194
+195
+196
 197
 198
 199
@@ -1378,28 +1408,20 @@
 209
 210
 211
-212
-213
-214
-215
-216
-217
-218</pre>
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 197</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 193</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_init_circ'>gen_init_circ</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_models'>delay_models</span>
     <span class='comment'># * Generate a netlist
 </span>    <span class='id identifier rubyid_circ_init'>circ_init</span> <span class='op'>=</span> <span class='ivar'>@netlistGenerator</span><span class='period'>.</span><span class='id identifier rubyid_getRandomNetlist'>getRandomNetlist</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='comment'># * Generate the VHD files of the generated circuits
-</span>    
-    <span class='ivar'>@vhdl_converter</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_models'>delay_models</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
     <span class='ivar'>@layers_init</span> <span class='op'>=</span> <span class='ivar'>@netlistGenerator</span><span class='period'>.</span><span class='id identifier rubyid_grid'>grid</span>
     <span class='comment'># * Get data/caracteristics from the netlist
 </span>    <span class='ivar'>@carac_init</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@netlistGenerator</span><span class='period'>.</span><span class='id identifier rubyid_getNetlistInformations'>getNetlistInformations</span>
-    <span class='comment'># puts &quot;Gates amount : #{@carac_init[@id][2]}&quot;
-</span>    
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Gates amount : </span><span class='embexpr_beg'>#{</span><span class='ivar'>@carac_init</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='comment'># * Generate the VHD files of the generated circuits
+</span>    <span class='ivar'>@vhdl_converter</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_models'>delay_models</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
     <span class='comment'># * (optionnal) Generate a .dot file
 </span>    <span class='kw'>if</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:dot_file</span><span class='rbracket'>]</span>
         <span class='ivar'>@viewer</span><span class='period'>.</span><span class='id identifier rubyid_dot'>dot</span> <span class='id identifier rubyid_circ_init'>circ_init</span>
@@ -1442,25 +1464,39 @@
       <pre class="lines">
 
 
-148
-149
-150
-151
-152
-153
-154
-155</pre>
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_nominal_sim'>gen_nominal_sim</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span>
     <span class='comment'># * : Generate testbench and compile scripts for simulation at nominal frequency
-</span>    <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_stim_seq'>gen_stim_seq</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:stim_gen</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@circ_init</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_sim_cycle</span><span class='rbracket'>]</span>
+</span>    <span class='ivar'>@circ_test</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='op'>|</span>
+        <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_stim_seq'>gen_stim_seq</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:stim_gen</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@circ_init</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_sim_cycle</span><span class='rbracket'>]</span>
 
-    <span class='id identifier rubyid_gen_testbenchs'>gen_testbenchs</span> <span class='ivar'>@circ_init</span><span class='comma'>,</span> <span class='ivar'>@circ_test</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='comma'>,</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span> <span class='comment'># TODO : multiple insertion -&gt; 
-</span>
-    <span class='id identifier rubyid_gen_CS_scripts'>gen_CS_scripts</span> <span class='lbracket'>[</span><span class='ivar'>@circ_init</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='ivar'>@circ_test</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:compiler</span><span class='rbracket'>]</span> <span class='comment'># TODO : idem
+        <span class='kw'>if</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='comment'># ! DEBUG 
+</span>            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : No stimuli sequence generated </span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+
+        <span class='id identifier rubyid_gen_testbenchs'>gen_testbenchs</span> <span class='ivar'>@circ_init</span><span class='comma'>,</span> <span class='ivar'>@circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='comma'>,</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='comment'># ? : multiple insertion -&gt; clé = @id
+</span>    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_circ_test_name_list'>circ_test_name_list</span> <span class='op'>=</span> <span class='ivar'>@circ_test</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ'>circ</span><span class='op'>|</span> <span class='id identifier rubyid_circ'>circ</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_gen_CS_scripts'>gen_CS_scripts</span> <span class='lbracket'>[</span><span class='ivar'>@circ_init</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_test_name_list'>circ_test_name_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:compiler</span><span class='rbracket'>]</span> <span class='comment'># ? : idem
 </span><span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1493,17 +1529,17 @@
       <pre class="lines">
 
 
-253
-254
-255
-256
-257
-258
-259
-260</pre>
+267
+268
+269
+270
+271
+272
+273
+274</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 253</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 267</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_stim_seq'>gen_stim_seq</span> <span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_sim_cycle'>nb_sim_cycle</span>
     <span class='kw'>case</span> <span class='id identifier rubyid_method'>method</span>
@@ -1544,6 +1580,12 @@
       <pre class="lines">
 
 
+214
+215
+216
+217
+218
+219
 220
 221
 222
@@ -1575,40 +1617,74 @@
 248
 249
 250
-251</pre>
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 214</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_test_circ'>gen_test_circ</span> <span class='id identifier rubyid_circ_init'>circ_init</span>
     <span class='comment'># * Generate a second netlist, half chance to be an altered version of the first, else it is the same one 
 </span>    <span class='comment'># *Alter it or just copy it
-</span>    <span class='kw'>if</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span> <span class='op'>==</span> <span class='int'>1</span>  <span class='comment'># ! TEST add a 0 in the list, removed for tests
+</span>    <span class='id identifier rubyid_circ_test'>circ_test</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='kw'>if</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span> <span class='op'>==</span> <span class='int'>1</span>  <span class='comment'># ! TEST add a 0 in the list, removed for tests
 </span>        <span class='comment'># * Alter it
 </span>        <span class='id identifier rubyid_suffix'>suffix</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>altered</span><span class='tstring_end'>&quot;</span></span>
-        
-        <span class='ivar'>@inserter</span><span class='period'>.</span><span class='id identifier rubyid_select_ht'>select_ht</span><span class='lparen'>(</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:ht_type</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_trig</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_circ_test'>circ_test</span> <span class='op'>=</span> <span class='ivar'>@inserter</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span> <span class='comment'># TODO : multiple insertion -&gt; associer à la clé circ_id dans circ_test 
-</span>        <span class='ivar'>@ht_layer</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@inserter</span><span class='period'>.</span><span class='id identifier rubyid_get_ht_stage'>get_ht_stage</span>
-        <span class='comment'># trig_cond =  inserter.get_trigger_conditions
-</span>        <span class='comment'># pp trig_cond # TEST
-</span>        <span class='id identifier rubyid_circ_test'>circ_test</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_test'>circ_test</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_suffix'>suffix</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>  <span class='comment'># TODO : multiple insertion -&gt; accès via la clé circ_id 
-</span>    <span class='kw'>else</span> 
+        <span class='ivar'>@ht_layer</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+        <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_insertion_per_netlist</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='op'>|</span>
+            <span class='ivar'>@inserter</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Inserter.html" title="Inserter (module)">Inserter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Inserter/Tamperer.html" title="Inserter::Tamperer (class)">Tamperer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Inserter/Tamperer.html#initialize-instance_method" title="Inserter::Tamperer#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@circ_init</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span><span class='comma'>,</span> <span class='ivar'>@layers_init</span><span class='rparen'>)</span>
+            <span class='ivar'>@inserter</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_select_ht'>select_ht</span><span class='lparen'>(</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:ht_type</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:nb_trig</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@inserter</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span> <span class='comment'># TODO : multiple insertion -&gt; associer à la clé circ_id dans circ_test 
+</span>            <span class='ivar'>@ht_layer</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@inserter</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_ht_stage'>get_ht_stage</span>
+            <span class='comment'># trig_cond =  inserter.get_trigger_conditions
+</span>            <span class='comment'># pp trig_cond # TEST
+</span>            <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_suffix'>suffix</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>  <span class='comment'># TODO : multiple insertion -&gt; accès via la clé circ_id 
+</span>
+            <span class='comment'># * Generate the VHD files of the generated circuits
+</span>            <span class='ivar'>@vhdl_converter</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:delay_models</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comment'># TODO : idem
+</span>            <span class='comment'># * Get data/caracteristics from the netlist
+</span>            <span class='ivar'>@netlistGenerator</span><span class='period'>.</span><span class='id identifier rubyid_netlist'>netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='comment'># TODO : idem
+</span>            <span class='ivar'>@carac_test</span> <span class='op'>=</span> <span class='ivar'>@netlistGenerator</span><span class='period'>.</span><span class='id identifier rubyid_getNetlistInformations'>getNetlistInformations</span> <span class='comment'># ! Is it correct to recover these informations this way (insertion could modify some of them)
+</span>            <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comment'># TODO : idem
+</span>
+            <span class='kw'>if</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:dot_file</span><span class='rbracket'>]</span>
+                <span class='ivar'>@viewer</span><span class='period'>.</span><span class='id identifier rubyid_dot'>dot</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='comment'># TODO : idem
+</span>            <span class='kw'>end</span>
+
+            <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+    <span class='kw'>else</span> 
         <span class='comment'># * Only copy, modify the name without modifying the circ_init name
-</span>        <span class='id identifier rubyid_suffix'>suffix</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>copied</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_circ_test'>circ_test</span> <span class='op'>=</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span> <span class='comment'># TODO : multiple insertion -&gt; accès via la clé circ_id
-</span>        <span class='id identifier rubyid_circ_test'>circ_test</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_test'>circ_test</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_suffix'>suffix</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># TODO : idem
-</span>    <span class='kw'>end</span> <span class='comment'># if
+</span>        <span class='id identifier rubyid_insertion_id'>insertion_id</span> <span class='op'>=</span> <span class='int'>0</span>
+        <span class='id identifier rubyid_suffix'>suffix</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>copied</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span> <span class='comment'># TODO : multiple insertion -&gt; accès via la clé circ_id
+</span>        <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_suffix'>suffix</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># TODO : idem
+</span>
+        <span class='comment'># * Generate the VHD files of the generated circuits
+</span>        <span class='ivar'>@vhdl_converter</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:delay_models</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comment'># TODO : idem
+</span>        <span class='comment'># * Get data/caracteristics from the netlist
+</span>        <span class='ivar'>@netlistGenerator</span><span class='period'>.</span><span class='id identifier rubyid_netlist'>netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='comment'># TODO : idem
+</span>        <span class='ivar'>@carac_test</span> <span class='op'>=</span> <span class='ivar'>@netlistGenerator</span><span class='period'>.</span><span class='id identifier rubyid_getNetlistInformations'>getNetlistInformations</span> <span class='comment'># ! Is it correct to recover these informations this way (insertion could modify some of them)
+</span>        <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comment'># TODO : idem
+</span>        <span class='kw'>if</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:dot_file</span><span class='rbracket'>]</span>
+            <span class='ivar'>@viewer</span><span class='period'>.</span><span class='id identifier rubyid_dot'>dot</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='comment'># TODO : idem
+</span>        <span class='kw'>end</span>
+        <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span> <span class='comment'># if
 </span>    <span class='comment'># * (optionnal) Generate a .dot file
-</span>    <span class='kw'>if</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:dot_file</span><span class='rbracket'>]</span>
-        <span class='ivar'>@viewer</span><span class='period'>.</span><span class='id identifier rubyid_dot'>dot</span> <span class='id identifier rubyid_circ_test'>circ_test</span> <span class='comment'># TODO : idem
-</span>    <span class='kw'>end</span> <span class='comment'># if
-</span>    <span class='comment'># * Generate the VHD files of the generated circuits
-</span>    <span class='ivar'>@vhdl_converter</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:delay_models</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comment'># TODO : idem
-</span>    <span class='comment'># * Get data/caracteristics from the netlist
-</span>    <span class='ivar'>@netlistGenerator</span><span class='period'>.</span><span class='id identifier rubyid_netlist'>netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='comment'># TODO : idem
-</span>    <span class='ivar'>@carac_test</span> <span class='op'>=</span> <span class='ivar'>@netlistGenerator</span><span class='period'>.</span><span class='id identifier rubyid_getNetlistInformations'>getNetlistInformations</span> <span class='comment'># ! Is it correct to recover these informations this way (insertion could modify some of them)
-</span>    <span class='id identifier rubyid_circ_test'>circ_test</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comment'># TODO : idem
 </span>
     <span class='kw'>return</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='comment'># TODO : idem
 </span><span class='kw'>end</span></pre>
@@ -1620,7 +1696,7 @@
       <div class="method_details ">
   <h3 class="signature " id="gen_testbenchs-instance_method">
   
-    #<strong>gen_testbenchs</strong>(circ_init, circ_test, freq, stim_seq)  &#x21d2; <tt>Object</tt> 
+    #<strong>gen_testbenchs</strong>(circ_init, circ_test, freq)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1643,19 +1719,19 @@
       <pre class="lines">
 
 
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281</pre>
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 272</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 286</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_testbenchs'>gen_testbenchs</span> <span class='id identifier rubyid_circ_init'>circ_init</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_test'>circ_test</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='id identifier rubyid_stim_seq'>stim_seq</span>
     <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] generating </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init'>circ_init</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> testbenchs at nominal frequency x</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1698,30 +1774,30 @@
       <pre class="lines">
 
 
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368</pre>
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 348</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 369</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_prepare_data'>prepare_data</span>
     <span class='comment'># * Prepare data for save (rename signals to be correspond with the matrix extracted : number IDs)
@@ -1752,7 +1828,7 @@
       <div class="method_details ">
   <h3 class="signature " id="save_data-instance_method">
   
-    #<strong>save_data</strong>(batch_id, circ_id, freq, insertion_id)  &#x21d2; <tt>Object</tt> 
+    #<strong>save_data</strong>(batch_id, circ_id, freq)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1764,17 +1840,17 @@
       <pre class="lines">
 
 
-370
-371
-372
-373</pre>
+391
+392
+393
+394</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 370</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 391</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_save_data'>save_data</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span>
-    <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:uuv_responses</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_freq'>freq</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@traces_test</span>
-    <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:ref_responses</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_freq'>freq</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@traces_init</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_save_data'>save_data</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='id identifier rubyid_insertion_id'>insertion_id</span>
+    <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:uuv_responses</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_freq'>freq</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@traces_test</span>
+    <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:ref_responses</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_freq'>freq</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@traces_init</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1784,7 +1860,7 @@
       <div class="method_details ">
   <h3 class="signature " id="save_results-instance_method">
   
-    #<strong>save_results</strong>(batch_id, circ_id, freq, insertion_id)  &#x21d2; <tt>Object</tt> 
+    #<strong>save_results</strong>(batch_id, circ_id, freq)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1796,25 +1872,25 @@
       <pre class="lines">
 
 
-375
-376
-377
-378
-379
-380
-381
-382</pre>
+396
+397
+398
+399
+400
+401
+402
+403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 375</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 396</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_save_results'>save_results</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span>
-    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_altered.vhd</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_save_results'>save_results</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='id identifier rubyid_insertion_id'>insertion_id</span>
+    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_altered_0.vhd</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
         <span class='id identifier rubyid_expected'>expected</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>altered</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>else</span>
         <span class='id identifier rubyid_expected'>expected</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>copied</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
-    <span class='ivar'>@result_csv</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='ivar'>@results</span><span class='lbracket'>[</span><span class='id identifier rubyid_freq'>freq</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='ivar'>@ht_layer</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='ivar'>@carac_init</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_expected'>expected</span><span class='embexpr_end'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='comment'>#,#{cycles_to_delete.length}\n&quot;
+    <span class='ivar'>@result_csv</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/insertion</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='ivar'>@results</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_freq'>freq</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='ivar'>@ht_layer</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='ivar'>@ht_layer</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='ivar'>@carac_init</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>,</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_expected'>expected</span><span class='embexpr_end'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='comment'>#,#{cycles_to_delete.length}\n&quot;
 </span><span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1847,6 +1923,11 @@
       <pre class="lines">
 
 
+84
+85
+86
+87
+88
 89
 90
 91
@@ -1855,66 +1936,23 @@
 94
 95
 96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121</pre>
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start'>start</span>
-    <span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Starting experience : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_day'>day</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_month'>month</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_year'>year</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span>
-    <span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:path</span><span class='rbracket'>]</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[-] Warning : Experience directory \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:path</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; already existing.\n           Press Enter to confirm deletion...\n</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_gets'>gets</span>
-        <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_rm_rf'>rm_rf</span><span class='lparen'>(</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:path</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='comment'># gets # ! DEBUG
+</span>        <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_rm_rf'>rm_rf</span><span class='lparen'>(</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:path</span><span class='rbracket'>]</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
     <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mkdir'>mkdir</span><span class='lparen'>(</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:path</span><span class='rbracket'>]</span><span class='rparen'>)</span>
     <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:path</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span> 
-        <span class='id identifier rubyid_export_config'>export_config</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>./e1-tiny-xor_and.conf</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_time'>time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Starting build step : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_day'>day</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_month'>month</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_year'>year</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span>
-    <span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
         <span class='id identifier rubyid_build'>build</span>
-        <span class='id identifier rubyid_time'>time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Launching makefile for all frequencies simulation : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_day'>day</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_month'>month</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_year'>year</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span>
-    <span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_system'>system</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>make -s</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_time'>time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Starting analysis step : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_day'>day</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_month'>month</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_year'>year</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span>
-        <span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='comment'># @parameters[:verbose] ? `make` : `make -s`
+</span>        <span class='id identifier rubyid_system'>system</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>make -s</span><span class='tstring_end'>&quot;</span></span>
         <span class='id identifier rubyid_analyze'>analyze</span>
-
-        <span class='id identifier rubyid_time'>time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>+-------------------------------------------------------</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>| Experience started at </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_day'>day</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_month'>month</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_year'>year</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_time'>start_time</span><span class='period'>.</span>
-        <span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>| Finished at </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_day'>day</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_month'>month</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_year'>year</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_time'>time</span><span class='period'>.</span><span class='id identifier rubyid_sec'>sec</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>+-------------------------------------------------------</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1925,7 +1963,7 @@
       <div class="method_details ">
   <h3 class="signature " id="traces_recovery-instance_method">
   
-    #<strong>traces_recovery</strong>(batch_id, circ_id, freq, insertion_id)  &#x21d2; <tt>Object</tt> 
+    #<strong>traces_recovery</strong>(batch_id, circ_id, freq)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1948,20 +1986,6 @@
       <pre class="lines">
 
 
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
 297
 298
 299
@@ -1973,24 +1997,38 @@
 305
 306
 307
-308</pre>
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 283</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 297</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_traces_recovery'>traces_recovery</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_traces_recovery'>traces_recovery</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_freq'>freq</span><span class='comma'>,</span> <span class='id identifier rubyid_insertion_id'>insertion_id</span>
     <span class='comment'># * Recover simulation traces 
 </span>    <span class='ivar'>@extractor_init</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../VCD.html" title="VCD (module)">VCD</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../VCD/Vcd_Signal_Extractor.html" title="VCD::Vcd_Signal_Extractor (class)">Vcd_Signal_Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../VCD/Vcd_Signal_Extractor.html#initialize-instance_method" title="VCD::Vcd_Signal_Extractor#initialize (method)">new</a></span></span>
     <span class='ivar'>@extractor_init</span><span class='period'>.</span><span class='id identifier rubyid_load_vcd'>load_vcd</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># init circ traces PATH
 </span>
-    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_altered.vhd</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> 
-        <span class='id identifier rubyid_test_type'>test_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>altered</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>else</span> 
-        <span class='id identifier rubyid_test_type'>test_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>copied</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
     <span class='ivar'>@extractor_test</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../VCD.html" title="VCD (module)">VCD</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../VCD/Vcd_Signal_Extractor.html" title="VCD::Vcd_Signal_Extractor (class)">Vcd_Signal_Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../VCD/Vcd_Signal_Extractor.html#initialize-instance_method" title="VCD::Vcd_Signal_Extractor#initialize (method)">new</a></span></span>
-    <span class='ivar'>@extractor_test</span><span class='period'>.</span><span class='id identifier rubyid_load_vcd'>load_vcd</span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_test_type'>test_type</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span> 
-    <span class='comment'># !!! &quot;altered&quot; or &quot;copied&quot; workaround to find
+    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_altered_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> 
+        <span class='ivar'>@extractor_test</span><span class='period'>.</span><span class='id identifier rubyid_load_vcd'>load_vcd</span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_altered_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span> 
+    <span class='kw'>else</span> 
+        <span class='ivar'>@extractor_test</span><span class='period'>.</span><span class='id identifier rubyid_load_vcd'>load_vcd</span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_copied_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span> 
+    <span class='kw'>end</span>
+    
+    <span class='comment'># TODO &quot;altered&quot; or &quot;copied&quot; workaround to verify
 </span>
     <span class='id identifier rubyid_clk_period'>clk_period</span> <span class='op'>=</span> <span class='ivar'>@extractor_init</span><span class='period'>.</span><span class='id identifier rubyid_get_clock_period'>get_clock_period</span>
     <span class='id identifier rubyid_traces_init'>traces_init</span> <span class='op'>=</span> <span class='ivar'>@comparator</span><span class='period'>.</span><span class='id identifier rubyid_trace_to_list'>trace_to_list</span><span class='lparen'>(</span><span class='ivar'>@extractor_init</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:compiler</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_clk_period'>clk_period</span><span class='rparen'>)</span>           
@@ -2012,7 +2050,7 @@
       <div class="method_details ">
   <h3 class="signature " id="update_stim-instance_method">
   
-    #<strong>update_stim</strong>(batch_id, circ_id, insertion_id)  &#x21d2; <tt>Object</tt> 
+    #<strong>update_stim</strong>(batch_id, circ_id)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2035,33 +2073,31 @@
       <pre class="lines">
 
 
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168</pre>
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/experiments/experimenter_para_WIP.rb', line 139</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_update_stim'>update_stim</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span>
-    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |--[+] Stimuli sequence update for batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_update_stim'>update_stim</span> <span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='id identifier rubyid_insertion_id'>insertion_id</span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |-- [+] Stimuli sequence update for batch</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_id'>circ_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/insertion</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
     <span class='comment'># * : Recover and analyze nominal simulation traces then replace triggering stimulis from stim seq
-</span>    <span class='ivar'>@traces_init</span><span class='comma'>,</span> <span class='ivar'>@traces_test</span> <span class='op'>=</span> <span class='id identifier rubyid_traces_recovery'>traces_recovery</span><span class='lparen'>(</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='rparen'>)</span>
-
-    <span class='comment'># * Compare both traces
-</span>    <span class='comment'># * Get the cycles index different between the two traces
-</span>    <span class='id identifier rubyid_cycles_to_delete'>cycles_to_delete</span> <span class='op'>=</span> <span class='ivar'>@comparator</span><span class='period'>.</span><span class='id identifier rubyid_get_diff_cycle_num'>get_diff_cycle_num</span><span class='lparen'>(</span><span class='ivar'>@traces_init</span><span class='comma'>,</span> <span class='ivar'>@traces_test</span><span class='rparen'>)</span>
-    <span class='comment'># * Delete stimulis at those cycles to avoid HT Triggering
-</span>    <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@comparator</span><span class='period'>.</span><span class='id identifier rubyid_replace_cycle_list'>replace_cycle_list</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_cycles_to_delete'>cycles_to_delete</span>
-    <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:stimulis</span> <span class='op'>=&gt;</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='rbrace'>}</span> <span class='comment'># * : store stim sequence for each id in data  
+</span>        <span class='ivar'>@traces_init</span><span class='comma'>,</span> <span class='ivar'>@traces_test</span> <span class='op'>=</span> <span class='id identifier rubyid_traces_recovery'>traces_recovery</span><span class='lparen'>(</span><span class='id identifier rubyid_batch_id'>batch_id</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_id'>circ_id</span><span class='comma'>,</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:test_frequencies</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='comma'>,</span> <span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rparen'>)</span>
+        <span class='comment'># * Compare both traces
+</span>        <span class='comment'># * Get the cycles index different between the two traces
+</span>        <span class='id identifier rubyid_cycles_to_delete'>cycles_to_delete</span> <span class='op'>=</span> <span class='ivar'>@comparator</span><span class='period'>.</span><span class='id identifier rubyid_get_diff_cycle_num'>get_diff_cycle_num</span><span class='lparen'>(</span><span class='ivar'>@traces_init</span><span class='comma'>,</span> <span class='ivar'>@traces_test</span><span class='rparen'>)</span>
+        <span class='comment'># * Delete stimulis at those cycles to avoid HT Triggering
+</span>        <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@comparator</span><span class='period'>.</span><span class='id identifier rubyid_replace_cycle_list'>replace_cycle_list</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_cycles_to_delete'>cycles_to_delete</span>
+        <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:stimulis</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@stim_seq</span><span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertion_id'>insertion_id</span><span class='rbracket'>]</span> <span class='comment'># * : store stim sequence for each id in data  
 </span><span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2073,7 +2109,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Nov  6 15:32:41 2023 by
+  Generated on Wed Jan 24 13:38:46 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.2).
 </div>

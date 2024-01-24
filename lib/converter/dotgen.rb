@@ -2,14 +2,14 @@ module Converter
     class DotGen
         attr_accessor :code
 
-        def dot circuit, *path
+        def dot circuit, path = nil, delay_model = :int_multi
             @code = Code.new()
             @sym_tab = {}
             head circuit.name
-            comp circuit.components
+            comp circuit.components, delay_model
             ios circuit.ports
             wiring circuit
-            circuit.components.each{|comp| comp_wiring comp }
+            circuit.components.each{|comp| comp_wiring(comp)}
             return foot circuit.name, path
         end
 
@@ -29,14 +29,19 @@ module Converter
             end
         end
 
-        def comp components
+        def comp components, delay_model
             components.each do |comp|
                 inputs=comp.get_inputs.map{|port| "<#{port.name}>#{port.name}"}.join("|")
                 outputs=comp.get_outputs.map{|port| "<#{port.name}>#{port.name}"}.join("|")
                 fanin="{#{inputs}}"
                 fanout="{#{outputs}}"
-                label="{#{fanin}| #{comp.name} |#{fanout}}"
-                code << "#{comp.name}[shape=record; style=filled;color=cadetblue; label=\"#{label}\"]"
+                label="{#{fanin}|{#{comp.name}|{#{comp.propag_time[delay_model]}|#{comp.cumulated_propag_time.to_s}}}|#{fanout}}"
+                if comp.tag == :ht
+                    color = "orange1"
+                else
+                    color = "cadetblue"
+                end
+                code << "#{comp.name}[shape=record; style=\"rounded,filled\"; fillcolor=#{color}; label=\"#{label}\"]"
                 @sym_tab[comp.name] = Netlist::Circuit
             end
         end
@@ -82,10 +87,10 @@ module Converter
             code.indent=0
             code << "}"
             # puts code.finalize # Debug print
-            if path != []
-                code.save_as "#{path[0]}",false,true
-                puts "[+] Schematic generated : \'#{path[0]}\'"
-                return "#{path[0]}"
+            if path != nil
+                code.save_as "#{path}",false,true
+                puts "[+] Schematic generated : \'#{path}\'"
+                return "#{path}"
             else
                 code.save_as "#{circuit_name}.dot",false,true
                 puts "[+] Schematic generated : \'#{circuit_name}.dot\'"

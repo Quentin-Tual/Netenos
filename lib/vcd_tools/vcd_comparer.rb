@@ -62,19 +62,10 @@ module VCD
 
             list_a.keys.each do |sig|
                 xor_list = []
-
-                # TEST
-                # if list_a[sig] != list_b[sig]
-                #     pp sig
-                # end
                 
                 list_a[sig].zip list_b[sig] do |a, b|
                     if a != 'U' and b != 'U' 
                         xor_list << (a.to_i ^ b.to_i).to_s(2)
-                    # elsif a != b 
-                    #     xor_list << "1"
-                    # elsif a == b
-                    #     xor_list << "0"
                     end
                     
                 end
@@ -89,11 +80,9 @@ module VCD
             nb_differences = differences.values.inject(:+)
 
             if differences.empty?
-                # puts "Nothing abnormal detected in traces."
                 return "none, none"
             else 
                 return "#{nb_sig_diff}, #{nb_differences}"
-                # return differences
             end
         end 
 
@@ -161,7 +150,6 @@ module VCD
                 end
 
                 simi_by_sig[sig] = scal_prod.to_f / (norm_a**2 + norm_b**2 - scal_prod)
-                # pp simi_by_sig[sig]
             end
 
             return (simi_by_sig.values.sum / simi_by_sig.values.size).round(3)
@@ -210,21 +198,8 @@ module VCD
                     sig = a.keys[sig_index]
                     a.values.first.length.times do |i|
                         val_a = a[sig][i] 
-                        # if val_a == "0"
-                        #     val_a = -1
-                        # else
-                        #     val_a = 1
-                        # end
 
                         val_b = b[sig][i - tau]
-                        # if val_b == "0"
-                        #     val_b = -1
-                        # else
-                        #     val_b = 1
-                        # end
-
-                        # corr_by_sig[sig][tau] += val_a * val_b
-                        
                         # * : Initialization 
                         if corr_by_sig[tau][sig].nil?
                             corr_by_sig[tau][sig] = 0
@@ -262,8 +237,8 @@ module VCD
                 if nb_val == 0
                     raise "Division by 0 !"
                 end 
-                # ? : Intercorrélation biaisée ici, peut-être mieux en non biaisée !
-                mean[tau] = acc.to_f / nb_val # ! Random Issue : divided by zero
+
+                mean[tau] = acc.to_f / nb_val
                
 
                 # Calcul de la variance
@@ -294,8 +269,6 @@ module VCD
             rescue => exception
                 raise "Error: 'disp_index' values comparison impossible\n -> #{disp_index}"
             end
-            
-            # best_tau = disp_index.key(disp_index.values.min)
 
             # * Return a correlation score, here it is the mean of cross_correlation of each signal 
             corr_score = 0
@@ -320,28 +293,36 @@ module VCD
         def get_diff_cycle_num trace_a, trace_b
             res = []
 
+            warn "#{__FILE__}:#{__LINE__} : Warning : Make sure test trace is the first parameter in front of the reference trace."
+
             trace_a.keys.each do |sig|
-                trace_a[sig].length.times do |i|
-                    if trace_a[sig][i] != trace_b[sig][i]
-                        res << i-2 # outputs sampled by a register so the stimuli at previous cycle are responsible of the seen output
+                trace_a[sig].each_with_index do |val,i|
+                    if trace_a[sig][i] != trace_b[sig][i] #and i > 0
+                        res << i-1  #/ trace_a.length.to_f # outputs sampled by a register so the stimuli at previous cycle are responsible of the seen output
                     end
                 end
             end
             
-            return res
+            return res.uniq
         end
 
-        def delete_cycle_list trace_a, list
-            trace_a.keys.each do |sig|
+        def delete_cycle_list vec_trace, list
+            ret_trace = {}
+
+            # print("Deleted cycles :")
+            vec_trace.keys.each_with_index do |sig, i|
                 removed = 0 # Should be 0
-                list.sort.each do |i|
-                    # trace_a[sig].delete_at(i - removed)
-                    trace_a[sig].slice!(i - removed)
-                    removed += 1
+                ret_trace[sig] = ""
+
+                vec_trace[sig].chars.each_with_index do |val, j|
+                    if !list.include? j
+                        ret_trace[sig] << val
+                    end
                 end
             end
 
-            return trace_a
+            puts 
+            return ret_trace
         end
 
         def replace_cycle_list trace_a, list
@@ -358,7 +339,7 @@ module VCD
             return trace_a
         end
 
-        def trace_to_list trace, clk_period
+        def trace_to_list trace, clk_period, trace_end
             # * : Return a list of values for each cycle in the trace and for each signal observed (outputs)
             list_trace = {}
             last_timestamp = {}
@@ -369,36 +350,25 @@ module VCD
                 # * Iterate over different primary outputs
                 trace["output_traces"][timestamp.to_s].keys.each do |sig|
                     # * First event on this output
-                    # if last_timestamp[sig].nil?
-                    #     last_timestamp[sig] = 0
-                    # end
                     if sig.nil? 
                         raise "Error : Nil signal name encountered"
                     end
 
                     if (timestamp % clk_period) != 0
-                        raise "Asynchronous transition detected on a synchronous signal \n -> timestamp = #{timestamp}; clk_period = #{clk_period}; modulo : #{timestamp % clk_period}; signal : #{sig}"
+                        warn "#{__FILE__}:#{__LINE__} : Warning : Asynchronous transition detected, ensure it is expected \n -> timestamp = #{timestamp}; clk_period = #{clk_period}; modulo : #{timestamp % clk_period}; signal : #{sig}"
                     end
 
                     # * Initial state then nothing to do
                     if timestamp == 0
                         last_timestamp[sig] = timestamp
                         next
-                    # elsif timestamp <= clk_period
-                    #     list_trace[sig] = Array.new(1, trace['output_traces'][last_timestamp[sig].to_s][sig])
-                    #     last_timestamp[sig] = timestamp
-                    #     next
                     end
                     
                     # * Compute the number of cycles the value last on primary output 
-                    nb_cycles = ((timestamp - last_timestamp[sig])/clk_period).floor.to_i
-                    # puts nb_cycles
+                    nb_cycles = ((timestamp - last_timestamp[sig])/clk_period.to_f).ceil
 
                     # * : If first values then store in a new array
                     if list_trace[sig].nil?
-                        # if nb_cycles == 0
-                        #     nb_cycles = 1 
-                        # end
                         list_trace[sig] = Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
                     else # * : Else store in the array already created
                         list_trace[sig].concat Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
@@ -415,20 +385,18 @@ module VCD
                     end
 
                     # * : Go to next event
-                    # if nb_cycles > 0
-
-                        last_timestamp[sig] = timestamp
-                    # end
+                    last_timestamp[sig] = timestamp_sorted_list
                 end
             end 
 
-            # Récupérer le dernier timestamp de toute la trace
-            trace_end = last_timestamp.values.max
+            # Get the last timestamp in the trace
             list_trace.keys.each do |sig|
                 if sig.nil?
                     raise "Error : Nil signal name encountered"
                 end
-                nb_cycles = (trace_end - last_timestamp[sig]) / clk_period
+
+                nb_cycles = ((trace_end - last_timestamp[sig]) / clk_period.to_f).ceil
+
                 if list_trace[sig].nil?
                     list_trace[sig] = Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
                 else
@@ -436,12 +404,6 @@ module VCD
                 end
             end
 
-            # Remove the first result cause it is not necessary
-            # list_trace.each do |sig|
-            #     if !list_trace[sig].nil?
-            #         list_trace[sig].delete_at 0
-            #     end
-            # end
             if list_trace.keys.include? nil
                 raise "Error : Nil signal name encountered"
             end

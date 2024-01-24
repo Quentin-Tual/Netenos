@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+-- use ieee.std_logic_textio.all;
 
 library std;
 use std.textio.all;
@@ -66,7 +67,6 @@ begin
               next;
             end if;
 
-            wait until rising_edge(nom_clk);
             -- report text_line.all;
             
             read(text_line, stim_val);
@@ -76,7 +76,7 @@ begin
                 tb_in(k) <= stim_val(k);
             end loop;
                 -- -- report to_string(char);
-
+            wait until rising_edge(nom_clk);
             -- read(text_line, char);
             -- tb_i1 <= char;
 

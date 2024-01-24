@@ -12,11 +12,9 @@ module Converter
             code << "compile_gtech:"
             code.indent=1
             code << "echo \"[+] compiling gtech\""
-            # ent_name_list = "("
             $GTECH.each do |klass|
                 entity=klass.to_s.downcase.split('::').last.concat("_d")
                 code << "echo \" |--[+] compiling #{entity}.vhd\""
-                # ent_name_list.concat "#{entity} "    
                 case compiler
                 when :nvc
                     code << "nvc --work=gtech_lib -a #{entity}.vhd"
@@ -50,28 +48,17 @@ module Converter
                 code << "rm circ#{i}/*.o"
                 code << "rm circ#{i}/*.cf"
                 code << "find circ#{i} -type f -not -iname \"*.*\" -delete"
-                # code << "rm circ#{i}/*.vcd"
+
                 code.indent=0
                 code.newline
-                # code << "rm circ#{i}/*.txt"
-                # code << "rm circ#{i}/"
-                # code << "find circ#{i} -type f -executable -delete"
-                
-                # code << "rm circ#{i}/*.vhd" # might be removed
-                # code << "find circ0 -name 'circ#{i}_*_tb' -delete"
-                
 
                 code << "compile_circ#{i}:"
                 code.indent=1
                 code << "cd circ#{i} && ./compile.sh"
-                # code << "$(MAKE) clean#{i}"
+
                 code.indent=0
                 code.newline
 
-                # code << "compile_clean#{i}: compile_circ#{i}"
-                # code.indent=1
-                # code << "echo \"[+] Cleaning circ#{i}\""
-                # code << "$(MAKE) clean#{i}"
                 code.indent=0
                 code.newline
 
@@ -88,12 +75,6 @@ module Converter
             end
             code << all_statement
             code.newline
-
-            # code << "gen_env:"
-            # code.indent=1
-            # code << "ruby gen_env.rb"
-            # code.indent=0
-            # code.newline
 
             code << "compile_gtech:"
             code.indent=1
@@ -119,8 +100,14 @@ module Converter
             code.save_as("#{path}/makefile")
         end
 
-        def circ_compile_script path, circ_init_name, freq_list, compiler=:ghdl, append = false
+        def circ_compile_script path, circ_init_name, freq_list, compiler=[:ghdl, :minimal_sig], append = false
             code = Code.new
+            if compiler.is_a? Array
+               opt =  compiler[1]
+               compiler = compiler[0]
+            else
+                opt = :minimal_sig
+            end 
             case compiler
             when :nvc
 
@@ -149,11 +136,18 @@ module Converter
                     code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
                     code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
                     code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
-                    # code << "echo \" |-- [+] simulating #{circ_init_name}_#{freq}_tb\""
-                    # code << "ghdl -r #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    if opt == :minimal_sig
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
+                    elsif opt == :uut_sig
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path, "uut/*"
+                    else
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    end
+
                     code.newline
-                    generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
+                    
                 end
                 
             else # :ghdl3 as default option
@@ -169,15 +163,17 @@ module Converter
                     # code << "ghdl -e --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb"
                     code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     # code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
-                    code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
-                    # * Clean work directory
-                    code << "rm #{circ_init_name}_#{freq}_tb.o"
-                    code << "rm e~#{circ_init_name}_#{freq}_tb.o"
-                    code << "rm #{circ_init_name}_#{freq}_tb.opt"
-                    code << "rm #{circ_init_name}_#{freq}_tb"
-                    # code << "find . -type f -not -iname \"*.*\" -and -not -iname \"ht_carac\" -delete"
+                    if opt == :minimal_sig
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
+                    elsif opt == :uut_sig
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path, ["uut/*"]
+                    else
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    end
+
                     code.newline
-                    generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
                 end 
             end
             
@@ -185,28 +181,26 @@ module Converter
             system("chmod +x #{path}/compile.sh")
         end
 
-        def generate_wave_opt_file testbench_name, path
-            str = "$ version 1.1
-
-            # Signals in packages :
+        def generate_wave_opt_file testbench_name, path, signals = []
             
-            # Signals in entities :
-            /#{testbench_name}/*
-            "
+            str = "$ version 1.1\n# Signals in packages :\n# Signals in entities :\n/#{testbench_name}/*"
+            if !signals.empty?
+                signals.each do |s|
+                    str << "\n/#{testbench_name}/#{s}"
+                end
+            end
+
             File.open("#{path}/#{testbench_name}.opt",'w'){|f| f.puts(str)}
         end
 
         def generate_compile_script circuit, test_frequencies = nil
             code=Code.new
-            # code << "echo \"[+] cleaning\""
-            # code << "rm -rf *.o #{circuit.name}_tb.ghw #{circuit.name}_tb"
+            
             # * Compilation de la GTECH
             code << "echo \"[+] compiling gtech\""
-            # ent_name_list = "("
             $GTECH.each do |klass|
                 entity=klass.to_s.downcase.split('::').last.concat("_d")
                 code << "echo \" |--[+] compiling #{entity}.vhd\""
-                # ent_name_list.concat "#{entity} "    
                 code << "ghdl -a --work=gtech_lib #{entity}.vhd"
             end
             # * Initial circuit compilation
@@ -226,8 +220,6 @@ module Converter
 
                 code << "echo \"[+] running simulation\""
                 code << "./#{circuit.name}_#{freq.to_s.split('.').join}_tb --vcd=#{circuit.name}_#{freq.to_s.split('.').join}_tb.vcd"
-                # code << "echo \"[+] launching viewer on #{circuit.name}_tb.vcd\""
-                # code << "gtkwave #{circuit.name}_tb.vcd #{circuit.name}_tb.sav"
             end
 
             code << "echo \"[+] cleaning temporary files\""
@@ -236,8 +228,6 @@ module Converter
             test_frequencies.each do |freq|
                 code << "rm e~#{circuit.name}_#{freq.to_s.split('.').join}_tb.o #{circuit.name}_#{freq.to_s.split('.').join}_tb.o"
             end
-
-            code # ?? nécessaire ??
 
             filename=code.save_as("compile_#{circuit.name}.x")
             system("chmod +x #{filename}")

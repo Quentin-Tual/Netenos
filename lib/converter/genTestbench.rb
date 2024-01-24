@@ -6,13 +6,13 @@ module Converter
     class GenTestbench
         attr_accessor :stimuli, :netlist_data
 
-        def initialize netlist, margin
+        def initialize netlist, margin=0
             @netlist_data = data_extraction(netlist, margin)
             @tb_src = Code.new
             @portmap = ""
         end
 
-        def data_extraction netlist, margin = 6
+        def data_extraction netlist, margin
             # * : Extracts data used in testbench ERB template 
             ret = {}
             ret[:entity_name] = netlist.name
@@ -36,7 +36,6 @@ module Converter
                 @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
                 @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template3.vhdl")) 
             when :passed
-                # TODO : Remplacer par un fichier (chemin)
                 # gen_arch_body_filebased_stim(@stimuli, circ_name)
                 if circ_name.include?("_altered")
                     circ_init_name = circ_name.split("_altered").join
@@ -61,8 +60,7 @@ module Converter
             src = @engine.result(binding)
 
             filename = "./#{circ_name}_#{freq.to_s.split('.').join}_tb.vhd"
-            File.open(filename,'w'){|f| f.puts(src)}
-            # puts " |--[+] generated '#{filename}'"
+            File.write(filename, src)
 
             return src # ! legacy but not necessary, generated src is already stored in a file  
         end
@@ -108,7 +106,7 @@ module Converter
             # * : Only if stimulation option is on, generates stimuli and generates the corresponding assign statements in stim process.
             stim_src = "" 
 
-            nb_cycle = stim_hash.values[0].length # ! Verify if it is really what is expected
+            nb_cycle = stim_hash.values[0].length 
 
             nb_cycle.times{ |i|
                 @netlist_data[:ports][:in].length.times{ |pin|

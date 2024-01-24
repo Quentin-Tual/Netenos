@@ -1,8 +1,6 @@
-# ! Should call vhdl.rb, for the moment some problems with ruby versions 
-
 module Converter
 
-    class ConvVhdl2Netlist
+    class ConvVhdl2Netlist # ! Legacy / associated to Hyle parser, not used and not maintained 
 
         def initialize sym_tab = nil, ast = nil
             @sym_tab = sym_tab

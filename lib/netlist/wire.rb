@@ -1,12 +1,14 @@
 module Netlist
     class Wire
-        attr_accessor :name, :fanin, :fanout, :partof
+        attr_accessor :name, :fanin, :fanout, :partof, :cumulated_propag_time
 
         def initialize name
             @name = name
             @fanin = nil # Always only one source to the input 
             @fanout = []
             @partof = nil
+            @propag_time = {:one => 0.0, :int => 0.0, :int_multi => 0.0, :int_rand => 0.0, :fract => 0.0} 
+            @cumulated_propag_time = 0
         end
 
         def <= source 
@@ -29,6 +31,10 @@ module Netlist
             else
                 raise "Error : Interface #{self.get_full_name} of #{self.partof.name} already has a source, please verify."
             end
+        end
+
+        def pretty_print(pp)
+            pp.text self.get_full_name
         end
 
         def get_source
@@ -94,6 +100,17 @@ module Netlist
 
         def has_source?
             return !fanin.nil?
+        end
+
+        def update_path_delay elapsed, delay_model
+            @cumulated_propag_time = [elapsed + @propag_time[delay_model], @cumulated_propag_time].max
+            get_sinks.each do |sink|
+                if sink.class.name == "Netlist::Wire"
+                    sink.update_path_delay @cumulated_propag_time, delay_model
+                elsif !sink.is_global?
+                    sink.partof.update_path_delay @cumulated_propag_time, delay_model
+                end
+            end
         end
 
         def to_hash

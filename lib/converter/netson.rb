@@ -2,7 +2,10 @@ require 'json'
 require_relative "../netlist.rb"
 
 module Converter
-    class Netson
+
+    # TODO : Review and update
+    # TODO : Add Yosys format compatibility ? 
+    class Netson 
 
         def initialize
             @sym_tab = {}

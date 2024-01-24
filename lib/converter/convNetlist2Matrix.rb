@@ -42,7 +42,7 @@ module Converter
 
         def scanWires
             @netlist.wires.each do |w|
-                @wires[w.name] = w.get_sinks.collect{|sink| sink.get_full_name} # ! : could be a global output so reuse this function instead of retrieving .partof.name, however certainly optimisation possible
+                @wires[w.name] = w.get_sinks.collect{|sink| sink.get_full_name} # ! : could be a global output so reuse this function instead of retrieving .partof.name, however certainly optimization possible
             end
         end
 

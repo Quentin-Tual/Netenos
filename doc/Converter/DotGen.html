@@ -149,7 +149,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#comp-instance_method" title="#comp (instance method)">#<strong>comp</strong>(components)  &#x21d2; Object </a>
+      <a href="#comp-instance_method" title="#comp (instance method)">#<strong>comp</strong>(components, delay_model)  &#x21d2; Object </a>
     
 
     
@@ -193,7 +193,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#dot-instance_method" title="#dot (instance method)">#<strong>dot</strong>(circuit, *path)  &#x21d2; Object </a>
+      <a href="#dot-instance_method" title="#dot (instance method)">#<strong>dot</strong>(circuit, path = nil, delay_model = :int_multi)  &#x21d2; Object </a>
     
 
     
@@ -404,7 +404,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="comp-instance_method">
   
-    #<strong>comp</strong>(components)  &#x21d2; <tt>Object</tt> 
+    #<strong>comp</strong>(components, delay_model)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -426,19 +426,29 @@
 39
 40
 41
-42</pre>
+42
+43
+44
+45
+46
+47</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 32</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_comp'>comp</span> <span class='id identifier rubyid_components'>components</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_comp'>comp</span> <span class='id identifier rubyid_components'>components</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_model'>delay_model</span>
     <span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_comp'>comp</span><span class='op'>|</span>
         <span class='id identifier rubyid_inputs'>inputs</span><span class='op'>=</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_port'>port</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>|</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
         <span class='id identifier rubyid_outputs'>outputs</span><span class='op'>=</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_get_outputs'>get_outputs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_port'>port</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port'>port</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>|</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
         <span class='id identifier rubyid_fanin'>fanin</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inputs'>inputs</span><span class='embexpr_end'>}</span><span class='tstring_content'>}</span><span class='tstring_end'>&quot;</span></span>
         <span class='id identifier rubyid_fanout'>fanout</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_outputs'>outputs</span><span class='embexpr_end'>}</span><span class='tstring_content'>}</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_label'>label</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fanin'>fanin</span><span class='embexpr_end'>}</span><span class='tstring_content'>| </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> |</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fanout'>fanout</span><span class='embexpr_end'>}</span><span class='tstring_content'>}</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>[shape=record; style=filled;color=cadetblue; label=\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;]</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_label'>label</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fanin'>fanin</span><span class='embexpr_end'>}</span><span class='tstring_content'>|{</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>|{</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_propag_time'>propag_time</span><span class='lbracket'>[</span><span class='id identifier rubyid_delay_model'>delay_model</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>|</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_cumulated_propag_time'>cumulated_propag_time</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_content'>}}|</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fanout'>fanout</span><span class='embexpr_end'>}</span><span class='tstring_content'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_tag'>tag</span> <span class='op'>==</span> <span class='symbol'>:ht</span>
+            <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>orange1</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>else</span>
+            <span class='id identifier rubyid_color'>color</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cadetblue</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+        <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>[shape=record; style=\&quot;rounded,filled\&quot;; fillcolor=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_color'>color</span><span class='embexpr_end'>}</span><span class='tstring_content'>; label=\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;]</span><span class='tstring_end'>&quot;</span></span>
         <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span></span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -462,20 +472,20 @@
       <pre class="lines">
 
 
-56
-57
-58
-59
-60
 61
 62
 63
 64
 65
-66</pre>
+66
+67
+68
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_comp_wiring'>comp_wiring</span> <span class='id identifier rubyid_comp'>comp</span>
     <span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_get_outputs'>get_outputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_source'>source</span><span class='op'>|</span>
@@ -496,7 +506,7 @@
       <div class="method_details ">
   <h3 class="signature " id="dot-instance_method">
   
-    #<strong>dot</strong>(circuit, *path)  &#x21d2; <tt>Object</tt> 
+    #<strong>dot</strong>(circuit, path = nil, delay_model = :int_multi)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -522,14 +532,14 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 5</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_dot'>dot</span> <span class='id identifier rubyid_circuit'>circuit</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_path'>path</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_dot'>dot</span> <span class='id identifier rubyid_circuit'>circuit</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_model'>delay_model</span> <span class='op'>=</span> <span class='symbol'>:int_multi</span>
     <span class='ivar'>@code</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='rparen'>)</span>
     <span class='ivar'>@sym_tab</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
     <span class='id identifier rubyid_head'>head</span> <span class='id identifier rubyid_circuit'>circuit</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
-    <span class='id identifier rubyid_comp'>comp</span> <span class='id identifier rubyid_circuit'>circuit</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span>
+    <span class='id identifier rubyid_comp'>comp</span> <span class='id identifier rubyid_circuit'>circuit</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_model'>delay_model</span>
     <span class='id identifier rubyid_ios'>ios</span> <span class='id identifier rubyid_circuit'>circuit</span><span class='period'>.</span><span class='id identifier rubyid_ports'>ports</span>
     <span class='id identifier rubyid_wiring'>wiring</span> <span class='id identifier rubyid_circuit'>circuit</span>
-    <span class='id identifier rubyid_circuit'>circuit</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_comp'>comp</span><span class='op'>|</span> <span class='id identifier rubyid_comp_wiring'>comp_wiring</span> <span class='id identifier rubyid_comp'>comp</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_circuit'>circuit</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_comp'>comp</span><span class='op'>|</span> <span class='id identifier rubyid_comp_wiring'>comp_wiring</span><span class='lparen'>(</span><span class='id identifier rubyid_comp'>comp</span><span class='rparen'>)</span><span class='rbrace'>}</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_foot'>foot</span> <span class='id identifier rubyid_circuit'>circuit</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -552,11 +562,6 @@
       <pre class="lines">
 
 
-81
-82
-83
-84
-85
 86
 87
 88
@@ -565,19 +570,24 @@
 91
 92
 93
-94</pre>
+94
+95
+96
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 86</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_foot'>foot</span> <span class='id identifier rubyid_circuit_name'>circuit_name</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span>
     <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_indent'>indent</span><span class='op'>=</span><span class='int'>0</span>
     <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>}</span><span class='tstring_end'>&quot;</span></span>
     <span class='comment'># puts code.finalize # Debug print
-</span>    <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span> <span class='op'>!=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-        <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='kw'>false</span><span class='comma'>,</span><span class='kw'>true</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Schematic generated : \&#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&#39;</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span> <span class='op'>!=</span> <span class='kw'>nil</span>
+        <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='kw'>false</span><span class='comma'>,</span><span class='kw'>true</span>
+        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Schematic generated : \&#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&#39;</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>else</span>
         <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circuit_name'>circuit_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.dot</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='kw'>false</span><span class='comma'>,</span><span class='kw'>true</span>
         <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Schematic generated : \&#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circuit_name'>circuit_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.dot\&#39;</span><span class='tstring_end'>&quot;</span></span>
@@ -680,17 +690,17 @@
       <pre class="lines">
 
 
-68
-69
-70
-71
-72
 73
 74
-75</pre>
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wire'>wire</span> <span class='id identifier rubyid_w'>w</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span>
     <span class='comment'># wireName = &quot;w#{source.get_dot_name}&quot;
@@ -720,20 +730,20 @@
       <pre class="lines">
 
 
-44
-45
-46
-47
-48
 49
 50
 51
 52
 53
-54</pre>
+54
+55
+56
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wiring'>wiring</span> <span class='id identifier rubyid_circuit'>circuit</span>
     <span class='id identifier rubyid_circuit'>circuit</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_source'>source</span><span class='op'>|</span>
@@ -766,12 +776,12 @@
       <pre class="lines">
 
 
-77
-78
-79</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_write_wiring'>write_wiring</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_sink'>sink</span>
     <span class='ivar'>@code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_get_dot_name'>get_dot_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> -&gt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sink'>sink</span><span class='period'>.</span><span class='id identifier rubyid_get_dot_name'>get_dot_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span>
@@ -786,7 +796,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Nov  6 15:32:40 2023 by
+  Generated on Wed Jan 24 13:38:46 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.2).
 </div>

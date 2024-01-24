@@ -112,7 +112,7 @@
   <h2>Instance Attribute Summary</h2>
   
   <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Gate.html" title="Netlist::Gate (class)">Gate</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Gate.html#name-instance_method" title="Netlist::Gate#name (method)">#name</a></span>, <span class='object_link'><a href="Gate.html#partof-instance_method" title="Netlist::Gate#partof (method)">#partof</a></span>, <span class='object_link'><a href="Gate.html#ports-instance_method" title="Netlist::Gate#ports (method)">#ports</a></span>, <span class='object_link'><a href="Gate.html#propag_time-instance_method" title="Netlist::Gate#propag_time (method)">#propag_time</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Gate.html#cumulated_propag_time-instance_method" title="Netlist::Gate#cumulated_propag_time (method)">#cumulated_propag_time</a></span>, <span class='object_link'><a href="Gate.html#name-instance_method" title="Netlist::Gate#name (method)">#name</a></span>, <span class='object_link'><a href="Gate.html#partof-instance_method" title="Netlist::Gate#partof (method)">#partof</a></span>, <span class='object_link'><a href="Gate.html#ports-instance_method" title="Netlist::Gate#ports (method)">#ports</a></span>, <span class='object_link'><a href="Gate.html#propag_time-instance_method" title="Netlist::Gate#propag_time (method)">#propag_time</a></span>, <span class='object_link'><a href="Gate.html#tag-instance_method" title="Netlist::Gate#tag (method)">#tag</a></span></p>
 
   
   
@@ -189,7 +189,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Gate.html" title="Netlist::Gate (class)">Gate</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Gate.html#get_output-instance_method" title="Netlist::Gate#get_output (method)">#get_output</a></span>, <span class='object_link'><a href="Gate.html#get_outputs-instance_method" title="Netlist::Gate#get_outputs (method)">#get_outputs</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Gate.html#get_output-instance_method" title="Netlist::Gate#get_output (method)">#get_output</a></span>, <span class='object_link'><a href="Gate.html#get_outputs-instance_method" title="Netlist::Gate#get_outputs (method)">#get_outputs</a></span>, <span class='object_link'><a href="Gate.html#update_path_delay-instance_method" title="Netlist::Gate#update_path_delay (method)">#update_path_delay</a></span></p>
 
   
   
@@ -200,7 +200,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Circuit.html#contains_registers%3F-instance_method" title="Netlist::Circuit#contains_registers? (method)">#contains_registers?</a></span>, <span class='object_link'><a href="Circuit.html#get_component_named-instance_method" title="Netlist::Circuit#get_component_named (method)">#get_component_named</a></span>, <span class='object_link'><a href="Circuit.html#get_free_input-instance_method" title="Netlist::Circuit#get_free_input (method)">#get_free_input</a></span>, <span class='object_link'><a href="Circuit.html#get_free_output-instance_method" title="Netlist::Circuit#get_free_output (method)">#get_free_output</a></span>, <span class='object_link'><a href="Circuit.html#get_free_port-instance_method" title="Netlist::Circuit#get_free_port (method)">#get_free_port</a></span>, <span class='object_link'><a href="Circuit.html#get_inputs-instance_method" title="Netlist::Circuit#get_inputs (method)">#get_inputs</a></span>, <span class='object_link'><a href="Circuit.html#get_outputs-instance_method" title="Netlist::Circuit#get_outputs (method)">#get_outputs</a></span>, <span class='object_link'><a href="Circuit.html#get_port_named-instance_method" title="Netlist::Circuit#get_port_named (method)">#get_port_named</a></span>, <span class='object_link'><a href="Circuit.html#get_ports-instance_method" title="Netlist::Circuit#get_ports (method)">#get_ports</a></span>, <span class='object_link'><a href="Circuit.html#save_as-instance_method" title="Netlist::Circuit#save_as (method)">#save_as</a></span>, <span class='object_link'><a href="Circuit.html#to_hash-instance_method" title="Netlist::Circuit#to_hash (method)">#to_hash</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Circuit.html#contains_registers%3F-instance_method" title="Netlist::Circuit#contains_registers? (method)">#contains_registers?</a></span>, <span class='object_link'><a href="Circuit.html#getNetlistInformations-instance_method" title="Netlist::Circuit#getNetlistInformations (method)">#getNetlistInformations</a></span>, <span class='object_link'><a href="Circuit.html#get_component_named-instance_method" title="Netlist::Circuit#get_component_named (method)">#get_component_named</a></span>, <span class='object_link'><a href="Circuit.html#get_exact_crit_path_length-instance_method" title="Netlist::Circuit#get_exact_crit_path_length (method)">#get_exact_crit_path_length</a></span>, <span class='object_link'><a href="Circuit.html#get_free_input-instance_method" title="Netlist::Circuit#get_free_input (method)">#get_free_input</a></span>, <span class='object_link'><a href="Circuit.html#get_free_output-instance_method" title="Netlist::Circuit#get_free_output (method)">#get_free_output</a></span>, <span class='object_link'><a href="Circuit.html#get_free_port-instance_method" title="Netlist::Circuit#get_free_port (method)">#get_free_port</a></span>, <span class='object_link'><a href="Circuit.html#get_inputs-instance_method" title="Netlist::Circuit#get_inputs (method)">#get_inputs</a></span>, <span class='object_link'><a href="Circuit.html#get_mean_fanout-instance_method" title="Netlist::Circuit#get_mean_fanout (method)">#get_mean_fanout</a></span>, <span class='object_link'><a href="Circuit.html#get_outputs-instance_method" title="Netlist::Circuit#get_outputs (method)">#get_outputs</a></span>, <span class='object_link'><a href="Circuit.html#get_port_named-instance_method" title="Netlist::Circuit#get_port_named (method)">#get_port_named</a></span>, <span class='object_link'><a href="Circuit.html#get_ports-instance_method" title="Netlist::Circuit#get_ports (method)">#get_ports</a></span>, <span class='object_link'><a href="Circuit.html#get_wire_named-instance_method" title="Netlist::Circuit#get_wire_named (method)">#get_wire_named</a></span>, <span class='object_link'><a href="Circuit.html#pretty_print-instance_method" title="Netlist::Circuit#pretty_print (method)">#pretty_print</a></span>, <span class='object_link'><a href="Circuit.html#save_as-instance_method" title="Netlist::Circuit#save_as (method)">#save_as</a></span>, <span class='object_link'><a href="Circuit.html#to_hash-instance_method" title="Netlist::Circuit#to_hash (method)">#to_hash</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -230,17 +230,18 @@
       <pre class="lines">
 
 
-66
-67
-68
-69
-70
-71
-72
-73</pre>
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_name'>name</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>::</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_object_id'>object_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_partof'>partof</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
@@ -248,7 +249,8 @@
     <span class='ivar'>@ports</span><span class='period'>.</span><span class='id identifier rubyid_each_value'>each_value</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span> <span class='op'>=</span> <span class='kw'>self</span><span class='rbrace'>}</span>
     <span class='ivar'>@partof</span> <span class='op'>=</span> <span class='id identifier rubyid_partof'>partof</span>
     <span class='ivar'>@components</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='ivar'>@propag_time</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:one</span> <span class='op'>=&gt;</span> <span class='float'>1.0</span><span class='comma'>,</span> <span class='symbol'>:int</span> <span class='op'>=&gt;</span> <span class='float'>1.0</span><span class='comma'>,</span> <span class='symbol'>:int_rand</span> <span class='op'>=&gt;</span> <span class='float'>1.0</span><span class='op'>*</span><span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='float'>0.9</span><span class='op'>..</span><span class='float'>1.1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:fract</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='float'>1.0</span><span class='op'>*</span><span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='float'>0.9</span><span class='op'>..</span><span class='float'>1.1</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='float'>0.3</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+    <span class='ivar'>@propag_time</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:one</span> <span class='op'>=&gt;</span> <span class='float'>1.0</span><span class='comma'>,</span> <span class='symbol'>:int</span> <span class='op'>=&gt;</span> <span class='float'>1.0</span><span class='comma'>,</span> <span class='symbol'>:int_multi</span> <span class='op'>=&gt;</span> <span class='float'>1.0</span><span class='comma'>,</span> <span class='symbol'>:int_rand</span> <span class='op'>=&gt;</span> <span class='float'>1.0</span><span class='op'>*</span><span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='float'>0.9</span><span class='op'>..</span><span class='float'>1.1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:fract</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='float'>1.0</span><span class='op'>*</span><span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='float'>0.9</span><span class='op'>..</span><span class='float'>1.1</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='float'>0.3</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+    <span class='ivar'>@cumulated_propag_time</span> <span class='op'>=</span> <span class='int'>0</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -277,31 +279,31 @@
       <pre class="lines">
 
 
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96</pre>
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='op'>&lt;&lt;</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span> <span class='op'>=</span> <span class='kw'>self</span>
@@ -335,7 +337,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Nov  6 15:32:40 2023 by
+  Generated on Wed Jan 24 13:38:45 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.2).
 </div>

@@ -10,7 +10,5 @@ module Netlist
             @ports[:out][0].fanout = sinks
         end
 
-        # * : Should not need any other method
-
     end
 end

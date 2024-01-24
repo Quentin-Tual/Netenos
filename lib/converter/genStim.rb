@@ -17,7 +17,7 @@ module Converter
         def extract_inputs_from_netlist netlist
             ret = {}
             netlist.get_inputs.each{ |p|
-                ret[p.name] = "std_logic" # ! Only bit type supported by Netenos yet
+                ret[p.name] = "std_logic" # ! Only bit and std_logic type supported by Netenos yet
             }
             return ret
         end
@@ -64,13 +64,6 @@ module Converter
                 end
             end
 
-            # max_value.times do |value|
-            #     bin_value = '%0*b' % [@inputs.length, value]
-            #     @inputs.each_with_index do |pname, index|
-            #         @stim[pname[0]].concat bin_value[index]
-            #     end
-            # end
-
             return @stim
         end
 
@@ -79,7 +72,6 @@ module Converter
             @inputs.each do |pname, datatype|
                 @stim[pname] = ""
             end
-
 
             max_value = 2**@inputs.length
 
@@ -90,39 +82,17 @@ module Converter
                 vec_list << bin_value.reverse # reverse the list to keep the LSB for i0 and the MSB for iN (N : number of inputs - 1)
             end
 
-            # Compute all possible transitions from one vector to another
-            # vec_list = vec_list.permutation(2).to_a.flatten
-            # tmp = []
-            # vec_list.each_with_index do |x,i|
-            #     vec_list[i+1..].each do |y|
-            #         tmp << [x,y]
-            #     end
-            # end
-            # tmp << vec_list[0]
-            # vec_list = tmp.flatten!
-
             # Conv from a list of vector to a dict of vector by signals
             vec_list.each do |vec| 
-                @inputs.each_with_index do |pname, index|
-                    @stim[pname[0]].concat vec[index]
+                @inputs.keys.each_with_index do |pname, index|
+                    @stim[pname].concat vec[index]
                 end
             end
-
-            # max_value.times do |value|
-            #     bin_value = '%0*b' % [@inputs.length, value]
-            #     @inputs.each_with_index do |pname, index|
-            #         @stim[pname[0]].concat bin_value[index]
-            #     end
-            # end
 
             return @stim
         end
 
         def extend_exhaustive_all_trans vec_list
-            # @stim (re)initialization
-            # @inputs.each do |pname, datatype|
-            #     @stim[pname] = ""
-            # end
 
             tmp = []
             vec_list.each_with_index do |x,i|
@@ -141,31 +111,11 @@ module Converter
                 @stim[pname] = '%0*b' % [nb_cycle, rand_num] # preferred for bit stuffing MSBs 0s, forgot if using '.to_s(2). method
             }
 
-            # ! : Replace by until in order to always have the right stimuli number, even when some are deleted to avoid HT triggering ?
-            # until @stim.values.last.length == nb_cycle
-            # print"Removed cycle : "
-            # nb_cycle.times do |j|
-            #     @inputs.each { |pname, pdatatype|
-            #         @stim[pname] << get_rand_val(pdatatype)
-            #     }
-            #     # For each cycle generated, verify if the stimuli added activates the ht trigger, if it does remove them. 
-            #     if !trig_cond.nil?
-            #         if verify_ht_activation(trig_cond)
-            #             # puts "Another one : #{j}"
-            #             # puts "triggered by :"
-            #             # @stim.keys.each{|pname| print "#{@stim[pname].last}, "}
-            #             remove_last_stim
-            #             # print "#{j}, "
-            #         end
-            #     end
-            # end
-
             return @stim
         end
 
-        # TODO : WIP
         def gen_sig_hammer_stim nb_cycle
-            # ! : Easier to use with nb_cycle >= 1000
+            # ! : Use it cautiausly, with nb_cycle >= 1000 computation increases drastically
             nb_cycle = nb_cycle/(@inputs.length*4) # 3 transition following each stimuli # ? : Avoid the difference between the given nb_cycle and resulting nb_cycle
 
             gen_random_stim nb_cycle
@@ -201,8 +151,6 @@ module Converter
         end
 
         def verify_ht_activation trig_cond
-            # TODO : Iterate on the expression and stack the result obtained with different operations on generated entry values  
-
             acc_trig_value = nil
             last_word = nil
             trig_eval = []
@@ -338,13 +286,6 @@ module Converter
             vec_list = File.read(path).split("\n")[1..]
 
             return vec_list
-            # vec_list.each do |vec| 
-            #     @inputs.each_with_index do |pname, index|
-            #         @stim[pname[0]].concat vec[index]
-            #     end
-            # end
-            
-            # puts src
         end 
 
         def convert_vec_list_2_stim vec_list
@@ -360,14 +301,29 @@ module Converter
 
             # convert
             vec_list.each do |vec| 
-                @inputs.each_with_index do |pname, index|
-                    @stim[pname[0]].concat vec[index]
+                @inputs.keys.each_with_index do |pname, index|
+                    @stim[pname].concat vec[index]
                 end
             end
 
             return @stim
         end
 
+        def conv_stim_2_vec_list trace
+            vec_list = []
+
+            if !trace.nil? 
+                trace.values[0].length.times do |cycle|
+                    line = ""
+                    trace.keys.each do |pname|
+                        line << trace[pname][cycle]
+                    end
+                    vec_list << line
+                end
+            end
+
+            return vec_list
+        end
 
         def save_vec_list path, vec_list 
             src = Code.new
@@ -375,7 +331,9 @@ module Converter
 
             vec_list.each do |vec|
                 if !vec.nil? # ! TEST DEBUG
-                    src << vec.reverse
+                    src << vec#.reverse
+                else 
+                    raise "Error : nil test vector encountered."
                 end
             end 
 

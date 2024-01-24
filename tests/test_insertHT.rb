@@ -66,6 +66,7 @@ viewer.dot global
 modifier = Inserter::Tamperer.new(global)
 modifier.select_ht("cotd_s38417")
 modified = modifier.insert 
-modifier = nil
+
+
 
 viewer.dot(modified, 'test_circ_mod.dot')

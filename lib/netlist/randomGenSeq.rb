@@ -2,6 +2,8 @@ require_relative "./gate.rb"
 
 module Netlist
 
+    # ! Not maintained, certainly deprecated and not functionnal
+
     class ImpossibleResolutionException < StandardError
         def initialize(message = "Error : The current generated netlist is not resolvable. Please retry. If it happens too many times, try to change parameters (number of gates, number of IOs, depth).")
             super

@@ -105,7 +105,44 @@
 
 
 
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#components-instance_method" title="#components (instance method)">#<strong>components</strong>  &#x21d2; Object </a>
+    
 
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DEBUG.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="HT.html" title="Inserter::HT (class)">HT</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="HT.html#netlist-instance_method" title="Inserter::HT#netlist (method)">#netlist</a></span>, <span class='object_link'><a href="HT.html#triggers-instance_method" title="Inserter::HT#triggers (method)">#triggers</a></span></p>
 
 
   
@@ -202,7 +239,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>attr_accessor :components # DEBUG.</p>
+<p>A new instance of It_s38417.</p>
 </div></span>
   
 </li>
@@ -237,7 +274,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>attr_accessor :components # DEBUG</p>
+<p>Returns a new instance of It_s38417.</p>
 
 
   </div>
@@ -271,6 +308,54 @@
 </div>
   
 </div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="components=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="components-instance_method">
+  
+    #<strong>components</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DEBUG</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inserter/inverted_trigger_s38417.rb', line 7</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_components'>components</span>
+  <span class='ivar'>@components</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -328,16 +413,16 @@
       <pre class="lines">
 
 
+58
 59
 60
 61
 62
 63
-64
-65</pre>
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/inverted_trigger_s38417.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/inverted_trigger_s38417.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_payload'>gen_payload</span> 
     <span class='id identifier rubyid_generated_payload'>generated_payload</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">new</a></span></span>
@@ -400,8 +485,7 @@
 53
 54
 55
-56
-57</pre>
+56</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/inserter/inverted_trigger_s38417.rb', line 22</span>
@@ -437,7 +521,6 @@
 
     <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html" title="Netlist::Not (class)">Not</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Not.html#initialize-instance_method" title="Netlist::Not#initialize (method)">new</a></span></span>
     <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_trig_tree'>trig_tree</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_output'>get_output</span>
-
     <span class='ivar'>@components</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_tmp'>tmp</span>
 
     <span class='kw'>return</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_get_output'>get_output</span>
@@ -452,7 +535,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Nov  6 15:32:41 2023 by
+  Generated on Wed Jan 24 13:38:46 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.2).
 </div>
