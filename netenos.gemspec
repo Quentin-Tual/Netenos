@@ -2,10 +2,10 @@ Gem::Specification.new do |spec|
   spec.name        = 'Netenos'
   spec.version     = '0.3.0'
   spec.summary     = 'A Netlist modelisation and tools associated.'
-  spec.description = 'Enoslist is a Netlist modelisation developped in order to learn and experiment. For the moment, it does not modelize registers, but can be used for combinatorial logic. Also it embbed some tools to convert in other format (json, .dot, vhdl93, ...) or to generate random netlist, also to insert logic, ...'
+  spec.description = 'Netenos is a Netlist modelisation developped in order to learn and experiment. For the moment, it does not modelize registers, but can be used for combinatorial logic. Also it embbed some tools to convert in other format (json, graphviz .dot, vhdl93, ...), to generate random netlist or also to insert logic, ...'
   spec.authors     = ['QuentinT']
   spec.email       = 'quentintual2@gmail.com'
-  spec.homepage    = 'https://github.com/Quentin-Tual/Enoslist'
+  spec.homepage    = 'https://github.com/Quentin-Tual/Netenos'
   spec.license     = 'GPL-3.0'
 
   spec.bindir = 'bin'
@@ -14,8 +14,9 @@ Gem::Specification.new do |spec|
   spec.files += Dir['lib/converter/tb_template2.vhdl']
   spec.files += Dir['lib/converter/tb_template3.vhdl']
   # spec.require_paths = ['Hyle']
-  spec.add_runtime_dependency 'Hyle', '~> 0.1.0'
+  # spec.add_runtime_dependency 'Hyle', '~> 0.1.0'
   spec.add_runtime_dependency 'oj', '>= 3.0.0'
+
   # spec.add_development_dependency 'Hyle'
 end
   

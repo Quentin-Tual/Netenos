@@ -309,9 +309,7 @@ module VCD
         def delete_cycle_list vec_trace, list
             ret_trace = {}
 
-            # print("Deleted cycles :")
             vec_trace.keys.each_with_index do |sig, i|
-                removed = 0 # Should be 0
                 ret_trace[sig] = ""
 
                 vec_trace[sig].chars.each_with_index do |val, j|
@@ -321,7 +319,6 @@ module VCD
                 end
             end
 
-            puts 
             return ret_trace
         end
 
@@ -374,18 +371,13 @@ module VCD
                         list_trace[sig].concat Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
                     end
 
-                    if list_trace.first[1].empty? # ! : DEBUG
-                        puts "ici : #{sig} #{timestamp} #{clk_period}"
-                        puts
-                    end
-
                     # * : Value verification
                     if trace['output_traces'][last_timestamp[sig].to_s][sig].nil?
                         raise "Error : Corresponding value not found in traces"
                     end
 
                     # * : Go to next event
-                    last_timestamp[sig] = timestamp_sorted_list
+                    last_timestamp[sig] = timestamp
                 end
             end 
 

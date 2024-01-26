@@ -64,7 +64,7 @@ module Netlist
                 fanout_list << count
             end
 
-            return fanout_list.sum / fanout_list.size
+            return (fanout_list.sum.to_f / fanout_list.size).round(2)
         end
 
         def get_exact_crit_path_length delay_model 
