@@ -14,17 +14,26 @@ module Converter
             @tb = false
         end
 
-        def gen_gtech
-            puts "[+] generating VHDL gtech"
+        def gen_gtech rejection = false
+            if $VERBOSE
+                puts "[+] generating VHDL gtech"
+            end
+
+            if !rejection
+                rejection = ""
+            else 
+                rejection = "reject delay inertial"
+            end
+
             $GTECH.each do |circuit_klass|
                 circuit_name= circuit_klass.to_s.split('::').last.downcase.concat("_d")
                 case circuit_name
                 when "not_d"
                     circuit_instance=circuit_klass.new
-                    func_code="o0 <= not i0 after delay;"
+                    func_code="o0 <= #{rejection} not i0 after delay;"
                 when "buffer_d"
                     circuit_instance=circuit_klass.new
-                    func_code="o0 <= i0 after delay;"
+                    func_code="o0 <= #{rejection} i0 after delay;"
                 else
                     mdata=circuit_name.match(/\A(\D+)(\d*)/)
                     op=mdata[1]
@@ -33,7 +42,7 @@ module Converter
                     assign_lhs=circuit_instance.get_outputs.first.name
                     assign_rhs=circuit_instance.get_inputs.map{|input| input.name}.join(" #{op} ")
                     assign_rhs="not #{assign_rhs}" if op=="not"
-                    assign="#{assign_lhs} <= #{assign_rhs} after delay;"
+                    assign="#{assign_lhs} <= #{rejection} #{assign_rhs} after delay;"
                     func_code=assign
                 end
         
@@ -69,7 +78,119 @@ module Converter
                 code << "end rtl;"
         
                 filename=code.save_as("#{circuit_name}.vhd")
-                puts " |--[+] generated '#{filename}'"
+                if $VERBOSE
+                    puts " |--[+] generated '#{filename}'"
+                end
+            end
+        end
+
+
+        def gen_gtech_realistic
+            if $VERBOSE
+                puts "[+] generating VHDL gtech"
+            end
+
+            $GTECH.each do |circuit_klass|
+                circuit_name= circuit_klass.to_s.split('::').last.downcase.concat("_d")
+                func_code = ""
+                case circuit_name
+                when "not_d"
+                    circuit_instance=circuit_klass.new
+                    true_condition = "i0='0'"
+                    false_condition = "i0='1'"
+                    # func_code << "o0 <= reject delay inertial not i0 after delay;"
+                    func_code << "\to0 <= curr_output;\n"
+                    func_code << "\tprocess(i0)\n"
+                    func_code << "\tbegin\n"
+                    func_code << "\t\tif #{true_condition} then\n"
+                    func_code << "\t\t\tcurr_output <= reject rising_hold inertial not i0 after rising_setup;\n"
+                    func_code << "\t\telsif #{false_condition} then\n"
+                    func_code << "\t\t\tcurr_output <= reject falling_hold inertial not i0 after falling_setup;\n"
+                    func_code << "\t\telse\n"
+                    func_code << "\t\t\tcurr_output <= 'U';\n"
+                    func_code << "\t\tend if;\n"
+                    func_code << "\tend process;\n"
+                when "buffer_d"
+                    circuit_instance=circuit_klass.new
+                    true_condition = "i0='1'"
+                    false_condition = "i0='0'"
+                    # func_code << "o0 <= reject delay inertial not i0 after delay;"
+                    func_code << "\to0 <= curr_output;\n"
+                    func_code << "\tprocess(i0)\n"
+                    func_code << "\tbegin\n"
+                    func_code << "\t\tif #{true_condition} then\n"
+                    func_code << "\t\t\tcurr_output <= reject rising_hold inertial i0 after rising_setup;\n"
+                    func_code << "\t\telsif #{false_condition} then\n"
+                    func_code << "\t\t\tcurr_output <= reject falling_hold inertial i0 after falling_setup;\n"
+                    func_code << "\t\telse\n"
+                    func_code << "\t\t\tcurr_output <= 'U';\n"
+                    func_code << "\t\tend if;\n"
+                    func_code << "\tend process;\n"
+                    # func_code="o0 <= reject delay inertial i0 after delay;"
+                else
+                    mdata=circuit_name.match(/\A(\D+)(\d*)/)
+                    op=mdata[1]
+                    # card=(mdata[2] || "0").to_i
+                    circuit_instance=circuit_klass.new
+                    assign_lhs=circuit_instance.get_outputs.first.name
+                    assign_rhs=circuit_instance.get_inputs.map{|input| input.name}.join(" #{op} ")
+                    true_condition=circuit_instance.get_inputs.map{|input| "#{input.name}='1'"}.join(" #{op} ")
+                    false_condition="not(#{true_condition})"
+                    # true_condition="not #{assign_rhs}" if op=="not"
+                    func_code << "\to0 <= curr_output;\n"
+                    func_code << "\tprocess(i0, i1)\n"
+                    func_code << "\tbegin\n"
+                    func_code << "\t\tif (#{true_condition}) then\n"
+                    func_code << "\t\t\tcurr_output <= reject rising_hold inertial #{assign_rhs} after rising_setup;\n"
+                    func_code << "\t\telsif (#{false_condition}) then\n"
+                    func_code << "\t\t\tcurr_output <= reject falling_hold inertial #{assign_rhs} after falling_setup;\n"
+                    func_code << "\t\telse\n"
+                    func_code << "\t\t\tcurr_output <= 'U';\n"
+                    func_code << "\t\tend if;\n"
+                    func_code << "\tend process;"
+                end
+
+                code=Code.new
+                code << "--generated automatically"
+                code << ieee_header
+                code.newline
+                code << "entity #{circuit_name} is"
+                code.indent=1
+                code << "generic("
+                code.indent=2
+                code << "rising_hold : time := 1 ps;"
+                code << "rising_setup : time := 1 ps;"
+                code << "falling_hold : time := 1 ps;"
+                code << "falling_setup : time := 1 ps\n\t);"
+                code.indent=1
+                code << "port("
+                code.indent=2
+                # if circuit_instance.is_a?(Dff)
+                #     code << "clk : in std_logic;"
+                # end
+                circuit_instance.get_inputs.each do |input|
+                    code << "#{input.name} : in  std_logic;"
+                end
+                circuit_instance.get_outputs.each do |output|
+                    code << "#{output.name} : out std_logic;"
+                end
+                code.lines[-1].delete_suffix!(";")
+                code.indent=1
+                code << ");"
+                code.indent=0
+                code << "end #{circuit_name};"
+                code.newline
+                code << "architecture rtl of #{circuit_name} is"
+                code << "\tsignal curr_output : std_logic := 'U';"
+                code << "begin"
+                code.indent=0
+                code << func_code
+                code << "end rtl;"
+        
+                filename=code.save_as("#{circuit_name}.vhd")
+                if $VERBOSE
+                    puts " |--[+] generated '#{filename}'"
+                end
             end
         end
     
@@ -81,27 +202,27 @@ module Converter
             return code
         end
     
-        def generate circuit, delay_model = :one
+        def generate_realistic circuit, delay_model = :int_multi
             code=Code.new
             code << ieee_header
             code.newline
             code << "library gtech_lib;"
             code.newline
             code << "entity #{circuit.name} is"
-            code.indent=2
+            code.indent=1
             code << "port("
-            code.indent=4
+            code.indent=2
             # code << "clk : in  std_logic;"
             circuit.get_inputs.each{|i|  code << "#{i.name} : in  std_logic;"}
             circuit.get_outputs.each{|o| code << "#{o.name} : out std_logic;"}
             code.lines[-1].delete_suffix!(";")
-            code.indent=2
+            code.indent=1
             code << ");"
             code.indent=0
             code << "end #{circuit.name};"
             code.newline
             code << "architecture netenos of #{circuit.name} is"
-            code.indent=2
+            code.indent=1
             wires = circuit.wires.collect{|wire| wire.get_full_name}
             wires.each do |wire_name|
                 code << "signal #{wire_name} : std_logic;"
@@ -113,7 +234,7 @@ module Converter
             end
             code.indent=0
             code << "begin"
-            code.indent=2
+            code.indent=1
             
             code << "----------------------------------"
             code << "-- Components interconnect "
@@ -121,12 +242,19 @@ module Converter
             circuit.components.each do |comp|
                 comp_entity=comp.class.to_s.split("::").last.downcase
                 code << "#{comp.name} : entity gtech_lib.#{comp_entity}_d"
-                code.indent=4
+                code.indent=2
                 if comp.is_a? Netlist::Gate
-                    code << "generic map(#{(comp.propag_time[delay_model]*1000).to_i} fs)" # * Conversion from nanoseconds into picoseconds to avoid float in vhdl source code
+                    code << "generic map("
+                    code.indent+=1
+                    code << "#{((comp.propag_time[delay_model] - 0.25 + 0.25)*1000).to_i} fs," # rising_hold
+                    code << "#{((comp.propag_time[delay_model] + 0.25)*1000).to_i} fs," # rising_setup
+                    code << "#{(([comp.propag_time[delay_model] - 0.25 - 0.25,0].max)*1000).to_i} fs," # falling_hold
+                    code << "#{(([comp.propag_time[delay_model] - 0.25,0].max)*1000).to_i} fs"  # falling_setup
+                    code.indent-=1
+                    code << ")" # * Conversion from nanoseconds into picoseconds to avoid float in vhdl source code
                 end
                 code << "port map("
-                code.indent=6
+                code.indent=3
                 # if comp.is_a? Dff
                 #     code << "clk => clk,"
                 # end
@@ -142,10 +270,10 @@ module Converter
                     end
                 end
                 code.lines[-1].delete_suffix!(",")
-                code.indent=4
+                code.indent=2
                 code << ");"
             end
-            code.indent=2
+            code.indent=1
             code << "----------------------------------"
             code << "-- Wiring primary ouputs "
             code << "----------------------------------"
@@ -155,7 +283,88 @@ module Converter
             code.indent=0
             code << "end netenos;"
             filename=code.save_as("#{circuit.name}.vhd")
-            puts "[+] generated circuit '#{filename}'"
+            if $VERBOSE
+                puts "[+] generated circuit '#{filename}'"
+            end
+        end
+
+        def generate circuit, delay_model = :one
+            code=Code.new
+            code << ieee_header
+            code.newline
+            code << "library gtech_lib;"
+            code.newline
+            code << "entity #{circuit.name} is"
+            code.indent=1
+            code << "port("
+            code.indent=2
+            # code << "clk : in  std_logic;"
+            circuit.get_inputs.each{|i|  code << "#{i.name} : in  std_logic;"}
+            circuit.get_outputs.each{|o| code << "#{o.name} : out std_logic;"}
+            code.lines[-1].delete_suffix!(";")
+            code.indent=1
+            code << ");"
+            code.indent=0
+            code << "end #{circuit.name};"
+            code.newline
+            code << "architecture netenos of #{circuit.name} is"
+            code.indent=1
+            wires = circuit.wires.collect{|wire| wire.get_full_name}
+            wires.each do |wire_name|
+                code << "signal #{wire_name} : std_logic;"
+            end
+            signals=circuit.components.collect{|comp| comp.get_outputs}.flatten
+
+            signals.each do |sig|
+                code << "signal #{sig.get_full_name} : std_logic;"
+            end
+            code.indent=0
+            code << "begin"
+            code.indent=1
+            
+            code << "----------------------------------"
+            code << "-- Components interconnect "
+            code << "----------------------------------"
+            circuit.components.each do |comp|
+                comp_entity=comp.class.to_s.split("::").last.downcase
+                code << "#{comp.name} : entity gtech_lib.#{comp_entity}_d"
+                code.indent=2
+                if comp.is_a? Netlist::Gate
+                    code << "generic map(#{(comp.propag_time[delay_model]*1000).to_i} fs)" # * Conversion from nanoseconds into picoseconds to avoid float in vhdl source code
+                end
+                code << "port map("
+                code.indent=3
+                # if comp.is_a? Dff
+                #     code << "clk => clk,"
+                # end
+                comp.get_inputs.each do |input|
+                    code << "#{input.name} => #{input.get_source.get_full_name},"
+                end
+                comp.get_outputs.each do |output|
+                    # wire=output.fanout.first
+                    if output.get_sinks[0].class == Netlist::Wire
+                        code << "#{output.name} => #{output.get_sinks[0].get_full_name},"
+                    else
+                        code << "#{output.name} => #{output.get_full_name},"
+                    end
+                end
+                code.lines[-1].delete_suffix!(",")
+                code.indent=2
+                code << ");"
+            end
+            code.indent=1
+            code << "----------------------------------"
+            code << "-- Wiring primary ouputs "
+            code << "----------------------------------"
+            circuit.get_outputs.each do |output|
+                code << "#{output.name} <= #{output.get_source.get_full_name};"
+            end
+            code.indent=0
+            code << "end netenos;"
+            filename=code.save_as("#{circuit.name}.vhd")
+            if $VERBOSE
+                puts "[+] generated circuit '#{filename}'"
+            end
         end
     end
 

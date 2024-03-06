@@ -11,8 +11,74 @@ module VCD
             @id_tab_b = {}
         end
 
+        # def compare_comparative_tb_traces trace, monitored_signals, clk_period
+        #     # * Initialization of cycle_diff
+        #     cycle_diff = monitored_signals.each_with_object({}) {|sig, h| h[sig] = []}
+
+        #     # * Filling cycle_diff, associating each sig to all timestamps when diff signal is raised (all timestamps of an anomaly)
+        #     monitored_signals.each do |sig|
+        #         trace.keys.each do |t|
+        #             if trace[t][sig] == '1'
+        #                 cycle_diff[sig] << (t / (clk_period)).to_i
+        #             end
+        #         end
+        #     end
+
+        #     cycle_diff.delete_if{|sig,list| list.empty?}
+
+        #     return cycle_diff
+        # end
+
+        def compare_comparative_tb_traces trace, monitored_signals,nom_clk_period, obs_clk_period 
+            # * Initialization of cycle_diff
+            cycle_diff = monitored_signals.each_with_object({}) {|sig, h| h[sig] = []}
+
+            sig_curr_state = monitored_signals.each_with_object(Hash.new()){|sig, h| h[sig] = 'U'}
+
+            # * Filling cycle_diff, associating each sig to all timestamps when diff signal is raised (all timestamps of an anomaly)
+
+            last_obs_cycle = 0
+            trace.each do |t, sig_transition|
+                obs_cycle = (t / obs_clk_period).to_i
+                nom_cycle = (t / nom_clk_period).to_i
+                
+                sig_transition.each do |sig, arrival_state|
+                    sig_curr_state[sig] = arrival_state
+                end
+
+                # Si modification de cycle obs 
+                if last_obs_cycle != obs_cycle
+                    # Pour chaque signaux 
+                    sig_curr_state.each do |sig, state|
+                        # Si l'état du signal est à un
+                        if state == '1'
+                            # push du cycle nominal courant à cycle_diff
+                            cycle_diff[sig] << nom_cycle
+                        end
+                        # Fin Si
+                    # Fin Pour
+                    end
+                # Fin Si
+                end
+
+                last_obs_cycle = obs_cycle
+            end
+
+            # monitored_signals.each do |sig|
+            #     trace.keys.each do |t|
+            #         if trace[t][sig] == '1'
+            #             cycle_diff[sig] << (t / (obs_clk_period)).to_i
+            #         end
+            #     end
+            # end
+
+            cycle_diff.delete_if{|sig,list| list.empty?}
+
+            return cycle_diff
+        end
+
         def compare 
-            differences = {} 
+            differences = {}
 
             @output_traces_a.keys.each do |timestamp|
                 @output_traces_a[timestamp].keys.collect do |sig|
@@ -293,7 +359,9 @@ module VCD
         def get_diff_cycle_num trace_a, trace_b
             res = []
 
-            warn "#{__FILE__}:#{__LINE__} : Warning : Make sure test trace is the first parameter in front of the reference trace."
+            if $VERBOSE
+                warn "#{__FILE__}:#{__LINE__} : Warning : Make sure test trace is the first parameter in front of the reference trace."
+            end
 
             trace_a.keys.each do |sig|
                 trace_a[sig].each_with_index do |val,i|
@@ -340,19 +408,21 @@ module VCD
             # * : Return a list of values for each cycle in the trace and for each signal observed (outputs)
             list_trace = {}
             last_timestamp = {}
-            timestamp_sorted_list = trace["output_traces"].keys.collect{|timestamp| timestamp.to_i}.sort
+            timestamp_sorted_list = trace["output_traces"].keys.sort
 
             # * Iterate over event list
             timestamp_sorted_list.each do |timestamp|
                 # * Iterate over different primary outputs
-                trace["output_traces"][timestamp.to_s].keys.each do |sig|
+                trace["output_traces"][timestamp].keys.each do |sig|
                     # * First event on this output
                     if sig.nil? 
                         raise "Error : Nil signal name encountered"
                     end
 
                     if (timestamp % clk_period) != 0
-                        warn "#{__FILE__}:#{__LINE__} : Warning : Asynchronous transition detected, ensure it is expected \n -> timestamp = #{timestamp}; clk_period = #{clk_period}; modulo : #{timestamp % clk_period}; signal : #{sig}"
+                        if !$VERBOSE.nil?
+                            warn "#{__FILE__}:#{__LINE__} : Warning : Asynchronous transition detected, ensure it is expected \n -> timestamp = #{timestamp}; clk_period = #{clk_period}; modulo : #{timestamp % clk_period}; signal : #{sig}"
+                        end
                     end
 
                     # * Initial state then nothing to do
@@ -366,13 +436,13 @@ module VCD
 
                     # * : If first values then store in a new array
                     if list_trace[sig].nil?
-                        list_trace[sig] = Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
+                        list_trace[sig] = Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig]][sig])
                     else # * : Else store in the array already created
-                        list_trace[sig].concat Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
+                        list_trace[sig].concat Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig]][sig])
                     end
 
                     # * : Value verification
-                    if trace['output_traces'][last_timestamp[sig].to_s][sig].nil?
+                    if trace['output_traces'][last_timestamp[sig]][sig].nil?
                         raise "Error : Corresponding value not found in traces"
                     end
 
@@ -390,9 +460,9 @@ module VCD
                 nb_cycles = ((trace_end - last_timestamp[sig]) / clk_period.to_f).ceil
 
                 if list_trace[sig].nil?
-                    list_trace[sig] = Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
+                    list_trace[sig] = Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig]][sig])
                 else
-                    list_trace[sig].concat Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig].to_s][sig])
+                    list_trace[sig].concat Array.new(nb_cycles, trace['output_traces'][last_timestamp[sig]][sig])
                 end
             end
 

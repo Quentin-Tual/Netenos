@@ -59,6 +59,8 @@ global.get_port_named("o2") <= c1.get_port_named("o2")
 
 # pp global.name
 
+global.getNetlistInformations :int_multi
+
 viewer = Converter::DotGen.new
 viewer.dot global
 

@@ -60,7 +60,7 @@ module VCD
 
             until tmp.nil?
                 if tmp[0] == '#' # * : new timestamp detected, update it
-                    update_timestamp tmp.delete_prefix("#")
+                    update_timestamp tmp.delete_prefix("#").to_i
                 # * : Unexpected syntax are covered by the raise in the next conditionnal branchement
                 else
                     value = tmp[0]

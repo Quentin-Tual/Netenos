@@ -4,6 +4,7 @@ module Netlist
 
     class Gate < Circuit
         attr_accessor :name, :ports, :partof, :propag_time, :cumulated_propag_time, :tag
+        attr_reader :slack
 
         def initialize name = "#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs = self.class.name.split("::")[1].chars[-1].to_i
             @name = name
@@ -15,7 +16,11 @@ module Netlist
             @ports.each_value{|io| io.each{|p| p.partof = self}}
             @partof = partof
             @components = [] 
-            @propag_time = {:one => 1.0, :int => (((nb_inputs+1.0)/2.0)).round(3), :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3), :fract => (0.3 + ((((nb_inputs+1.0)/2.0)*rand(0.9..1.1))/2.2)).round(3)} # Supposedly in nanoseconds, 2.2 is the max value , 0.3 is the offset to center the distribution at 1.(normalization to fit in the other model)
+            @propag_time = {    :one => 1.0, 
+                                :int => (((nb_inputs+1.0)/2.0)).round(3), 
+                                :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3),
+                                :fract => (0.3 + ((((nb_inputs+1.0)/2.0)*rand(0.9..1.1))/2.2)).round(3)
+                            } # Supposedly in nanoseconds, 2.2 is the max value , 0.3 is the offset to center the distribution at 1.(normalization to fit in the other model)
 
             klass = self.class.name.split("::")[1]
             if klass == "Xor2"
@@ -26,9 +31,11 @@ module Netlist
                 @propag_time[:int_multi] = 1.5
             end
 
-            @cumulated_propag_time = 0
+            @cumulated_propag_time = 0.0
+            @slack = nil
             @tag = nil
         end
+
         def <<(e)
             e.partof = self
             case e 
@@ -60,8 +67,40 @@ module Netlist
             @ports[:out][0]
         end
 
+        # ! cumulated_propag_time diff between the two sources for the lowest cumulated_propag_time source and same slack as current gate for the other source
+        def update_path_slack slack, delay_model
+            if @slack.nil?
+                @slack = slack
+            else
+                @slack = [slack, @slack].min 
+            end
+
+            crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
+
+            get_inputs.difference(crit_node.values).each do |in_p|
+                source = in_p.get_source
+                if source.class.name == "Netlist::Wire"
+                    source.update_path_slack(crit_node.keys[0] - in_p.get_source_cum_propag_time + @slack, delay_model)
+                elsif source.is_global?
+                    source.slack = crit_node.keys[0] - in_p.get_source_cum_propag_time + @slack
+                elsif !source.is_global?
+                    in_p.get_source_comp.update_path_slack(crit_node.keys[0]- in_p.get_source_cum_propag_time + @slack, delay_model)
+                end
+            end
+
+            crit_node.values.flatten.each do |in_p|
+                source = in_p.get_source
+                if source.is_global?
+                    source.slack = @slack
+                else
+                    in_p.get_source_comp.update_path_slack(0.0 + @slack, delay_model)
+                end
+            end
+        end
+
         def update_path_delay elapsed, delay_model
             @cumulated_propag_time = [elapsed + @propag_time[delay_model], @cumulated_propag_time].max
+
             get_output.get_sinks.each do |sink|
                 if sink.class.name == "Netlist::Wire"
                     sink.update_path_delay @cumulated_propag_time, delay_model
@@ -70,6 +109,7 @@ module Netlist
                 end
             end
         end
+        
     end
 
     class And3 < Gate; end
@@ -93,7 +133,8 @@ module Netlist
             @partof = partof
             @components = []
             @propag_time = {:one => 1.0, :int => 1.0, :int_multi => 1.0, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
-            @cumulated_propag_time = 0
+            @cumulated_propag_time = 0.0
+            @slack = 0.0
         end
 
         def <<(e)
@@ -129,7 +170,8 @@ module Netlist
             @partof = partof
             @components = []
             @propag_time = {:one => propag_time, :int => propag_time, :int_multi => propag_time, :int_rand => propag_time*rand(0.9..1.1).round(3), :fract => (propag_time*rand(0.9..1.1) + 0.3).round(3)}
-            @cumulated_propag_time = 0
+            @cumulated_propag_time = 0.0
+            @slack = 0.0
         end
 
         def <<(e)

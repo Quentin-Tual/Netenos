@@ -38,7 +38,7 @@ class Code
 
   def save_as filename,append=false,verbose=false,sep="\n"
     str=self.finalize
-    if File.exists?(filename) and append
+    if File.exist?(filename) and append
       File.open(filename, 'a'){|f| f.puts(str)}
     else
       File.open(filename,'w'){|f| f.puts(str)}

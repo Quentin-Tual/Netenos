@@ -7,12 +7,27 @@ require_relative "inverted_trigger_s38417.rb"
 
 module Inserter
 
+    class ImpossibleResolution < StandardError
+        def initialize msg, location = nil
+            super msg
+            @location = location
+        end
+    end
+
+    class ImpossibleInsertion < StandardError
+        def initialize msg, location = nil
+            super msg
+            @location = location
+        end
+    end
+
     class Tamperer
         attr_accessor :stages
 
-        def initialize netlist, stages = {}
+        def initialize netlist, stages = {}, timings_h = {}
             @netlist = netlist
             @stages = stages
+            @timings_h = timings_h
             @ht = nil
             @location = nil
 
@@ -196,63 +211,105 @@ module Inserter
 
         end
 
-        def select_location location, nb_trigger_sig
-            case location
+        def select_location2 zone, nb_trigger_sig, forbidden_locs
+            case zone
             when "near_input"
-                nb_available_sig = 0
-                min_stage = 0
                 # Fix a minimum stage with enough internal signals to insert the ht
-                @stages.keys[0..-1].sort.each do |stage|
-                    nb_available_sig += @stages[stage].length
-                    if nb_available_sig > nb_trigger_sig
-                        min_stage = stage
-                        break
-                    end
-                end
+                nb_available_sig = @netlist.get_inputs.length
+                min_stage = get_min_stage 0, nb_trigger_sig, nb_available_sig
                 max_stage = (0.3 * @stages.keys.length).to_i
-
             when "near_output"
-                nb_available_sig = 0
-                min_stage = (0.7 * @stages.keys.length).to_i
-                
+                initial_min_stage = (0.7 * @stages.keys.length).to_i
                 # Fix a minimum stage with enough internal signals to insert the ht
-                @stages.keys[min_stage..-1].sort.each do |stage|
-                    nb_available_sig += @stages[stage].length
-                    if nb_available_sig > nb_trigger_sig
-                        min_stage = stage
-                        break
-                    end
-                end
-                max_stage = nil
+                min_stage = get_min_stage initial_min_stage, nb_trigger_sig
+                max_stage = (@stages.keys.length) -1
             when "middle"
-                nb_available_sig = 0
-                min_stage = (0.3 * @stages.keys.length).to_i
+                initial_min_stage = (0.3 * @stages.keys.length).to_i
                 # Fix a minimum stage with enough internal signals to insert the ht
-                @stages.keys[min_stage..-1].sort.each do |stage|
-                    nb_available_sig += @stages[stage].length
-                    if nb_available_sig > nb_trigger_sig
-                        min_stage = stage
-                        break
-                    end
-                end
+                min_stage = get_min_stage initial_min_stage, nb_trigger_sig
                 max_stage = (0.7 * @stages.keys.length).to_i
             when "random"
-                # nb_available_sig = @netlist.get_inputs.length
-                nb_available_sig = 0
-                min_stage = 0
-
+                nb_available_sig = @netlist.get_inputs.length
+                initial_min_stage = 0
                 # Fix a minimum stage with enough internal signals to insert the ht
-                @stages.keys[0..-1].sort.each do |stage|
-                    nb_available_sig += @stages[stage].length
-                    if nb_available_sig > nb_trigger_sig
-                        min_stage = stage
-                        break
+                min_stage = get_min_stage initial_min_stage, nb_trigger_sig, nb_available_sig
+                max_stage = (@stages.keys.length)-1
+            else
+                raise "Error : Unknown zone type #{zone}. Please verify syntax."
+            end
+
+            if !max_stage.nil? and max_stage <= min_stage 
+                raise "Error:  Not enough space to insert this trojan, too close to the inputs. Try another trojan or increase the circuit size."
+            end
+
+            sig_pool = @stages.keys[min_stage...max_stage].each_with_object([]) do |stage, list|
+                # * Selects only signals which has a sufficiant slack for insertion (payload propagation delay)
+                @stages[stage].each do |comp|
+                    if comp.slack >= @ht.payload_in.partof.propag_time[:int_multi]
+                        list << [comp.get_output, stage]
                     end
                 end
+            end
 
-                max_stage = nil  
+            sig_pool.select!{|comp| !forbidden_locs.include? comp}
+
+            if sig_pool.empty?
+                raise ImpossibleInsertion.new("Error: No insertion location found.")
+            end
+
+            attacked_sig, stage = sig_pool.sample
+
+            # if @stages[stage].nil? 
+            #     raise "Error: Attribute valued nil\n -> @stages : #{@stages.nil?} @stages[stage] : #{@stages[stage]} stage : #{stage} min_stage : #{min_stage} stage_max : #{@stages.keys.max}"
+            # end
+
+            if attacked_sig.get_sinks.empty? # ! DEBUG
+                if !@netlist.components.include? attacked_sig.partof
+                    puts "Error: Unknown component, not found in the netlist"
+                end
+                raise "Error: selected insertion location has no sink.\n -> #{attacked_sig.get_full_name}"
+            end
+
+            return attacked_sig, stage
+        end
+
+        def get_min_stage min_stage, nb_trigger_sig, nb_available_sig = 0
+            @stages.keys[min_stage..-1].sort.each do |stage|
+                nb_available_sig += @stages[stage].length
+                if nb_available_sig > nb_trigger_sig
+                    return stage
+                end
+            end
+
+            raise "Error: no minimum stage found for HT location selection."
+            # return min_stage
+        end
+
+        def select_location zone, nb_trigger_sig
+            case zone
+            when "near_input"
+                # Fix a minimum stage with enough internal signals to insert the ht
+                nb_available_sig = @netlist.get_inputs.length
+                min_stage = get_min_stage 0, nb_trigger_sig, nb_available_sig
+                max_stage = (0.3 * @stages.keys.length).to_i
+            when "near_output"
+                initial_min_stage = (0.7 * @stages.keys.length).to_i
+                # Fix a minimum stage with enough internal signals to insert the ht
+                min_stage = get_min_stage initial_min_stage, nb_trigger_sig
+                max_stage = (@stages.keys.length) -1
+            when "middle"
+                initial_min_stage = (0.3 * @stages.keys.length).to_i
+                # Fix a minimum stage with enough internal signals to insert the ht
+                min_stage = get_min_stage initial_min_stage, nb_trigger_sig
+                max_stage = (0.7 * @stages.keys.length).to_i
+            when "random"
+                nb_available_sig = @netlist.get_inputs.length
+                initial_min_stage = 0
+                # Fix a minimum stage with enough internal signals to insert the ht
+                min_stage = get_min_stage initial_min_stage, nb_trigger_sig, nb_available_sig
+                max_stage = (@stages.keys.length)-1
             else
-                raise "Error : Unknown location type #{location}. Please verify syntax."
+                raise "Error : Unknown zone type #{zone}. Please verify syntax."
             end
 
             if !max_stage.nil? and max_stage <= min_stage 
@@ -281,52 +338,160 @@ module Inserter
             return attacked_sig, stage
         end
 
-        def select_triggers_sig n, max_stage
-            
-            # * : Constituting a pool of sources (Port instead of Circuit class objects) in which we can pick.  
-            pool = {-1 => @netlist.get_inputs}
-            @stages.keys.each do |stage|
+        # def select_triggers_sig2 n, max_delay
+        #     # * : Constituting a pool of sources (Port instead of Circuit class objects) in which we can pick.  
+        #     pool = {0.0 => @netlist.get_inputs}
+        #     @timings_h.keys.each do |delay|
+        #         @timings_h[delay].each do |comp|
+        #             if comp.is_a? Netlist::Circuit
+        #                 if pool[delay].nil?
+        #                     pool[delay] = []
+        #                     comp.get_outputs.each {|outport| pool[delay] << outport} 
+        #                 else
+        #                     # pool[delay] << comp.get_outputs
+        #                     comp.get_outputs.each {|outport| pool[delay] << outport} 
+        #                 end
+        #             else 
+        #                 if pool[delay].nil? 
+        #                     pool[delay] = [comp]
+        #                 else
+        #                     pool[delay] << comp
+        #                 end
+        #             end
+        #         end
+        #     end
+
+        #     # * : Then it is possible to pick in and modify the pool regarding evolving constraints. 
+        #     selected_signals = []
+        #     n.times do |nth|
+        #         available_delays = pool.keys.select{|d| (d >= 0) and (d < max_delay)}
+        #         delay = available_delays.sort.sample
+
+        #         selected = pool[delay].sample
+        #         pool[delay] -= [selected]
+        #         selected_signals << selected
+        #         if pool[delay].empty?
+        #             pool.delete delay
+        #             max_delay = max_delay - 1
+        #         end
+        #         # if pool.empty?
+        #         #     break
+        #         # end
+        #     end
+
+        #     return selected_signals
+        # end
+
+
+        def select_triggers_sig n, max_stage, max_delay
+            # * : Constituting a pool of components sources in which we can pick.  
+            pool = @netlist.get_inputs.clone
+
+            0.upto(max_stage) do |stage|
                 @stages[stage].each do |comp|
-                    if comp.is_a? Netlist::Circuit
-                        if pool[stage].nil?
-                            pool[stage] = []
-                            comp.get_outputs.each {|outport| pool[stage] << outport} 
-                        else
-                            # pool[stage] << comp.get_outputs
-                            comp.get_outputs.each {|outport| pool[stage] << outport} 
-                        end
-                    else 
-                        if pool[stage].nil? 
-                            pool[stage] = [comp]
-                        else
-                            pool[stage] << comp
-                        end
-                    end
+                    pool << comp
                 end
+            end
+
+            # * Filtering the comp pool with the wanted maximal cumulated_propag_time 
+            pool.select! do |comp|
+                comp.cumulated_propag_time + @ht.propag_time[:int_multi] <= max_delay
             end
 
             # * : Then it is possible to pick in and modify the pool regarding evolving constraints. 
             selected_signals = []
             n.times do |nth|
-                stage = pool.keys.sort[0..max_stage].sample
 
-                selected = pool[stage].sample
-                pool[stage] -= [selected]
-                selected_signals << selected
-                if pool[stage].empty?
-                    pool.delete stage
-                    max_stage = max_stage - 1
+                if pool.empty? 
+                    raise ImpossibleResolution.new("Error: Not enough signal to insert the trojan, try again. If it happens frequently try with different parameters.")
                 end
-                # if pool.empty?
-                #     break
-                # end
+
+                selected = pool.delete_at(rand(pool.length))
+
+                if selected.is_a? Netlist::Port
+                    selected_signals << selected
+                else
+                    selected_signals << selected.get_output
+                end
             end
 
             return selected_signals
         end
 
-        def insert location="random"
-            loc, max_stage = select_location(location, @ht.get_triggers_nb)
+        def insert2 zone="random"
+            @netlist.get_slack_hash # Necessary for later (location selection)
+
+            forbidden_locs = []
+            rescue_data = {:loc_sinks => []}
+            begin 
+                attempts ||= 0
+                
+                loc, max_stage = select_location2(zone, @ht.get_triggers_nb, forbidden_locs)
+
+                # * : Payload insertion (removing old links and creating new ones)
+                loc.get_sinks.each{ |sink|
+                    rescue_data[:loc_sinks] << sink
+                    sink.unplug2 sink.get_source.get_full_name
+                    sink <= @ht.get_payload_out
+                }
+                @ht.get_payload_in <= loc
+
+                max_delay = loc.partof.cumulated_propag_time + @ht.payload_in.partof.propag_time[:int_multi]
+
+                trig = select_triggers_sig(@ht.get_triggers_nb, max_stage, max_delay)
+            rescue ImpossibleResolution => e
+                if $VERBOSE
+                    puts "Insertion location research number #{attempts} !"
+                end
+                forbidden_locs << loc
+
+                @ht.get_payload_in.unplug2 loc.get_full_name 
+                rescue_data[:loc_sinks].each do |sink|
+                    sink.unplug2 sink.get_source.get_full_name
+                    sink <= loc
+                end
+                rescue_data[:loc_sinks] = []
+                # loc.get_sinks.each{ |sink|
+                #     rescue_data[:loc_sinks] << sink
+                #     sink.unplug @ht.get_payload_out.get_full_name
+                #     sink <= rescue_data[:loc_sinks].shift
+                # }
+                if (attempts += 1) < 5
+                    retry
+                else
+                   raise ImpossibleResolution.new("Error : No resolution found for this case. Try again.") 
+                end
+                 # ! Si toujours pas réussi après 5 tentative, lever une exception ImpossibleInsertion et la rattraper au niveau "insert", par exemple dans les expériences regénérer un nouveau cas
+            end 
+
+            # * : Linking triggers slot to selected triggers signals (already existing in the authentic circuit).
+            trig.zip(@ht.get_triggers).each { |output, input|
+                input <= output
+            }
+
+            # * : Adding components added to the netlists components list (used for printing and format conversions).
+            @ht.get_components.each do |comp|
+                @netlist << comp
+            end
+
+            # @ht.get_triggers.each{|e| puts e.get_source.nil?}
+            # raise "stop"
+            # * : Verification and printing informations 
+            @location = (max_delay / @timings_h.keys.last).round(3)
+
+            if @ht.is_inserted?
+                # puts "HT inserted : \n\t- Payload : #{@ht.get_payload_in.partof.name}\n\t- Trigger proba. : #{@ht.get_transition_probability} \n\t- Number of trigger signals : #{@ht.get_triggers_nb}\n\t- Stage : #{max_stage}"
+                return @netlist
+            else 
+                raise "Error : internal fault. Ht not correctly inserted."
+            end
+
+            @ht.components.each{|comp| comp.cumulated_propag_time = 0.0}
+        end
+
+        def insert zone="random"
+            loc, max_stage = select_location(zone, @ht.get_triggers_nb)
+
             # * : Payload insertion (removing old links and creating new ones)
             # puts "location no sinks ? : #{loc.get_sinks.empty?}"
             # puts loc.get_full_name
@@ -334,7 +499,7 @@ module Inserter
             # puts loc.partof.get_inputs[0].get_source.get_full_name
 
             loc.get_sinks.each{ |sink|
-                sink.unplug sink.get_source.name
+                sink.unplug sink.get_source.get_full_name
                 sink <= @ht.get_payload_out
             }
             @ht.get_payload_in <= loc

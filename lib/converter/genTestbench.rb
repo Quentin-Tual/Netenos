@@ -6,13 +6,13 @@ module Converter
     class GenTestbench
         attr_accessor :stimuli, :netlist_data
 
-        def initialize netlist, margin=0
-            @netlist_data = data_extraction(netlist, margin)
+        def initialize netlist, margin=0, crit_path_length=nil
+            @netlist_data = data_extraction(netlist, margin, crit_path_length)
             @tb_src = Code.new
             @portmap = ""
         end
 
-        def data_extraction netlist, margin
+        def data_extraction netlist, margin=0, crit_path_length=nil
             # * : Extracts data used in testbench ERB template 
             ret = {}
             ret[:entity_name] = netlist.name
@@ -20,21 +20,27 @@ module Converter
                 (:in) => netlist.get_inputs.collect{|p| p.name},
                 (:out) => netlist.get_outputs.collect{|p| p.name}
             }
-            # @netlist_data[:nb_port] = netlist.get_ports.length
-            ret[:crit_path_length] = (netlist.crit_path_length) + margin
- 
+            
+            if crit_path_length.nil?
+                ret[:crit_path_length] = (netlist.crit_path_length) + margin
+            else
+                ret[:crit_path_length] = crit_path_length + margin   
+            end
+
             return ret
         end
 
-        def gen_testbench stim_type = :random, freq = 1, circ_name = "circ", nb_cycle = 20
+        def gen_testbench stim_type = :random, freq = 1, circ_name = "circ", nb_cycle = 20, phase: 0
             # * : Generates a VHDL testbench in text format based on a ERB template stored in the project. The option stim is used to indicates if we want stimuli in it or not, the type of stimuli are indicated (random). Frequency at which the circuit will be stimulated can also be specified in args as a multipler of the critical path length.  
             @freq = freq
+            @instance_name = circ_name
+            @phase = @netlist_data[:crit_path_length] * phase
 
             gen_arch_body_uut_portmap
             case stim_type
             when String 
                 @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template3.vhdl")) 
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template3.vhdl"))
             when :passed
                 # gen_arch_body_filebased_stim(@stimuli, circ_name)
                 if circ_name.include?("_altered")
@@ -52,17 +58,24 @@ module Converter
             else
                 @stimuli = ""
                 @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) 
-                puts "Warning: No stimuli in testbench for #{circ_name}."
+                warn "Warning: No stimuli in testbench for #{circ_name}."
             end
             # * : Load the template and bind computed values to it
             # @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) # tb_template2 is used to only observe, inputs stimulis are entered at nominal frequency. 
+            if phase == 0
+                @netlist_data[:entity_name] = "#{@netlist_data[:entity_name]}_#{@freq.to_s.split(".").join}_tb"
+                filename = "./#{circ_name}_#{freq.to_s.split('.').join}_tb.vhd"
+            else
+                @netlist_data[:entity_name] = "#{@netlist_data[:entity_name]}_#{@freq.to_s.split(".").join}_#{phase.to_s.split(".").join}_tb"
+                filename = "./#{circ_name}_#{freq.to_s.split('.').join}_#{phase.to_s.split(".").join}_tb.vhd"
+            end
             
             src = @engine.result(binding)
 
-            filename = "./#{circ_name}_#{freq.to_s.split('.').join}_tb.vhd"
+            
             File.write(filename, src)
 
-            return src # ! legacy but not necessary, generated src is already stored in a file  
+            return netlist_data[:ports][:out].collect{|out_name| "tb_#{out_name.downcase}_s"}  
         end
 
         def gen_arch_body_uut_portmap

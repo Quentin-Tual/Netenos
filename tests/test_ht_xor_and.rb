@@ -18,5 +18,5 @@ ht.components.map {|comp| wrapper << comp}
 viewer = Converter::DotGen.new
 viewer.dot wrapper
 
-
+pp ht.propag_time
 

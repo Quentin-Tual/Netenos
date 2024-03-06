@@ -37,18 +37,30 @@ module Netlist
             end
         end
 
-        def pretty_print(pp)
+        def pretty_print(pp) 
             pp.text @name
         end
 
         def getNetlistInformations delay_model
-            self.get_exact_crit_path_length delay_model
+            get_exact_crit_path_length delay_model
             
             return self.get_inputs.length, self.get_outputs.length, self.components.length, self.get_mean_fanout, self.crit_path_length    
         end
 
         def get_mean_fanout 
             fanout_list = []
+
+            get_inputs.each do |in_p|
+                count = 0
+                in_p.get_sinks.each do |sink|
+                    if sink.class == Netlist::Wire
+                        count += sink.get_sinks.length
+                    else
+                        count += 1
+                    end
+                end
+                fanout_list << count
+            end
 
             @components.each do |comp|
                 count = 0
@@ -67,8 +79,29 @@ module Netlist
             return (fanout_list.sum.to_f / fanout_list.size).round(2)
         end
 
+        def get_slack_hash delay_model = :int_multi
+            if @crit_path_length.nil?
+                get_exact_crit_path_length delay_model
+            end
+
+            get_outputs.each do |out_p|
+                out_p.get_source.partof.update_path_slack(0.0, delay_model)
+            end
+
+            tmp = @components.each_with_object(Hash.new([])) do |comp, h|
+                h[comp.slack] += [comp]
+            end
+
+            get_inputs.each do |in_p|
+                tmp[in_p.slack] += [in_p]
+            end
+
+            return tmp.sort.to_h
+        end
+
         def get_exact_crit_path_length delay_model 
             get_inputs.each do |p_in|
+
                 p_in.get_sinks.each do |sink|
                     if sink.class.name == "Netlist::Wire"
                         sink.update_path_delay 0, delay_model
@@ -78,9 +111,35 @@ module Netlist
                 end
             end
 
+            if get_outputs.empty? 
+                raise "Error: No outputs found in circuit #{@name}."
+            end
+
             @crit_path_length = get_outputs.collect{|p_out| p_out.get_source.partof.cumulated_propag_time}.max
+
+            if @crit_path_length.nil?
+                raise "Error: Nil critical path computed. Please verify circuit structure."
+            end
+
             return @crit_path_length
         end
+
+        def get_timings_hash delay_model = :int_multi
+            # * Returns a hash associating delays with each signals of the circuit (comp output)
+            
+            # Update timings with given delay_model  
+            crit_path = get_exact_crit_path_length delay_model
+
+            timing_h = @components.each_with_object({}) do |comp,h|
+                if h[comp.cumulated_propag_time]
+                    h[comp.cumulated_propag_time] << comp.get_output
+                else
+                    h[comp.cumulated_propag_time] = [comp.get_output]
+                end
+            end
+            
+            return timing_h.sort.to_h
+        end 
 
         def to_hash
             return {

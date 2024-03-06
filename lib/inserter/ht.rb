@@ -1,7 +1,7 @@
 module Inserter
         
     class HT 
-        attr_reader :netlist, :triggers
+        attr_reader :netlist, :triggers, :propag_time, :payload_in
 
         # * : An HT netlist is considered as the reference pointing on its payload instance 
         def initialize netlist = nil #, triggers, payload_out, payload_in=nil
@@ -10,6 +10,7 @@ module Inserter
             @payload_out = nil
             @payload_in = nil
             @components = []
+            @propag_time = {}
         end
 
         def is_inserted? 

@@ -1,125 +1,188 @@
 digraph test {
 		graph [rankdir = LR];
-		Not60[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not60|{1.0|1.0}}|{<o0>o0}}"]
-		And280[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And280|{1.5|2.0}}|{<o0>o0}}"]
-		Xor2100[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2100|{2.5|3.0}}|{<o0>o0}}"]
-		Nor2120[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2120|{2.0|4.0}}|{<o0>o0}}"]
-		Or2140[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2140|{1.5|5.0}}|{<o0>o0}}"]
-		Xor2160[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2160|{2.5|6.0}}|{<o0>o0}}"]
-		Not180[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not180|{1.0|7.0}}|{<o0>o0}}"]
-		Not200[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not200|{1.0|8.0}}|{<o0>o0}}"]
-		Or2220[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2220|{1.5|4.0}}|{<o0>o0}}"]
-		Nor2240[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2240|{2.0|9.0}}|{<o0>o0}}"]
-		Or2260[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2260|{1.5|6.0}}|{<o0>o0}}"]
-		And2280[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2280|{1.5|10.0}}|{<o0>o0}}"]
-		Nor2300[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2300|{2.0|6.0}}|{<o0>o0}}"]
-		Nand2320[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2320|{2.0|11.0}}|{<o0>o0}}"]
-		And2340[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2340|{1.5|2.0}}|{<o0>o0}}"]
-		Nor2360[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2360|{2.0|12.0}}|{<o0>o0}}"]
-		Xor2380[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2380|{2.5|8.0}}|{<o0>o0}}"]
-		Or2400[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2400|{1.5|13.0}}|{<o0>o0}}"]
-		Or2420[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2420|{1.5|8.0}}|{<o0>o0}}"]
-		And2440[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2440|{1.5|14.0}}|{<o0>o0}}"]
-		Xor2460[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2460|{2.5|7.0}}|{<o0>o0}}"]
-		Nor2480[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2480|{2.0|15.0}}|{<o0>o0}}"]
-		Nor2500[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2500|{2.0|10.0}}|{<o0>o0}}"]
-		And2520[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2520|{1.5|14.0}}|{<o0>o0}}"]
-		Xor2540[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2540|{2.5|16.0}}|{<o0>o0}}"]
-		Nand2560[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2560|{2.0|11.0}}|{<o0>o0}}"]
-		Xor2580[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2580|{2.5|16.0}}|{<o0>o0}}"]
-		Or2600[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2600|{1.5|17.0}}|{<o0>o0}}"]
-		Xor2620[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2620|{2.5|17.0}}|{<o0>o0}}"]
-		Or2640[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2640|{1.5|6.0}}|{<o0>o0}}"]
-		Nor2660[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2660|{2.0|18.0}}|{<o0>o0}}"]
-		Not680[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not680|{1.0|18.0}}|{<o0>o0}}"]
-		Not700[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not700|{1.0|13.0}}|{<o0>o0}}"]
-		Nand2720[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2720|{2.0|19.0}}|{<o0>o0}}"]
-		Nand2740[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2740|{2.0|19.0}}|{<o0>o0}}"]
-		Nor2760[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2760|{2.0|9.0}}|{<o0>o0}}"]
-		Nor2780[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2780|{2.0|20.0}}|{<o0>o0}}"]
-		Or2800[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2800|{1.5|20.0}}|{<o0>o0}}"]
-		Nand2820[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2820|{2.0|7.0}}|{<o0>o0}}"]
+		Nand260[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand260|{2.0|1.0}}|{<o0>o0}}"]
+		Nand280[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand280|{2.0|1.0}}|{<o0>o0}}"]
+		And2100[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2100|{1.5|1.0}}|{<o0>o0}}"]
+		Nand2120[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2120|{2.0|1.0}}|{<o0>o0}}"]
+		Not140[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not140|{1.0|2.0}}|{<o0>o0}}"]
+		And2160[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2160|{1.5|2.0}}|{<o0>o0}}"]
+		Nand2180[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2180|{2.0|2.0}}|{<o0>o0}}"]
+		And2200[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2200|{1.5|2.0}}|{<o0>o0}}"]
+		Not220[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not220|{1.0|3.0}}|{<o0>o0}}"]
+		And2240[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2240|{1.5|3.0}}|{<o0>o0}}"]
+		And2260[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2260|{1.5|3.0}}|{<o0>o0}}"]
+		Or2280[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2280|{1.5|3.0}}|{<o0>o0}}"]
+		Nand2300[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2300|{2.0|4.0}}|{<o0>o0}}"]
+		Nor2320[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2320|{2.0|4.0}}|{<o0>o0}}"]
+		And2340[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2340|{1.5|3.0}}|{<o0>o0}}"]
+		Not360[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not360|{1.0|1.0}}|{<o0>o0}}"]
+		Not380[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not380|{1.0|4.0}}|{<o0>o0}}"]
+		Nand2400[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2400|{2.0|5.0}}|{<o0>o0}}"]
+		And2420[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2420|{1.5|5.0}}|{<o0>o0}}"]
+		Nor2440[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2440|{2.0|1.0}}|{<o0>o0}}"]
+		Or2460[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2460|{1.5|5.0}}|{<o0>o0}}"]
+		Nor2480[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2480|{2.0|6.0}}|{<o0>o0}}"]
+		Xor2500[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2500|{2.5|5.0}}|{<o0>o0}}"]
+		And2520[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2520|{1.5|3.0}}|{<o0>o0}}"]
+		Not540[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not540|{1.0|6.0}}|{<o0>o0}}"]
+		And2560[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2560|{1.5|6.0}}|{<o0>o0}}"]
+		Xor2580[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2580|{2.5|7.0}}|{<o0>o0}}"]
+		Nor2600[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2600|{2.0|4.0}}|{<o0>o0}}"]
+		Nand2620[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2620|{2.0|8.0}}|{<o0>o0}}"]
+		Or2640[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2640|{1.5|7.0}}|{<o0>o0}}"]
+		Xor2660[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2660|{2.5|4.0}}|{<o0>o0}}"]
+		Not680[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not680|{1.0|2.0}}|{<o0>o0}}"]
+		Not700[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not700|{1.0|3.0}}|{<o0>o0}}"]
+		Not720[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not720|{1.0|9.0}}|{<o0>o0}}"]
+		Nand2740[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2740|{2.0|8.0}}|{<o0>o0}}"]
+		And2760[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2760|{1.5|6.0}}|{<o0>o0}}"]
+		And2780[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2780|{1.5|9.0}}|{<o0>o0}}"]
+		Nand2800[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2800|{2.0|10.0}}|{<o0>o0}}"]
+		And2820[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2820|{1.5|7.0}}|{<o0>o0}}"]
+		Xor2840[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2840|{2.5|9.0}}|{<o0>o0}}"]
+		And2860[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2860|{1.5|11.0}}|{<o0>o0}}"]
+		Nand2880[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2880|{2.0|10.0}}|{<o0>o0}}"]
+		Xor2900[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2900|{2.5|6.0}}|{<o0>o0}}"]
+		Not920[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not920|{1.0|7.0}}|{<o0>o0}}"]
+		Nor2940[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2940|{2.0|11.0}}|{<o0>o0}}"]
+		Nand2960[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2960|{2.0|12.0}}|{<o0>o0}}"]
+		Nand2980[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2980|{2.0|4.0}}|{<o0>o0}}"]
+		Or21000[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or21000|{1.5|6.0}}|{<o0>o0}}"]
+		Or21020[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or21020|{1.5|12.0}}|{<o0>o0}}"]
+		Nor21040[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor21040|{2.0|13.0}}|{<o0>o0}}"]
+		Nor21060[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor21060|{2.0|5.0}}|{<o0>o0}}"]
+		Or21080[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or21080|{1.5|10.0}}|{<o0>o0}}"]
+		Nand21100[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand21100|{2.0|11.0}}|{<o0>o0}}"]
+		Not1120[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not1120|{1.0|13.0}}|{<o0>o0}}"]
+		Nor21140[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor21140|{2.0|14.0}}|{<o0>o0}}"]
+		Nand21160[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand21160|{2.0|14.0}}|{<o0>o0}}"]
+		Not1180[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not1180|{1.0|12.0}}|{<o0>o0}}"]
+		Or21200[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or21200|{1.5|15.0}}|{<o0>o0}}"]
+		And21220[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And21220|{1.5|15.0}}|{<o0>o0}}"]
+		Nand21240[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand21240|{2.0|3.0}}|{<o0>o0}}"]
 		i0[shape=cds,xlabel="i0"]
 		i1[shape=cds,xlabel="i1"]
+		i2[shape=cds,xlabel="i2"]
+		i3[shape=cds,xlabel="i3"]
+		i4[shape=cds,xlabel="i4"]
+		i5[shape=cds,xlabel="i5"]
+		i6[shape=cds,xlabel="i6"]
+		i7[shape=cds,xlabel="i7"]
 		o0[shape=cds,xlabel="o0"]
 		o1[shape=cds,xlabel="o1"]
 		o2[shape=cds,xlabel="o2"]
 		o3[shape=cds,xlabel="o3"]
-		i0 -> And280:i1;
-		i0 -> Nor2120:i1;
-		i0 -> And2340:i1;
-		i0 -> Xor2380:i0;
-		i1 -> Not60:i0;
-		i1 -> Or2260:i1;
-		i1 -> Nor2300:i1;
-		i1 -> Nor2500:i0;
-		i1 -> And2520:i1;
-		Not60:o0 -> And280:i0;
-		Not60:o0 -> And2340:i0;
-		And280:o0 -> Xor2100:i0;
-		And280:o0 -> Xor2100:i1;
-		And280:o0 -> Xor2160:i1;
-		Xor2100:o0 -> Nor2120:i0;
-		Xor2100:o0 -> Or2140:i1;
-		Xor2100:o0 -> Or2220:i0;
-		Xor2100:o0 -> Or2220:i1;
-		Xor2100:o0 -> Xor2460:i1;
-		Nor2120:o0 -> Or2140:i0;
-		Nor2120:o0 -> Or2800:i1;
-		Nor2120:o0 -> Nand2820:i1;
-		Or2140:o0 -> Xor2160:i0;
-		Or2140:o0 -> Or2260:i0;
-		Or2140:o0 -> Nor2300:i0;
-		Or2140:o0 -> Nand2560:i1;
-		Or2140:o0 -> Or2640:i0;
-		Or2140:o0 -> Or2640:i1;
-		Xor2160:o0 -> Not180:i0;
-		Xor2160:o0 -> Xor2580:i1;
-		Xor2160:o0 -> Nand2740:i1;
-		Not180:o0 -> Not200:i0;
-		Not180:o0 -> Xor2380:i1;
-		Not180:o0 -> Or2420:i0;
-		Not200:o0 -> Nor2240:i1;
-		Not200:o0 -> Nor2760:i0;
-		Or2220:o0 -> Nor2240:i0;
-		Nor2240:o0 -> And2280:i0;
-		Nor2240:o0 -> Nor2500:i1;
-		Or2260:o0 -> And2280:i1;
-		Or2260:o0 -> Xor2460:i0;
-		Or2260:o0 -> Nand2820:i0;
-		And2280:o0 -> Nand2320:i0;
-		Nor2300:o0 -> Nand2320:i1;
-		Nor2300:o0 -> Or2420:i1;
-		Nand2320:o0 -> Nor2360:i0;
-		And2340:o0 -> Nor2360:i1;
-		Nor2360:o0 -> Or2400:i0;
-		Nor2360:o0 -> Not700:i0;
-		Xor2380:o0 -> Or2400:i1;
-		Xor2380:o0 -> Nor2760:i1;
-		Or2400:o0 -> And2440:i0;
-		Or2400:o0 -> And2520:i0;
-		Or2420:o0 -> And2440:i1;
-		And2440:o0 -> Nor2480:i1;
-		Xor2460:o0 -> Nor2480:i0;
-		Nor2480:o0 -> Xor2540:i1;
+		i0 -> Nand260:i1;
+		i0 -> Xor2660:i1;
+		i1 -> Nand280:i1;
+		i1 -> Xor2580:i1;
+		i2 -> Nand280:i0;
+		i2 -> Nor2440:i1;
+		i2 -> And2820:i1;
+		i3 -> And2100:i1;
+		i3 -> Nor2440:i0;
+		i3 -> Nand21240:i1;
+		i4 -> Nand2120:i0;
+		i4 -> Not360:i0;
+		i5 -> And2100:i0;
+		i5 -> Xor2500:i0;
+		i6 -> Nand2120:i1;
+		i6 -> And2340:i0;
+		i7 -> Nand260:i0;
+		i7 -> And2200:i0;
+		Nand260:o0 -> And2160:i0;
+		Nand260:o0 -> And2200:i1;
+		Nand280:o0 -> And2160:i1;
+		Nand280:o0 -> Xor2900:i0;
+		And2100:o0 -> Not140:i0;
+		And2100:o0 -> And2260:i1;
+		Nand2120:o0 -> Nand2180:i0;
+		Nand2120:o0 -> Nand2180:i1;
+		Not140:o0 -> And2240:i0;
+		Not140:o0 -> Or2280:i1;
+		Not140:o0 -> And2520:i1;
+		And2160:o0 -> And2260:i0;
+		And2160:o0 -> And2340:i1;
+		And2160:o0 -> Or21000:i1;
+		Nand2180:o0 -> And2240:i1;
+		Nand2180:o0 -> Or2280:i0;
+		Nand2180:o0 -> Nor2600:i0;
+		Nand2180:o0 -> Nand21240:i0;
+		And2200:o0 -> Not220:i0;
+		And2200:o0 -> And2520:i0;
+		And2200:o0 -> Nand2980:i1;
+		Not220:o0 -> Nand2300:i0;
+		Not220:o0 -> And2420:i1;
+		And2240:o0 -> Nor2320:i1;
+		And2240:o0 -> Xor2660:i0;
+		And2260:o0 -> Nand2300:i1;
+		And2260:o0 -> And21220:i1;
+		Or2280:o0 -> Nor2320:i0;
+		Or2280:o0 -> Nor2600:i1;
+		Nand2300:o0 -> Nand2400:i1;
+		Nand2300:o0 -> And2760:i0;
+		Nor2320:o0 -> And2420:i0;
+		Nor2320:o0 -> Xor2500:i1;
+		And2340:o0 -> Not380:i0;
+		And2340:o0 -> Xor2840:i1;
+		Not360:o0 -> Nand2400:i0;
+		Not360:o0 -> Not680:i0;
+		Not360:o0 -> Nor21140:i1;
+		Not380:o0 -> Or2460:i0;
+		Nand2400:o0 -> Nor2480:i1;
+		Nand2400:o0 -> Or21000:i0;
+		And2420:o0 -> Nor2480:i0;
+		And2420:o0 -> Xor2900:i1;
+		Nor2440:o0 -> Or2460:i1;
+		Nor2440:o0 -> Nor21060:i1;
+		Or2460:o0 -> Not540:i0;
+		Or2460:o0 -> Nand21160:i0;
 		Nor2480:o0 -> Xor2580:i0;
-		Nor2500:o0 -> Nand2560:i0;
-		And2520:o0 -> Xor2540:i0;
-		Xor2540:o0 -> Or2600:i1;
-		Xor2540:o0 -> Xor2620:i1;
-		Nand2560:o0 -> Or2600:i0;
-		Xor2580:o0 -> Xor2620:i0;
-		Or2600:o0 -> Not680:i0;
-		Xor2620:o0 -> Nor2660:i0;
-		Or2640:o0 -> Nor2660:i1;
-		Nor2660:o0 -> Nand2740:i0;
-		Not680:o0 -> Nand2720:i1;
-		Not700:o0 -> Nand2720:i0;
-		Nand2720:o0 -> Nor2780:i1;
-		Nand2740:o0 -> Or2800:i0;
-		Nand2740:o0 -> o3;
-		Nor2760:o0 -> Nor2780:i0;
-		Nor2780:o0 -> o1;
-		Or2800:o0 -> o2;
-		Nand2820:o0 -> o0;
+		Xor2500:o0 -> And2560:i0;
+		Xor2500:o0 -> And2760:i1;
+		And2520:o0 -> And2560:i1;
+		Not540:o0 -> Or2640:i0;
+		And2560:o0 -> Or2640:i1;
+		And2560:o0 -> And2820:i0;
+		Xor2580:o0 -> Nand2620:i1;
+		Nor2600:o0 -> Nand2620:i0;
+		Nor2600:o0 -> Nor21060:i0;
+		Nand2620:o0 -> Not720:i0;
+		Nand2620:o0 -> Xor2840:i0;
+		Or2640:o0 -> Nand2740:i1;
+		Xor2660:o0 -> Nand2740:i0;
+		Not680:o0 -> Not700:i0;
+		Not700:o0 -> Nand2800:i1;
+		Not700:o0 -> Nand2980:i0;
+		Not720:o0 -> Nand2800:i0;
+		Nand2740:o0 -> And2780:i0;
+		And2760:o0 -> And2780:i1;
+		And2760:o0 -> Not920:i0;
+		And2780:o0 -> Nand2880:i1;
+		Nand2800:o0 -> And2860:i0;
+		And2820:o0 -> And2860:i1;
+		Xor2840:o0 -> Nand2880:i0;
+		Xor2840:o0 -> Or21080:i0;
+		And2860:o0 -> Nand2960:i0;
+		Nand2880:o0 -> Nor2940:i0;
+		Xor2900:o0 -> Nor2940:i1;
+		Not920:o0 -> Nand2960:i1;
+		Not920:o0 -> Or21080:i1;
+		Nor2940:o0 -> Or21020:i0;
+		Nand2960:o0 -> Nor21040:i0;
+		Nand2980:o0 -> Nor21040:i1;
+		Or21000:o0 -> Or21020:i1;
+		Or21020:o0 -> Not1120:i0;
+		Nor21040:o0 -> Nor21140:i0;
+		Nor21040:o0 -> Nand21160:i1;
+		Nor21060:o0 -> Nand21100:i1;
+		Or21080:o0 -> Nand21100:i0;
+		Nand21100:o0 -> Not1180:i0;
+		Not1120:o0 -> Or21200:i1;
+		Nor21140:o0 -> And21220:i0;
+		Nand21160:o0 -> Or21200:i0;
+		Not1180:o0 -> o2;
+		Or21200:o0 -> o0;
+		And21220:o0 -> o1;
+		Nand21240:o0 -> o3;
 }

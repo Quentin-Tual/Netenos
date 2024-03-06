@@ -11,10 +11,14 @@ module Converter
 
             code << "compile_gtech:"
             code.indent=1
-            code << "echo \"[+] compiling gtech\""
+            if $VERBOSE
+                code << "echo \"[+] compiling gtech\""
+            end
             $GTECH.each do |klass|
                 entity=klass.to_s.downcase.split('::').last.concat("_d")
-                code << "echo \" |--[+] compiling #{entity}.vhd\""
+                if $VERBOSE
+                    code << "echo \" |--[+] compiling #{entity}.vhd\""
+                end
                 case compiler
                 when :nvc
                     code << "nvc --work=gtech_lib -a #{entity}.vhd"
@@ -100,7 +104,7 @@ module Converter
             code.save_as("#{path}/makefile")
         end
 
-        def circ_compile_script path, circ_init_name, freq_list, compiler=[:ghdl, :minimal_sig], append = false
+        def comp_tb_compile_script path, circ_init_name, circ_alt_name, freq_list, compiler=[:ghdl, :minimal_sig], append = false, gtech_path: "../../gtech"
             code = Code.new
             if compiler.is_a? Array
                opt =  compiler[1]
@@ -110,40 +114,55 @@ module Converter
             end 
             case compiler
             when :nvc
-
-                code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
-                code << "nvc --work=#{circ_init_name}_lib -L ../../gtech/ -a #{circ_init_name}.vhd"
+                if $VERBOSE
+                    code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
+                end
+                code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -a #{circ_init_name}.vhd"
+                code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -a #{circ_alt_name}.vhd"
                 freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end 
                 freq_list.each do |freq|
-                    code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
-                    code << "nvc --work=#{circ_init_name}_lib -L ../../gtech/ -M 1g -a #{circ_init_name}_#{freq}_tb.vhd "
-                    code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
-                    code << "nvc --work=#{circ_init_name}_lib -L ../../gtech/ -M 1g -e #{circ_init_name}_#{freq}_tb"
-                    code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
-                    code << "nvc --work=#{circ_init_name}_lib -L ../../gtech/ -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
+                    if $VERBOSE
+                        code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -M 1g -a #{circ_init_name}_#{freq}_tb.vhd "
+                    if $VERBOSE
+                        code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -M 1g -e #{circ_init_name}_#{freq}_tb"
+                    if $VERBOSE
+                        code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
                     code.newline
                 end
             when :ghdl2
-                code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
-                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}.vhd"
+                if $VERBOSE
+                    code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
+                end
+                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}.vhd"
+                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_alt_name}.vhd"
                 freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end
                 freq_list.each do |freq|
-                    code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
-                    code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
-                    code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
+                    if $VERBOSE
+                        code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb.vhd"
+                    if $VERBOSE 
+                        code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
+                        code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
+                    end
                     if opt == :minimal_sig
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                         generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
                     elsif opt == :uut_sig
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                         generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path, "uut/*"
                     else
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     end
 
                     code.newline
@@ -151,26 +170,137 @@ module Converter
                 end
                 
             else # :ghdl3 as default option
-                code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
-                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}.vhd"
+                if $VERBOSE
+                    code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
+                end
+                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}.vhd"
+                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_alt_name}.vhd"                
                 freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end
                 freq_list.each do |freq|
-                    code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
-                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb.vhd"
-                    code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
-                    # code << "ghdl -e --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb"
-                    code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
+                    if $VERBOSE
+                        code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb.vhd"
+                    if $VERBOSE
+                        code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
+                    end
+                    # code << "ghdl -e --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb"
+                    if $VERBOSE
+                        code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
+                    end 
                     # code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     if opt == :minimal_sig
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                         generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
                     elsif opt == :uut_sig
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                         generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path, ["uut/*"]
                     else
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=../../gtech/ #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    end
+
+                    code.newline
+                end 
+            end
+            
+            code.save_as("#{path}/compile.sh",append)
+            system("chmod +x #{path}/compile.sh")
+        end
+
+        def circ_compile_script path, circ_init_name, freq_list, compiler=[:ghdl, :minimal_sig], append = false, gtech_path: "../../gtech"
+            code = Code.new
+            if compiler.is_a? Array
+               opt =  compiler[1]
+               compiler = compiler[0]
+            else
+                opt = :minimal_sig
+            end 
+            case compiler
+            when :nvc
+                if $VERBOSE
+                    code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
+                end
+                code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -a #{circ_init_name}.vhd"
+                freq_list = freq_list.collect do |freq|
+                    freq.to_s.split('.').join
+                end 
+                freq_list.each do |freq|
+                    if $VERBOSE
+                        code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -M 1g -a #{circ_init_name}_#{freq}_tb.vhd "
+                    if $VERBOSE
+                        code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -M 1g -e #{circ_init_name}_#{freq}_tb"
+                    if $VERBOSE
+                        code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
+                    code.newline
+                end
+            when :ghdl2
+                if $VERBOSE
+                    code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
+                end
+                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}.vhd"
+                freq_list = freq_list.collect do |freq|
+                    freq.to_s.split('.').join
+                end
+                freq_list.each do |freq|
+                    if $VERBOSE
+                        code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb.vhd"
+                    if $VERBOSE 
+                        code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
+                        code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
+                    end
+                    if opt == :minimal_sig
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
+                    elsif opt == :uut_sig
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path, "uut/*"
+                    else
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    end
+
+                    code.newline
+                    
+                end
+                
+            else # :ghdl3 as default option
+                if $VERBOSE
+                    code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
+                end
+                code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}.vhd"
+                freq_list = freq_list.collect do |freq|
+                    freq.to_s.split('.').join
+                end
+                freq_list.each do |freq|
+                    if $VERBOSE
+                        code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
+                    end
+                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb.vhd"
+                    if $VERBOSE
+                        code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
+                    end
+                    # code << "ghdl -e --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb"
+                    if $VERBOSE
+                        code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
+                    end 
+                    # code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    if opt == :minimal_sig
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
+                    elsif opt == :uut_sig
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path, ["uut/*"]
+                    else
+                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     end
 
                     code.newline
@@ -197,32 +327,46 @@ module Converter
             code=Code.new
             
             # * Compilation de la GTECH
-            code << "echo \"[+] compiling gtech\""
+            if $VERBOSE
+                code << "echo \"[+] compiling gtech\""
+            end
             $GTECH.each do |klass|
                 entity=klass.to_s.downcase.split('::').last.concat("_d")
-                code << "echo \" |--[+] compiling #{entity}.vhd\""
+                if $VERBOSE
+                    code << "echo \" |--[+] compiling #{entity}.vhd\""
+                end
                 code << "ghdl -a --work=gtech_lib #{entity}.vhd"
             end
             # * Initial circuit compilation
-            code << "echo \"[+] compiling #{circuit.name}.vhd\""
+            if $VERBOSE
+                code << "echo \"[+] compiling #{circuit.name}.vhd\""
+            end
             code << "ghdl -a #{circuit.name}.vhd"
 
             # * Testbench compilation at each frequency
             test_frequencies.each do |freq|
-                code << "echo \"[+] compiling #{circuit.name}_#{freq.to_s.split('.').join}_tb.vhd\""
+                if $VERBOSE
+                    code << "echo \"[+] compiling #{circuit.name}_#{freq.to_s.split('.').join}_tb.vhd\""
+                end
                 code << "ghdl -a #{circuit.name}_#{freq.to_s.split('.').join}_tb.vhd"
             end
             
             # * Elaboration & Simulation
             test_frequencies.each do |freq|
-                code << "echo \"[+] elaboration #{circuit.name}_#{freq.to_s.split('.').join}_tb\""
+                if $VERBOSE
+                    code << "echo \"[+] elaboration #{circuit.name}_#{freq.to_s.split('.').join}_tb\""
+                end
                 code << "ghdl -e #{circuit.name}_#{freq.to_s.split('.').join}_tb"
 
-                code << "echo \"[+] running simulation\""
+                if $VERBOSE
+                    code << "echo \"[+] running simulation\""
+                end
                 code << "./#{circuit.name}_#{freq.to_s.split('.').join}_tb --vcd=#{circuit.name}_#{freq.to_s.split('.').join}_tb.vcd"
             end
 
-            code << "echo \"[+] cleaning temporary files\""
+            if $VERBOSE
+                code << "echo \"[+] cleaning temporary files\""
+            end
             code << "rm #{circuit.name}_*_tb"  
             code << "rm #{circuit.name}.o"
             test_frequencies.each do |freq|
@@ -234,7 +378,9 @@ module Converter
         end
         
         def run_compile_script circuit
-            puts "[+] run script..."
+            if $VERBOSE
+                puts "[+] run script..."
+            end
             system("./compile_#{circuit.name}.x")
         end
 

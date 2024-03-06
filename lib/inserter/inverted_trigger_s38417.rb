@@ -16,6 +16,18 @@ module Inserter
             gen_payload
             @payload_in <= gen_triggers(nb_trigger)
             @payload_in = @payload_in.partof.get_free_input
+
+            @propag_time = {}
+            wrapper = Netlist::Circuit.new "tmp"
+            @components.map {|comp| wrapper << comp}
+            @payload_in.partof.propag_time.each do |delay_model,val|
+                @components.each{|comp| comp.cumulated_propag_time = 0.0}
+                trig_comps = @triggers.collect{|in_p| in_p.partof}.uniq
+                trig_comps.each{|comp| comp.update_path_delay 0, delay_model}
+                @propag_time[delay_model] = @payload_in.partof.cumulated_propag_time
+            end
+            wrapper = nil
+
             return @payload_out.partof
         end
 

@@ -9,6 +9,7 @@ module Netlist
             @partof = nil
             @propag_time = {:one => 0.0, :int => 0.0, :int_multi => 0.0, :int_rand => 0.0, :fract => 0.0} 
             @cumulated_propag_time = 0
+            @slack = nil
         end
 
         def <= source 
@@ -45,6 +46,28 @@ module Netlist
             return @fanout
         end
 
+        def get_source_comp
+            return get_source.class.name == "Netlist::Wire" ? @fanin : @fanin.partof
+        end
+
+        def get_sinks_comp
+            return get_sinks.collect{|sink| 
+                if sink.class.name == "Netlist::Wire" 
+                    sink
+                else
+                    sink.partof
+                end
+            }
+        end
+
+        def get_source_cum_propag_time
+            if @fanin.class.name == "Netlist::Wire" or @fanin.is_global?
+                return @fanin.cumulated_propag_time
+            else
+                return @fanin.partof.cumulated_propag_time
+            end
+        end
+
         def get_full_name
             return @name
         end
@@ -62,12 +85,12 @@ module Netlist
         end
 
         def unplug interface_name # * : Apply only to sinks, won't work well on sources
-            if @fanin.name == interface_name
+            if @fanin.get_full_name == interface_name
                 @fanin.fanout.delete(@fanin.get_sink_named(@name))
                 @fanin = nil
             else
                 get_sink_named(interface_name).fanin = nil
-                fanout.delete(get_sink_named(interface_name))
+                fanout.select!{|sink| sink.get_full_name == interface_name}
             end
         end
 
@@ -95,7 +118,7 @@ module Netlist
         end
 
         def get_sink_named name
-            return fanout.find{|i| i.name == name}
+            return fanout.find{|i| i.get_full_name == name}
         end
 
         def has_source?
@@ -112,6 +135,32 @@ module Netlist
                 end
             end
         end
+
+        def update_path_slack slack, delay_model 
+            if @slack.nil?
+                @slack = slack
+            else
+                @slack = [slack, @slack].min 
+            end
+
+            crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
+
+            get_inputs.difference(crit_node.values).each do |in_p|
+                source = in_p.get_source
+                if source.class.name == "Netlist::Wire"
+                    source.update_path_slack(crit_node.get_source_cum_propag_time - in_p.get_source_cum_propag_time + @slack, delay_model)
+                elsif source.is_global?
+                    source.slack = crit_node.get_source_cum_propag_time - in_p.get_source_cum_propag_time + @slack
+                elsif !source.is_global?
+                    in_p.get_source_comp.update_path_slack(crit_node.get_source_cum_propag_time - in_p.get_source_cum_propag_time + @slack, delay_model)
+                end
+            end
+
+            crit_node.values.each do |in_p|
+                in_p.get_source_comp.update_path_slack(0.0 + @slack, delay_model)
+            end
+        end
+
 
         def to_hash
             return {

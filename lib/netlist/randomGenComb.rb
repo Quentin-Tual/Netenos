@@ -77,7 +77,9 @@ module Netlist
         # * : Wire the given sink to a randomly selected source located at a lower layer (than the given one)
         def wire_to_random_source sink, layer_max = @grid.length+1
             # * : Select all lower layers than the sink's one (layer_max)
+            # autorized_layers = @available_sources.keys.select{|layer| layer <= layer_max}
             autorized_layers = @available_sources.keys.select{|layer| layer <= layer_max}
+
 
             # * : Verify if the sink to wire is a primary output
             if sink.is_global? and sink.is_output?
@@ -101,6 +103,8 @@ module Netlist
                 if @available_primary_output_sources[selected_layer].empty?
                     @available_primary_output_sources.delete selected_layer
                 end
+
+                @sources_usage_count[selected_layer][selected_source] += 1
             # * : If there is not available sources (not used at all sources) at a lower layer
             elsif !@available_sources.empty? and !autorized_layers.empty?
                 # * : Select an available source to be wired

@@ -89,11 +89,15 @@ module Converter
             # puts code.finalize # Debug print
             if path != nil
                 code.save_as "#{path}",false,true
-                puts "[+] Schematic generated : \'#{path}\'"
+                if $VERBOSE
+                    puts "[+] Schematic generated : \'#{path}\'"
+                end
                 return "#{path}"
             else
                 code.save_as "#{circuit_name}.dot",false,true
-                puts "[+] Schematic generated : \'#{circuit_name}.dot\'"
+                if $VERBOSE
+                    puts "[+] Schematic generated : \'#{circuit_name}.dot\'"
+                end
                 return "#{circuit_name}.dot"
             end
         end
