@@ -120,8 +120,12 @@ module VCD
         end
 
         def get_last_timestamp path
-            File.foreach(path).reverse_each do |line|
+            
+            `tail -n 100000 #{path} > obj/tmp.vcd`
+
+            File.foreach("tmp.vcd").reverse_each do |line|
                 if line[0] == '#'
+                    `rm obj/tmp.vcd`
                     return line.delete_prefix('#').to_i
                 end 
             end

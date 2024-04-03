@@ -29,6 +29,7 @@ module VCD
         #     return cycle_diff
         # end
 
+        # ! obs_clk synchronous analysis 
         def compare_comparative_tb_traces trace, monitored_signals,nom_clk_period, obs_clk_period 
             # * Initialization of cycle_diff
             cycle_diff = monitored_signals.each_with_object({}) {|sig, h| h[sig] = []}
@@ -42,18 +43,23 @@ module VCD
                 obs_cycle = (t / obs_clk_period).to_i
                 nom_cycle = (t / nom_clk_period).to_i
                 
-                sig_transition.each do |sig, arrival_state|
-                    sig_curr_state[sig] = arrival_state
-                end
+                # sig_transition.each do |sig, arrival_state| #! DEBUG should fix synchronous mode, make it improper for asynchronous mode
+                #     sig_curr_state[sig] = arrival_state
+                # end
 
                 # Si modification de cycle obs 
                 if last_obs_cycle != obs_cycle
                     # Pour chaque signaux 
-                    sig_curr_state.each do |sig, state|
+                    sig_transition.each do |sig, state|
                         # Si l'état du signal est à un
                         if state == '1'
                             # push du cycle nominal courant à cycle_diff
                             cycle_diff[sig] << nom_cycle
+                        elsif state == '0' # * Assuming transition is '1'->'0' 
+                            unless cycle_diff[sig].empty? # * handling transitions 'U'->'0'
+                                (cycle_diff[sig].last+1 ... nom_cycle).each{|cycle| cycle_diff[sig] << cycle}
+                            end
+                            # cycle_diff[sig] << nom_cycle
                         end
                         # Fin Si
                     # Fin Pour
@@ -372,6 +378,140 @@ module VCD
             end
             
             return res.uniq
+        end
+
+        def compare_traces_async trace, monitored_signals, nom_clk_period, obs_clk_period
+            # * Initialization of cycle_diff
+            cycle_diff = monitored_signals.each_with_object({}) {|sig, h| h[sig] = []}
+        
+            sig_curr_state = monitored_signals.each_with_object(Hash.new()){|sig, h| h[sig] = 'U'}
+        
+            # * Filling cycle_diff, associating each sig to all timestamps when diff signal is raised (all timestamps of an anomaly)
+        
+            last_obs_cycle = 0
+            trace.each do |t, sig_transition|
+                obs_cycle = (t / obs_clk_period).to_i
+                nom_cycle = (t / nom_clk_period).to_i
+                
+                sig_transition.each do |sig, state|
+                
+                # Si modification de cycle obs 
+                # if last_obs_cycle != obs_cycle
+                    # Pour chaque signaux 
+                    
+                        # Si l'état du signal est à un
+                        if state == '1'
+                            # push du cycle nominal courant à cycle_diff
+                            cycle_diff[sig] << nom_cycle
+                            # next
+                        # elsif state == '0' # * Assuming transition is '1'->'0' 
+                        #     unless cycle_diff[sig].empty? # * handling transitions 'U'->'0'
+                        #         (cycle_diff[sig].last+1 ... nom_cycle).each{|cycle| cycle_diff[sig] << cycle}
+                        #     end
+                            # next
+                            # cycle_diff[sig] << nom_cycle
+                        end
+                        # Fin Si
+                    # Fin Pour
+                end
+                # Fin Si
+                # 
+        
+                last_obs_cycle = obs_cycle
+            end
+    
+            return cycle_diff
+        end
+
+        def get_anomaly_details vcd_path, monitored_signals
+
+            vcd_extractor = VCD::Vcd_Signal_Extractor.new
+            comparator = VCD::Vcd_Comparer.new
+            # puts "> Chargement trace"    
+            nom_clk = vcd_extractor.get_clock_period vcd_path, "nom_clk"
+            obs_clk = vcd_extractor.get_clock_period vcd_path, "obs_clk"
+            last_timestamp = vcd_extractor.get_last_timestamp vcd_path
+            trace = vcd_extractor.extract(vcd_path, :ghdl, monitored_signals)["output_traces"]
+            nb_nom_cycle = (`wc obj/stim.txt`.split(' ')[0].to_i) -1
+        
+            # * Initializations
+            anomaly_details = monitored_signals.each_with_object({}) {|sig, h| h[sig] = {}}
+            anomaly_duration_counter = monitored_signals.each_with_object({}) {|sig, h| h[sig] = 0}
+            anomaly_amount = monitored_signals.each_with_object({}) {|sig, h| h[sig] = 0}
+            # sig_curr_state = monitored_signals.each_with_object(Hash.new()){|sig, h| h[sig] = 'U'} # associate a signal to a value, timestamp pair
+            last_rising_timestamp =  monitored_signals.each_with_object({}) {|sig, h| h[sig] = nil}
+        
+            # * Filling anomaly_duration_counter, associating each sig to all timestamps when diff signal is raised (all timestamps of an anomaly)
+            last_nom_cycle = 0
+            trace.each do |t, sig_transition|
+                obs_cycle = (t / obs_clk).to_i
+                nom_cycle = (t / nom_clk).to_i
+                
+                # sig_transition.each do |sig, arrival_state|
+                    # sig_curr_state[sig] = arrival_state
+                
+        
+                    # Si modification de cycle obs 
+                    if last_nom_cycle != nom_cycle 
+                        # Pour chaque signaux 
+                        # sig_curr_state.each do |sig, state|
+                        monitored_signals.each do |sig|
+                            # Si l'état du signal est à un
+                            # if arrival_state == '1' #?optionnal (a 1->0 transition is never first to occur un a cycle, no triggering thus detection at nominal frequency)
+                                # push du cycle nominal courant à cycle_diff
+                                anomaly_details[sig][last_nom_cycle] = {:amount => anomaly_amount[sig], :duration => anomaly_duration_counter[sig]}
+                                anomaly_duration_counter[sig] = 0
+                                anomaly_amount[sig] = 0
+        
+                                last_rising_timestamp[sig] = t
+                                # cycle_diff[sig] << nom_cycle
+                            # end
+                            # Fin Si
+                        # Fin Pour
+                        end
+                    # Fin Si
+                    else 
+                        # sig_curr_state.each do |sig, state|
+                        sig_transition.each do |sig, arrival_state|
+                            if arrival_state == '0'
+                                anomaly_duration_counter[sig] += t.to_i - last_rising_timestamp[sig].to_i
+                                anomaly_amount[sig] += 1
+                                # unless cycle_diff[sig].empty? # * If transition is 'U'->'0'
+                                #     (cycle_diff[sig].last+1 ... nom_cycle).each{|cycle| cycle_diff[sig] << cycle}
+                                # end
+                                # cycle_diff[sig] << nom_cycle
+                            elsif arrival_state == '1'
+                                last_rising_timestamp[sig] = t
+                            end
+                        end 
+                    end
+        
+                # end
+        
+                last_nom_cycle = nom_cycle
+            end
+        
+            return anomaly_details
+        end
+        
+        def get_mean_anomaly_duration anomaly_details, nb_cycle
+            anomaly_details.each_with_object(Hash.new) do |(sig, cycle_diff), mean_anomaly_duration|
+                duration_list = cycle_diff.values.collect{|h| h[:duration]}
+                mean_anomaly_duration[sig] = (duration_list.sum / nb_cycle.to_f).round(3)
+            end
+        end
+        
+        def normalize_anomaly_durations mean_duration, crit_path_duration
+            mean_duration.each_with_object(Hash.new) do |(sig, duration), norm_mean_duration|
+                norm_mean_duration[sig] = (duration / (crit_path_duration*1_000)).round(3)
+            end
+        end
+        
+        def get_mean_anomaly_amount anomaly_details, nb_cycle
+            anomaly_details.each_with_object(Hash.new) do |(sig, cycle_diff), mean_anomaly_amount|
+                amount_list = cycle_diff.values.collect{|h| h[:amount]}
+                mean_anomaly_amount[sig] = (amount_list.sum.to_f / nb_cycle).round(3)
+            end
         end
 
         def delete_cycle_list vec_trace, list
