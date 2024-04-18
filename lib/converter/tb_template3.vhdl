@@ -16,7 +16,7 @@ architecture netenos of <%="#{@netlist_data[:entity_name]}"%> is
     -- With a 1-unit model, the maximum path length is equivalent to the minimal period for nominal behavior 
     -- Which means minimum period is 4 for a unit_delay value of 1 (default value) 
     constant nom_period : time := (unit_delay * <%=@netlist_data[:crit_path_length]%>);
-    constant obs_period : time := (unit_delay * <%=@netlist_data[:crit_path_length]%>) / <%=@freq%>;
+    constant obs_period : time := (unit_delay * <%=(@netlist_data[:crit_path_length] / @freq).round(3)%>);
     constant phase : time := <%=@phase%> ps;
     signal nom_clk : std_logic := '1';
     signal obs_clk : std_logic := '1';

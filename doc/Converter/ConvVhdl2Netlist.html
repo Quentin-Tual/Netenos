@@ -99,7 +99,18 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>! Legacy / associated to Hyle parser, not used and not maintained</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -552,16 +563,16 @@
       <pre class="lines">
 
 
+5
+6
 7
 8
 9
 10
-11
-12
-13</pre>
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 5</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_sym_tab'>sym_tab</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_ast'>ast</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='ivar'>@sym_tab</span> <span class='op'>=</span> <span class='id identifier rubyid_sym_tab'>sym_tab</span>
@@ -597,17 +608,17 @@
       <pre class="lines">
 
 
+54
+55
 56
 57
 58
 59
 60
-61
-62
-63</pre>
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convArch'>convArch</span> <span class='id identifier rubyid_arch'>arch</span>
     <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_arch'>arch</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -637,6 +648,8 @@
       <pre class="lines">
 
 
+72
+73
 74
 75
 76
@@ -653,12 +666,10 @@
 87
 88
 89
-90
-91
-92</pre>
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convArchBody'>convArchBody</span> <span class='id identifier rubyid_archBody'>archBody</span>
     <span class='id identifier rubyid_components'>components</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -699,17 +710,17 @@
       <pre class="lines">
 
 
+63
+64
 65
 66
 67
 68
 69
-70
-71
-72</pre>
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convArchDecl'>convArchDecl</span> <span class='id identifier rubyid_archDecl'>archDecl</span>
     <span class='id identifier rubyid_archDecl'>archDecl</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_declaration'>declaration</span><span class='op'>|</span> 
@@ -739,6 +750,8 @@
       <pre class="lines">
 
 
+114
+115
 116
 117
 118
@@ -754,12 +767,10 @@
 128
 129
 130
-131
-132
-133</pre>
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convAssignStatement'>convAssignStatement</span> <span class='id identifier rubyid_assignStatement'>assignStatement</span>
     <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -799,6 +810,8 @@
       <pre class="lines">
 
 
+180
+181
 182
 183
 184
@@ -815,12 +828,10 @@
 195
 196
 197
-198
-199
-200</pre>
+198</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convAssociationStatement'>convAssociationStatement</span> <span class='id identifier rubyid_associationStatement'>associationStatement</span><span class='comma'>,</span> <span class='id identifier rubyid_component'>component</span>
 
@@ -861,6 +872,8 @@
       <pre class="lines">
 
 
+25
+26
 27
 28
 29
@@ -868,12 +881,10 @@
 31
 32
 33
-34
-35
-36</pre>
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convAst'>convAst</span>
     <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_convEntity'>convEntity</span> <span class='ivar'>@ast</span>
@@ -917,18 +928,18 @@
       <pre class="lines">
 
 
+133
+134
 135
 136
 137
 138
 139
 140
-141
-142
-143</pre>
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convBinaryExp'>convBinaryExp</span> <span class='id identifier rubyid_exp'>exp</span> <span class='comment'># * : Retourne l&#39;opérateur/la porte instanciée
 </span>    <span class='id identifier rubyid_op'>op</span> <span class='op'>=</span> <span class='id identifier rubyid_convOperator'>convOperator</span> <span class='id identifier rubyid_exp'>exp</span><span class='period'>.</span><span class='id identifier rubyid_operator'>operator</span><span class='period'>.</span><span class='id identifier rubyid_op'>op</span>
@@ -959,17 +970,17 @@
       <pre class="lines">
 
 
+36
+37
 38
 39
 40
 41
 42
-43
-44
-45</pre>
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convEntity'>convEntity</span> <span class='id identifier rubyid_entity'>entity</span>
     <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Circuit.html#initialize-instance_method" title="Netlist::Circuit#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -999,6 +1010,8 @@
       <pre class="lines">
 
 
+162
+163
 164
 165
 166
@@ -1007,12 +1020,10 @@
 169
 170
 171
-172
-173
-174</pre>
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 162</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convInstantiateStatement'>convInstantiateStatement</span> <span class='id identifier rubyid_instanciateStatement'>instanciateStatement</span>
     <span class='id identifier rubyid_inst_name'>inst_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_instanciateStatement'>instanciateStatement</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comment'>##_# {instanciateStatement.entity.name.name}&quot; 
@@ -1057,6 +1068,8 @@
       <pre class="lines">
 
 
+143
+144
 145
 146
 147
@@ -1072,12 +1085,10 @@
 157
 158
 159
-160
-161
-162</pre>
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convOperator'>convOperator</span> <span class='id identifier rubyid_op'>op</span> <span class='comment'># * : Retourne l&#39;opérateur instancié
 </span>    <span class='kw'>case</span> <span class='id identifier rubyid_op'>op</span>
@@ -1117,12 +1128,12 @@
       <pre class="lines">
 
 
-52
-53
-54</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convPort'>convPort</span> <span class='id identifier rubyid_port'>port</span>
     <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Port.html#initialize-instance_method" title="Netlist::Port#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_port'>port</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_port'>port</span><span class='period'>.</span><span class='id identifier rubyid_port_type'>port_type</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
@@ -1147,14 +1158,14 @@
       <pre class="lines">
 
 
+174
+175
 176
 177
-178
-179
-180</pre>
+178</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convPortMap'>convPortMap</span> <span class='id identifier rubyid_portmap'>portmap</span><span class='comma'>,</span> <span class='id identifier rubyid_component'>component</span>
     <span class='id identifier rubyid_portmap'>portmap</span><span class='period'>.</span><span class='id identifier rubyid_association_statements'>association_statements</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_associationStatement'>associationStatement</span><span class='op'>|</span>
@@ -1181,13 +1192,13 @@
       <pre class="lines">
 
 
+45
+46
 47
-48
-49
-50</pre>
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convPorts'>convPorts</span> <span class='id identifier rubyid_ports'>ports</span>
     <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='id identifier rubyid_ports'>ports</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_convPort'>convPort</span> <span class='id identifier rubyid_p'>p</span><span class='rbrace'>}</span>
@@ -1213,6 +1224,8 @@
       <pre class="lines">
 
 
+92
+93
 94
 95
 96
@@ -1224,12 +1237,10 @@
 102
 103
 104
-105
-106
-107</pre>
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_interface'>find_interface</span> <span class='id identifier rubyid_interface_name'>interface_name</span> 
 <span class='comment'># * : Returns the port or wire corresponding to the name passed
@@ -1265,6 +1276,8 @@
       <pre class="lines">
 
 
+13
+14
 15
 16
 17
@@ -1273,12 +1286,10 @@
 20
 21
 22
-23
-24
-25</pre>
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load'>load</span> <span class='id identifier rubyid_path'>path</span>
     <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
@@ -1311,6 +1322,8 @@
       <pre class="lines">
 
 
+200
+201
 202
 203
 204
@@ -1326,12 +1339,10 @@
 214
 215
 216
-217
-218
-219</pre>
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 202</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 200</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verify_wiring'>verify_wiring</span>
     <span class='comment'># * : Post conversion verification to avoid specific states
@@ -1371,15 +1382,15 @@
       <pre class="lines">
 
 
+107
+108
 109
 110
 111
-112
-113
-114</pre>
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convVhdl2Netlist.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wiring'>wiring</span> <span class='id identifier rubyid_sink_name'>sink_name</span><span class='comma'>,</span> <span class='id identifier rubyid_source_name'>source_name</span>
     <span class='id identifier rubyid_sink'>sink</span> <span class='op'>=</span> <span class='id identifier rubyid_find_interface'>find_interface</span> <span class='id identifier rubyid_sink_name'>sink_name</span>
@@ -1397,7 +1408,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jan 24 13:38:46 2024 by
+  Generated on Wed Apr 17 16:20:28 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.2).
 </div>

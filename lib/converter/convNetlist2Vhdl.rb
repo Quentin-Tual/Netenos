@@ -193,6 +193,10 @@ module Converter
                 end
             end
         end
+
+        # def gen_gtech_nldm
+            
+        # end
     
         def ieee_header
             code=Code.new

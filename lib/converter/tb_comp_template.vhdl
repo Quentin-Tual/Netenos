@@ -6,7 +6,6 @@ use ieee.numeric_std.all;
 library std;
 use std.textio.all;
 
-
 entity <%="#{@tb_entity_name}"%> is
 end entity <%="#{@tb_entity_name}"%>;
 
@@ -16,7 +15,7 @@ architecture netenos of <%="#{@tb_entity_name}"%> is
     -- With a 1-unit model, the maximum path length is equivalent to the minimal period for nominal behavior 
     -- Which means minimum period is 4 for a unit_delay value of 1 (default value) 
     constant nom_period : time := (unit_delay * <%=@netlist_init_data[:crit_path_length]%>);
-    constant obs_period : time := (unit_delay * <%=@netlist_init_data[:crit_path_length] / @freq%>);
+    constant obs_period : time := (unit_delay * <%=(@netlist_init_data[:crit_path_length] / @freq).round(3)%>);
     constant phase : time := <%=@phase%> ps;
     signal nom_clk : std_logic := '1';
     signal obs_clk : std_logic := '1';
@@ -75,6 +74,7 @@ begin
         file text_file : text open read_mode is "<%=@stim_file_path%>";
         variable text_line : line;
         variable stim_val : std_logic_vector(<%=@netlist_init_data[:ports][:in].length - 1%> downto 0);
+        variable test_bit_vec : bit_vector(<%=@netlist_init_data[:ports][:in].length - 1%> downto 0);
     begin
         -- report "Starting simulation...";
         
@@ -87,8 +87,10 @@ begin
               next;
             end if;
             
-            read(text_line, stim_val);
-            
+            read(text_line, test_bit_vec);
+            stim_val := to_stdlogicvector(test_bit_vec);
+            --read(text_line, stim_val);
+
             for k in 0 to <%=@netlist_init_data[:ports][:in].length - 1%> loop
                 tb_in(k) <= stim_val(k);
             end loop;

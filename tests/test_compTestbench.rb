@@ -35,10 +35,10 @@ class Test_compTestbench
         @tb_gen.gen_testbench "stim.txt", $FREQ
 
         @script_generator = Converter::VhdlCompiler.new 
-        @script_generator.gtech_makefile ".", :ghdl
+        @script_generator.gtech_makefile ".", $COMPILER
         `make`
         # * : Only for nominal frequency at first
-        @script_generator.comp_tb_compile_script ".", @circ_init.name, @circ_alt.name, [$FREQ]
+        @script_generator.comp_tb_compile_script ".", @circ_init.name, @circ_alt.name, [$FREQ], $OPT, gtech_path:"."
     end
 
     def gen_case
@@ -88,12 +88,16 @@ class Test_compTestbench
 
 end
 
-Dir.chdir("tmp") do
-    puts "Lancement #{__FILE__}" 
-    env = Test_compTestbench.new 
-    `./compile.sh`
-    puts "Fin #{__FILE__}"
+if __FILE__ == $0
+    Dir.chdir("tmp") do
+        puts "Lancement #{__FILE__}" 
+        env = Test_compTestbench.new 
+        `./compile.sh`
+        puts "Fin #{__FILE__}"
+    end
 end
+  
+
 # circ_init, circ_alt = env.gen_case 
 
 # circ_alt.name = "#{circ_alt.name}_altered"

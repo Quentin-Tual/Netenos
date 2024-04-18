@@ -134,6 +134,13 @@ module Converter
                     if $VERBOSE
                         code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     end
+                    if opt == :minimal_sig
+                        generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["*"]
+                    elsif opt == :uut_sig
+                        generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["uut:*", "ref_unit:*"]
+                    end
+                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
+                    code.newline
                     code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
                     code.newline
                 end
@@ -238,8 +245,14 @@ module Converter
                     if $VERBOSE
                         code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     end
+                    if opt == :minimal_sig
+                        generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["*"]
+                    elsif opt == :uut_sig
+                        generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["uut:*", "ref_unit:*"]
+                    end
                     code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
                     code.newline
+                    
                 end
             when :ghdl2
                 if $VERBOSE
@@ -309,6 +322,17 @@ module Converter
             
             code.save_as("#{path}/compile.sh",append)
             system("chmod +x #{path}/compile.sh")
+        end
+
+        def generate_include_file testbench_name, path, signals = []
+            str = "# include file\n"
+            if !signals.empty?
+                signals.each do |s|
+                    str << ":#{testbench_name}:#{s}\n"
+                end
+            end
+
+            File.open("#{path}/#{testbench_name}.include",'w'){|f| f.puts(str)}
         end
 
         def generate_wave_opt_file testbench_name, path, signals = []

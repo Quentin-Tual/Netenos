@@ -94,7 +94,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/vcd_tools/vcd_signal_extractor.rb</dd>
+    <dd>lib/vcd_tools/vcd_signal_extractor.rb<span class="defines">,<br />
+  lib/vcd_tools/vcd_signal_extractor2.rb</span>
+</dd>
   </dl>
   
 </div>
@@ -102,6 +104,40 @@
 
 
 
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#id_tab-instance_method" title="#id_tab (instance method)">#<strong>id_tab</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute id_tab.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
 
 
 
@@ -142,7 +178,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#extract-instance_method" title="#extract (instance method)">#<strong>extract</strong>(compiler, signals = :outputs_only)  &#x21d2; Object </a>
+      <a href="#extract-instance_method" title="#extract (instance method)">#<strong>extract</strong>(path, compiler, signals = :outputs_only)  &#x21d2; Object </a>
     
 
     
@@ -167,7 +203,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_clock_period-instance_method" title="#get_clock_period (instance method)">#<strong>get_clock_period</strong>(clk_name = &quot;obs_clk&quot;)  &#x21d2; Object </a>
+      <a href="#get_clock_period-instance_method" title="#get_clock_period (instance method)">#<strong>get_clock_period</strong>(path, clk_name = &quot;obs_clk&quot;)  &#x21d2; Object </a>
     
 
     
@@ -189,7 +225,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_last_timestamp-instance_method" title="#get_last_timestamp (instance method)">#<strong>get_last_timestamp</strong>  &#x21d2; Object </a>
+      <a href="#get_last_timestamp-instance_method" title="#get_last_timestamp (instance method)">#<strong>get_last_timestamp</strong>(path)  &#x21d2; Object </a>
     
 
     
@@ -237,7 +273,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#load_vcd-instance_method" title="#load_vcd (instance method)">#<strong>load_vcd</strong>(path)  &#x21d2; Object </a>
+      <a href="#load_vcd-instance_method" title="#load_vcd (instance method)">#<strong>load_vcd</strong>(path, start = 0)  &#x21d2; Object </a>
     
 
     
@@ -328,7 +364,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#traces_definition-instance_method" title="#traces_definition (instance method)">#<strong>traces_definition</strong>(compiler, opt = :outputs_only)  &#x21d2; Object </a>
+      <a href="#traces_definition-instance_method" title="#traces_definition (instance method)">#<strong>traces_definition</strong>(path, compiler, opt = :outputs_only)  &#x21d2; Object </a>
     
 
     
@@ -343,9 +379,53 @@
 
   
     <span class="summary_desc"><div class='inline'><ul><li>
-<p>: Defines traces to follow and their identifier in the vcd file (header data extraction) ? : Renommer en get_ids ou id_extraction ou extract_definitions.</p>
+<p>: Defines traces to follow and their identifier in the vcd file (header data extraction).</p>
 </li></ul>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#traces_definition_output_only-instance_method" title="#traces_definition_output_only (instance method)">#<strong>traces_definition_output_only</strong>(path, compiler)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#traces_definition_signal_list-instance_method" title="#traces_definition_signal_list (instance method)">#<strong>traces_definition_signal_list</strong>(path, compiler, opt)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -430,6 +510,54 @@
   
 </div>
 
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="id_tab-instance_method">
+  
+    #<strong>id_tab</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute id_tab.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor2.rb', line 4</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_id_tab'>id_tab</span>
+  <span class='ivar'>@id_tab</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -462,12 +590,12 @@
       <pre class="lines">
 
 
-174
-175
-176</pre>
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_output_event'>add_output_event</span> <span class='id identifier rubyid_signal'>signal</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span>
     <span class='ivar'>@output_traces</span><span class='lbracket'>[</span><span class='id identifier rubyid_signal'>signal</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_timestamp'>timestamp</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
@@ -480,7 +608,7 @@
       <div class="method_details ">
   <h3 class="signature " id="extract-instance_method">
   
-    #<strong>extract</strong>(compiler, signals = :outputs_only)  &#x21d2; <tt>Object</tt> 
+    #<strong>extract</strong>(path, compiler, signals = :outputs_only)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -536,7 +664,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_clock_period-instance_method">
   
-    #<strong>get_clock_period</strong>(clk_name = &quot;obs_clk&quot;)  &#x21d2; <tt>Object</tt> 
+    #<strong>get_clock_period</strong>(path, clk_name = &quot;obs_clk&quot;)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -548,6 +676,20 @@
       <pre class="lines">
 
 
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
 104
 105
 106
@@ -579,33 +721,13 @@
 132
 133
 134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152</pre>
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_clock_period'>get_clock_period</span> <span class='id identifier rubyid_clk_name'>clk_name</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>obs_clk</span><span class='tstring_end'>&quot;</span></span>
-    <span class='comment'># * : Returns the OBSERVATION clock period for the given vcd file 
-</span>    <span class='comment'># * Find &#39;obs_clk&#39; VCD_ID in declarations section
-</span>        <span class='comment'># * Go to line 18 -&gt; recover the ID, line 18 equals 17th element cause ther is a 0 ranked element in @vcd
-</span>    <span class='comment'># id = @vcd[17].split[3]
+    <span class='comment'># * : Returns the clock period for the given vcd file (by default the OBSERVATION clock named &#39;obs_clk&#39;)
 </span>    <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='ivar'>@vcd</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
         <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_clk_name'>clk_name</span>
@@ -658,7 +780,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_last_timestamp-instance_method">
   
-    #<strong>get_last_timestamp</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>get_last_timestamp</strong>(path)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -670,18 +792,18 @@
       <pre class="lines">
 
 
-94
-95
-96
-97
-98
-99
-100
-101
-102</pre>
+80
+81
+82
+83
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_last_timestamp'>get_last_timestamp</span>
     <span class='ivar'>@vcd</span><span class='period'>.</span><span class='id identifier rubyid_reverse_each'>reverse_each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
@@ -700,7 +822,7 @@
       <div class="method_details ">
   <h3 class="signature " id="load_vcd-instance_method">
   
-    #<strong>load_vcd</strong>(path)  &#x21d2; <tt>Object</tt> 
+    #<strong>load_vcd</strong>(path, start = 0)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -754,12 +876,12 @@
       <pre class="lines">
 
 
-169
-170
-171</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_next_output'>next_output</span>
     <span class='ivar'>@vcd</span><span class='period'>.</span><span class='id identifier rubyid_shift'>shift</span>
@@ -784,16 +906,16 @@
       <pre class="lines">
 
 
-154
-155
-156
-157
-158
-159
-160</pre>
+137
+138
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 137</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_traces'>save_traces</span> <span class='id identifier rubyid_path'>path</span>
     <span class='comment'># * : Saves the required data for comparison as wrapped in a Hash object
@@ -822,6 +944,9 @@
       <pre class="lines">
 
 
+56
+57
+58
 59
 60
 61
@@ -841,56 +966,31 @@
 75
 76
 77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92</pre>
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_selected_traces_extraction'>selected_traces_extraction</span>
     <span class='ivar'>@output_traces</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
     <span class='comment'># * Only keeps the output signals
-</span>    <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='id identifier rubyid_next_output'>next_output</span>
+</span>    <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='id identifier rubyid_next_output'>next_output</span> <span class='comment'># init
+</span>
     <span class='kw'>until</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
         <span class='kw'>if</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># * : new timestamp detected, update it
-</span>            <span class='id identifier rubyid_update_timestamp'>update_timestamp</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_delete_prefix'>delete_prefix</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+</span>            <span class='id identifier rubyid_update_timestamp'>update_timestamp</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_delete_prefix'>delete_prefix</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
         <span class='comment'># * : Unexpected syntax are covered by the raise in the next conditionnal branchement
 </span>        <span class='kw'>else</span>
-            <span class='comment'># tmp.concat(&quot;\n&quot;)
-</span>            <span class='comment'># tmp.map!{|e| e.concat &quot;\n&quot;}
-</span>            <span class='comment'># if tmp.length == 1
-</span>            <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
-            <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span> <span class='comment'># -2 for &#39;\n&#39; removal
-</span>            <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@id_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+            <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+            <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span>
+            <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@id_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
                 <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
-                <span class='comment'># if @id_tab[tmp[1]].nil?
-</span>                <span class='comment'>#     puts &quot;here&quot;
-</span>                <span class='comment'># end
-</span>                <span class='comment'># tmp = tmp.chars  # ! Passage en chars problématique si id sur deux caractères
-</span>                <span class='ivar'>@output_traces</span><span class='lbracket'>[</span><span class='ivar'>@current_timestamp</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='ivar'>@id_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+                <span class='ivar'>@output_traces</span><span class='lbracket'>[</span><span class='ivar'>@current_timestamp</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='ivar'>@id_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
             <span class='kw'>end</span>
-            <span class='comment'># elsif tmp.length == 2 # ! Not sure it happens anytime with the generated testbenches
-</span>            <span class='comment'>#     @output_traces[@current_timestamp][tmp[1]] = tmp[0]
-</span>            <span class='comment'># else 
-</span>            <span class='comment'>#     raise &quot;Internal error : Unexpected syntax encountered.&quot;
-</span>            <span class='comment'># end
-</span>        <span class='kw'>end</span>
+        <span class='kw'>end</span>
 
-        <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='id identifier rubyid_next_output'>next_output</span> <span class='comment'># TODO : Move it to the start of teh loop, deleting initialization just before the loop ?
-</span>    <span class='kw'>end</span>
+        <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='id identifier rubyid_next_output'>next_output</span>
+    <span class='kw'>end</span>
 
     <span class='ivar'>@output_traces</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span><span class='id identifier rubyid_val'>val</span><span class='op'>|</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='kw'>then</span> <span class='ivar'>@output_traces</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span> <span class='kw'>end</span><span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
@@ -902,7 +1002,7 @@
       <div class="method_details ">
   <h3 class="signature " id="traces_definition-instance_method">
   
-    #<strong>traces_definition</strong>(compiler, opt = :outputs_only)  &#x21d2; <tt>Object</tt> 
+    #<strong>traces_definition</strong>(path, compiler, opt = :outputs_only)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -913,8 +1013,6 @@
     <ul><li>
 <p>: Defines traces to follow and their identifier in the vcd file (header data extraction)</p>
 </li></ul>
-
-<p>? : Renommer en get_ids ou id_extraction ou extract_definitions</p>
 
 
   </div>
@@ -928,6 +1026,7 @@
       <pre class="lines">
 
 
+29
 30
 31
 32
@@ -952,13 +1051,10 @@
 51
 52
 53
-54
-55
-56
-57</pre>
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_traces_definition'>traces_definition</span> <span class='id identifier rubyid_compiler'>compiler</span><span class='comma'>,</span> <span class='id identifier rubyid_opt'>opt</span><span class='op'>=</span><span class='symbol'>:outputs_only</span>
     <span class='ivar'>@vcd</span><span class='period'>.</span><span class='id identifier rubyid_shift'>shift</span><span class='lparen'>(</span><span class='int'>8</span><span class='rparen'>)</span>
@@ -970,7 +1066,6 @@
             <span class='kw'>if</span> <span class='id identifier rubyid_opt'>opt</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span> 
                 <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
                 <span class='ivar'>@id_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_tmp'>tmp</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span> <span class='comment'># * : The original signal name (tmp[4]) is associated to VCD ID (tmp[3]).
-</span>                <span class='comment'># @output_traces[tmp[3]] = {} # * : Hash initialization allowing to add timestamp/value pairs later 
 </span>            <span class='kw'>end</span>
             <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='id identifier rubyid_next_output'>next_output</span>
         <span class='kw'>end</span>
@@ -979,12 +1074,123 @@
             <span class='kw'>if</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_match?'>match?</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\$var </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_data_type'>data_type</span><span class='embexpr_end'>}</span><span class='tstring_content'> [0-9]+ .+ tb_o[0-9]+_s .+</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span> <span class='comment'># ! : Not really optimized, certainly could be improved
 </span>                <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
                 <span class='ivar'>@id_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_tmp'>tmp</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span> <span class='comment'># * : The original signal name (tmp[4]) is associated to VCD ID (tmp[3]).
-</span>                <span class='comment'># @output_traces[tmp[3]] = {} # * : Hash initialization allowing to add timestamp/value pairs later 
 </span>            <span class='kw'>end</span>
             <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='id identifier rubyid_next_output'>next_output</span>
         <span class='kw'>end</span>
     <span class='kw'>else</span> <span class='comment'># :all_sig for example
 </span>        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : Functionnality not available yet ! WIP</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="traces_definition_output_only-instance_method">
+  
+    #<strong>traces_definition_output_only</strong>(path, compiler)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor2.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_traces_definition_output_only'>traces_definition_output_only</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_compiler'>compiler</span>
+    <span class='id identifier rubyid_data_type'>data_type</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_compiler'>compiler</span> <span class='op'>==</span> <span class='symbol'>:nvc</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>logic</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>reg</span><span class='tstring_end'>&quot;</span></span><span class='semicolon'>;</span>
+
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_foreach'>foreach</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+        <span class='comment'># tmp = next_output
+</span>        <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>$enddefinitions $end\n</span><span class='tstring_end'>&quot;</span></span> 
+            <span class='kw'>return</span> <span class='id identifier rubyid_i'>i</span>
+        <span class='kw'>else</span>
+            <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_match?'>match?</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\$var </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_data_type'>data_type</span><span class='embexpr_end'>}</span><span class='tstring_content'> [0-9]+ .+ tb_o[0-9]+_s .+</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span> <span class='comment'># ! : Not really optimized, certainly could be improved
+</span>                <span class='id identifier rubyid_line'>line</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
+                <span class='ivar'>@id_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span> <span class='comment'># * : The original signal name (line[4]) is associated to VCD ID (line[3]).
+</span>            <span class='kw'>end</span>
+        <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : VCD definition end not found.</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="traces_definition_signal_list-instance_method">
+  
+    #<strong>traces_definition_signal_list</strong>(path, compiler, opt)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor2.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_traces_definition_signal_list'>traces_definition_signal_list</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_compiler'>compiler</span><span class='comma'>,</span> <span class='id identifier rubyid_opt'>opt</span>
+
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_foreach'>foreach</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+        <span class='comment'># tmp = next_output
+</span>        <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>$enddefinitions $end\n</span><span class='tstring_end'>&quot;</span></span> 
+            <span class='kw'>return</span> <span class='id identifier rubyid_i'>i</span>
+        <span class='kw'>else</span>
+            <span class='kw'>if</span> <span class='id identifier rubyid_opt'>opt</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span> 
+                <span class='id identifier rubyid_line'>line</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
+                <span class='ivar'>@id_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span> <span class='comment'># * : The original signal name (line[4]) is associated to VCD ID (line[3]).
+</span>            <span class='kw'>end</span>    
+        <span class='kw'>end</span>
     <span class='kw'>end</span>
 
 <span class='kw'>end</span></pre>
@@ -1020,13 +1226,13 @@
       <pre class="lines">
 
 
-163
-164
-165
-166</pre>
+146
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_signal_extractor.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_timestamp'>update_timestamp</span> <span class='id identifier rubyid_timestamp'>timestamp</span>
     <span class='ivar'>@current_timestamp</span> <span class='op'>=</span> <span class='id identifier rubyid_timestamp'>timestamp</span>
@@ -1042,7 +1248,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jan 24 13:38:46 2024 by
+  Generated on Wed Apr 17 16:20:28 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.2).
 </div>

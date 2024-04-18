@@ -35,7 +35,7 @@ module Converter
 
         def gen_testbench stim_type = :random, freq = 1, nb_cycle = 20, phase: 0
             @freq = freq
-            @phase = @netlist_init_data[:crit_path_length] * phase
+            @phase = (@netlist_init_data[:crit_path_length] * phase).round(3)
             circ_name = @netlist_init_data[:entity_name]
 
             gen_init_portmap

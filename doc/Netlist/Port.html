@@ -243,6 +243,33 @@
 </li>
 
     
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#slack-instance_method" title="#slack (instance method)">#<strong>slack</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute slack.</p>
+</div></span>
+  
+</li>
+
+    
   </ul>
 
 
@@ -480,7 +507,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>def get_source_cum_propag_time     return get_source.class.name == “Netlist::Wire” ? source.@cumulated_propag_time : source.partof.cumulated_propag_time end.</p>
+</div></span>
   
 </li>
 
@@ -498,7 +527,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Wire.html" title="Netlist::Wire (class)">Wire</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Wire.html#<=-instance_method" title="Netlist::Wire#&lt;= (method)">#<=</a></span>, <span class='object_link'><a href="Wire.html#get_sink_named-instance_method" title="Netlist::Wire#get_sink_named (method)">#get_sink_named</a></span>, <span class='object_link'><a href="Wire.html#get_sinks-instance_method" title="Netlist::Wire#get_sinks (method)">#get_sinks</a></span>, <span class='object_link'><a href="Wire.html#get_source-instance_method" title="Netlist::Wire#get_source (method)">#get_source</a></span>, <span class='object_link'><a href="Wire.html#has_source%3F-instance_method" title="Netlist::Wire#has_source? (method)">#has_source?</a></span>, <span class='object_link'><a href="Wire.html#pretty_print-instance_method" title="Netlist::Wire#pretty_print (method)">#pretty_print</a></span>, <span class='object_link'><a href="Wire.html#unplug-instance_method" title="Netlist::Wire#unplug (method)">#unplug</a></span>, <span class='object_link'><a href="Wire.html#unplug2-instance_method" title="Netlist::Wire#unplug2 (method)">#unplug2</a></span>, <span class='object_link'><a href="Wire.html#update_path_delay-instance_method" title="Netlist::Wire#update_path_delay (method)">#update_path_delay</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Wire.html#<=-instance_method" title="Netlist::Wire#&lt;= (method)">#<=</a></span>, <span class='object_link'><a href="Wire.html#get_sink_named-instance_method" title="Netlist::Wire#get_sink_named (method)">#get_sink_named</a></span>, <span class='object_link'><a href="Wire.html#get_sinks-instance_method" title="Netlist::Wire#get_sinks (method)">#get_sinks</a></span>, <span class='object_link'><a href="Wire.html#get_sinks_comp-instance_method" title="Netlist::Wire#get_sinks_comp (method)">#get_sinks_comp</a></span>, <span class='object_link'><a href="Wire.html#get_source-instance_method" title="Netlist::Wire#get_source (method)">#get_source</a></span>, <span class='object_link'><a href="Wire.html#get_source_comp-instance_method" title="Netlist::Wire#get_source_comp (method)">#get_source_comp</a></span>, <span class='object_link'><a href="Wire.html#get_source_cum_propag_time-instance_method" title="Netlist::Wire#get_source_cum_propag_time (method)">#get_source_cum_propag_time</a></span>, <span class='object_link'><a href="Wire.html#has_source%3F-instance_method" title="Netlist::Wire#has_source? (method)">#has_source?</a></span>, <span class='object_link'><a href="Wire.html#pretty_print-instance_method" title="Netlist::Wire#pretty_print (method)">#pretty_print</a></span>, <span class='object_link'><a href="Wire.html#unplug-instance_method" title="Netlist::Wire#unplug (method)">#unplug</a></span>, <span class='object_link'><a href="Wire.html#unplug2-instance_method" title="Netlist::Wire#unplug2 (method)">#unplug2</a></span>, <span class='object_link'><a href="Wire.html#update_path_delay-instance_method" title="Netlist::Wire#update_path_delay (method)">#update_path_delay</a></span>, <span class='object_link'><a href="Wire.html#update_path_slack-instance_method" title="Netlist::Wire#update_path_slack (method)">#update_path_slack</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -532,7 +561,10 @@
 7
 8
 9
-10</pre>
+10
+11
+12
+13</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 6</span>
@@ -541,6 +573,9 @@
     <span class='kw'>super</span> <span class='id identifier rubyid_name'>name</span>
     <span class='ivar'>@partof</span> <span class='op'>=</span> <span class='id identifier rubyid_partof'>partof</span>
     <span class='ivar'>@direction</span> <span class='op'>=</span> <span class='id identifier rubyid_direction'>direction</span>
+    <span class='ivar'>@slack</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@cumulated_propag_time</span> <span class='op'>=</span> <span class='float'>0.0</span>
+    <span class='ivar'>@capacitance</span> <span class='op'>=</span> <span class='float'>0.0</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -767,6 +802,49 @@
 </table>
 </div>
     
+      
+      <span id="slack=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="slack-instance_method">
+  
+    #<strong>slack</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute slack.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 4</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_slack'>slack</span>
+  <span class='ivar'>@slack</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 
@@ -789,16 +867,16 @@
       <pre class="lines">
 
 
-56
-57
-58
 59
 60
 61
-62</pre>
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_dot_name'>get_dot_name</span>
     <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
@@ -827,16 +905,16 @@
       <pre class="lines">
 
 
-48
-49
-50
 51
 52
 53
-54</pre>
+54
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_full_name'>get_full_name</span>
     <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
@@ -887,9 +965,6 @@
       <pre class="lines">
 
 
-12
-13
-14
 15
 16
 17
@@ -901,10 +976,13 @@
 23
 24
 25
-26</pre>
+26
+27
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_free?'>is_free?</span>
     <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
@@ -963,12 +1041,12 @@
       <pre class="lines">
 
 
-36
-37
-38</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_global?'>is_global?</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1015,12 +1093,12 @@
       <pre class="lines">
 
 
-32
-33
-34</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_input?'>is_input?</span>
     <span class='kw'>return</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:in</span>
@@ -1067,12 +1145,12 @@
       <pre class="lines">
 
 
-40
-41
-42</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_output?'>is_output?</span>
     <span class='kw'>return</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:out</span>
@@ -1119,12 +1197,12 @@
       <pre class="lines">
 
 
-28
-29
-30</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_partof?'>is_partof?</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> 
@@ -1171,12 +1249,12 @@
       <pre class="lines">
 
 
-44
-45
-46</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_wire?'>is_wire?</span>
     <span class='kw'>return</span> <span class='kw'>false</span>
@@ -1195,33 +1273,49 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>def get_source_cum_propag_time</p>
+
+<pre class="code ruby"><code class="ruby">return get_source.class.name == &quot;Netlist::Wire&quot; ? source.@cumulated_propag_time : source.partof.cumulated_propag_time
+</code></pre>
+
+<p>end</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81</pre>
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 85</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_hash'>to_hash</span>
     <span class='lbrace'>{</span>
@@ -1251,7 +1345,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jan 24 13:38:46 2024 by
+  Generated on Wed Apr 17 16:20:27 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.2).
 </div>

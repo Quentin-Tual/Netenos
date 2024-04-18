@@ -368,9 +368,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>TODO : WIP.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -725,16 +723,16 @@
       <pre class="lines">
 
 
-266
-267
-268
-269
-270
-271
-272</pre>
+211
+212
+213
+214
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 266</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 211</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bool'>bool</span> <span class='id identifier rubyid_i'>i</span> 
     <span class='kw'>if</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span>
@@ -763,24 +761,24 @@
       <pre class="lines">
 
 
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391</pre>
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 377</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 312</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_conv_stim_2_vec_list'>conv_stim_2_vec_list</span> <span class='id identifier rubyid_trace'>trace</span>
     <span class='id identifier rubyid_vec_list'>vec_list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -817,32 +815,29 @@
       <pre class="lines">
 
 
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375</pre>
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 353</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 291</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convert_vec_list_2_stim'>convert_vec_list_2_stim</span> <span class='id identifier rubyid_vec_list'>vec_list</span>
     
@@ -858,10 +853,7 @@
     <span class='comment'># convert
 </span>    <span class='id identifier rubyid_vec_list'>vec_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_vec'>vec</span><span class='op'>|</span> 
         <span class='ivar'>@inputs</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pname'>pname</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
-            <span class='comment'># if vec.nil? 
-</span>            <span class='comment'>#     pp vec_list
-</span>            <span class='comment'># end
-</span>            <span class='ivar'>@stim</span><span class='lbracket'>[</span><span class='id identifier rubyid_pname'>pname</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_vec'>vec</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
+            <span class='ivar'>@stim</span><span class='lbracket'>[</span><span class='id identifier rubyid_pname'>pname</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_vec'>vec</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
         <span class='kw'>end</span>
     <span class='kw'>end</span>
 
@@ -887,35 +879,24 @@
       <pre class="lines">
 
 
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139</pre>
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_extend_exhaustive_all_trans'>extend_exhaustive_all_trans</span> <span class='id identifier rubyid_vec_list'>vec_list</span>
-    <span class='comment'># @stim (re)initialization
-</span>    <span class='comment'># @inputs.each do |pname, datatype|
-</span>    <span class='comment'>#     @stim[pname] = &quot;&quot;
-</span>    <span class='comment'># end
-</span>
+
     <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_vec_list'>vec_list</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
         <span class='id identifier rubyid_vec_list'>vec_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='op'>+</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_y'>y</span><span class='op'>|</span>
@@ -924,10 +905,7 @@
     <span class='kw'>end</span>
     <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_vec_list'>vec_list</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
 
-    <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_flatten!'>flatten!</span>
-    <span class='comment'># tmp.map!{|vec| vec.join(&quot;&quot;)}
-</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_tmp'>tmp</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -963,7 +941,7 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_extract_inputs_from_netlist'>extract_inputs_from_netlist</span> <span class='id identifier rubyid_netlist'>netlist</span>
     <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
     <span class='id identifier rubyid_netlist'>netlist</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
-        <span class='id identifier rubyid_ret'>ret</span><span class='lbracket'>[</span><span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>std_logic</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># ! Only bit type supported by Netenos yet
+        <span class='id identifier rubyid_ret'>ret</span><span class='lbracket'>[</span><span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>std_logic</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># ! Only bit and std_logic type supported by Netenos yet
 </span>    <span class='rbrace'>}</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_ret'>ret</span>
 <span class='kw'>end</span></pre>
@@ -987,6 +965,13 @@
       <pre class="lines">
 
 
+70
+71
+72
+73
+74
+75
+76
 77
 78
 79
@@ -1003,43 +988,16 @@
 90
 91
 92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119</pre>
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_exhaustive_incr_stim'>gen_exhaustive_incr_stim</span> <span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='op'>=</span><span class='kw'>nil</span>
 
     <span class='ivar'>@inputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pname'>pname</span><span class='comma'>,</span> <span class='id identifier rubyid_datatype'>datatype</span><span class='op'>|</span>
         <span class='ivar'>@stim</span><span class='lbracket'>[</span><span class='id identifier rubyid_pname'>pname</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
-
 
     <span class='id identifier rubyid_max_value'>max_value</span> <span class='op'>=</span> <span class='int'>2</span><span class='op'>**</span><span class='ivar'>@inputs</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
 
@@ -1050,17 +1008,6 @@
         <span class='id identifier rubyid_vec_list'>vec_list</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_bin_value'>bin_value</span><span class='period'>.</span><span class='id identifier rubyid_reverse'>reverse</span> <span class='comment'># reverse the list to keep the LSB for i0 and the MSB for iN (N : number of inputs - 1)
 </span>    <span class='kw'>end</span>
 
-    <span class='comment'># Compute all possible transitions from one vector to another
-</span>    <span class='comment'># vec_list = vec_list.permutation(2).to_a.flatten
-</span>    <span class='comment'># tmp = []
-</span>    <span class='comment'># vec_list.each_with_index do |x,i|
-</span>    <span class='comment'>#     vec_list[i+1..].each do |y|
-</span>    <span class='comment'>#         tmp &lt;&lt; [x,y]
-</span>    <span class='comment'>#     end
-</span>    <span class='comment'># end
-</span>    <span class='comment'># tmp &lt;&lt; vec_list[0]
-</span>    <span class='comment'># vec_list = tmp.flatten!
-</span>
     <span class='comment'># Conv from a list of vector to a dict of vector by signals
 </span>    <span class='id identifier rubyid_vec_list'>vec_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_vec'>vec</span><span class='op'>|</span> 
         <span class='ivar'>@inputs</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pname'>pname</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
@@ -1068,13 +1015,6 @@
         <span class='kw'>end</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># max_value.times do |value|
-</span>    <span class='comment'>#     bin_value = &#39;%0*b&#39; % [@inputs.length, value]
-</span>    <span class='comment'>#     @inputs.each_with_index do |pname, index|
-</span>    <span class='comment'>#         @stim[pname[0]].concat bin_value[index]
-</span>    <span class='comment'>#     end
-</span>    <span class='comment'># end
-</span>
     <span class='kw'>return</span> <span class='ivar'>@stim</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1150,14 +1090,7 @@
 65
 66
 67
-68
-69
-70
-71
-72
-73
-74
-75</pre>
+68</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 36</span>
@@ -1193,13 +1126,6 @@
         <span class='kw'>end</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># max_value.times do |value|
-</span>    <span class='comment'>#     bin_value = &#39;%0*b&#39; % [@inputs.length, value]
-</span>    <span class='comment'>#     @inputs.each_with_index do |pname, index|
-</span>    <span class='comment'>#         @stim[pname[0]].concat bin_value[index]
-</span>    <span class='comment'>#     end
-</span>    <span class='comment'># end
-</span>
     <span class='kw'>return</span> <span class='ivar'>@stim</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1222,36 +1148,17 @@
       <pre class="lines">
 
 
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167</pre>
+108
+109
+110
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_random_stim'>gen_random_stim</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span><span class='comma'>,</span> <span class='id identifier rubyid_trig_cond'>trig_cond</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='ivar'>@inputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_pname'>pname</span><span class='comma'>,</span> <span class='id identifier rubyid_pdatatype'>pdatatype</span><span class='op'>|</span>
@@ -1259,25 +1166,6 @@
         <span class='ivar'>@stim</span><span class='lbracket'>[</span><span class='id identifier rubyid_pname'>pname</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>%0*b</span><span class='tstring_end'>&#39;</span></span> <span class='op'>%</span> <span class='lbracket'>[</span><span class='id identifier rubyid_nb_cycle'>nb_cycle</span><span class='comma'>,</span> <span class='id identifier rubyid_rand_num'>rand_num</span><span class='rbracket'>]</span> <span class='comment'># preferred for bit stuffing MSBs 0s, forgot if using &#39;.to_s(2). method
 </span>    <span class='rbrace'>}</span>
 
-    <span class='comment'># ! : Replace by until in order to always have the right stimuli number, even when some are deleted to avoid HT triggering ?
-</span>    <span class='comment'># until @stim.values.last.length == nb_cycle
-</span>    <span class='comment'># print&quot;Removed cycle : &quot;
-</span>    <span class='comment'># nb_cycle.times do |j|
-</span>    <span class='comment'>#     @inputs.each { |pname, pdatatype|
-</span>    <span class='comment'>#         @stim[pname] &lt;&lt; get_rand_val(pdatatype)
-</span>    <span class='comment'>#     }
-</span>    <span class='comment'>#     # For each cycle generated, verify if the stimuli added activates the ht trigger, if it does remove them. 
-</span>    <span class='comment'>#     if !trig_cond.nil?
-</span>    <span class='comment'>#         if verify_ht_activation(trig_cond)
-</span>    <span class='comment'>#             # puts &quot;Another one : #{j}&quot;
-</span>    <span class='comment'>#             # puts &quot;triggered by :&quot;
-</span>    <span class='comment'>#             # @stim.keys.each{|pname| print &quot;#{@stim[pname].last}, &quot;}
-</span>    <span class='comment'>#             remove_last_stim
-</span>    <span class='comment'>#             # print &quot;#{j}, &quot;
-</span>    <span class='comment'>#         end
-</span>    <span class='comment'>#     end
-</span>    <span class='comment'># end
-</span>
     <span class='kw'>return</span> <span class='ivar'>@stim</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1294,64 +1182,53 @@
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>TODO : WIP</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204</pre>
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_sig_hammer_stim'>gen_sig_hammer_stim</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span>
-    <span class='comment'># ! : Easier to use with nb_cycle &gt;= 1000
+    <span class='comment'># ! : Use it cautiausly, with nb_cycle &gt;= 1000 computation increases drastically
 </span>    <span class='id identifier rubyid_nb_cycle'>nb_cycle</span> <span class='op'>=</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span><span class='op'>/</span><span class='lparen'>(</span><span class='ivar'>@inputs</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='op'>*</span><span class='int'>4</span><span class='rparen'>)</span> <span class='comment'># 3 transition following each stimuli # ? : Avoid the difference between the given nb_cycle and resulting nb_cycle
 </span>
     <span class='id identifier rubyid_gen_random_stim'>gen_random_stim</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span>
@@ -1405,19 +1282,19 @@
       <pre class="lines">
 
 
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291</pre>
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_rand_val'>get_rand_val</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bit</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span>
@@ -1449,25 +1326,18 @@
       <pre class="lines">
 
 
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351</pre>
+281
+282
+283
+284
+285
+286
+287
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 336</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 281</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_txt'>load_txt</span> <span class='id identifier rubyid_path'>path</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>4</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='op'>!=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.txt</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>5</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='op'>!=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.stim</span><span class='tstring_end'>&quot;</span></span>
@@ -1477,14 +1347,7 @@
     <span class='id identifier rubyid_vec_list'>vec_list</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span>
 
     <span class='kw'>return</span> <span class='id identifier rubyid_vec_list'>vec_list</span>
-    <span class='comment'># vec_list.each do |vec| 
-</span>    <span class='comment'>#     @inputs.each_with_index do |pname, index|
-</span>    <span class='comment'>#         @stim[pname[0]].concat vec[index]
-</span>    <span class='comment'>#     end
-</span>    <span class='comment'># end
-</span>    
-    <span class='comment'># puts src
-</span><span class='kw'>end</span></pre>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1505,16 +1368,16 @@
       <pre class="lines">
 
 
-274
-275
-276
-277
-278
-279
-280</pre>
+219
+220
+221
+222
+223
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 219</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_last_stim'>remove_last_stim</span>
     <span class='comment'># removed = []
@@ -1543,29 +1406,29 @@
       <pre class="lines">
 
 
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334</pre>
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 315</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 260</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_as_txt'>save_as_txt</span> <span class='id identifier rubyid_path'>path</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>4</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='op'>!=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.txt</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>5</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='op'>!=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.stim</span><span class='tstring_end'>&quot;</span></span>
@@ -1607,30 +1470,30 @@
       <pre class="lines">
 
 
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313</pre>
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 238</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_csv_stim_as'>save_csv_stim_as</span> <span class='id identifier rubyid_path'>path</span>
     <span class='id identifier rubyid_src'>src</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span> 
@@ -1673,21 +1536,23 @@
       <pre class="lines">
 
 
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404</pre>
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 393</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 328</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_vec_list'>save_vec_list</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_vec_list'>vec_list</span> 
     <span class='id identifier rubyid_src'>src</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span>
@@ -1696,7 +1561,9 @@
     <span class='id identifier rubyid_vec_list'>vec_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_vec'>vec</span><span class='op'>|</span>
         <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_vec'>vec</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='comment'># ! TEST DEBUG
 </span>            <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_vec'>vec</span><span class='comment'>#.reverse
-</span>        <span class='kw'>end</span>
+</span>        <span class='kw'>else</span> 
+            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : nil test vector encountered.</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
     <span class='kw'>end</span> 
 
     <span class='id identifier rubyid_src'>src</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span> <span class='id identifier rubyid_path'>path</span>
@@ -1721,72 +1588,68 @@
       <pre class="lines">
 
 
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
 206
 207
 208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264</pre>
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/genStim.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verify_ht_activation'>verify_ht_activation</span> <span class='id identifier rubyid_trig_cond'>trig_cond</span>
-    <span class='comment'># TODO : Iterate on the expression and stack the result obtained with different operations on generated entry values  
-</span>
     <span class='id identifier rubyid_acc_trig_value'>acc_trig_value</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='id identifier rubyid_last_word'>last_word</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='id identifier rubyid_trig_eval'>trig_eval</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1853,7 +1716,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jan 24 13:38:46 2024 by
+  Generated on Wed Apr 17 16:20:27 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.2).
 </div>

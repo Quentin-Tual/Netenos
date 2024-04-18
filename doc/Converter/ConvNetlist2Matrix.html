@@ -1092,7 +1092,7 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scanWires'>scanWires</span>
     <span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_wires'>wires</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_w'>w</span><span class='op'>|</span>
-        <span class='ivar'>@wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_get_sinks'>get_sinks</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sink'>sink</span><span class='op'>|</span> <span class='id identifier rubyid_sink'>sink</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='rbrace'>}</span> <span class='comment'># ! : could be a global output so reuse this function instead of retrieving .partof.name, however certainly optimisation possible
+        <span class='ivar'>@wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_get_sinks'>get_sinks</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sink'>sink</span><span class='op'>|</span> <span class='id identifier rubyid_sink'>sink</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='rbrace'>}</span> <span class='comment'># ! : could be a global output so reuse this function instead of retrieving .partof.name, however certainly optimization possible
 </span>    <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1137,7 +1137,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jan 24 13:38:46 2024 by
+  Generated on Wed Apr 17 16:20:28 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.2).
 </div>

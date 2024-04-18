@@ -9,6 +9,7 @@ module Netlist
             @direction = direction
             @slack = nil
             @cumulated_propag_time = 0.0
+            @capacitance = 0.0
         end
 
         def is_free?

@@ -27,7 +27,7 @@ class Test_compTbTraceCompt < Test_compTestbench
 
         # TODO : Instancier un comparateur et lancer la comparaison
         comparator = VCD::Vcd_Comparer.new
-        cycle_diff = comparator.compare_comparative_tb_traces t["output_traces"], @circ_init.get_outputs.collect{|o| "tb_#{o.name}_s"}, @circ_init.crit_path_length+1
+        cycle_diff = comparator.compare_comparative_tb_traces t["output_traces"], @circ_init.get_outputs.collect{|o| "tb_#{o.name}_s"}, @circ_init.crit_path_length+1, @circ_alt.crit_path_length+1
 
         pp cycle_diff
         # TODO : Vérifier la correspondance du print avec gtkwave
@@ -35,8 +35,11 @@ class Test_compTbTraceCompt < Test_compTestbench
 
 end
 
-Dir.chdir("tmp") do
-    puts "Lancement #{__FILE__}" 
-    env = Test_compTbTraceCompt.new
-    puts "Fin #{__FILE__}"
-end
+if __FILE__ == $0
+    Dir.chdir("tmp") do
+        puts "Lancement #{__FILE__}" 
+        env = Test_compTbTraceCompt.new
+        puts "Fin #{__FILE__}"
+    end
+  end
+  
