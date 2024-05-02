@@ -288,6 +288,18 @@ module Converter
             return vec_list
         end 
 
+        def convert_vec_list_2_bool vec_list
+            vec_list.collect do |vec|
+                vec.chars.collect do |b|
+                    if b == "0"
+                        false
+                    else 
+                        true
+                    end
+                end
+            end 
+        end
+
         def convert_vec_list_2_stim vec_list
             
             # Reinitialize

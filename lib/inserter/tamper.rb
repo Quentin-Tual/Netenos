@@ -74,7 +74,7 @@ module Inserter
 
             local_exp = to_global_exp(local_exp)
 
-            return local_exp
+            return local_exp[0]
         end
 
         def to_global_exp local_exp
@@ -124,7 +124,7 @@ module Inserter
                 end
             end 
 
-            pp global_exp
+            # pp global_exp  #!DEBUG
             return global_exp
         end 
 
@@ -281,7 +281,7 @@ module Inserter
                 end
             end
 
-            raise "Error: no minimum stage found for HT location selection."
+            raise "Error: no minimum stage found for HT location selection. -> #{min_stage} : #{nb_trigger_sig} / #{nb_available_sig}"
             # return min_stage
         end
 

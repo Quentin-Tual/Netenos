@@ -13,6 +13,11 @@ module Netlist
         end
 
         def <= source 
+
+            if source.nil? 
+                raise "Error: nil source given."
+            end
+
             if source.is_a? Port 
                 if !source.is_global? and source.is_input?
                     raise "Error : This port #{source.get_full_name} is a non global input and can't be used as a source."
@@ -25,8 +30,13 @@ module Netlist
                 end
             end
 
-            source.fanout << self
-            
+            if source.is_a? Port or source.is_a? Wire
+                source.fanout << self
+            else
+                pp source.class
+                source.get_free_input << self
+            end
+
             if @fanin.nil?
                 @fanin = source
             else

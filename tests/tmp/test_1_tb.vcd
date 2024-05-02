@@ -1,0 +1,3490 @@
+$date
+	Tue Apr 30 19:11:45 2024
+
+$end
+$version
+	nvc 1.13-devel
+$end
+$timescale
+	1fs
+$end
+$attrbegin misc 03 /home/quentint/Workspace/Ruby/Netenos/tests/tmp/test_1_tb.vhd 1 $end
+$attrbegin misc 04 1 12 $end
+$scope vhdl_architecture test_1_tb $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 ! nom_clk $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 " obs_clk $end
+$attrbegin misc 02 STD_LOGIC_VECTOR 1029 $end
+$var logic 8 # tb_in[7:0] $end
+$attrbegin misc 02 STD_LOGIC_VECTOR 1029 $end
+$var logic 4 $ tb_out_init[3:0] $end
+$attrbegin misc 02 STD_LOGIC_VECTOR 1029 $end
+$var logic 4 % tb_out_alt[3:0] $end
+$attrbegin misc 02 STD_LOGIC_VECTOR 1029 $end
+$var logic 4 & tb_out_diff[3:0] $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 ' tb_o0 $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 ( tb_o0_s $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 ) tb_o1 $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 * tb_o1_s $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 + tb_o2 $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 , tb_o2_s $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 - tb_o3 $end
+$attrbegin misc 02 STD_LOGIC 1030 $end
+$var logic 1 . tb_o3_s $end
+$attrbegin misc 02 BOOLEAN 1025 $end
+$var string 0 / running $end
+$attrbegin misc 02 BOOLEAN 1025 $end
+$var string 0 0 phase_shift $end
+$attrbegin misc 03 /home/quentint/Workspace/Ruby/Netenos/tests/tmp/test.vhd 2 $end
+$attrbegin misc 04 2 24 $end
+$scope vhdl_architecture ref_unit $end
+$attrbegin misc 03 /home/quentint/Workspace/Ruby/Netenos/tests/tmp/not_d.vhd 3 $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not60 $end
+$upscope $end
+$attrbegin misc 03 /home/quentint/Workspace/Ruby/Netenos/tests/tmp/or2_d.vhd 4 $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or280 $end
+$upscope $end
+$attrbegin misc 03 /home/quentint/Workspace/Ruby/Netenos/tests/tmp/nor2_d.vhd 5 $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2100 $end
+$upscope $end
+$attrbegin misc 03 /home/quentint/Workspace/Ruby/Netenos/tests/tmp/nand2_d.vhd 6 $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2120 $end
+$upscope $end
+$attrbegin misc 03 /home/quentint/Workspace/Ruby/Netenos/tests/tmp/and2_d.vhd 7 $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2140 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not160 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2180 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not200 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2220 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2240 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2260 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2280 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2300 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2320 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2340 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2360 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2380 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2400 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2420 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2440 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2460 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2480 $end
+$upscope $end
+$attrbegin misc 03 /home/quentint/Workspace/Ruby/Netenos/tests/tmp/xor2_d.vhd 8 $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor2500 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2520 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2540 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2560 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not580 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor2600 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor2620 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2640 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2660 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not680 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2700 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2720 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2740 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not760 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2780 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2800 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2820 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor2840 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2860 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2880 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2900 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2920 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2940 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2960 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not980 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21000 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not1020 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor21040 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21060 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or21080 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor21100 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand21120 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand21140 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand21160 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor21180 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or21200 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21220 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not1240 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand21260 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21280 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or21300 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21320 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and21340 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and21360 $end
+$upscope $end
+$upscope $end
+$attrbegin misc 03 /home/quentint/Workspace/Ruby/Netenos/tests/tmp/alt.vhd 9 $end
+$attrbegin misc 04 9 24 $end
+$scope vhdl_architecture uut $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not60 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or280 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2100 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2120 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2140 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not160 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2180 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not200 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2220 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2240 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2260 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2280 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2300 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2320 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2340 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2360 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2380 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2400 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2420 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2440 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2460 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2480 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor2500 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2520 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2540 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2560 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not580 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor2600 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor2620 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2640 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2660 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not680 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2700 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2720 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2740 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not760 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2780 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2800 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2820 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor2840 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and2860 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or2880 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2900 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2920 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand2940 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor2960 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not980 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21000 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not1020 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor21040 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21060 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or21080 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor21100 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand21120 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand21140 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand21160 $end
+$upscope $end
+$attrbegin misc 04 5 15 $end
+$scope vhdl_architecture nor21180 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or21200 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21220 $end
+$upscope $end
+$attrbegin misc 04 3 14 $end
+$scope vhdl_architecture not1240 $end
+$upscope $end
+$attrbegin misc 04 6 15 $end
+$scope vhdl_architecture nand21260 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21280 $end
+$upscope $end
+$attrbegin misc 04 4 15 $end
+$scope vhdl_architecture or21300 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor21320 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and21340 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and21360 $end
+$upscope $end
+$attrbegin misc 04 8 15 $end
+$scope vhdl_architecture xor22860 $end
+$upscope $end
+$attrbegin misc 04 7 15 $end
+$scope vhdl_architecture and22880 $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+sfalse 0
+strue 0
+strue /
+u.
+u-
+u,
+u+
+u*
+u)
+u(
+u'
+bUUUU &
+bUUUU %
+bUUUU $
+b00000000 #
+1"
+1!
+$end
+#3000
+b0UU0 $
+b0UU0 %
+b0UU0 &
+0'
+0-
+#4000
+b00U0 &
+b01U0 %
+b01U0 $
+0+
+#10000
+b0100 $
+b0100 %
+b0000 &
+0)
+#14750
+0!
+0"
+#29500
+1"
+1!
+b10000000 #
+0(
+0*
+0,
+0.
+#37500
+b0110 %
+b0110 $
+#44250
+0!
+0"
+#59000
+1"
+1!
+b01000000 #
+#63000
+b0010 $
+b0010 %
+#65000
+b0110 %
+b0110 $
+#66000
+b0100 %
+1)
+b0010 &
+#67000
+b0110 %
+b0100 $
+#68000
+b0110 $
+b0100 %
+#73750
+0!
+0"
+#88500
+1"
+1!
+b11000000 #
+1*
+#92500
+b0000 %
+b0010 $
+#96500
+b0100 $
+b0110 %
+#99500
+b0100 %
+b0110 $
+#103250
+0!
+0"
+#118000
+1"
+1!
+b00100000 #
+#125000
+b0110 %
+b0000 &
+0)
+#127000
+b0100 %
+b0100 $
+#132750
+0!
+0"
+#147500
+1"
+1!
+b10100000 #
+0*
+#155500
+b0110 $
+b0110 %
+#162250
+0!
+0"
+#177000
+1"
+1!
+b01100000 #
+#191750
+0!
+0"
+#206500
+1"
+1!
+b11100000 #
+#210500
+b0010 %
+b0010 $
+#214500
+b0100 $
+b0100 %
+#217500
+b0110 %
+b0110 $
+#221250
+0!
+0"
+#236000
+1"
+1!
+b00010000 #
+#250750
+0!
+0"
+#265500
+1"
+1!
+b10010000 #
+#280250
+0!
+0"
+#295000
+1"
+1!
+b01010000 #
+#301000
+b0010 $
+b0010 %
+#302000
+b0000 %
+1)
+b0010 &
+#304000
+b0010 %
+b0000 $
+#306000
+b0100 $
+b0110 %
+#309750
+0!
+0"
+#324500
+1"
+1!
+b11010000 #
+1*
+#333500
+b0100 %
+b0110 $
+#339250
+0!
+0"
+#354000
+1"
+1!
+b00110000 #
+#361000
+b0110 %
+b0000 &
+0)
+#368750
+0!
+0"
+#383500
+1"
+1!
+b10110000 #
+0*
+#398250
+0!
+0"
+#413000
+1"
+1!
+b01110000 #
+#422000
+b0100 %
+b0100 $
+#424000
+b0000 $
+b0000 %
+#425000
+b0100 %
+b0100 $
+#427750
+0!
+0"
+#442500
+1"
+1!
+b11110000 #
+#451500
+b0110 $
+b0110 %
+#457250
+0!
+0"
+#472000
+1"
+1!
+b00001000 #
+#480000
+b0100 %
+b0100 $
+#481000
+b0000 $
+b0000 %
+#486750
+0!
+0"
+#501500
+1"
+1!
+b10001000 #
+#505500
+b0100 %
+b0100 $
+#509500
+b0110 $
+b0110 %
+#516250
+0!
+0"
+#531000
+1"
+1!
+b01001000 #
+#535000
+b0010 %
+b0010 $
+#537000
+b0110 $
+b0110 %
+#538000
+b0100 %
+1)
+b0010 &
+#539000
+b0110 %
+b0100 $
+#540000
+b0110 $
+b0100 %
+#545750
+0!
+0"
+#560500
+1"
+1!
+b11001000 #
+1*
+#564500
+b0000 %
+b0010 $
+#568500
+b0100 $
+b0110 %
+#571500
+b0100 %
+b0110 $
+#575250
+0!
+0"
+#590000
+1"
+1!
+b00101000 #
+#594000
+b0010 $
+b0000 %
+#597000
+b0010 %
+b0000 &
+0)
+#599000
+b0000 %
+b0000 $
+#604750
+0!
+0"
+#619500
+1"
+1!
+b10101000 #
+0*
+#623500
+b0100 $
+b0100 %
+#627500
+b0110 %
+b0110 $
+#634250
+0!
+0"
+#649000
+1"
+1!
+b01101000 #
+#663750
+0!
+0"
+#678500
+1"
+1!
+b11101000 #
+#682500
+b0010 $
+b0010 %
+#686500
+b0100 %
+b0100 $
+#689500
+b0110 $
+b0110 %
+#693250
+0!
+0"
+#708000
+1"
+1!
+b00011000 #
+#722750
+0!
+0"
+#737500
+1"
+1!
+b10011000 #
+#752250
+0!
+0"
+#767000
+1"
+1!
+b01011000 #
+#773000
+b0010 %
+b0010 $
+#774000
+b0000 %
+1)
+b0010 &
+#776000
+b0010 %
+b0000 $
+#778000
+b0100 $
+b0110 %
+#781750
+0!
+0"
+#796500
+1"
+1!
+b11011000 #
+1*
+#805500
+b0100 %
+b0110 $
+#811250
+0!
+0"
+#826000
+1"
+1!
+b00111000 #
+#833000
+b0110 %
+b0000 &
+0)
+#840750
+0!
+0"
+#855500
+1"
+1!
+b10111000 #
+0*
+#870250
+0!
+0"
+#885000
+1"
+1!
+b01111000 #
+#894000
+b0100 %
+b0100 $
+#896000
+b0000 $
+b0000 %
+#897000
+b0100 %
+b0100 $
+#899750
+0!
+0"
+#914500
+1"
+1!
+b11111000 #
+#923500
+b0110 $
+b0110 %
+#929250
+0!
+0"
+#944000
+1"
+1!
+b00000100 #
+#952000
+b0100 %
+b0100 $
+#958750
+0!
+0"
+#973500
+1"
+1!
+b10000100 #
+#981500
+b0110 $
+b0110 %
+#988250
+0!
+0"
+#1003000
+1"
+1!
+b01000100 #
+#1007000
+b0010 %
+b0010 $
+#1008000
+b0110 $
+b0110 %
+#1010000
+b0100 %
+1)
+b0010 &
+#1011000
+b0110 %
+b0100 $
+#1017750
+0!
+0"
+#1032500
+1"
+1!
+b11000100 #
+1*
+#1040500
+b0110 $
+b0100 %
+#1047250
+0!
+0"
+#1062000
+1"
+1!
+b00100100 #
+#1067000
+b0110 %
+b0100 $
+#1068000
+b0110 $
+b0100 %
+#1069000
+b0110 %
+b0000 &
+0)
+#1071000
+b0100 %
+b0100 $
+#1076750
+0!
+0"
+#1091500
+1"
+1!
+b10100100 #
+0*
+#1099500
+b0110 $
+b0110 %
+#1106250
+0!
+0"
+#1121000
+1"
+1!
+b01100100 #
+#1130000
+b0100 %
+b0100 $
+#1135750
+0!
+0"
+#1150500
+1"
+1!
+b11100100 #
+#1158500
+b0110 $
+b0110 %
+#1165250
+0!
+0"
+#1180000
+1"
+1!
+b00010100 #
+#1184000
+b0100 %
+b0100 $
+#1186000
+b0110 %
+1)
+b0010 &
+#1187000
+b0100 %
+b0110 $
+#1188000
+b0110 %
+b0000 &
+0)
+#1194750
+0!
+0"
+#1209500
+1"
+1!
+b10010100 #
+#1224250
+0!
+0"
+#1239000
+1"
+1!
+b01010100 #
+#1248000
+b0100 %
+b0100 $
+#1249000
+b0110 $
+b0110 %
+#1253750
+0!
+0"
+#1268500
+1"
+1!
+b11010100 #
+#1277500
+b0100 %
+b0100 $
+#1283250
+0!
+0"
+#1298000
+1"
+1!
+b00110100 #
+#1303000
+b0110 $
+1)
+b0010 &
+#1304000
+b0100 $
+b0110 %
+#1305000
+b0100 %
+b0110 $
+#1306000
+b0110 %
+b0000 &
+0)
+#1312750
+0!
+0"
+#1327500
+1"
+1!
+b10110100 #
+#1342250
+0!
+0"
+#1357000
+1"
+1!
+b01110100 #
+#1366000
+b0100 %
+b0100 $
+#1367000
+b0110 $
+b0110 %
+#1371750
+0!
+0"
+#1386500
+1"
+1!
+b11110100 #
+#1395500
+b0100 %
+b0100 $
+#1401250
+0!
+0"
+#1416000
+1"
+1!
+b00001100 #
+#1420000
+b1101 $
+b1101 %
+#1421000
+b0010 %
+b0010 $
+#1422000
+b0100 $
+b0110 %
+1)
+b0010 &
+#1423000
+b0000 &
+0)
+b0010 %
+b0010 $
+#1424000
+b0000 $
+b0000 %
+#1430750
+0!
+0"
+#1445500
+1"
+1!
+b10001100 #
+#1449500
+b0100 %
+b0100 $
+#1453500
+b0110 $
+b0110 %
+#1460250
+0!
+0"
+#1475000
+1"
+1!
+b01001100 #
+#1482000
+b0100 %
+1)
+b0010 &
+#1483000
+b0110 %
+b0100 $
+#1489750
+0!
+0"
+#1504500
+1"
+1!
+b11001100 #
+1*
+#1512500
+b0110 $
+b0100 %
+#1519250
+0!
+0"
+#1534000
+1"
+1!
+b00101100 #
+#1539000
+b0000 %
+b0010 $
+#1541000
+b0010 %
+b0000 &
+0)
+#1543000
+b0000 %
+b0000 $
+#1548750
+0!
+0"
+#1563500
+1"
+1!
+b10101100 #
+0*
+#1567500
+b0100 $
+b0100 %
+#1571500
+b0110 %
+b0110 $
+#1578250
+0!
+0"
+#1593000
+1"
+1!
+b01101100 #
+#1602000
+b0100 $
+b0100 %
+#1607750
+0!
+0"
+#1622500
+1"
+1!
+b11101100 #
+#1630500
+b0110 %
+b0110 $
+#1637250
+0!
+0"
+#1652000
+1"
+1!
+b00011100 #
+#1656000
+b1111 $
+b1111 %
+#1657000
+b0110 %
+b0110 $
+#1658000
+b0100 $
+1)
+b0010 &
+#1659000
+b0110 $
+b0100 %
+#1660000
+b0110 %
+b0000 &
+0)
+#1666750
+0!
+0"
+#1681500
+1"
+1!
+b10011100 #
+#1696250
+0!
+0"
+#1711000
+1"
+1!
+b01011100 #
+#1715000
+b0010 %
+b0010 $
+#1716000
+b0110 $
+b0110 %
+#1718000
+b0100 %
+b0100 $
+#1721000
+b0110 $
+b0110 %
+#1725750
+0!
+0"
+#1740500
+1"
+1!
+b11011100 #
+#1755250
+0!
+0"
+#1770000
+1"
+1!
+b00111100 #
+#1775000
+b0100 $
+1)
+b0010 &
+#1777000
+b0110 $
+b0100 %
+#1778000
+b0110 %
+b0000 &
+0)
+#1784750
+0!
+0"
+#1799500
+1"
+1!
+b10111100 #
+#1814250
+0!
+0"
+#1829000
+1"
+1!
+b01111100 #
+#1836000
+b0100 %
+b0100 $
+#1839000
+b0110 $
+b0110 %
+#1843750
+0!
+0"
+#1858500
+1"
+1!
+b11111100 #
+#1873250
+0!
+0"
+#1888000
+1"
+1!
+b00000010 #
+#1892000
+b0100 %
+b0100 $
+#1894000
+b0110 $
+1)
+b0010 &
+#1895000
+b0000 &
+0)
+b0110 %
+#1898000
+b0100 %
+b0100 $
+#1902750
+0!
+0"
+#1917500
+1"
+1!
+b10000010 #
+#1925500
+b0110 $
+b0110 %
+#1932250
+0!
+0"
+#1947000
+1"
+1!
+b01000010 #
+#1951000
+b0010 %
+b0010 $
+#1953000
+b0110 $
+b0110 %
+#1954000
+b0100 %
+1)
+b0010 &
+#1955000
+b0110 %
+b0100 $
+#1956000
+b0110 $
+b0100 %
+#1957000
+b0100 $
+b0000 &
+0)
+#1961750
+0!
+0"
+#1976500
+1"
+1!
+b11000010 #
+#1980500
+b0000 $
+b0000 %
+#1984500
+b0110 %
+b0110 $
+#1987500
+b0100 $
+b0100 %
+#1991250
+0!
+0"
+#2006000
+1"
+1!
+b00100010 #
+#2015000
+b0110 %
+b0110 $
+#2016000
+b0100 $
+b0100 %
+#2020750
+0!
+0"
+#2035500
+1"
+1!
+b10100010 #
+#2043500
+b0110 %
+b0110 $
+#2050250
+0!
+0"
+#2065000
+1"
+1!
+b01100010 #
+#2075000
+b0100 $
+b0100 %
+#2079750
+0!
+0"
+#2094500
+1"
+1!
+b11100010 #
+#2098500
+b0000 %
+b0000 $
+#2102500
+b0110 $
+b0110 %
+#2105500
+b0100 %
+b0100 $
+#2109250
+0!
+0"
+#2124000
+1"
+1!
+b00010010 #
+#2138750
+0!
+0"
+#2153500
+1"
+1!
+b10010010 #
+#2168250
+0!
+0"
+#2183000
+1"
+1!
+b01010010 #
+#2189000
+b0000 $
+b0000 %
+#2192000
+b0010 %
+b0010 $
+#2194000
+b0110 $
+b0110 %
+#2197750
+0!
+0"
+#2212500
+1"
+1!
+b11010010 #
+#2221500
+b0100 %
+b0100 $
+#2227250
+0!
+0"
+#2242000
+1"
+1!
+b00110010 #
+#2256750
+0!
+0"
+#2271500
+1"
+1!
+b10110010 #
+#2286250
+0!
+0"
+#2301000
+1"
+1!
+b01110010 #
+#2307000
+b0000 $
+b0000 %
+#2310000
+b0010 %
+b0010 $
+#2312000
+b0110 $
+b0110 %
+#2313000
+b0010 %
+b0010 $
+#2315750
+0!
+0"
+#2330500
+1"
+1!
+b11110010 #
+#2336500
+b0110 $
+b0110 %
+#2339500
+b0100 %
+b0100 $
+#2345250
+0!
+0"
+#2360000
+1"
+1!
+b00001010 #
+#2364000
+b0000 $
+b0000 %
+#2368000
+b0010 %
+b0010 $
+#2374750
+0!
+0"
+#2389500
+1"
+1!
+b10001010 #
+#2393500
+b0110 $
+b0110 %
+#2397500
+b0100 %
+b0100 $
+#2404250
+0!
+0"
+#2419000
+1"
+1!
+b01001010 #
+#2423000
+b0000 $
+b0000 %
+#2425000
+b0100 %
+b0100 $
+#2427000
+b0110 $
+b0110 %
+#2428000
+b0100 %
+b0100 $
+#2433750
+0!
+0"
+#2448500
+1"
+1!
+b11001010 #
+#2452500
+b0000 $
+b0000 %
+#2456500
+b0110 %
+b0110 $
+#2459500
+b0100 $
+b0100 %
+#2463250
+0!
+0"
+#2478000
+1"
+1!
+b00101010 #
+#2482000
+b0000 %
+b0000 $
+#2487000
+b0010 $
+b0010 %
+#2492750
+0!
+0"
+#2507500
+1"
+1!
+b10101010 #
+#2511500
+b0110 %
+b0110 $
+#2515500
+b0100 $
+b0100 %
+#2522250
+0!
+0"
+#2537000
+1"
+1!
+b01101010 #
+#2541000
+b0000 %
+b0000 $
+#2543000
+b0100 $
+b0100 %
+#2551750
+0!
+0"
+#2566500
+1"
+1!
+b11101010 #
+#2570500
+b0000 %
+b0000 $
+#2574500
+b0110 $
+b0110 %
+#2577500
+b0100 %
+b0100 $
+#2581250
+0!
+0"
+#2596000
+1"
+1!
+b00011010 #
+#2610750
+0!
+0"
+#2625500
+1"
+1!
+b10011010 #
+#2640250
+0!
+0"
+#2655000
+1"
+1!
+b01011010 #
+#2661000
+b0000 $
+b0000 %
+#2664000
+b0010 %
+b0010 $
+#2666000
+b0110 $
+b0110 %
+#2669750
+0!
+0"
+#2684500
+1"
+1!
+b11011010 #
+#2693500
+b0100 %
+b0100 $
+#2699250
+0!
+0"
+#2714000
+1"
+1!
+b00111010 #
+#2728750
+0!
+0"
+#2743500
+1"
+1!
+b10111010 #
+#2758250
+0!
+0"
+#2773000
+1"
+1!
+b01111010 #
+#2779000
+b0000 $
+b0000 %
+#2782000
+b0010 %
+b0010 $
+#2784000
+b0110 $
+b0110 %
+#2785000
+b0010 %
+b0010 $
+#2787750
+0!
+0"
+#2802500
+1"
+1!
+b11111010 #
+#2808500
+b0110 $
+b0110 %
+#2811500
+b0100 %
+b0100 $
+#2817250
+0!
+0"
+#2832000
+1"
+1!
+b00000110 #
+#2840000
+b0110 $
+b0110 %
+#2842000
+b0100 %
+b0100 $
+#2846750
+0!
+0"
+#2861500
+1"
+1!
+b10000110 #
+#2869500
+b0110 $
+b0110 %
+#2876250
+0!
+0"
+#2891000
+1"
+1!
+b01000110 #
+#2895000
+b0010 %
+b0010 $
+#2896000
+b0110 $
+b0110 %
+#2898000
+b0100 %
+1)
+b0010 &
+#2899000
+b0110 %
+b0100 $
+#2901000
+b0110 $
+b0000 &
+0)
+#2905750
+0!
+0"
+#2920500
+1"
+1!
+b11000110 #
+#2928500
+b0100 $
+b0100 %
+#2935250
+0!
+0"
+#2950000
+1"
+1!
+b00100110 #
+#2955000
+b0110 %
+b0110 $
+#2956000
+b0100 $
+b0100 %
+#2959000
+b0110 %
+b0110 $
+#2960000
+b0100 $
+b0100 %
+#2964750
+0!
+0"
+#2979500
+1"
+1!
+b10100110 #
+#2987500
+b0110 %
+b0110 $
+#2994250
+0!
+0"
+#3009000
+1"
+1!
+b01100110 #
+#3018000
+b0100 $
+b0100 %
+#3019000
+b0110 %
+b0110 $
+#3023750
+0!
+0"
+#3038500
+1"
+1!
+b11100110 #
+#3046500
+b0100 $
+b0100 %
+#3053250
+0!
+0"
+#3068000
+1"
+1!
+b00010110 #
+#3073000
+b0110 %
+b0110 $
+#3074000
+b0100 $
+b0100 %
+#3082750
+0!
+0"
+#3097500
+1"
+1!
+b10010110 #
+#3112250
+0!
+0"
+#3127000
+1"
+1!
+b01010110 #
+#3132000
+b0110 %
+b0110 $
+#3136000
+b0100 $
+b0100 %
+#3137000
+b0110 %
+b0110 $
+#3141750
+0!
+0"
+#3156500
+1"
+1!
+b11010110 #
+#3165500
+b0100 $
+b0100 %
+#3171250
+0!
+0"
+#3186000
+1"
+1!
+b00110110 #
+#3191000
+b0110 %
+b0110 $
+#3192000
+b0100 $
+b0100 %
+#3200750
+0!
+0"
+#3215500
+1"
+1!
+b10110110 #
+#3230250
+0!
+0"
+#3245000
+1"
+1!
+b01110110 #
+#3250000
+b0110 %
+b0110 $
+#3254000
+b0100 $
+b0100 %
+#3255000
+b0110 %
+b0110 $
+#3259750
+0!
+0"
+#3274500
+1"
+1!
+b11110110 #
+#3283500
+b0100 $
+b0100 %
+#3289250
+0!
+0"
+#3304000
+1"
+1!
+b00001110 #
+#3308000
+b1101 %
+b1101 $
+#3309000
+b0010 $
+b0010 %
+#3310000
+b0110 %
+b0110 $
+#3311000
+b0000 $
+b0000 %
+#3312000
+b0010 %
+b0010 $
+#3318750
+0!
+0"
+#3333500
+1"
+1!
+b10001110 #
+#3337500
+b0110 $
+b0110 %
+#3341500
+b0100 %
+b0100 $
+#3348250
+0!
+0"
+#3363000
+1"
+1!
+b01001110 #
+#3371000
+b0110 $
+b0110 %
+#3377750
+0!
+0"
+#3392500
+1"
+1!
+b11001110 #
+#3400500
+b0100 %
+b0100 $
+#3407250
+0!
+0"
+#3422000
+1"
+1!
+b00101110 #
+#3427000
+b0000 $
+b0000 %
+#3431000
+b0010 %
+b0010 $
+#3436750
+0!
+0"
+#3451500
+1"
+1!
+b10101110 #
+#3455500
+b0110 $
+b0110 %
+#3459500
+b0100 %
+b0100 $
+#3466250
+0!
+0"
+#3481000
+1"
+1!
+b01101110 #
+#3490000
+b0110 $
+b0110 %
+#3495750
+0!
+0"
+#3510500
+1"
+1!
+b11101110 #
+#3518500
+b0100 %
+b0100 $
+#3525250
+0!
+0"
+#3540000
+1"
+1!
+b00011110 #
+#3544000
+b1111 $
+b1111 %
+#3545000
+b0100 %
+b0100 $
+#3554750
+0!
+0"
+#3569500
+1"
+1!
+b10011110 #
+#3584250
+0!
+0"
+#3599000
+1"
+1!
+b01011110 #
+#3603000
+b0000 $
+b0000 %
+#3604000
+b0110 %
+b0110 $
+#3606000
+b0100 $
+b0100 %
+#3609000
+b0110 %
+b0110 $
+#3613750
+0!
+0"
+#3628500
+1"
+1!
+b11011110 #
+#3643250
+0!
+0"
+#3658000
+1"
+1!
+b00111110 #
+#3663000
+b0100 $
+b0100 %
+#3672750
+0!
+0"
+#3687500
+1"
+1!
+b10111110 #
+#3702250
+0!
+0"
+#3717000
+1"
+1!
+b01111110 #
+#3721000
+b0000 %
+b0000 $
+#3722000
+b0110 $
+b0110 %
+#3724000
+b0100 %
+b0100 $
+#3727000
+b0110 $
+b0110 %
+#3731750
+0!
+0"
+#3746500
+1"
+1!
+b11111110 #
+#3761250
+0!
+0"
+#3776000
+1"
+1!
+b00000001 #
+#3780000
+b0100 %
+b0100 $
+#3784000
+b0110 $
+b0110 %
+#3790750
+0!
+0"
+#3805500
+1"
+1!
+b10000001 #
+#3820250
+0!
+0"
+#3835000
+1"
+1!
+b01000001 #
+#3839000
+b0010 %
+b0010 $
+#3841000
+b0110 $
+b0110 %
+#3842000
+b0100 %
+1)
+b0010 &
+#3844000
+b0110 %
+b0100 $
+#3849750
+0!
+0"
+#3864500
+1"
+1!
+b11000001 #
+1*
+#3868500
+b0000 $
+b0010 %
+#3872500
+b0110 %
+b0100 $
+#3875500
+b0110 $
+b0100 %
+#3879250
+0!
+0"
+#3894000
+1"
+1!
+b00100001 #
+#3901000
+b0110 %
+b0000 &
+0)
+#3908750
+0!
+0"
+#3923500
+1"
+1!
+b10100001 #
+0*
+#3938250
+0!
+0"
+#3953000
+1"
+1!
+b01100001 #
+#3962000
+b0100 %
+b0100 $
+#3967750
+0!
+0"
+#3982500
+1"
+1!
+b11100001 #
+#3986500
+b0000 $
+b0000 %
+#3990500
+b0100 %
+b0100 $
+#3993500
+b0110 $
+b0110 %
+#3997250
+0!
+0"
+#4012000
+1"
+1!
+b00010001 #
+#4026750
+0!
+0"
+#4041500
+1"
+1!
+b10010001 #
+#4056250
+0!
+0"
+#4071000
+1"
+1!
+b01010001 #
+#4077000
+b0010 %
+b0010 $
+#4078000
+b0000 %
+1)
+b0010 &
+#4080000
+b0010 %
+b0000 $
+#4082000
+b0100 $
+b0110 %
+#4085750
+0!
+0"
+#4100500
+1"
+1!
+b11010001 #
+1*
+#4109500
+b0100 %
+b0110 $
+#4115250
+0!
+0"
+#4130000
+1"
+1!
+b00110001 #
+#4137000
+b0110 %
+b0000 &
+0)
+#4144750
+0!
+0"
+#4159500
+1"
+1!
+b10110001 #
+0*
+#4174250
+0!
+0"
+#4189000
+1"
+1!
+b01110001 #
+#4198000
+b0100 %
+b0100 $
+#4200000
+b0000 $
+b0000 %
+#4201000
+b0100 %
+b0100 $
+#4203750
+0!
+0"
+#4218500
+1"
+1!
+b11110001 #
+#4227500
+b0110 $
+b0110 %
+#4233250
+0!
+0"
+#4248000
+1"
+1!
+b00001001 #
+#4257000
+b0010 %
+b0010 $
+#4262750
+0!
+0"
+#4277500
+1"
+1!
+b10001001 #
+#4281500
+b0110 $
+b0110 %
+#4292250
+0!
+0"
+#4307000
+1"
+1!
+b01001001 #
+#4311000
+b0010 %
+b0010 $
+#4313000
+b0110 $
+b0110 %
+#4314000
+b0100 %
+1)
+b0010 &
+#4316000
+b0110 %
+b0100 $
+#4321750
+0!
+0"
+#4336500
+1"
+1!
+b11001001 #
+1*
+#4340500
+b0000 $
+b0010 %
+#4344500
+b0110 %
+b0100 $
+#4347500
+b0110 $
+b0100 %
+#4351250
+0!
+0"
+#4366000
+1"
+1!
+b00101001 #
+#4370000
+b0000 %
+b0010 $
+#4373000
+b0010 %
+b0000 &
+0)
+#4380750
+0!
+0"
+#4395500
+1"
+1!
+b10101001 #
+0*
+#4399500
+b0110 %
+b0110 $
+#4410250
+0!
+0"
+#4425000
+1"
+1!
+b01101001 #
+#4434000
+b0100 $
+b0100 %
+#4439750
+0!
+0"
+#4454500
+1"
+1!
+b11101001 #
+#4458500
+b0000 %
+b0000 $
+#4462500
+b0100 $
+b0100 %
+#4465500
+b0110 %
+b0110 $
+#4469250
+0!
+0"
+#4484000
+1"
+1!
+b00011001 #
+#4498750
+0!
+0"
+#4513500
+1"
+1!
+b10011001 #
+#4528250
+0!
+0"
+#4543000
+1"
+1!
+b01011001 #
+#4549000
+b0010 $
+b0010 %
+#4550000
+b0000 %
+1)
+b0010 &
+#4552000
+b0010 %
+b0000 $
+#4554000
+b0100 $
+b0110 %
+#4557750
+0!
+0"
+#4572500
+1"
+1!
+b11011001 #
+1*
+#4581500
+b0100 %
+b0110 $
+#4587250
+0!
+0"
+#4602000
+1"
+1!
+b00111001 #
+#4609000
+b0110 %
+b0000 &
+0)
+#4616750
+0!
+0"
+#4631500
+1"
+1!
+b10111001 #
+0*
+#4646250
+0!
+0"
+#4661000
+1"
+1!
+b01111001 #
+#4670000
+b0100 %
+b0100 $
+#4672000
+b0000 $
+b0000 %
+#4673000
+b0100 %
+b0100 $
+#4675750
+0!
+0"
+#4690500
+1"
+1!
+b11111001 #
+#4699500
+b0110 $
+b0110 %
+#4705250
+0!
+0"
+#4720000
+1"
+1!
+b00000101 #
+#4734750
+0!
+0"
+#4749500
+1"
+1!
+b10000101 #
+#4764250
+0!
+0"
+#4779000
+1"
+1!
+b01000101 #
+#4783000
+b0010 %
+b0010 $
+#4784000
+b0110 $
+b0110 %
+#4786000
+b0100 %
+1)
+b0010 &
+#4793750
+0!
+0"
+#4808500
+1"
+1!
+b11000101 #
+1*
+#4823250
+0!
+0"
+#4838000
+1"
+1!
+b00100101 #
+#4845000
+b0000 &
+0)
+b0110 %
+#4852750
+0!
+0"
+#4867500
+1"
+1!
+b10100101 #
+0*
+#4882250
+0!
+0"
+#4897000
+1"
+1!
+b01100101 #
+#4911750
+0!
+0"
+#4926500
+1"
+1!
+b11100101 #
+#4941250
+0!
+0"
+#4956000
+1"
+1!
+b00010101 #
+#4962000
+1)
+b0010 &
+b0100 $
+#4963000
+b0110 $
+b0100 %
+#4964000
+b0110 %
+b0000 &
+0)
+#4970750
+0!
+0"
+#4985500
+1"
+1!
+b10010101 #
+#5000250
+0!
+0"
+#5015000
+1"
+1!
+b01010101 #
+#5024000
+b0100 %
+b0100 $
+#5025000
+b0110 $
+b0110 %
+#5029750
+0!
+0"
+#5044500
+1"
+1!
+b11010101 #
+#5059250
+0!
+0"
+#5074000
+1"
+1!
+b00110101 #
+#5079000
+b0100 $
+1)
+b0010 &
+#5081000
+b0110 $
+b0100 %
+#5082000
+b0110 %
+b0000 &
+0)
+#5088750
+0!
+0"
+#5103500
+1"
+1!
+b10110101 #
+#5118250
+0!
+0"
+#5133000
+1"
+1!
+b01110101 #
+#5142000
+b0100 %
+b0100 $
+#5143000
+b0110 $
+b0110 %
+#5147750
+0!
+0"
+#5162500
+1"
+1!
+b11110101 #
+#5177250
+0!
+0"
+#5192000
+1"
+1!
+b00001101 #
+#5196000
+b1101 %
+b1101 $
+#5197000
+b0000 $
+b0000 %
+#5198000
+b0100 %
+b0110 $
+1)
+b0010 &
+#5199000
+b0000 &
+0)
+b0010 $
+b0010 %
+#5206750
+0!
+0"
+#5221500
+1"
+1!
+b10001101 #
+#5225500
+b0110 %
+b0110 $
+#5236250
+0!
+0"
+#5251000
+1"
+1!
+b01001101 #
+#5258000
+b0100 %
+1)
+b0010 &
+#5265750
+0!
+0"
+#5280500
+1"
+1!
+b11001101 #
+1*
+#5295250
+0!
+0"
+#5310000
+1"
+1!
+b00101101 #
+#5315000
+b0000 %
+b0010 $
+#5317000
+b0010 %
+b0000 &
+0)
+#5324750
+0!
+0"
+#5339500
+1"
+1!
+b10101101 #
+0*
+#5343500
+b0110 %
+b0110 $
+#5354250
+0!
+0"
+#5369000
+1"
+1!
+b01101101 #
+#5383750
+0!
+0"
+#5398500
+1"
+1!
+b11101101 #
+#5413250
+0!
+0"
+#5428000
+1"
+1!
+b00011101 #
+#5432000
+b1111 $
+b1111 %
+#5433000
+b0110 %
+b0110 $
+#5434000
+b0100 $
+1)
+b0010 &
+#5435000
+b0110 $
+b0100 %
+#5436000
+b0110 %
+b0000 &
+0)
+#5442750
+0!
+0"
+#5457500
+1"
+1!
+b10011101 #
+#5472250
+0!
+0"
+#5487000
+1"
+1!
+b01011101 #
+#5491000
+b0010 %
+b0010 $
+#5492000
+b0110 $
+b0110 %
+#5494000
+b0100 %
+b0100 $
+#5497000
+b0110 $
+b0110 %
+#5501750
+0!
+0"
+#5516500
+1"
+1!
+b11011101 #
+#5531250
+0!
+0"
+#5546000
+1"
+1!
+b00111101 #
+#5551000
+b0100 $
+1)
+b0010 &
+#5553000
+b0110 $
+b0100 %
+#5554000
+b0110 %
+b0000 &
+0)
+#5560750
+0!
+0"
+#5575500
+1"
+1!
+b10111101 #
+#5590250
+0!
+0"
+#5605000
+1"
+1!
+b01111101 #
+#5612000
+b0100 %
+b0100 $
+#5615000
+b0110 $
+b0110 %
+#5619750
+0!
+0"
+#5634500
+1"
+1!
+b11111101 #
+#5649250
+0!
+0"
+#5664000
+1"
+1!
+b00000011 #
+#5668000
+b0100 %
+b0100 $
+#5670000
+b0110 $
+1)
+b0010 &
+#5671000
+b0000 &
+0)
+b0110 %
+#5672000
+b0100 %
+b0100 $
+#5674000
+b0110 $
+b0110 %
+#5678750
+0!
+0"
+#5693500
+1"
+1!
+b10000011 #
+#5708250
+0!
+0"
+#5723000
+1"
+1!
+b01000011 #
+#5727000
+b0010 %
+b0010 $
+#5730000
+b0000 %
+1)
+b0010 &
+#5733000
+b0000 &
+0)
+b0000 $
+#5737750
+0!
+0"
+#5752500
+1"
+1!
+b11000011 #
+#5756500
+b0100 $
+b0100 %
+#5767250
+0!
+0"
+#5782000
+1"
+1!
+b00100011 #
+#5792000
+b0110 %
+b0110 $
+#5796750
+0!
+0"
+#5811500
+1"
+1!
+b10100011 #
+#5826250
+0!
+0"
+#5841000
+1"
+1!
+b01100011 #
+#5845000
+b0010 $
+b0010 %
+#5851000
+b0000 %
+b0000 $
+#5855750
+0!
+0"
+#5870500
+1"
+1!
+b11100011 #
+#5874500
+b0100 $
+b0100 %
+#5885250
+0!
+0"
+#5900000
+1"
+1!
+b00010011 #
+#5914750
+0!
+0"
+#5929500
+1"
+1!
+b10010011 #
+#5944250
+0!
+0"
+#5959000
+1"
+1!
+b01010011 #
+#5973750
+0!
+0"
+#5988500
+1"
+1!
+b11010011 #
+#6003250
+0!
+0"
+#6018000
+1"
+1!
+b00110011 #
+#6032750
+0!
+0"
+#6047500
+1"
+1!
+b10110011 #
+#6062250
+0!
+0"
+#6077000
+1"
+1!
+b01110011 #
+#6091750
+0!
+0"
+#6106500
+1"
+1!
+b11110011 #
+#6121250
+0!
+0"
+#6136000
+1"
+1!
+b00001011 #
+#6140000
+b0000 %
+b0000 $
+#6150750
+0!
+0"
+#6165500
+1"
+1!
+b10001011 #
+#6169500
+b0100 $
+b0100 %
+#6180250
+0!
+0"
+#6195000
+1"
+1!
+b01001011 #
+#6199000
+b0000 %
+b0000 $
+#6209750
+0!
+0"
+#6224500
+1"
+1!
+b11001011 #
+#6228500
+b0100 $
+b0100 %
+#6239250
+0!
+0"
+#6254000
+1"
+1!
+b00101011 #
+#6258000
+b0000 %
+b0000 $
+#6268750
+0!
+0"
+#6283500
+1"
+1!
+b10101011 #
+#6287500
+b0100 $
+b0100 %
+#6298250
+0!
+0"
+#6313000
+1"
+1!
+b01101011 #
+#6317000
+b0000 %
+b0000 $
+#6327750
+0!
+0"
+#6342500
+1"
+1!
+b11101011 #
+#6346500
+b0100 $
+b0100 %
+#6357250
+0!
+0"
+#6372000
+1"
+1!
+b00011011 #
+#6386750
+0!
+0"
+#6401500
+1"
+1!
+b10011011 #
+#6416250
+0!
+0"
+#6431000
+1"
+1!
+b01011011 #
+#6445750
+0!
+0"
+#6460500
+1"
+1!
+b11011011 #
+#6475250
+0!
+0"
+#6490000
+1"
+1!
+b00111011 #
+#6504750
+0!
+0"
+#6519500
+1"
+1!
+b10111011 #
+#6534250
+0!
+0"
+#6549000
+1"
+1!
+b01111011 #
+#6563750
+0!
+0"
+#6578500
+1"
+1!
+b11111011 #
+#6593250
+0!
+0"
+#6608000
+1"
+1!
+b00000111 #
+#6618000
+b0110 %
+b0110 $
+#6622750
+0!
+0"
+#6637500
+1"
+1!
+b10000111 #
+#6652250
+0!
+0"
+#6667000
+1"
+1!
+b01000111 #
+#6671000
+b0010 $
+b0010 %
+#6672000
+b0110 %
+b0110 $
+#6674000
+b0100 %
+1)
+b0010 &
+#6677000
+b0000 &
+0)
+b0100 $
+#6681750
+0!
+0"
+#6696500
+1"
+1!
+b11000111 #
+#6711250
+0!
+0"
+#6726000
+1"
+1!
+b00100111 #
+#6736000
+b0110 $
+b0110 %
+#6740750
+0!
+0"
+#6755500
+1"
+1!
+b10100111 #
+#6770250
+0!
+0"
+#6785000
+1"
+1!
+b01100111 #
+#6789000
+b0010 %
+b0010 $
+#6790000
+b0110 $
+b0110 %
+#6795000
+b0100 %
+b0100 $
+#6799750
+0!
+0"
+#6814500
+1"
+1!
+b11100111 #
+#6829250
+0!
+0"
+#6844000
+1"
+1!
+b00010111 #
+#6848000
+b0110 $
+b0110 %
+#6849000
+b0100 %
+b0100 $
+#6858750
+0!
+0"
+#6873500
+1"
+1!
+b10010111 #
+#6888250
+0!
+0"
+#6903000
+1"
+1!
+b01010111 #
+#6908000
+b0110 $
+b0110 %
+#6917750
+0!
+0"
+#6932500
+1"
+1!
+b11010111 #
+#6947250
+0!
+0"
+#6962000
+1"
+1!
+b00110111 #
+#6967000
+b0100 %
+b0100 $
+#6976750
+0!
+0"
+#6991500
+1"
+1!
+b10110111 #
+#7006250
+0!
+0"
+#7021000
+1"
+1!
+b01110111 #
+#7026000
+b0110 $
+b0110 %
+#7035750
+0!
+0"
+#7050500
+1"
+1!
+b11110111 #
+#7065250
+0!
+0"
+#7080000
+1"
+1!
+b00001111 #
+#7084000
+b1101 %
+b1101 $
+#7085000
+b0000 $
+b0000 %
+#7086000
+b0100 %
+b0100 $
+#7087000
+b0000 $
+b0000 %
+#7094750
+0!
+0"
+#7109500
+1"
+1!
+b10001111 #
+#7113500
+b0100 %
+b0100 $
+#7124250
+0!
+0"
+#7139000
+1"
+1!
+b01001111 #
+#7143000
+b0000 $
+b0000 %
+#7144000
+b0100 %
+b0100 $
+#7153750
+0!
+0"
+#7168500
+1"
+1!
+b11001111 #
+#7183250
+0!
+0"
+#7198000
+1"
+1!
+b00101111 #
+#7203000
+b0000 $
+b0000 %
+#7212750
+0!
+0"
+#7227500
+1"
+1!
+b10101111 #
+#7231500
+b0100 %
+b0100 $
+#7242250
+0!
+0"
+#7257000
+1"
+1!
+b01101111 #
+#7261000
+b0000 $
+b0000 %
+#7262000
+b0100 %
+b0100 $
+#7271750
+0!
+0"
+#7286500
+1"
+1!
+b11101111 #
+#7301250
+0!
+0"
+#7316000
+1"
+1!
+b00011111 #
+#7320000
+b1111 $
+b1111 %
+#7321000
+b0100 %
+b0100 $
+#7330750
+0!
+0"
+#7345500
+1"
+1!
+b10011111 #
+#7360250
+0!
+0"
+#7375000
+1"
+1!
+b01011111 #
+#7380000
+b0110 $
+b0110 %
+#7389750
+0!
+0"
+#7404500
+1"
+1!
+b11011111 #
+#7419250
+0!
+0"
+#7434000
+1"
+1!
+b00111111 #
+#7439000
+b0100 %
+b0100 $
+#7448750
+0!
+0"
+#7463500
+1"
+1!
+b10111111 #
+#7478250
+0!
+0"
+#7493000
+1"
+1!
+b01111111 #
+#7498000
+b0110 $
+b0110 %
+#7507750
+0!
+0"
+#7522500
+1"
+1!
+b11111111 #
+#7537250
+0!
+0"
+#7552000
+1"
+1!
+#7566750
+0!
+0"
+#7581500
+1"
+1!
+sfalse /
+#7596250

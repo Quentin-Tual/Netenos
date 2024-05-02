@@ -94,45 +94,44 @@ module Converter
             }
             @portmap_alt.delete_suffix! ", \n"
         end
+    end
 
-        # def gen_stimuli stim_type, nb_cycle
+    class GenDetectTestbench < GenCompTestbench
+        def initialize netlist_init, netlist_alt, delay_model, margin: 0
+            super
+        end
 
-        #     inputs_data = {}
-        #     @netlist_init_data[:ports][:in].each{ |pin|
-        #         inputs_data[pin] = "std_logic"
-        #     }
-        #     # netlist_data[:ports][:out].each{ |pout|
-        #     #     inputs_data[pout] = "bit"
-        #     # }
-        #     generator = GenStim.new
-        #     generator.inputs = inputs_data
+        def gen_testbench stim_type = :random, freq = 1, nb_cycle = 20, phase: 0
+            @freq = freq
+            @phase = (@netlist_init_data[:crit_path_length] * phase).round(3)
+            circ_name = @netlist_init_data[:entity_name]
 
-        #     case stim_type
-        #     when :random
-        #         stim_hash = generator.gen_random_stim nb_cycle
-        #     else
-        #         raise "Error : unknown stimulation pattern."
-        #     end
+            gen_init_portmap
+            gen_alt_portmap
 
-        #     return stim_hash
-        # end
+            case stim_type
+            when String 
+                @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_detect_template.vhdl"))
+            else
+                raise "Error: stimulus type not available for comparer testbench."
+            end
 
-        # def gen_arch_body_stim_assign stim_hash #, nb_cycle
-        #     # * : Only if stimulation option is on, generates stimuli and generates the corresponding assign statements in stim process.
-        #     stim_src = "" 
+            if phase == 0
+                @tb_entity_name = "#{@netlist_init_data[:entity_name]}_#{@freq.to_s.split(".").join}_tb"
+                filename = "./#{circ_name}_#{freq.to_s.split('.').join}_tb.vhd"
+            else
+                @tb_entity_name = "#{@netlist_init_data[:entity_name]}_#{@freq.to_s.split(".").join}_#{phase.to_s.split(".").join}_tb"
+                filename = "./#{circ_name}_#{freq.to_s.split('.').join}_#{phase.to_s.split(".").join}_tb.vhd"
+            end
 
-        #     nb_cycle = stim_hash.values[0].length 
+            src = @engine.result(binding)
 
-        #     nb_cycle.times{ |i|
-        #         @netlist_data[:ports][:in].length.times{ |pin|
-        #             stim_src.concat "           tb_in(#{pin}) <= '#{stim_hash[pin][i]}';\n"
-        #         }
-        #         stim_src.concat "       wait for nom_period;\n"
-        #     }
-
-        #     return stim_src
-        # end
-
+            # filename = "./#{circ_name}_#{freq.to_s.split('.').join}_tb.vhd"
+            File.write(filename, src)
+            # return src # ! legacy but not necessary, generated src is already stored in a file  
+        
+        end
     end
 
 end

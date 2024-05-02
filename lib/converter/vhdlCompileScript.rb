@@ -21,7 +21,7 @@ module Converter
                 end
                 case compiler
                 when :nvc
-                    code << "nvc --work=gtech_lib -a #{entity}.vhd"
+                    code << "nvc --work=gtech_lib --std=08 -a #{entity}.vhd "
                 else
                     code << "ghdl -a --std=08 --work=gtech_lib #{entity}.vhd"
                 end
@@ -117,8 +117,8 @@ module Converter
                 if $VERBOSE
                     code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
                 end
-                code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -a #{circ_init_name}.vhd"
-                code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -a #{circ_alt_name}.vhd"
+                code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} --std=08 -a #{circ_init_name}.vhd"
+                code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} --std=08 -a #{circ_alt_name}.vhd"
                 freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end 
@@ -126,22 +126,24 @@ module Converter
                     if $VERBOSE
                         code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
                     end
-                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -M 1g -a #{circ_init_name}_#{freq}_tb.vhd "
+                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -M 6g --std=08 -a #{circ_init_name}_#{freq}_tb.vhd"
                     if $VERBOSE
                         code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
                     end
-                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -M 1g -e #{circ_init_name}_#{freq}_tb"
+                    code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} -M 6g --std=08 -e #{circ_init_name}_#{freq}_tb"
                     if $VERBOSE
                         code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     end
                     if opt == :minimal_sig
                         generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["*"]
+                        generate_exclude_file "#{circ_init_name}_#{freq}_tb", path, ["*:*"]
                     elsif opt == :uut_sig
-                        generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["uut:*", "ref_unit:*"]
+                        generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["*"]
+                        generate_exclude_file "#{circ_init_name}_#{freq}_tb", path, ["uut:*:*", "ref_unit:*:*"]
                     end
-                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
+                    code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path}  --std=08 -r #{circ_init_name}_#{freq}_tb --format=vcd -w"
                     code.newline
-                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
+                    code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} --std=08 -r #{circ_init_name}_#{freq}_tb --format=vcd -w"
                     code.newline
                 end
             when :ghdl2
@@ -229,7 +231,7 @@ module Converter
                 if $VERBOSE
                     code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
                 end
-                code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -a #{circ_init_name}.vhd"
+                code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} --std=08 -a #{circ_init_name}.vhd "
                 freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
                 end 
@@ -237,20 +239,22 @@ module Converter
                     if $VERBOSE
                         code << "echo \" |--[+] compiling #{circ_init_name}_#{freq}_tb\""
                     end
-                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -M 1g -a #{circ_init_name}_#{freq}_tb.vhd "
+                    code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} -M 6g --std=08 -a #{circ_init_name}_#{freq}_tb.vhd"
                     if $VERBOSE
                         code << "echo \" |--[+] elaborating #{circ_init_name}_#{freq}_tb\""
                     end
-                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -M 1g -e #{circ_init_name}_#{freq}_tb"
+                    code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} -M 6g --std=08 -e #{circ_init_name}_#{freq}_tb -"
                     if $VERBOSE
                         code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     end
                     if opt == :minimal_sig
                         generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["*"]
+                        generate_exclude_file "#{circ_init_name}_#{freq}_tb", path, ["*:*"]
                     elsif opt == :uut_sig
-                        generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["uut:*", "ref_unit:*"]
+                        generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["*"]
+                        generate_exclude_file "#{circ_init_name}_#{freq}_tb", path, ["uut:*:*", "ref_unit:*:*"]
                     end
-                    code << "nvc --work=#{circ_init_name}_lib -L #{gtech_path} -r #{circ_init_name}_#{freq}_tb --format=vcd -w #{circ_init_name}_#{freq}_tb.vcd"
+                    code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} -std=08 -r #{circ_init_name}_#{freq}_tb --format=vcd -w"
                     code.newline
                     
                 end
@@ -328,11 +332,22 @@ module Converter
             str = "# include file\n"
             if !signals.empty?
                 signals.each do |s|
-                    str << ":#{testbench_name}:#{s}\n"
+                    str << ":*:#{s}\n"
                 end
             end
 
             File.open("#{path}/#{testbench_name}.include",'w'){|f| f.puts(str)}
+        end
+
+        def generate_exclude_file testbench_name, path, signals = []
+            str = "# include file\n"
+            if !signals.empty?
+                signals.each do |s|
+                    str << ":*:#{s}\n"
+                end
+            end
+
+            File.open("#{path}/#{testbench_name}.exclude",'w'){|f| f.puts(str)}
         end
 
         def generate_wave_opt_file testbench_name, path, signals = []

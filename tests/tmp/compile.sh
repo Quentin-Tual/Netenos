@@ -1,9 +1,12 @@
-echo "[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/rand"  at  $(date +%FT%T)
-ghdl -a --std=08 --work=rand_lib -P=. rand.vhd
-ghdl -a --std=08 --work=rand_lib -P=. rand_altered.vhd
-echo " |--[+] compiling rand_10_tb"
-ghdl -a --std=08 --work=rand_lib -P=. rand_10_tb.vhd
-echo " |--[+] elaborating rand_10_tb"
-echo " |--[+] simulating rand_10_tb"
-ghdl --elab-run --std=08 --work=rand_lib -P=. rand_10_tb --vcd=rand_10_tb.vcd
+echo "[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/test"  at  $(date +%FT%T)
+nvc  --work=test_lib -L ./ --std=08 -a test.vhd
+nvc  --work=test_lib -L ./ --std=08 -a alt.vhd
+echo " |--[+] compiling test_1_tb"
+nvc --work=test_lib -L ./ -M 6g --std=08 -a test_1_tb.vhd
+echo " |--[+] elaborating test_1_tb"
+nvc  --work=test_lib -L ./ -M 6g --std=08 -e test_1_tb
+echo " |--[+] simulating test_1_tb"
+nvc  --work=test_lib -L ./  --std=08 -r test_1_tb --format=vcd -w
+ 
+nvc  --work=test_lib -L ./ --std=08 -r test_1_tb --format=vcd -w
  

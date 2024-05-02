@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors     = ['QuentinT']
   spec.email       = 'quentintual2@gmail.com'
   spec.homepage    = 'https://github.com/Quentin-Tual/Netenos'
-  spec.license     = 'GPL-3.0'
+  spec.license     = 'GPL-3.0-only'
 
   spec.bindir = 'bin'
   spec.files = Dir['**/*.rb'] #Dir['lib/**/*.rb'] + Dir['bin/*'] + Dir['doc/*'] + Dir['lib/*.rb'] + Dir['Hyle/**/*.rb'] + Dir['Hyle/*.rb']
@@ -14,6 +14,7 @@ Gem::Specification.new do |spec|
   spec.files += Dir['lib/converter/tb_template2.vhdl']
   spec.files += Dir['lib/converter/tb_template3.vhdl']
   spec.files += Dir['lib/converter/tb_comp_template.vhdl']
+  spec.files += Dir['lib/converter/tb_detect_template.vhdl']
   # spec.require_paths = ['Hyle']
   # spec.add_runtime_dependency 'Hyle', '~> 0.1.0'
   spec.add_runtime_dependency 'oj', '>= 3.0.0'
