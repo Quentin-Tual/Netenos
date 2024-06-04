@@ -11,3 +11,4 @@ push: clean gem_update
 clean:
 	rm -f *.gem
 	rm -rf exp*
+	rm -rf tests/tmp/*

@@ -22,6 +22,54 @@ module VCD
             @vcd << :eof
         end
 
+        # * : Update the timestamp by the last just encountered
+        def update_timestamp timestamp
+            if @output_traces[@current_timestamp].nil?
+                @output_traces.delete(@current_timestamp)
+            end
+            @current_timestamp = timestamp
+            @output_traces[@current_timestamp] = {}
+        end
+
+        def update_timestamp2 timestamp
+            if timestamp != 0 and @output_traces[-1].length == 1 
+                @output_traces.delete_at(-1)
+            end
+            @current_timestamp = timestamp
+            @output_traces << [@current_timestamp]
+        end
+        # * : Retrieve the next element in the vcd attribute (vcd file) and delete it of the array
+        def next_output
+            return @vcd.pop
+        end
+
+        def selected_traces_extraction2
+            @output_traces = []
+            # * Only keeps the output signals
+            tmp = @vcd.pop # init
+
+            until tmp == :eof
+                if tmp[0] == '#' # * : new timestamp detected, update it
+                    update_timestamp2 tmp.delete_prefix("#").to_i
+                    # @output_traces << [@current_timestamp]
+                    # pp @output_traces #!DEBUG
+                    # gets
+                # * : Unexpected syntax are covered by the raise in the next conditionnal branchement
+                else
+                    value = tmp[0]
+                    id = tmp[1..].delete_suffix("\n")
+                    if !@id_tab[id].nil?
+                        id = id[0..-1]
+                        @output_traces[-1] << "#{@id_tab[id]}#{value}"
+                    end
+                end
+            
+                tmp = @vcd.pop
+            end
+
+            @output_traces.each_with_index{|val, i| if val.length == 1 then @output_traces.delete_at(i) end}
+        end
+
         def selected_traces_extraction
             @output_traces = {}
             # * Only keeps the output signals
@@ -43,9 +91,35 @@ module VCD
                 tmp = @vcd.pop
             end
 
-            @output_traces.each{|key,val| if val.empty? then @output_traces.delete(key) end}
+            # @output_traces.each{|key,val| if val.empty? then @output_traces.delete(key) end}
         end
 
+        # * : Start the extraction, kind of the FSM controler
+        def extract2 path, compiler, signals = :outputs_only
+            if @vcd.nil?
+                raise "Error : A VCD file must be loaded with 'load_vcd()' first."
+            end
+
+            start = traces_definition path, compiler, signals
+
+            # TODO : For optimization, it is possible to use a grep to get only the lines needed
+            
+            producer = Thread.new{
+                load_vcd path, start
+            }
+            
+            consumer = Thread.new{
+                sleep 1
+                selected_traces_extraction2
+            }
+            
+            producer.join
+            consumer.join
+
+            return {    "output_traces" => @output_traces, 
+                        "id_tab" => @id_tab }
+        end
+        
         # * : Start the extraction, kind of the FSM controler
         def extract path, compiler, signals = :outputs_only
             if @vcd.nil?
@@ -187,17 +261,6 @@ module VCD
                 "output_traces" => @output_traces, 
                 "id_tab" => @id_tab})
             )
-        end
-        
-        # * : Update the timestamp by the last just encountered
-        def update_timestamp timestamp
-            @current_timestamp = timestamp
-            @output_traces[@current_timestamp] = {}
-        end
-
-        # * : Retrieve the next element in the vcd attribute (vcd file) and delete it of the array
-        def next_output
-            return @vcd.pop
         end
 
         # * : Add last event just encountered to concerned signal 

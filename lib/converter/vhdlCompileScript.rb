@@ -141,10 +141,10 @@ module Converter
                         generate_include_file "#{circ_init_name}_#{freq}_tb", path, ["*"]
                         generate_exclude_file "#{circ_init_name}_#{freq}_tb", path, ["uut:*:*", "ref_unit:*:*"]
                     end
-                    code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path}  --std=08 -r #{circ_init_name}_#{freq}_tb --format=vcd -w"
+                    code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} -M 6g --std=08 -r #{circ_init_name}_#{freq}_tb --format=vcd -w"
                     code.newline
-                    code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} --std=08 -r #{circ_init_name}_#{freq}_tb --format=vcd -w"
-                    code.newline
+                    # code << "nvc  --work=#{circ_init_name}_lib -L #{gtech_path} --std=08 -r #{circ_init_name}_#{freq}_tb --format=vcd -w"
+                    # code.newline
                 end
             when :ghdl2
                 if $VERBOSE

@@ -1,6 +1,7 @@
 
 #! /usr/env/bin ruby    
 require_relative "../lib/netenos.rb"
+require_relative "../lib/converter/genStim2.rb"
 # require 'ruby-prof'
 
 # result = RubyProf.profile do
@@ -15,6 +16,7 @@ class Test_compTestbench
 
     def initialize
         
+        puts "[+] Initial circuit generation" if $VERBOSE
         gen_case 
         gen_circ_files @circ_init
 
@@ -22,18 +24,37 @@ class Test_compTestbench
         @modifier = Inserter::Tamperer.new(@circ_init.clone, @generator.grid, @circ_init.get_timings_hash)
         @modifier.select_ht("og_s38417")
                 
+        puts "[+] Altered circuit generation" if $VERBOSE
         gen_alt_circ
         gen_circ_files @circ_alt
 
+        puts "[+] circ_init reloading" if $VERBOSE
         @circ_init = Marshal.load(IO.read("#{@circ_init.name}.enl"))
+    end
 
+    def run
+        puts "[+] Stimulus generation" if $VERBOSE
+        stim_gen
+        puts "[+] Testbench generation" if $VERBOSE
+        testbench_gen
+        puts "[+] Scripts generation" if $VERBOSE
+        script_gen
+        puts "[+] Compile and simulate" if $VERBOSE
+        `./compile.sh`
+    end
+
+    def stim_gen 
         @stim_generator = Converter::GenStim.new(@circ_init)
         stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
         @stim_generator.save_as_txt "stim.txt"
+    end
 
+    def testbench_gen 
         @tb_gen = Converter::GenCompTestbench.new(@circ_init, @circ_alt, $DELAY_MODEL)
         @tb_gen.gen_testbench "stim.txt", $FREQ
+    end
 
+    def script_gen
         @script_generator = Converter::VhdlCompiler.new 
         @script_generator.gtech_makefile ".", $COMPILER
         `make`
@@ -85,14 +106,14 @@ class Test_compTestbench
         @circ_alt.name = "#{@circ_alt.name}_altered"
         @circ_alt.getNetlistInformations $DELAY_MODEL
     end
-
 end
 
 if __FILE__ == $0
     Dir.chdir("tmp") do
         puts "Lancement #{__FILE__}" 
+        print(self.class)
         env = Test_compTestbench.new 
-        `./compile.sh`
+        env.run
         puts "Fin #{__FILE__}"
     end
 end

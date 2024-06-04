@@ -29,6 +29,63 @@ module VCD
         #     return cycle_diff
         # end
 
+        def compare_comparative_tb_traces2 trace, monitored_signals,nom_clk_period, obs_clk_period 
+            # * Initialization of cycle_diff
+            cycle_diff = monitored_signals.each_with_object({}) {|sig, h| h[sig] = []}
+
+            sig_curr_state = monitored_signals.each_with_object(Hash.new()){|sig, h| h[sig] = 'U'}
+
+            # * Filling cycle_diff, associating each sig to all timestamps when diff signal is raised (all timestamps of an anomaly)
+
+            last_obs_cycle = 0
+            trace.each do |events|
+                t = events[0]
+                sig_transition = events[1..]
+                obs_cycle = (t / obs_clk_period).to_i
+                nom_cycle = (t / nom_clk_period).to_i
+                
+                # sig_transition.each do |sig, arrival_state| #! DEBUG should fix synchronous mode, make it improper for asynchronous mode
+                #     sig_curr_state[sig] = arrival_state
+                # end
+
+                # Si modification de cycle obs 
+                if last_obs_cycle != obs_cycle
+                    # Pour chaque signaux 
+                    sig_transition.each do |sig_val|
+                        sig = sig_val[0...-1]
+                        state = sig_val[-1]
+                        # Si l'état du signal est à un
+                        if state == '1'
+                            # push du cycle nominal courant à cycle_diff
+                            cycle_diff[sig] << nom_cycle
+                        elsif state == '0' # * Assuming transition is '1'->'0' 
+                            unless cycle_diff[sig].empty? # * handling transitions 'U'->'0'
+                                (cycle_diff[sig].last+1 ... nom_cycle).each{|cycle| cycle_diff[sig] << cycle}
+                            end
+                            # cycle_diff[sig] << nom_cycle
+                        end
+                        # Fin Si
+                    # Fin Pour
+                    end
+                # Fin Si
+                end
+
+                last_obs_cycle = obs_cycle
+            end
+
+            # monitored_signals.each do |sig|
+            #     trace.keys.each do |t|
+            #         if trace[t][sig] == '1'
+            #             cycle_diff[sig] << (t / (obs_clk_period)).to_i
+            #         end
+            #     end
+            # end
+
+            cycle_diff.delete_if{|sig,list| list.empty?}
+
+            return cycle_diff
+        end
+
         # ! obs_clk synchronous analysis 
         def compare_comparative_tb_traces trace, monitored_signals,nom_clk_period, obs_clk_period 
             # * Initialization of cycle_diff
@@ -380,6 +437,39 @@ module VCD
             return res.uniq
         end
 
+        def compare_traces_async2 trace, monitored_signals, nom_clk_period, obs_clk_period   
+            # * Initialization of cycle_diff
+            cycle_diff = monitored_signals.each_with_object({}) {|sig, h| h[sig] = []}
+                    
+            sig_curr_state = monitored_signals.each_with_object(Hash.new()){|sig, h| h[sig] = 'U'}
+
+            # * Filling cycle_diff, associating each sig to all timestamps when diff signal is raised (all timestamps of an anomaly)
+
+            last_obs_cycle = 0
+            trace.each do |events|
+                t = events[0]
+                sig_transition = events[1..]
+
+                obs_cycle = (t / obs_clk_period).to_i
+                nom_cycle = (t / nom_clk_period).to_i
+                
+                sig_transition.each do |sig_val|
+                    sig = sig_val[0...-1]
+                    state = sig_val[-1]
+                # Pour chaque signaux 
+                    # Si l'état du signal est à un
+                    if state == '1'
+                        # push du cycle nominal courant à cycle_diff
+                        cycle_diff[sig] << nom_cycle
+                    end
+                end
+
+                last_obs_cycle = obs_cycle
+            end
+
+            return cycle_diff
+        end
+
         def compare_traces_async trace, monitored_signals, nom_clk_period, obs_clk_period
             # * Initialization of cycle_diff
             cycle_diff = monitored_signals.each_with_object({}) {|sig, h| h[sig] = []}
@@ -394,28 +484,13 @@ module VCD
                 nom_cycle = (t / nom_clk_period).to_i
                 
                 sig_transition.each do |sig, state|
-                
-                # Si modification de cycle obs 
-                # if last_obs_cycle != obs_cycle
-                    # Pour chaque signaux 
-                    
-                        # Si l'état du signal est à un
-                        if state == '1'
-                            # push du cycle nominal courant à cycle_diff
-                            cycle_diff[sig] << nom_cycle
-                            # next
-                        # elsif state == '0' # * Assuming transition is '1'->'0' 
-                        #     unless cycle_diff[sig].empty? # * handling transitions 'U'->'0'
-                        #         (cycle_diff[sig].last+1 ... nom_cycle).each{|cycle| cycle_diff[sig] << cycle}
-                        #     end
-                            # next
-                            # cycle_diff[sig] << nom_cycle
-                        end
-                        # Fin Si
-                    # Fin Pour
+                # Pour chaque signaux 
+                    # Si l'état du signal est à un
+                    if state == '1'
+                        # push du cycle nominal courant à cycle_diff
+                        cycle_diff[sig] << nom_cycle
+                    end
                 end
-                # Fin Si
-                # 
         
                 last_obs_cycle = obs_cycle
             end
@@ -511,6 +586,15 @@ module VCD
             anomaly_details.each_with_object(Hash.new) do |(sig, cycle_diff), mean_anomaly_amount|
                 amount_list = cycle_diff.values.collect{|h| h[:amount]}
                 mean_anomaly_amount[sig] = (amount_list.sum.to_f / nb_cycle).round(3)
+            end
+        end
+
+        def delete_cycle_list_in_file path, list, new_path = "#{path.split(".")[0]}_filtered.#{path.split(".")[1]}"
+            if list.empty?
+                warn "Warning: No cycles to delete, original file copied."
+                `cp #{path} #{new_path}`
+            else
+                `sed '#{list.collect{|e| e+2}.join("d;") << "d;"}' #{path} > #{new_path}`
             end
         end
 

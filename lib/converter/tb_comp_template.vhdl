@@ -15,7 +15,7 @@ architecture netenos of <%="#{@tb_entity_name}"%> is
     -- With a 1-unit model, the maximum path length is equivalent to the minimal period for nominal behavior 
     -- Which means minimum period is 4 for a unit_delay value of 1 (default value) 
     constant nom_period : time := (unit_delay * <%=@netlist_init_data[:crit_path_length]%>);
-    constant obs_period : time := (unit_delay * <%=(@netlist_init_data[:crit_path_length] / @freq).round(3)%>);
+    constant obs_period : time := (unit_delay * <%= @freq == "Infinity" ? @netlist_init_data[:crit_path_length] : (@netlist_init_data[:crit_path_length] / @freq).round(3)%>);
     constant phase : time := <%=@phase%> ps;
     signal nom_clk : std_logic := '1';
     signal obs_clk : std_logic := '1';
@@ -71,24 +71,25 @@ begin
     end process;
 
     stim : process
-        file text_file : text open read_mode is "<%=@stim_file_path%>";
+        file stim_file : text open read_mode is "<%=@stim_file_path%>";
         variable text_line : line;
         variable stim_val : std_logic_vector(<%=@netlist_init_data[:ports][:in].length - 1%> downto 0);
-        variable test_bit_vec : bit_vector(<%=@netlist_init_data[:ports][:in].length - 1%> downto 0);
+        variable text_val : <%=bit_vec_stim ? "bit_vector(#{@netlist_init_data[:ports][:in].length - 1} downto 0)" : "natural"%>;
     begin
         -- report "Starting simulation...";
         
-        while not endfile(text_file) loop
+        while not endfile(stim_file) loop   
             
-            readline(text_file, text_line);
-           
+            readline(stim_file, text_line);
+        
             -- Skip empty lines and single-line comments
             if text_line.all'length = 0 or text_line.all(1) = '#' then
-              next;
+                next;
             end if;
-            
-            read(text_line, test_bit_vec);
-            stim_val := to_stdlogicvector(test_bit_vec);
+
+            read(text_line, text_val);
+           
+            stim_val :=  <%=bit_vec_stim ? "to_stdlogicvector(text_val)" : "std_logic_vector(to_unsigned(text_val, #{@netlist_init_data[:ports][:in].length}))"%>;
             --read(text_line, stim_val);
 
             for k in 0 to <%=@netlist_init_data[:ports][:in].length - 1%> loop
