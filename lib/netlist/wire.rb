@@ -70,7 +70,7 @@ module Netlist
             }
         end
 
-        def get_source_cum_propag_time
+        def get_source_cumul_propag_time
             if @fanin.class.name == "Netlist::Wire" or @fanin.is_global?
                 return @fanin.cumulated_propag_time
             else
@@ -153,16 +153,16 @@ module Netlist
                 @slack = [slack, @slack].min 
             end
 
-            crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
+            crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cumul_propag_time}.sort.last].to_h
 
             get_inputs.difference(crit_node.values).each do |in_p|
                 source = in_p.get_source
                 if source.class.name == "Netlist::Wire"
-                    source.update_path_slack(crit_node.get_source_cum_propag_time - in_p.get_source_cum_propag_time + @slack, delay_model)
+                    source.update_path_slack(crit_node.get_source_cumul_propag_time - in_p.get_source_cumul_propag_time + @slack, delay_model)
                 elsif source.is_global?
-                    source.slack = crit_node.get_source_cum_propag_time - in_p.get_source_cum_propag_time + @slack
+                    source.slack = crit_node.get_source_cumul_propag_time - in_p.get_source_cumul_propag_time + @slack
                 elsif !source.is_global?
-                    in_p.get_source_comp.update_path_slack(crit_node.get_source_cum_propag_time - in_p.get_source_cum_propag_time + @slack, delay_model)
+                    in_p.get_source_comp.update_path_slack(crit_node.get_source_cumul_propag_time - in_p.get_source_cumul_propag_time + @slack, delay_model)
                 end
             end
 

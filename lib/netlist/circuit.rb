@@ -50,17 +50,17 @@ module Netlist
         def get_mean_fanout 
             fanout_list = []
 
-            get_inputs.each do |in_p|
-                count = 0
-                in_p.get_sinks.each do |sink|
-                    if sink.class == Netlist::Wire
-                        count += sink.get_sinks.length
-                    else
-                        count += 1
-                    end
-                end
-                fanout_list << count
-            end
+            # get_inputs.each do |in_p|
+            #     count = 0
+            #     in_p.get_sinks.each do |sink|
+            #         if sink.class == Netlist::Wire
+            #             count += sink.get_sinks.length
+            #         else
+            #             count += 1
+            #         end
+            #     end
+            #     fanout_list << count
+            # end
 
             @components.each do |comp|
                 count = 0

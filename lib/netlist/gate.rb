@@ -3,7 +3,7 @@ require_relative 'port.rb'
 module Netlist
 
     class Gate < Circuit
-        attr_accessor :name, :ports, :partof, :propag_time, :cumulated_propag_time, :tag
+        attr_accessor :name, :ports, :partof, :propag_time, :cumulated_propag_time, :tag, :decisions, :forbidden_transitions
         attr_reader :slack
 
         def initialize name = "#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs = self.class.name.split("::")[1].chars[-1].to_i
@@ -34,6 +34,10 @@ module Netlist
             @cumulated_propag_time = 0.0
             @slack = nil
             @tag = nil
+
+            # Compute Test Vectors
+            @transitions = []
+            @forbidden_transitions = []
         end
 
         def <<(e)
@@ -67,7 +71,7 @@ module Netlist
             @ports[:out][0]
         end
 
-        # ! cumulated_propag_time diff between the two sources for the lowest cumulated_propag_time source and same slack as current gate for the other source
+        # * cumulated_propag_time diff between the two sources for the lowest cumulated_propag_time source and same slack as current gate for the other source
         def update_path_slack slack, delay_model
             if @slack.nil?
                 @slack = slack
@@ -75,16 +79,19 @@ module Netlist
                 @slack = [slack, @slack].min 
             end
 
-            crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
+            # Récupérer l'entrée reliée à la source ayant le plus grand délai cumulé (la critical node car ayant le délai le plus critique)
+            crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cumul_propag_time}.sort.last].to_h
 
+            # Pour chaque entrée de la porte, sauf les entrées dans crit_node
             get_inputs.difference(crit_node.values).each do |in_p|
                 source = in_p.get_source
+                # Selon le type de source (Wire, global_input, gate), transmettre leur slack en lançant une update sur la source 
                 if source.class.name == "Netlist::Wire"
-                    source.update_path_slack(crit_node.keys[0] - in_p.get_source_cum_propag_time + @slack, delay_model)
+                    source.update_path_slack(crit_node.keys[0] - in_p.get_source_cumul_propag_time + @slack, delay_model)
                 elsif source.is_global?
-                    source.slack = crit_node.keys[0] - in_p.get_source_cum_propag_time + @slack
+                    source.slack = crit_node.keys[0] - in_p.get_source_cumul_propag_time + @slack
                 elsif !source.is_global?
-                    in_p.get_source_comp.update_path_slack(crit_node.keys[0]- in_p.get_source_cum_propag_time + @slack, delay_model)
+                    in_p.get_source_comp.update_path_slack(crit_node.keys[0]- in_p.get_source_cumul_propag_time + @slack, delay_model)
                 end
             end
 
@@ -110,6 +117,26 @@ module Netlist
             end
         end
         
+        def get_sink_gates
+            self.get_output.get_sinks.collect do |sink| 
+                if sink.is_a? Netlist::Port and sink.is_global?
+                    sink
+                else
+                    sink.partof
+                end
+            end
+        end
+
+        def get_source_gates
+            self.get_inputs.collect do |ip|
+                source = ip.get_source
+                if source.is_a? Netlist::Port and source.is_global?
+                    source
+                else
+                    source.partof
+                end
+            end
+        end
     end
 
     class And3 < Gate; end
@@ -118,11 +145,165 @@ module Netlist
     class Nand3 < Gate; end
     class Nor3 < Gate; end
 
-    class And2 < Gate; end
-    class Or2 < Gate; end
-    class Xor2 < Gate; end
-    class Nor2 < Gate; end
-    class Nand2 < Gate; end
+    class And2 < Gate
+        def get_input_transition output_transition
+            case output_transition
+            when "0" 
+                return [["0","0"],["0","1"],["1","0"],["0","R"],["R","0"],["0","F"],["F","0"],["R","F"],["F","R"]]
+            when "1" 
+                return [["1","1"]]
+            when "R"
+                return [["1","R"],["R","1"],["R","R"]]
+            when "F"
+                return [["1","F"],["F","1"],["F","F"]]
+            else
+                raise "Error: Unexpected transition value encountered."
+            end
+        end
+
+        def get_output_transition input_transitions
+            case input_transitions
+            when ["0","0"], ["0","1"], ["1","0"], ["R","F"], ["F","R"],["R","0"], ["0","R"], ["F","0"], ["0","F"]
+                return "0"
+            when ["1","1"]
+                return "1"
+            when ["R","R"], ["1","R"], ["R","1"]
+                return "R"
+            when ["F","F"], ["1", "F"], ["F", "1"]
+                return "F"
+            else
+                raise "Error: Unexpected output transitions values encountered."
+            end
+        end
+    end
+
+    class Or2 < Gate
+        def get_input_transition output_transition
+            case output_transition
+            when "0" 
+                return [["0","0"]]
+            when "1" 
+                return [["0","1"],["1","0"],["1","1"],["1","F"],["F","1"],["1","R"],["R","1"],["R","F"],["F","R"]]
+            when "R"
+                return [["0","R"],["R","0"],["R","R"]]
+            when "F"
+                return [["0","F"],["F","0"],["F","F"]]
+            else
+                raise "Error: Unexpected output transition value encountered."
+            end
+        end
+
+        def get_output_transition input_transitions
+            case input_transitions
+            when ["0","0"]
+                return "0"
+            when ["1","1"], ["0","1"], ["1","0"], ["R","F"], ["F","R"], ["1","R"], ["R","1"], ["1", "F"], ["F", "1"]
+                return "1"
+            when ["R","R"], ["R","0"], ["0","R"]
+                return "R"
+            when ["F","F"], ["F","0"], ["0","F"]
+                return "F"
+            else
+                raise "Error: Unexpected output transitions values encountered."
+            end
+        end
+    end
+    
+    class Xor2 < Gate
+        def get_input_transition output_transition
+            case output_transition
+            when "0" 
+                return [["0","0"],["1","1"],["R","R"],["F","F"]]
+            when "1" 
+                return [["0","1"],["1","0"],["R","F"],["F","R"]]
+            when "R"
+                return [["0","R"],["R","0"],["1","F"],["F","1"]]
+            when "F"
+                return [["0","F"],["F","0"],["1","R"],["R","1"]]
+            else
+                raise "Error: Unexpected transition value encountered."
+            end
+        end
+        
+        def get_output_transition input_transitions
+            case input_transitions
+            when ["0","0"], ["1","1"], ["F","F"], ["R","R"]
+                return "0"
+            when ["0","1"], ["1","0"], ["R","F"], ["F","R"]
+                return "1"
+            when ["R","0"], ["0","R"], ["1", "F"], ["F", "1"]
+                return "R"
+            when ["F","0"], ["0","F"], ["1","R"], ["R","1"]
+                return "F"
+            else
+                raise "Error: Unexpected output transitions values encountered."
+            end
+        end
+    end
+
+    class Nor2 < Gate
+        def get_input_transition output_transition
+            case output_transition
+            when "0" 
+                return [["0","1"],["1","0"],["1","1"],["1","R"],["R","1"],["1","F"],["F","1"]]
+            when "1" 
+                return [["0","0"]]
+            when "R"
+                return [["0","F"],["F","0"],["F","F"]]
+            when "F"
+                return [["0","R"],["R","0"],["R","R"]]
+            else
+                raise "Error: Unexpected transition value encountered."
+            end
+        end
+
+        def get_output_transition input_transitions
+            case input_transitions
+            when ["1","1"], ["0","1"], ["1","0"], ["R","F"], ["F","R"], ["1","R"], ["R","1"], ["1", "F"], ["F", "1"]
+                return "0"
+            when ["0","0"]
+                return "1"
+            when ["F","F"], ["F","0"], ["0","F"]
+                return "R"
+            when ["R","R"], ["R","0"], ["0","R"]
+                return "F"
+            else
+                raise "Error: Unexpected output transitions values encountered."
+            end
+        end
+    end
+
+    class Nand2 < Gate
+        def get_input_transition output_transition
+            case output_transition
+            when "0" 
+                return [["1","1"]]
+            when "1" 
+                return [["0","0"],["1","0"],["0","1"],["0","R"],["R","0"],["0","F"],["F","0"]]
+            when "R"
+                return [["1","F"],["F","1"],["F","F"]]
+            when "F"
+                return [["1","R"],["R","1"],["R","R"]]
+            else
+                raise "Error: Unexpected transition value encountered."
+            end
+        end
+
+        def get_output_transition input_transitions
+            case input_transitions
+            when ["1","1"]
+                return "0"
+            when ["0","0"], ["0","1"], ["1","0"], ["R","F"], ["F","R"],["R","0"], ["0","R"], ["F","0"], ["0","F"]
+                return "1"
+            when ["F","F"], ["1", "F"], ["F", "1"]
+                return "R"
+            when ["R","R"], ["1","R"], ["R","1"]
+                return "F"
+            else
+                raise "Error: Unexpected output transitions values encountered."
+            end
+        end
+    end
 
     class Not < Gate
 
@@ -135,6 +316,9 @@ module Netlist
             @propag_time = {:one => 1.0, :int => 1.0, :int_multi => 1.0, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
             @cumulated_propag_time = 0.0
             @slack = 0.0
+
+            @decisions = []
+            @forbidden_transitions = []
         end
 
         def <<(e)
@@ -160,6 +344,35 @@ module Netlist
             end
         end
 
+        def get_input_transition output_transition
+            case output_transition
+            when "0" 
+                return [["1"]]
+            when "1" 
+                return [["0"]]
+            when "R"
+                return [["F"]]
+            when "F"
+                return [["R"]]
+            else
+                raise "Error: Unexpected transition value encountered."
+            end
+        end
+
+        def get_output_transition input_transitions
+            case input_transitions
+            when "1"
+                return "0"
+            when "0"
+                return "1"
+            when "F"
+                return "R"
+            when "R"
+                return "F"
+            else
+                raise "Error: Unexpected output transitions values encountered."
+            end
+        end
     end
 
     class Buffer < Gate
@@ -194,6 +407,36 @@ module Netlist
                 end
             else 
                 raise "Error : Unexpected or unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
+            end
+        end
+
+        def get_input_transition output_transition
+            case output_transition
+            when "0" 
+                return [["0"]]
+            when "1" 
+                return [["1"]]
+            when "R"
+                return [["R"]]
+            when "F"
+                return [["F"]]
+            else
+                raise "Error: Unexpected transition value encountered."
+            end
+        end
+
+        def get_output_transition *input_transitions
+            case input_transitions
+            when "0"
+                return "0"
+            when "1"
+                return "1"
+            when "R"
+                return "R"
+            when "F"
+                return "F"
+            else
+                raise "Error: Unexpected output transitions values encountered."
             end
         end
     end

@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name        = 'Netenos'
-  spec.version     = '0.4.1'
+  spec.version     = '0.5.1'
   spec.summary     = 'A Netlist modelisation and tools associated.'
   spec.description = 'Netenos is a Netlist modelisation developped in order to learn and experiment. For the moment, it does not modelize registers, but can be used for combinatorial logic. Also it embbed some tools to convert in other format (json, graphviz .dot, vhdl93, ...), to generate random netlist or also to insert logic, ...'
   spec.authors     = ['QuentinT']

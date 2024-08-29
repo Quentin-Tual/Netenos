@@ -1,7 +1,7 @@
 require_relative "wire.rb"
 module Netlist
     class Port < Wire
-        attr_accessor :name, :partof, :fanin, :fanout, :direction, :slack
+        attr_accessor :name, :partof, :fanin, :fanout, :direction, :slack, :decisions, :forbidden_transitions, :tag
 
         def initialize name, direction, partof = nil
             super name
@@ -10,6 +10,10 @@ module Netlist
             @slack = nil
             @cumulated_propag_time = 0.0
             @capacitance = 0.0
+
+            @transitions = []
+            @forbidden_transitions = []
+            @tag = nil
         end
 
         def is_free?
@@ -63,7 +67,19 @@ module Netlist
                 return "#{@partof.name}:#{@name}"
             end
         end
-        
+
+        def get_sink_gates
+            self.get_sinks.collect do |sink| 
+                if (sink.instance_of? Netlist::Port and sink.is_global?) 
+                    sink
+                elsif sink.instance_of? Netlist::Wire
+                    sink.fanout.collect{|in_p| in_p.partof}
+                else
+                    sink.partof
+                end
+            end
+        end
+
         # def get_source_comp
         #     return get_source.class.name == "Netlist::Wire" ? source : source.partof
         # end

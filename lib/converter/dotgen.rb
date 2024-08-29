@@ -38,6 +38,8 @@ module Converter
                 label="{#{fanin}|{#{comp.name}|{#{comp.propag_time[delay_model]}|#{comp.cumulated_propag_time.to_s}}}|#{fanout}}"
                 if comp.tag == :ht
                     color = "orange1"
+                elsif comp.tag == :target_path
+                    color = "red"
                 else
                     color = "cadetblue"
                 end

@@ -1,0 +1,73 @@
+digraph test {
+		graph [rankdir = LR];
+		Nor2140[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Nor2140|{2.0|2.0}}|{<o0>o0}}"]
+		Xor2160[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Xor2160|{2.5|2.5}}|{<o0>o0}}"]
+		Or2180[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Or2180|{1.5|1.5}}|{<o0>o0}}"]
+		And2200[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{And2200|{1.5|4.0}}|{<o0>o0}}"]
+		Xor2220[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Xor2220|{2.5|4.0}}|{<o0>o0}}"]
+		Nor2240[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Nor2240|{2.0|6.0}}|{<o0>o0}}"]
+		Nor2260[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2260|{2.0|4.0}}|{<o0>o0}}"]
+		Xor2280[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Xor2280|{2.5|8.5}}|{<o0>o0}}"]
+		Xor2300[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Xor2300|{2.5|6.5}}|{<o0>o0}}"]
+		Nor2320[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Nor2320|{2.0|10.5}}|{<o0>o0}}"]
+		Not340[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0}|{Not340|{1.0|3.5}}|{<o0>o0}}"]
+		And2360[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{And2360|{1.5|12.0}}|{<o0>o0}}"]
+		And2380[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{And2380|{1.5|7.5}}|{<o0>o0}}"]
+		Nor2400[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Nor2400|{2.0|14.0}}|{<o0>o0}}"]
+		Or2420[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Or2420|{1.5|12.0}}|{<o0>o0}}"]
+		Or2440[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Or2440|{1.5|15.5}}|{<o0>o0}}"]
+		Or2460[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Or2460|{1.5|12.0}}|{<o0>o0}}"]
+		Not480[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0}|{Not480|{1.0|16.5}}|{<o0>o0}}"]
+		Not500[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0}|{Not500|{1.0|13.0}}|{<o0>o0}}"]
+		Nand2520[shape=record; style="rounded,filled"; fillcolor=orange1; label="{{<i0>i0|<i1>i1}|{Nand2520|{2.0|18.5}}|{<o0>o0}}"]
+		And2540[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2540|{1.5|8.0}}|{<o0>o0}}"]
+		i0[shape=cds,xlabel="i0"]
+		i1[shape=cds,xlabel="i1"]
+		i2[shape=cds,xlabel="i2"]
+		i3[shape=cds,xlabel="i3"]
+		i4[shape=cds,xlabel="i4"]
+		i5[shape=cds,xlabel="i5"]
+		o0[shape=cds,xlabel="o0"]
+		o1[shape=cds,xlabel="o1"]
+		i0 -> Xor2160:i1;
+		i1 -> Nor2140:i1;
+		i1 -> Or2420:i0;
+		i2 -> Or2180:i0;
+		i2 -> Xor2220:i1;
+		i3 -> Nor2140:i0;
+		i4 -> Or2180:i1;
+		i5 -> Xor2160:i0;
+		Nor2140:o0 -> And2200:i1;
+		Nor2140:o0 -> Nor2260:i1;
+		Xor2160:o0 -> And2200:i0;
+		Xor2160:o0 -> Not340:i0;
+		Or2180:o0 -> Xor2220:i0;
+		Or2180:o0 -> Nor2260:i0;
+		And2200:o0 -> Nor2240:i1;
+		And2200:o0 -> Xor2300:i1;
+		And2200:o0 -> And2540:i0;
+		Xor2220:o0 -> Nor2240:i0;
+		Xor2220:o0 -> Xor2300:i0;
+		Xor2220:o0 -> And2380:i0;
+		Nor2240:o0 -> Xor2280:i0;
+		Nor2240:o0 -> And2380:i1;
+		Nor2260:o0 -> Xor2280:i1;
+		Xor2280:o0 -> Nor2320:i1;
+		Xor2300:o0 -> Nor2320:i0;
+		Xor2300:o0 -> And2540:i1;
+		Nor2320:o0 -> And2360:i0;
+		Nor2320:o0 -> Or2420:i1;
+		Nor2320:o0 -> Or2460:i1;
+		Not340:o0 -> And2360:i1;
+		Not340:o0 -> Or2460:i0;
+		And2360:o0 -> Nor2400:i1;
+		And2380:o0 -> Nor2400:i0;
+		Nor2400:o0 -> Or2440:i0;
+		Or2420:o0 -> Or2440:i1;
+		Or2440:o0 -> Not480:i0;
+		Or2460:o0 -> Not500:i0;
+		Not480:o0 -> Nand2520:i1;
+		Not500:o0 -> Nand2520:i0;
+		Nand2520:o0 -> o1;
+		And2540:o0 -> o0;
+}
