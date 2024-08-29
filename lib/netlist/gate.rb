@@ -32,7 +32,7 @@ module Netlist
             end
 
             @cumulated_propag_time = 0.0
-            @slack = nil
+            # @slack = nil
             @tag = nil
         end
 
@@ -59,6 +59,10 @@ module Netlist
             end
         end
 
+        def get_inputs 
+            @ports[:in]
+        end
+
         def get_outputs
             @ports[:out]
         end
@@ -67,16 +71,8 @@ module Netlist
             @ports[:out][0]
         end
 
-        # ! cumulated_propag_time diff between the two sources for the lowest cumulated_propag_time source and same slack as current gate for the other source
+        # ! There is still all the methods using the slack to be fixed (Netlist::get_slash_hash and Inserter::insert is the most of it) 
         def update_path_slack slack, delay_model
-            
-            # * Keep the lowest value of slack (simplify to worse case)
-            # ! But should be exact, here it's a simplification that masks certain points of insertion, we should retain the distinction between the exit from a door and each sink
-            # if @slack.nil?
-            #     @slack = slack
-            # else
-            #     @slack = [slack, @slack].min
-            # end
 
             # * Get the most critical nodes (latest node to see it's value updated in worst case) in the form of a hash associating the timing to the inputs.
             crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
@@ -84,27 +80,35 @@ module Netlist
             # * For each input excluding the critical nodes 
             get_inputs.difference(crit_node.values).each do |in_p|
                 source = in_p.get_source
-                if source.class.name == "Netlist::Wire"
-                    # * Recursively calls update_path_slack method of the source wire
-                    source.update_path_slack(crit_node.keys[0] - in_p.get_source_cum_propag_time + @slack, delay_model)
-                elsif source.is_global?
-                    # * Set the primary input slack (stops the recursivity)
-                    source.slack = crit_node.keys[0] - in_p.get_source_cum_propag_time + @slack
-                elsif !source.is_global?
-                    # * Recursively calls update_path_slack method of the source gate
-                    in_p.get_source_comp.update_path_slack(crit_node.keys[0]- in_p.get_source_cum_propag_time + @slack, delay_model)
+                input_slack = crit_node.keys[0] - in_p.get_source_cum_propag_time + slack 
+                if in_p.slack.nil? or in_p.slack > input_slack 
+                    in_p.slack = input_slack
+                    if source.class.name == "Netlist::Wire"
+                        # * Recursively calls update_path_slack method of the source wire
+                        source.update_path_slack(input_slack, delay_model) # ! Update wwire class method update_path_slack
+                    elsif source.is_global?
+                        # * Set the primary input slack (stops the recursivity)
+                        source.slack = input_slack
+                    elsif !source.is_global?
+                        # * Recursively calls update_path_slack method of the source gate
+                        in_p.get_source_comp.update_path_slack(input_slack, delay_model)
+                    end
                 end
             end
 
             # * For each critical node
             crit_node.values.flatten.each do |in_p|
                 source = in_p.get_source
-                if source.is_global?
-                    # * Set the primary input slack
-                    source.slack = @slack
-                else
-                    # * Recursively calls update_path_slack method of the source gate
-                    in_p.get_source_comp.update_path_slack(0.0 + @slack, delay_model)
+                input_slack = slack # * Because it is the critical node, there is no additionnal time to the slack
+                if in_p.slack.nil? or in_p.slack > input_slack
+                    in_p.slack = input_slack
+                    if source.is_global?
+                        # * Set the primary input slack
+                        source.slack = slack
+                    else
+                        # * Recursively calls update_path_slack method of the source gate
+                        in_p.get_source_comp.update_path_slack(slack, delay_model)
+                    end
                 end
             end
         end

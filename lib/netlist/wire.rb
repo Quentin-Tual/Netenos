@@ -147,30 +147,31 @@ module Netlist
         end
 
         def update_path_slack slack, delay_model 
-            if @slack.nil?
+
+            # @slack = [slack, @slack].min
+
+            # * Only one "input" for a Wire 
+            # crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
+
+            # get_inputs.difference(crit_node.values).each do |in_p|
+            if slack < @slack
                 @slack = slack
-            else
-                @slack = [slack, @slack].min 
-            end
-
-            crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
-
-            get_inputs.difference(crit_node.values).each do |in_p|
-                source = in_p.get_source
+                source = get_source
                 if source.class.name == "Netlist::Wire"
-                    source.update_path_slack(crit_node.get_source_cum_propag_time - in_p.get_source_cum_propag_time + @slack, delay_model)
+                    source.update_path_slack(@slack, delay_model)
                 elsif source.is_global?
-                    source.slack = crit_node.get_source_cum_propag_time - in_p.get_source_cum_propag_time + @slack
+                    source.slack = @slack
                 elsif !source.is_global?
-                    in_p.get_source_comp.update_path_slack(crit_node.get_source_cum_propag_time - in_p.get_source_cum_propag_time + @slack, delay_model)
+                    get_source_comp.update_path_slack(@slack, delay_model)
                 end
             end
+            # end
 
-            crit_node.values.each do |in_p|
-                in_p.get_source_comp.update_path_slack(0.0 + @slack, delay_model)
-            end
+            # * Thus if there is only one input there is no critical "node" regarding another
+            # crit_node.values.each do |in_p|
+            #     in_p.get_source_comp.update_path_slack(0.0 + @slack, delay_model)
+            # end
         end
-
 
         def to_hash
             return {

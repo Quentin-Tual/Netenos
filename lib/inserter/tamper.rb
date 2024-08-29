@@ -245,13 +245,15 @@ module Inserter
             sig_pool = @stages.keys[min_stage...max_stage].each_with_object([]) do |stage, list|
                 # * Selects only signals which has a sufficiant slack for insertion (payload propagation delay)
                 @stages[stage].each do |comp|
-                    if comp.slack >= @ht.payload_in.partof.propag_time[:int_multi]
-                        list << [comp.get_output, stage]
+                    comp.get_inputs.each do |in_p|
+                        if in_p.slack >= @ht.payload_in.partof.propag_time[:int_multi]
+                            list << [in_p, stage]
+                        end
                     end
                 end
             end
 
-            sig_pool.select!{|comp| !forbidden_locs.include? comp}
+            sig_pool.select!{|in_p| !forbidden_locs.include? in_p}
 
             if sig_pool.empty?
                 raise ImpossibleInsertion.new("Error: No insertion location found.")
@@ -263,12 +265,12 @@ module Inserter
             #     raise "Error: Attribute valued nil\n -> @stages : #{@stages.nil?} @stages[stage] : #{@stages[stage]} stage : #{stage} min_stage : #{min_stage} stage_max : #{@stages.keys.max}"
             # end
 
-            if attacked_sig.get_sinks.empty? # ! DEBUG
-                if !@netlist.components.include? attacked_sig.partof
-                    puts "Error: Unknown component, not found in the netlist"
-                end
-                raise "Error: selected insertion location has no sink.\n -> #{attacked_sig.get_full_name}"
-            end
+            # if attacked_sig.get_source.empty? # ! DEBUG
+            #     if !@netlist.components.include? attacked_sig.partof
+            #         puts "Error: Unknown component, not found in the netlist"
+            #     end
+            #     raise "Error: selected insertion location has no sink.\n -> #{attacked_sig.get_full_name}"
+            # end
 
             return attacked_sig, stage
         end
@@ -429,15 +431,25 @@ module Inserter
                 loc, max_stage = select_location2(zone, @ht.get_triggers_nb, forbidden_locs)
 
                 # * : Payload insertion (removing old links and creating new ones)
-                loc.get_sinks.each{ |sink|
-                    rescue_data[:loc_sinks] << sink
-                    sink.unplug2 sink.get_source.get_full_name
-                    sink <= @ht.get_payload_out
-                }
-                @ht.get_payload_in <= loc
+                # ! loc is not a Circuit class object anymore, with slack update it is now a Port class object
+                # loc.get_sinks.each{ |sink|
+                #     rescue_data[:loc_sinks] << sink
+                #     sink.unplug2 sink.get_source.get_full_name
+                #     sink <= @ht.get_payload_out
+                # }
+                # @ht.get_payload_in <= loc
 
-                max_delay = loc.partof.cumulated_propag_time + @ht.payload_in.partof.propag_time[:int_multi]
+                # ! Now it would look like this :
+                source = loc.get_source
+                loc.unplug2 source.get_full_name
+                loc <= @ht.get_payload_out
+                @ht.get_payload_in <= source
 
+                if source.is_global?
+                    max_delay = 0.0
+                else
+                    max_delay = source.partof.cumulated_propag_time + @ht.payload_in.partof.propag_time[:int_multi]
+                end
                 trig = select_triggers_sig(@ht.get_triggers_nb, max_stage, max_delay)
             rescue ImpossibleResolution => e
                 if $VERBOSE
@@ -445,12 +457,12 @@ module Inserter
                 end
                 forbidden_locs << loc
 
-                @ht.get_payload_in.unplug2 loc.get_full_name 
-                rescue_data[:loc_sinks].each do |sink|
-                    sink.unplug2 sink.get_source.get_full_name
-                    sink <= loc
-                end
-                rescue_data[:loc_sinks] = []
+                @ht.get_payload_in.unplug2 source.get_full_name 
+                # rescue_data[:loc_sinks].each do |sink|
+                    loc.unplug2 loc.get_source.get_full_name
+                    loc <= source
+                # end
+                # rescue_data[:loc_sinks] = []
                 # loc.get_sinks.each{ |sink|
                 #     rescue_data[:loc_sinks] << sink
                 #     sink.unplug @ht.get_payload_out.get_full_name
