@@ -2,6 +2,8 @@
 
 # ! Ajouter une gestion de @side_inputs identique à @forbidden_transitions avec un hash pour pouvoir retirer toutes les side_inputs relative à une décision que l'on souhaite supprimer
 
+# ! Ajouter les update de main sur cette branch (merge main ?) et revenir sur l'utilisation de la slack avec la nouvelle gestion par input port.   
+
 module Converter
 
     Transition = Struct.new(:timestamp, :value)

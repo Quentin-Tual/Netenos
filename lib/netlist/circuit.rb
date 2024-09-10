@@ -79,19 +79,25 @@ module Netlist
             return (fanout_list.sum.to_f / fanout_list.size).round(2)
         end
 
+        # ! Update with the new slack management
         def get_slack_hash delay_model = :int_multi
             if @crit_path_length.nil?
                 get_exact_crit_path_length delay_model
             end
 
+            # * For each primary output call the recursive method update_path_slack
             get_outputs.each do |out_p|
                 out_p.get_source.partof.update_path_slack(0.0, delay_model)
             end
 
+            # * Associate each slack value existing to all the components containing the same value   
             tmp = @components.each_with_object(Hash.new([])) do |comp, h|
-                h[comp.slack] += [comp]
+                comp.get_inputs.each do |in_p|
+                    h[in_p.slack] += [in_p]
+                end
             end
 
+            # * Same with primary inputs 
             get_inputs.each do |in_p|
                 tmp[in_p.slack] += [in_p]
             end
