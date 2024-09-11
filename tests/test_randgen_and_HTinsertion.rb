@@ -7,7 +7,7 @@ require_relative "../lib/netenos.rb"
 include Netlist
 
 def gen_case 
-    @generator = Netlist::RandomGenComb.new 6, 3, 10, [:even, 0.70]
+    @generator = Netlist::RandomGenComb.new 8, 4, 10, [:even, 0.70]
     @circ = @generator.getRandomNetlist "test"
     pp @circ.getNetlistInformations :int_multi
     @timings_h = @circ.get_timings_hash

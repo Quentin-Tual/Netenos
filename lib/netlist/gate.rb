@@ -79,12 +79,12 @@ module Netlist
         def update_path_slack slack, delay_model
 
             # * Get the most critical nodes (latest node to see it's value updated in worst case) in the form of a hash associating the timing to the inputs.
-            crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
+            crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cumul_propag_time}.sort.last].to_h
 
             # * For each input excluding the critical nodes 
             get_inputs.difference(crit_node.values).each do |in_p|
                 source = in_p.get_source
-                input_slack = crit_node.keys[0] - in_p.get_source_cum_propag_time + slack 
+                input_slack = crit_node.keys[0] - in_p.get_source_cumul_propag_time + slack 
                 if in_p.slack.nil? or in_p.slack > input_slack 
                     in_p.slack = input_slack
                     if source.class.name == "Netlist::Wire"

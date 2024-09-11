@@ -33,7 +33,7 @@ module Netlist
             if source.is_a? Port or source.is_a? Wire
                 source.fanout << self
             else
-                pp source.class
+                # pp source.class #!DEBUG
                 source.get_free_input << self
             end
 
