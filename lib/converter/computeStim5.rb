@@ -4,11 +4,26 @@
 module Converter
 
     # Transition = Struct.new(:timestamp, :value)
-    Event = Struct.new(:signal, :timestamp, :value, :parent)# do 
-    #     def pretty_print(pp)
-    #         pp.text "#<Converter::Event signal=#{signal.name}, timestamp=#{timestamp}, value=#{value}, parent=#{parent.nil? nil : parent.signal.name}>"
-    #     end
-    # end
+    Event = Struct.new(:signal, :timestamp, :value, :parent) do 
+        def match? event
+           return ((event.signal == signal) and (event.timestamp == timestamp) and (event.value == value))
+        end
+
+        def closest_inferior_timestamp events
+            events.select{|e| e.timestamp <= timestamp}.min_by{|e| (e.timestamp - timestamp).abs}
+        end
+
+        def boolean_value
+            case value
+            when "R", "1"
+                "1"
+            when "F", "0"
+                "0"
+            else
+                raise "Error : Unknown transition value encountered. Cannot obtain boolean equivalence."
+            end
+        end
+    end
     # Choice = Struct.new(:events, :step)
     # Decision = Struct.new(:events, :step)
 
@@ -27,29 +42,6 @@ module Converter
             # @decisions_steps = Hash.new([])
             @events_to_process = []#Hash.new { |hash, key| hash[key]=[] }
         end
-
-        # def backpropagate_side_inputs
-        #     until @side_inputs.empty?
-        #         si = @side_inputs.shift
-        #         res = backpropagate(si)
-        #         if res == :dead_end
-        #             # TODO : Appeler revise_decision
-        #         end
-        #     end
-
-        #     # TODO : Si res == :dead_end
-        # end
-
-        # def revise_decision
-        #     # TODO : Tant que res = :dead_end 
-        #     # ! Boucle infinie possible 
-        #         # TODO : "Clean" -> ajouter le dernier choix aux décisions interdites de l'avant dernier choix, supprimer les transitions fixées jusqu'au dernier choix effectué et supprimer les forbidden_decisions associées au dernier choix
-        #         # TODO : Faire
-        #             # TODO : "Retry" -> res = set_target_path ou res = backpropagate sur l'avant dernier choix (dépend du tag de son signal), backpropagate étant à modifier en premier
-        #         # TODO : Tant que res = :retry
-            
-        #     # TODO : Retourner :success 
-        # end
 
         def get_insertion_points payload_delay
             # * Returns a list of gate which outputs has a slack greater than the payload delay 
@@ -95,7 +87,10 @@ module Converter
 
             backpropagate2([event])
 
-            if @forbidden_transitions.length == 1 and @forbidden_transitions.last == event
+            if @forbidden_transitions.last == event
+                if @forbidden_transitions.length > 1 #!DEBUG
+                    pp "unexpected"
+                end
                 return :impossible
             else
                 return :success
@@ -103,35 +98,47 @@ module Converter
         end
 
         def recursive_transitions_deletion parent_to_be_deleted
-            @transitions.each do |e|
-                if e.any?{|x| x.parent == parent_to_be_deleted}
-                    e.map{|x| recursive_transitions_deletion(x)}
-                    @forbidden_transitions.each do |e|
-                        if e.parent == parent_to_be_deleted
-                            @forbidden_transitions.delete(e)
-                        end
+            transitions_to_delete = []
+
+            @transitions.each do |t|
+                # if t.any?{|e| (!e.parent.nil?) and (e.signal.name == "Not8780" or e.parent.signal.name == "Or29280")} #!DEBUG
+                #     pp "here"
+                # end
+                if t.any?{|e| e.parent == parent_to_be_deleted}
+                    t.map{|e| recursive_transitions_deletion(e)}
+                    # @forbidden_transitions.each do |e|
+                    #     # if e.signal.name == "Not8780" #!DEBUG
+                    #     #     pp "here"
+                    #     # end
+                    #     if e.parent.match? parent_to_be_deleted
+                    #         @forbidden_transitions.delete(e)
+                    #     end
+                    # end
+                    transitions_to_delete << t
+                end
+                @forbidden_transitions.each do |e|
+                    # if e.signal.name == "Not8780" #!DEBUG
+                    #     pp "here"
+                    # end
+                    if e.parent.match? parent_to_be_deleted
+                        @forbidden_transitions.delete(e)
                     end
-                    @transitions.delete(e)
                 end
             end
+
+            transitions_to_delete.each{|t| @transitions.delete(t)}
         end
 
-        # def recursive_forbidden_transitions_deletion parent_to_be_deleted
-        #     @forbidden_transitions.each do |e|
-        #         if e.parent == parent_to_be_deleted
-        #             recursive_forbidden_transitions_deletion(e)
-        #             @forbidden_transitions.delete(e)
-        #         end
-        #     end
-        # end
-
         def backtrack wrong_transition
-            
-            wrong_event = @transitions.select{|e| e.include?wrong_transition}[0]
+            # if wrong_transition.signal.name == "Xor29380"  #!DEBUG
+            #     pp "here"
+            # end
+            wrong_event = @transitions.select{|e| e.include? wrong_transition}[0]
             wrong_event.each{|e| recursive_transitions_deletion(e)}
             @transitions.delete(wrong_event)
+            # TODO : Supprimer les forbidden decisions pour cette décision
             @forbidden_transitions.delete_if do |e|
-                wrong_event.include? e.parent
+                wrong_event.any?{|x| x.match? e.parent}
             end
 
             @events_to_process.delete_if do |e|
@@ -141,10 +148,6 @@ module Converter
             # print "Backtracking :" #!DEBUG
             # pp wrong_transition.signal
 
-            # TODO : Supprimer les forbidden decisions pour cette décision
-            # ! See notes at the top of the file
-            # recursive_forbidden_transitions_deletion(wrong_transition)
-            
             # TODO : Ajouter la décision responsable du backtrack aux décisions interdites
             @forbidden_transitions << wrong_transition
 
@@ -199,7 +202,10 @@ module Converter
         # end
 
         def is_fixed_transitions_compatible? events
-            # TODO : Vérifier que la transition n'entre pas en contradiction avec d'autres transitions dans les fixed_transitions
+            # TODO : Vérifier que les events n'entrent pas en contradiction entre eux
+            if events.permutation(2).any?{|x,y| x.signal == y.signal and x.timestamp == y.timestamp and x.value != y.value}
+                return false
+            end
 
             # TODO : Vérifier que le signal concerné ne possède pas de transitions incompatibles
             # Same timestamp and different value
@@ -219,7 +225,7 @@ module Converter
                 previous_event = Event.new(nil,0.0,nil,nil)
                 next_event = nil
                 event_list.sort_by{|e| e.timestamp}.each do |e| 
-                    if e.timestamp < event.timestamp and e.timestamp > previous_event.timestamp
+                    if e.timestamp <= event.timestamp and e.timestamp > previous_event.timestamp # ! e.timestamp <= event.timestamp, see if modification cause troubles
                         previous_event = e
                     elsif e.timestamp > event.timestamp
                         next_event = e
@@ -341,133 +347,6 @@ module Converter
             end
         end
 
-        def compute_output_transitions gate, source_gates
-            # TODO : Reprendre la fonction pour transmettre non plus toutes les transitions des portes aux entrées en sortie mais une transition donnée à une entrée à la porte suivante. Il faudra donc récupérer l'état du deuxième signal en entrée de la porte 'gate' à l'instant de la transition donnée.
-
-            ret = nil
-            
-            if source_gates.length == 1
-                events = source_gates[0].transitions.sort_by{|transi| transi.timestamp}
-                transition_list =events.collect do |event|
-                    Transition.new(event.timestamp + gate.propag_time[@delay_model], gate.get_output_transition(event.value))
-                end 
-                transition_list.each do |t|
-                    gate.transitions << t unless gate.transitions.include? t
-                end  
-            else
-                events = source_gates.collect do |source_g|
-                    source_g.transitions.collect do |transi|
-                        [source_g,transi]
-                    end
-                end.flatten(1)
-                events.sort_by!{|e| e[1].timestamp}
-
-                # TODO : keep track of each source value  
-                state_h = source_gates.each_with_object(Hash.new){|source_g,h| h[source_g]="X"} # * "X" as a wildcard, it could be any value
-
-                events_h = {}
-
-                events.collect{|e| e[1].timestamp}.uniq.each do |current_timestamp| # For each different timestamps in events
-                    same_time_events = events.partition do |e|
-                        e[1].timestamp == current_timestamp
-                    end[0]
-
-                    # if same_time_events.length > 2 #!DEBUG
-                    #     pp "Here"
-                    # end
-                    
-                    # TODO : associer l'état en mémoire et une transition ou deux transition à un timestamp dans events_h
-                    if same_time_events.length < source_gates.length 
-                        # ! Only thought with 2 inputs gates  
-                        gate_without_transition = source_gates.select{|g| g != same_time_events[0][0]}[0]
-                        if state_h[gate_without_transition] == "X"
-                            next
-                        end
-                        tmp = [state_h[gate_without_transition], same_time_events[0][1].value]
-                        events_h[current_timestamp] = tmp
-                    else
-                        tmp = same_time_events.collect{|e| e[1].value}
-                        if tmp.include? "X"
-                            next
-                        else
-                            events_h[current_timestamp] = same_time_events.collect{|e| e[1].value}
-                        end
-                    end
-
-                    # update state_h
-                    same_time_events.each do |source_g, transition|
-                        case transition.value
-                        when "R","1"
-                            state_h[source_g] = "1" 
-                        when "F","0"
-                            state_h[source_g] = "0"
-                        else
-                            raise "Error: Unknown transition value uncountered"
-                        end
-                    end
-                end
-
-                events_h.each do |timestamp, inputs_transitions|
-                    t = Transition.new(
-                        timestamp+gate.propag_time[@delay_model], 
-                        gate.get_output_transition(inputs_transitions)
-                    )
-
-                    if verify_transition(gate,t)
-                        gate.transitions << t unless gate.transitions.include? t 
-                    else
-                        ret = :retry
-                    end
-                    # gate.transitions.uniq! # same as the if include? t
-                end
-
-                # TODO : Clean the unexpected transition with inertial propagation delay
-                # ! Question importante : Est-il possible que la propagation puisse mettre à jour une incompatibilité qui imposerait un backtracking ?
-            end
-
-            if ret == :retry
-                return ret
-            else
-                return :success
-            end 
-        end
-
-        def propagate gate
-            # * : Le signal devrait disposer de transitions fixées à ses deux entrées si ce n'est pas le cas, il faudra réitérer après d'autres propagation
-
-            # TODO : Condition d'arrêt -> Sortie primaire, Porte qui possède déjà une transition identique, Transition invalide (enfreint les contraintes de l'algo)
-            # if gate.instance_of? Netlist::Port and gate.is_global?
-            #     return :success
-            # end
-
-            res = compute_output_transitions(gate, gate.get_source_gates)
-
-            gate.get_sink_gates.each do |sink_gate|
-                if sink_gate.instance_of? Netlist::Port and sink_gate.is_global?
-                    next
-                else
-                    propagate sink_gate
-                end
-            end
-
-            return :success
-        end
-
-        # def get_last_choice
-        #     n=1
-        #     last_choice = @transitions[-n]
-        #     while (!last_choice[0].choice) and (n < @transitions.length)
-        #         n+=1
-        #         last_choice = @transitions[-n]
-        #     end
-
-        #     if n==@transitions.length
-        #         return nil
-        #     else
-        #         return last_choice
-        #     end 
-        # end
-
         def get_inputs_events
             return @transitions.flatten.select{|e| e.signal.instance_of? Netlist::Port}
         end
@@ -477,6 +356,7 @@ module Converter
                 t.signal.tag = :ht
             end
         end
+        
     end
 
 end

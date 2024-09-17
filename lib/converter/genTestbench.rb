@@ -30,13 +30,14 @@ module Converter
             return ret
         end
 
-        def gen_testbench stim_type = :random, freq = 1, circ_name = "circ", nb_cycle = 20, phase: 0, stim_file: "text"
+        def gen_testbench stim_type = :random, freq = 1, circ_name = "circ", nb_cycle = 20, phase: 0, stim_file: "text", asynch_stim: nil 
             # * : Generates a VHDL testbench in text format based on a ERB template stored in the project. The option stim is used to indicates if we want stimuli in it or not, the type of stimuli are indicated (random). Frequency at which the circuit will be stimulated can also be specified in args as a multipler of the critical path length.  
             @freq = freq
             @instance_name = circ_name
             @phase = @netlist_data[:crit_path_length] * phase
 
             gen_arch_body_uut_portmap
+            
             case stim_type
             when String 
                 @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
@@ -55,6 +56,9 @@ module Converter
             when :random
                 @stimuli = gen_arch_body_stim_assign(gen_stimuli(stim_type, nb_cycle))
                 @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) 
+            when :asynch
+                @stimuli = asynch_stim.sort_by{|e| e.timestamp}
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_asynch_template.vhdl"))
             else
                 @stimuli = ""
                 @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) 

@@ -44,7 +44,7 @@ module VCD
                 obs_cycle = (t / obs_clk_period).to_i
                 nom_cycle = (t / nom_clk_period).to_i
                 
-                # sig_transition.each do |sig, arrival_state| #! DEBUG should fix synchronous mode, make it improper for asynchronous mode
+                # sig_transition.each do |sig, arrival_state| #! DEBUG should fix synchronous mode, make troubles for asynchronous mode
                 #     sig_curr_state[sig] = arrival_state
                 # end
 

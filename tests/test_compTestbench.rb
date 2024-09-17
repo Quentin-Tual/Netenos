@@ -7,9 +7,7 @@ require_relative "../lib/converter/genStim2.rb"
 # result = RubyProf.profile do
 include Netlist
 
-$CIRC_CARAC = [6, 3, 10, [:even, 0.70]]
-$DELAY_MODEL = :int_multi
-$FREQ = 10
+
 
 class Test_compTestbench
     attr_accessor :circ_init, :circ_alt
@@ -46,12 +44,12 @@ class Test_compTestbench
     def stim_gen 
         @stim_generator = Converter::GenStim.new(@circ_init)
         stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
-        @stim_generator.save_as_txt "stim.txt"
+        @stim_generator.save_as_txt "stim.txt", bin_stim_vec: false
     end
 
     def testbench_gen 
         @tb_gen = Converter::GenCompTestbench.new(@circ_init, @circ_alt, $DELAY_MODEL)
-        @tb_gen.gen_testbench "stim.txt", $FREQ
+        @tb_gen.gen_testbench "stim.txt", $FREQ, bit_vec_stim: false
     end
 
     def script_gen
@@ -109,6 +107,10 @@ class Test_compTestbench
 end
 
 if __FILE__ == $0
+    $CIRC_CARAC = [6, 3, 10, [:even, 0.70]]
+    $DELAY_MODEL = :int_multi
+    $FREQ = 10
+
     Dir.chdir("tmp") do
         puts "Lancement #{__FILE__}" 
         print(self.class)

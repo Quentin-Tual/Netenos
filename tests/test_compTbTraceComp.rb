@@ -2,12 +2,6 @@
 require_relative "../lib/netenos.rb"
 require_relative "./test_compTestbench.rb"
 
-
-$CIRC_CARAC = [8, 4, 15, [:even, 0.70]]
-$DELAY_MODEL = :int_multi
-$FREQ = 10
-$COMPILER = :ghdl
-
 class Test_compTbTraceCompt < Test_compTestbench
 
     def initialize 
@@ -18,8 +12,12 @@ class Test_compTbTraceCompt < Test_compTestbench
         # * Build a test case
         super
 
-        # * compile and simulate 
-        `./compile.sh`
+    end
+
+    def run
+        # * Generate, compile and simulate 
+        super
+        # `./compile.sh`
 
         # TODO : Charger les traces
         trace_extractor = VCD::Vcd_Signal_Extractor.new
@@ -36,9 +34,15 @@ class Test_compTbTraceCompt < Test_compTestbench
 end
 
 if __FILE__ == $0
-    Dir.chdir("tmp") do
+    $CIRC_CARAC = [8, 4, 15, [:even, 0.70]]
+    $DELAY_MODEL = :int_multi
+    $FREQ = 10
+    $COMPILER = :ghdl
+    
+    Dir.chdir("tests/tmp") do
         puts "Lancement #{__FILE__}" 
         env = Test_compTbTraceCompt.new
+        env.run
         puts "Fin #{__FILE__}"
     end
   end

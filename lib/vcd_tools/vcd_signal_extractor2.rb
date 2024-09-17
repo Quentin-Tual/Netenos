@@ -6,7 +6,7 @@ module VCD
         def initialize
             @output_traces = {}
             @id_tab = {}
-            @vcd = SizedQueue.new(100000)
+            @vcd = SizedQueue.new(250000)
             @current_timestamp = nil
         end
 

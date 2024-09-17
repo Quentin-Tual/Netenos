@@ -33,7 +33,7 @@ module Converter
             return ret
         end
 
-        def gen_testbench stim_type = :random, freq = 1, nb_cycle = 20, phase: 0, bit_vec_stim: true 
+        def gen_testbench stim_type = :random, freq = 1, nb_cycle = 20, phase: 0, bit_vec_stim: false 
             @freq = freq
             @phase = (@netlist_init_data[:crit_path_length] * phase).round(3)
             circ_name = @netlist_init_data[:entity_name]
