@@ -30,7 +30,7 @@ module Converter
             return ret
         end
 
-        def gen_testbench stim_type = :random, freq = 1, circ_name = "circ", nb_cycle = 20, phase: 0, stim_file: "text", asynch_stim: nil 
+        def gen_testbench stim_type = :random, freq = 1, circ_name = "circ", nb_cycle = 20, phase: 0, asynch_stim: nil, bit_vec_stim: false
             # * : Generates a VHDL testbench in text format based on a ERB template stored in the project. The option stim is used to indicates if we want stimuli in it or not, the type of stimuli are indicated (random). Frequency at which the circuit will be stimulated can also be specified in args as a multipler of the critical path length.  
             @freq = freq
             @instance_name = circ_name

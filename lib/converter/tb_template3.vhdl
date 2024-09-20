@@ -62,6 +62,7 @@ begin
         file text_file : text open read_mode is "<%=@stim_file_path%>";
         variable text_line : line;
         variable stim_val : std_logic_vector(<%=@netlist_data[:ports][:in].length - 1%> downto 0);
+        variable text_val : <%=bit_vec_stim ? "bit_vector(#{@netlist_data[:ports][:in].length - 1} downto 0)" : "natural"%>;
     begin
         -- report "Starting simulation...";
         
@@ -74,8 +75,11 @@ begin
               next;
             end if;
             
-            read(text_line, stim_val);
+            read(text_line, text_val);
             
+            stim_val :=  <%=bit_vec_stim ? "to_stdlogicvector(text_val)" : "std_logic_vector(to_unsigned(text_val, #{@netlist_data[:ports][:in].length}))"%>;
+            --read(text_line, stim_val);
+
             for k in 0 to <%=@netlist_data[:ports][:in].length - 1%> loop
                 tb_in(k) <= stim_val(k);
             end loop;

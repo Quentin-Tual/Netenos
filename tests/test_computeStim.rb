@@ -28,7 +28,7 @@ class Test_computeStim
         Converter::DotGen.new.dot @circ, "./test.dot"
 
         @targeted_transition = Converter::Event.new(target_paths_outputs[0], @circ.crit_path_length ,"R", nil)
-        res = @compStim.start @targeted_transition, @insert_points[0]
+        res = @compStim.compute @targeted_transition, @insert_points[0]
         
         if res == :impossible
             puts "Impossible resolution for the circuit loaded."
@@ -37,6 +37,25 @@ class Test_computeStim
 
         @compStim.colorFixedGates
         Converter::DotGen.new.dot @circ, "./processed.dot"
+    end
+    
+    def generate_stim_on_random_circuit
+        @circ = @generator.getValidRandomNetlist "test"
+        @circ.getNetlistInformations $DELAY_MODEL
+
+        @compStim = Converter::ComputeStim.new(@circ, :int_multi)
+
+        events_computed = nil
+        loop do 
+            events_computed = @compStim.generate_stim
+            break if !events_computed.empty?
+        end
+        pp "here"
+        # if @compStim.generate_stim 
+        #     pp "Fail"
+        # else
+        #     pp "Success"
+        # end
     end
 
     def get_resolvable_case
@@ -49,7 +68,6 @@ class Test_computeStim
             @compStim = Converter::ComputeStim.new(@circ, :int_multi)
             @insert_points = @compStim.get_insertion_points 2.5
 
-
             if @insert_points.empty?
                 puts "No insertion point found"
                 next
@@ -59,7 +77,7 @@ class Test_computeStim
                 Converter::DotGen.new.dot @circ, "./test.dot"
 
                 @targeted_transition = Converter::Event.new(target_paths_outputs[0], @circ.crit_path_length ,"R", nil)
-                res = @compStim.start @targeted_transition, @insert_points[0]
+                res = @compStim.compute @targeted_transition, @insert_points[0]
                 
                 if res == :impossible
                     attempt += 1
@@ -78,7 +96,7 @@ class Test_computeStim
         @circ.save_as "."
     end
 
-    def verif_test
+    def verif_compute
         puts
         puts "Insertion point : #{@insert_points[0].name}"
         puts "Targeted : #{@targeted_transition.signal.name}, #{@targeted_transition.timestamp}, #{@targeted_transition.value}"
@@ -160,9 +178,10 @@ class Test_computeStim
     end
 
     def run
-        get_resolvable_case
+        # get_resolvable_case
         # load_circuit
-        verif_test
+        # verif_compute
+        generate_stim_on_random_circuit
     end
 end
 

@@ -53,14 +53,21 @@ module Converter
         def get_cone_outputs insertion_point
             # * search the output from the given insertion_point (last gate of the path)
             # * Tag each gate encountered as "target_path" 
-            
-            insertion_point.partof.tag = :target_path
-            if insertion_point.get_source.is_global?
-                insertion_point.get_source.tag = :target_path
+            next_gates = nil
+
+            if insertion_point.instance_of? Netlist::Port and insertion_point.is_global?
+                insertion_point.tag = :target_path
+                next_gates = insertion_point.get_sink_gates
             else
-                insertion_point.get_source_comp.tag = :target_path
+                insertion_point.partof.tag = :target_path
+                if insertion_point.get_source.is_global?
+                    insertion_point.get_source.tag = :target_path
+                else
+                    insertion_point.get_source_comp.tag = :target_path
+                end
+                next_gates = insertion_point.partof.get_sink_gates
             end
-            next_gates = insertion_point.partof.get_sink_gates
+
             cone_outputs = []
 
             until next_gates.empty?
@@ -81,7 +88,70 @@ module Converter
             return cone_outputs # ! last gate of the path is considered the output, in the end we will need a table to convert a gate to the output connected 
         end
 
-        def start event, insertion_point
+        def analyse_netlist 
+            @insert_points = get_insertion_points 2.5 # ! hard value as it is the maximum delay in delay model :int_multi, check if possible to write a clean version
+            @target_paths_outputs = {}
+            @downstream_outputs = {}
+            @insert_points.each do |signal|
+                @downstream_outputs[signal] = get_cone_outputs(signal) 
+            end
+        end
+
+        def clean_data
+            @side_inputs = []
+            @transitions = []
+            # @decisions = []
+            @forbidden_transitions = [] #Hash.new([]) # Associates a stack of gate/transition pairs to one gate/decision pair, one key for each decision
+            # @decisions_steps = Hash.new([])
+            @events_to_process = []
+            @netlist.components.each{|comp| comp.tag = nil}
+        end
+
+        def generate_stim netlist=nil
+            if @netlist.nil? and netlist.nil?
+                raise "Error : No netlist provided."
+            elsif !netlist.nil?
+                @netlist = netlist
+            end
+            
+            analyse_netlist
+            
+            @events_computed = {}
+
+            @insert_points.each do |insert_point|
+                @events_computed[insert_point] = {}
+                @downstream_outputs[insert_point].each do |targeted_output|
+                    res = []
+                    # @events_computed[insert_point][targeted_output] = {}
+                    tmp = []
+                    ["R","F"].each do |transition|
+                        targeted_transition = Converter::Event.new(targeted_output, @netlist.crit_path_length , transition, nil)
+                        res << compute(targeted_transition, @insert_points[0])
+                        # ! : Modifier la fonction 'compute' pour empêcher les cas solutions de sensibilisation uniquement dynamique (stimulation asynchrone).
+                        tmp << get_inputs_events
+                        clean_data # Nettoyer @transitions, @forbidden_transitions, ...
+                    end
+
+                    if res.include? :impossible
+                        next
+                    else
+                        @events_computed[insert_point][targeted_output] ={"R" => tmp[0], "F" => tmp[1]}
+                        break
+                    end
+                end
+                if @events_computed[insert_point].empty?
+                    raise "Error : Insertion point #{insert_point.name} not observable on any output."
+                end
+            end
+
+            @events_computed.delete_if{|insert_point, solution| solution.empty?}
+
+            # TODO : Déterminer les vecteurs synchrones pour chaque cas(feuille de l'arbre) de @events_computed. Possible de le faire au cas par cas.
+            # pp "test" #!DEBUG
+            return @events_computed
+        end
+
+        def compute event, insertion_point
             
             @transitions << [event]
 

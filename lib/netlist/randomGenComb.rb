@@ -30,6 +30,56 @@ module Netlist
             @gate_pool = $GTECH.select{|klass| klass != Buffer}
         end
 
+        def getValidRandomNetlist name = "rand_#{self.object_id}", delay_model = :int_multi, compiler = :ghdl
+            attempts = 0
+            loop do 
+                attempts += 1
+                # * Generate a random netlist
+                getRandomNetlist
+                @netlist.getNetlistInformations delay_model
+
+                # * Simulate with a transition exhaustive stimulation
+                simulate(delay_model, compiler)
+
+                # * Load VCD file resulting
+                vcd_loader = VCD::Vcd_Signal_Extractor.new
+                trace = vcd_loader.extract2 "#{@netlist.name}_#{1}_tb.vcd", compiler
+
+                # * If every output signal take both value 0 and 1 at least one time in the simulation -> end the loop
+                break if trace["id_tab"].values.all?{|output_name| trace["output_traces"].flatten.include? "#{output_name}0" and trace["output_traces"].flatten.include? "#{output_name}1"} 
+            end
+            puts "Found with #{attempts} attempts." #!DEBUG
+            # * Return the found netlist
+            return @netlist
+        end
+
+        def simulate delay_model, compiler
+            # * Generate gtech
+            vhdl_generator = Converter::ConvNetlist2Vhdl.new(@netlist)
+            vhdl_generator.gen_gtech
+            
+            # * Generate circuit vhdl description file
+            vhdl_generator.generate(@netlist, delay_model)
+
+            # * Generate compile.sh and makefile
+            vhdl_compiler = Converter::VhdlCompiler.new
+            vhdl_compiler.gtech_makefile(".", compiler)
+            vhdl_compiler.circ_compile_script(".", @netlist.name, [1], [compiler, :minimal_sig], gtech_path: ".")
+
+            # * Generate transition exhaustivity stimulation
+            stim_generator = Converter::GenStim.new(@netlist)
+            stim_generator.gen_exhaustive_trans_stim
+            stim_generator.save_as_txt("stim.txt")
+
+            # * Generate testbench file 
+            tb_generator = Converter::GenTestbench.new(@netlist)
+            tb_generator.gen_testbench("stim.txt", 1, @netlist.name)
+
+            # * Run simulation
+            `make`
+            `./compile.sh` 
+        end
+
         def getRandomNetlist name = "rand_#{self.object_id}"
             # Initialize variables to fill the sources pool later
             @available_sources = {} # Contains available sources for each layer
