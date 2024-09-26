@@ -149,7 +149,7 @@ module Converter
             when "xor"
                 return Netlist::Xor2.new
             when "not"
-                return Netlist::Not2.new
+                return Netlist::Not.new
             when "nand"
                 return Netlist::Nand2.new
             when "nor"

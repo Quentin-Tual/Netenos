@@ -80,6 +80,18 @@ module Netlist
             end
         end
 
+        def get_source_gates
+            source = self.get_source 
+            
+            if (source.instance_of? Netlist::Port and source.is_global?) 
+                source
+            elsif source.instance_of? Netlist::Wire
+                source.fanin.partof
+            else
+                source.partof
+            end
+        end
+
         # def get_source_comp
         #     return get_source.class.name == "Netlist::Wire" ? source : source.partof
         # end

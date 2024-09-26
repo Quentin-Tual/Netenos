@@ -215,6 +215,30 @@ module Netlist
             return nil
         end
 
+        def get_netlist_precedence_grid 
+            grid = []
+
+            grid << get_outputs.collect do |o| 
+                o.get_source_gates
+            end
+
+            id = 0
+
+            loop do 
+                new_layer = grid[id].collect{|g| g.get_source_gates}.flatten.uniq
+                new_layer.select!{|g| g.is_a? Netlist::Gate}
+
+                if !new_layer.empty?
+                    grid << new_layer
+                    id += 1
+                else 
+                    break
+                end
+            end
+        
+            return grid.reverse
+        end
+
         def save_as path
             if !path.nil?
                 if path[-1] == "/"  

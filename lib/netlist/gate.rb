@@ -34,10 +34,6 @@ module Netlist
             @cumulated_propag_time = 0.0
             # @slack = nil
             @tag = nil
-
-            # Compute Test Vectors
-            @transitions = []
-            @forbidden_transitions = []
         end
 
         def <<(e)
@@ -89,7 +85,7 @@ module Netlist
                     in_p.slack = input_slack
                     if source.class.name == "Netlist::Wire"
                         # * Recursively calls update_path_slack method of the source wire
-                        source.update_path_slack(input_slack, delay_model) # ! Update wwire class method update_path_slack
+                        source.update_path_slack(input_slack, delay_model) # ! Update wire class method update_path_slack
                     elsif source.is_global?
                         # * Set the primary input slack (stops the recursivity)
                         source.slack = input_slack

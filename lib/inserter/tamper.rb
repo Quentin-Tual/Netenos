@@ -35,7 +35,7 @@ module Inserter
             #     scan_netlist # * : Gives a hash dividing the netlist by stages, each being the max distance of each components from a global input 
             #     @stages = inside_out @stages # * : Reverse it to use the stage number as a key
             # else
-                @stages = a_to_h @stages
+            @stages = a_to_h @stages
             # end
         end
 

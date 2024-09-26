@@ -8,7 +8,7 @@ module Netlist
             @fanout = []
             @partof = nil
             @propag_time = {:one => 0.0, :int => 0.0, :int_multi => 0.0, :int_rand => 0.0, :fract => 0.0} 
-            @cumulated_propag_time = 0
+            @cumulated_propag_time = 0.0
             @slack = nil
         end
 

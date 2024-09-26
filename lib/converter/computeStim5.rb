@@ -81,20 +81,33 @@ module Converter
                 primary_outputs, current_gate_sinks = current_gate.get_sink_gates.partition{|g| g.is_a? Netlist::Port and g.is_global?}
                 current_gate_sinks = current_gate_sinks.select{|g| g.tag != :target_path}
                 
-                cone_outputs << current_gate unless primary_outputs.empty?
+                # cone_outputs << current_gate unless primary_outputs.empty?
+                cone_outputs << primary_outputs unless primary_outputs.empty?
+                cone_outputs.flatten!
                 next_gates += current_gate_sinks unless next_gates.include? current_gate
             end
 
             return cone_outputs # ! last gate of the path is considered the output, in the end we will need a table to convert a gate to the output connected 
         end
 
-        def analyse_netlist 
-            @insert_points = get_insertion_points 2.5 # ! hard value as it is the maximum delay in delay model :int_multi, check if possible to write a clean version
-            @target_paths_outputs = {}
-            @downstream_outputs = {}
-            @insert_points.each do |signal|
-                @downstream_outputs[signal] = get_cone_outputs(signal) 
+        def analyse_netlist ht
+            case ht
+            when "og_s38417"
+                delay_required = Inserter::Og_s38417.new.get_payload_out.partof.propag_time[@delay_model]
+            when "xor_and"
+                delay_required = Inserter::Xor_And.new.get_payload_out.partof.propag_time[@delay_model]
+            when "it_s38417"
+                delay_required = Inserter::It_s38417.new.get_payload_out.partof.propag_time[@delay_model]
+            else
+                raise "Error : Unknown hardware trojan #{ht} encountered."
             end
+
+            @insert_points = get_insertion_points(delay_required) # ! hard value as it is the maximum delay in delay model :int_multi, check if possible to write a clean version
+            # @target_paths_outputs = {}
+            # @downstream_outputs = {}
+            # @insert_points.each do |signal|
+            #     @downstream_outputs[signal] = get_cone_outputs(signal) 
+            # end
         end
 
         def clean_data
@@ -104,29 +117,37 @@ module Converter
             @forbidden_transitions = [] #Hash.new([]) # Associates a stack of gate/transition pairs to one gate/decision pair, one key for each decision
             # @decisions_steps = Hash.new([])
             @events_to_process = []
-            @netlist.components.each{|comp| comp.tag = nil}
+            # @netlist.components.each{|comp| comp.tag = nil}
         end
 
-        def generate_stim netlist=nil
+        def generate_stim netlist=nil, ht="og_s38417"
             if @netlist.nil? and netlist.nil?
                 raise "Error : No netlist provided."
             elsif !netlist.nil?
                 @netlist = netlist
             end
             
-            analyse_netlist
+            analyse_netlist(ht)
             
             @events_computed = {}
 
             @insert_points.each do |insert_point|
                 @events_computed[insert_point] = {}
-                @downstream_outputs[insert_point].each do |targeted_output|
+                downstream_outputs = get_cone_outputs(insert_point)
+                downstream_outputs.each do |targeted_output|
                     res = []
                     # @events_computed[insert_point][targeted_output] = {}
                     tmp = []
+
+                    #!DEBUG
+                    if insert_point.get_full_name == "And2220_i1"
+                        pp "here"
+                    end
+
                     ["R","F"].each do |transition|
-                        targeted_transition = Converter::Event.new(targeted_output, @netlist.crit_path_length , transition, nil)
-                        res << compute(targeted_transition, @insert_points[0])
+                        # get_cone_outputs(insert_point)
+                        targeted_transition = Converter::Event.new(targeted_output, @netlist.crit_path_length , transition, nil)                        
+                        res << compute(targeted_transition, insert_point)
                         # ! : Modifier la fonction 'compute' pour empêcher les cas solutions de sensibilisation uniquement dynamique (stimulation asynchrone).
                         tmp << get_inputs_events
                         clean_data # Nettoyer @transitions, @forbidden_transitions, ...
@@ -140,8 +161,10 @@ module Converter
                     end
                 end
                 if @events_computed[insert_point].empty?
-                    raise "Error : Insertion point #{insert_point.name} not observable on any output."
+                    # raise "Error : Insertion point #{insert_point.name} not observable on any output."
+                    pp "Insertion point #{insert_point.get_full_name} not observable on any output."
                 end
+                @netlist.components.each{|comp| comp.tag = nil}
             end
 
             @events_computed.delete_if{|insert_point, solution| solution.empty?}
@@ -258,7 +281,8 @@ module Converter
                 end
              
                 if !(@transitions.include? e_inputs) 
-                    @events_to_process << e_inputs
+                    # ! Push in order to process at first the target path 
+                    @events_to_process << e_inputs.sort_by{|e| e.signal.tag.to_s}
                     @events_to_process.flatten!
                     
                     @transitions << e_inputs
@@ -319,7 +343,7 @@ module Converter
                 # Inertial Delay Incompatibility : An existing transition is too close from the proposed one, impossible according to inertial delay model
 
                 # TODO : Pour chaque sink gate de 'event.signal'
-                    # TODO : Si le délai inertiel de la sink gate entre la transition précédente et la transition proposée ou entre la transition proposée et la transition suivante
+                    # TODO : Si le délai inertiel de la sink gate entre la transition précédente et la transition proposée ou entre la transition proposée et la transition suivante est trop faible
                         # TODO : retourner False
                     # TODO : Sinon
                         # TODO : retouner True
@@ -328,9 +352,9 @@ module Converter
                     if sink.instance_of? Netlist::Port and sink.is_global?
                         next
                     else 
-                        if (event.timestamp - previous_event.timestamp) < sink.propag_time[@delay_model]
+                        if !previous_event.signal.nil? and (event.timestamp - previous_event.timestamp) < sink.propag_time[@delay_model] and !previous_event.match? event
                             return false
-                        elsif !next_event.nil? and (next_event.timestamp - event.timestamp) < sink.propag_time[@delay_model]
+                        elsif !next_event.nil? and (next_event.timestamp - event.timestamp) < sink.propag_time[@delay_model] and !next_event.match? event
                             return false
                         end
                     end
@@ -350,8 +374,6 @@ module Converter
             # * : Optionnally an input transition is given, then the computation is easier
             # * : Decision is made regarding registered forbidden values
 
-            # ? : Utiliser des tables déjà précalculées contenant tous les cas possibles ? Utilisant une arithmétique particulière avec des R et F, ce serait peut-être préférable. Sinon lambda calcul ou en dur en conditionnel dans une fonction
-
             # TODO : récupérer les transitions applicable aux entrées de la porte pour obtenir cette transition en sortie
             gate = event.signal
 
@@ -364,22 +386,20 @@ module Converter
                 end
             end
 
-            possible_inputs_transitions = gate.get_input_transition event.value # !!! Value nil parfois, car le point d'insertion n'a aucune décision dans sa stack... ???
+            possible_inputs_transitions = gate.get_input_transition event.value
             input_transition_time = event.timestamp - gate.propag_time[@delay_model]
 
             # if possible_inputs_transitions.nil? or possible_inputs_transitions.include? nil
             #     raise "HERE" #!DEBUG
             # end
 
-            # TODO : Evincer les transitions possibles qui ne permettent pas de conserver la controlling value sur le target path s'il y en a un.
-            # if (gate.get_source_gates[0].is_a? Netlist::Gate and gate.get_source_gates[1].is_a? Netlist::Gate)
             if gate.instance_of? Netlist::Not
                 possible_inputs_transitions.select! do |inputs_transition|
-                    (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0])) or (gate.get_source_gates[0].tag != :target_path)
+                    (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[0].tag != :target_path)
                 end
             else
                 possible_inputs_transitions.select! do |inputs_transition|
-                    (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0])) or (gate.get_source_gates[1].tag == :target_path and (["R","F"].include? inputs_transition[1])) or (gate.get_source_gates[0].tag != :target_path and gate.get_source_gates[1].tag != :target_path)
+                    (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[1].tag == :target_path and (["R","F"].include? inputs_transition[1]  or non_stable_transition_on? gate.get_source_gates[1])) or (gate.get_source_gates[0].tag != :target_path and gate.get_source_gates[1].tag != :target_path)
                 end
             end
 
@@ -414,6 +434,12 @@ module Converter
                 raise "WIP"
                 # TODO : S'il ne reste aucun cas -> raise une erreur
                 # TODO : Sinon choisir une transition et renvoyer les transitions des deux entrées
+            end
+        end
+
+        def non_stable_transition_on? signal
+            @transitions.flatten.any? do |e|
+                e.signal == signal and ["R","F"].include?(e.value)
             end
         end
 

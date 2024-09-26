@@ -4,7 +4,7 @@ require_relative "../lib/netlist.rb"
 include Netlist
 include VHDL
 
-Dir.chdir("tmp") do
+Dir.chdir("tests/tmp") do
     generator = Netlist::RandomGenComb.new(8, 4, 15, [:custom, 0.7])
     # generator = Netlist::RandomGenComb.new 200, 10, 10
     rand_circ = generator.getRandomNetlist "test"
