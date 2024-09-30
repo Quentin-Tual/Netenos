@@ -92,11 +92,12 @@ module Converter
             return @stim
         end
 
-        def extend_exh_trans_in_file vec_list, new_file, max_in_mem_elements: 10_000_000, binary_text: true
-            path = new_file
+        def extend_exh_trans_in_file vec_list, path, max_in_mem_elements: 10_000_000, binary_text: true
             # TODO : si le path existe le supprimer
             if File.exist? path
                 `rm #{path}`
+            else
+                `touch #{path}`
             end
 
             tmp = ["# Stimuli sequence"]
@@ -150,7 +151,7 @@ module Converter
 
         def gen_sig_hammer_stim nb_cycle
             # ! : Use it cautiausly, with nb_cycle >= 1000 computation increases drastically
-            nb_cycle = nb_cycle/(@inputs.length*4) # 3 transition following each stimuli # ? : Avoid the difference between the given nb_cycle and resulting nb_cycle
+            nb_cycle = nb_cycle / (@inputs.length * 4) # 3 transition following each stimuli # ? : Avoid the difference between the given nb_cycle and resulting nb_cycle
 
             gen_random_stim nb_cycle
 

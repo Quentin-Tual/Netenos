@@ -251,6 +251,12 @@ module Inserter
                         end
                     end
                 end
+
+                @netlist.get_outputs.each do |out_p|
+                    if out_p.slack >= @ht.payload_in.partof.propag_time[:int_multi]
+                        list << [out_p, stage]
+                    end
+                end
             end
 
             sig_pool.select!{|in_p| !forbidden_locs.include? in_p}

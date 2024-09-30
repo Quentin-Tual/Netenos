@@ -78,7 +78,7 @@ module Netlist
             crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cumul_propag_time}.sort.last].to_h
 
             # * For each input excluding the critical nodes 
-            get_inputs.difference(crit_node.values).each do |in_p|
+            get_inputs.difference(crit_node.values.flatten).each do |in_p|
                 source = in_p.get_source
                 input_slack = crit_node.keys[0] - in_p.get_source_cumul_propag_time + slack 
                 if in_p.slack.nil? or in_p.slack > input_slack 
@@ -119,6 +119,8 @@ module Netlist
             get_output.get_sinks.each do |sink|
                 if sink.class.name == "Netlist::Wire"
                     sink.update_path_delay @cumulated_propag_time, delay_model
+                elsif sink.is_global?
+                    sink.cumulated_propag_time = @cumulated_propag_time
                 elsif !sink.is_global?
                     sink.partof.update_path_delay @cumulated_propag_time, delay_model
                 end
@@ -448,6 +450,19 @@ module Netlist
             end
         end
     end
+
+    class Constant < Port
+        def initialize name="#{self.class.name.split("::")[1]}#{self.object_id}", partof=nil
+            super name, :out, partof
+        end
+
+        def get_output 
+            return self
+        end
+    end 
+
+    class Zero < Constant; end
+    class One < Constant; end
 
     $DEF_GATE_TYPES = [And2, Or2, Xor2, Not, Nand2, Nor2, Buffer] # TODO : Legacy, verify where it is needed and rename to GTECH only
     $GTECH = $DEF_GATE_TYPES

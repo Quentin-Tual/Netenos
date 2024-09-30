@@ -11,6 +11,8 @@ class Test_convBlif2Netlist
 
     def run
         circ = @uut.convert "../C17.blif"
+        # circ = @uut.convert "../xparc.blif"
+        # circ = @uut.convert "../p82.blif"
         grid = circ.get_netlist_precedence_grid
         Converter::DotGen.new.dot circ, "./test_convBlif2Netlist.dot"
         `xdot test_convBlif2Netlist.dot`

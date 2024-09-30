@@ -318,7 +318,6 @@ module Converter
                 code << "signal #{wire_name} : std_logic;"
             end
             signals=circuit.components.collect{|comp| comp.get_outputs}.flatten
-
             signals.each do |sig|
                 code << "signal #{sig.get_full_name} : std_logic;"
             end
@@ -361,7 +360,11 @@ module Converter
             code << "-- Wiring primary ouputs "
             code << "----------------------------------"
             circuit.get_outputs.each do |output|
-                code << "#{output.name} <= #{output.get_source.get_full_name};"
+                if output.get_source.is_a? Netlist::Constant
+                    code << "#{output.name} <= #{output.get_source.is_a?(Netlist::Zero) ? "'0'" : "'1'"};"
+                else
+                    code << "#{output.name} <= #{output.get_source.get_full_name};"
+                end
             end
             code.indent=0
             code << "end netenos;"

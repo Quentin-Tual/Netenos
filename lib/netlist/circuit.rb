@@ -11,6 +11,7 @@ module Netlist
             # ? : possible optimization using 2 different attributes containing gates and components ?
             @components = [] 
             @wires = []
+            @constants = []
             @crit_path_length = nil
         end
 
@@ -87,7 +88,13 @@ module Netlist
 
             # * For each primary output call the recursive method update_path_slack
             get_outputs.each do |out_p|
-                out_p.get_source.partof.update_path_slack(0.0, delay_model)
+                # source = out_p.get_source 
+                # if source.is_global?
+                    out_p.slack = @crit_path_length - out_p.cumulated_propag_time
+                    out_p.get_source_gates.update_path_slack(out_p.slack ,delay_model) # ! TEST
+                # else
+                    # source.partof.update_path_slack(0.0, delay_model)
+                # end
             end
 
             # * Associate each slack value existing to all the components containing the same value   
@@ -121,7 +128,14 @@ module Netlist
                 raise "Error: No outputs found in circuit #{@name}."
             end
 
-            @crit_path_length = get_outputs.collect{|p_out| p_out.get_source.partof.cumulated_propag_time}.max
+            @crit_path_length = get_outputs.collect do |p_out|
+                source = p_out.get_source
+                if source.is_a? Netlist::Port and source.is_global?
+                    source.cumulated_propag_time
+                else
+                    source.partof.cumulated_propag_time
+                end
+            end.max
 
             if @crit_path_length.nil?
                 raise "Error: Nil critical path computed. Please verify circuit structure."
@@ -221,7 +235,8 @@ module Netlist
             grid << get_outputs.collect do |o| 
                 o.get_source_gates
             end
-
+            grid[0].select!{|g| g.is_a? Netlist::Gate}
+            
             id = 0
 
             loop do 

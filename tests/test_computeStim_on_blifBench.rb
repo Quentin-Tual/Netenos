@@ -17,8 +17,8 @@ class Test_computeStim
     end
 
     def load_blif path
-        @circ = Converter::ConvBlif2Netlist.new.convert path
-
+        @circ = Converter::ConvBlif2Netlist.new.convert(path)
+        @circ.getNetlistInformations($DELAY_MODEL)
         # @compStim = Converter::ComputeStim.new(@circ, :int_multi)
         # @insert_points = @compStim.get_insertion_points 1.5
 
@@ -66,8 +66,8 @@ class Test_computeStim
         # @circ = @generator.getValidRandomNetlist "test"
         load_blif "../C17.blif"
         @circ.getNetlistInformations $DELAY_MODEL
-
-        @compStim = Converter::ComputeStim.new(@circ, :int_multi)
+        Converter::DotGen.new.dot @circ, "./test.dot"
+        @compStim = Converter::ComputeStim.new(@circ, $DELAY_MODEL)
 
         events_computed = nil
         # loop do 
@@ -149,7 +149,7 @@ class Test_computeStim
             events_to_verify = [output_event]
         end
 
-        if simulation_matches_computations? trace, events_to_verify
+        if simulation_matches_computations?(trace, events_to_verify)
             # puts "Computed behavior is correct."    
             return true
         else
@@ -209,28 +209,45 @@ class Test_computeStim
                 end
             end
         end
+
+        return true
+    end
+
+    def one_insert_point
+        load_blif("C17.blif")
+        @compStim = Converter::ComputeStim.new(@circ, :int_multi)
+        insert_point = @circ.get_component_named("And2180").get_inputs[1]
+        targeted_output = @compStim.get_cone_outputs(insert_point)[0]
+        expected_event =  Converter::Event.new(targeted_output, @circ.crit_path_length,"R")
+        computed_events = @compStim.compute(expected_event, insert_point)
+    end
+
+    def verif_all_computed_events events
+        events.each do |insert_point, ins_points_events|
+            ins_points_events.each do |output_transition, e_list|
+                # output_events.each do |transition, e_list|
+                    if !verif_compute(e_list, output_transition)
+                        puts "Invalid computation for : insertion_point -> #{insert_point.get_full_name}, output -> #{output_transition.signal.name}, transition -> #{output_transition.value}"
+                    else
+                        puts "Valid computation for : insertion_point -> #{insert_point.get_full_name}, output -> #{output_transition.signal.name}, transition -> #{output_transition.value}"
+                    end
+                # end
+            end
+        end
     end
 
     def run
         # get_resolvable_case
         # load_circuit
-        events = generate_stim_on_random_circuit
-        events.each do |insert_point, ins_points_events|
-            ins_points_events.each do |output, output_events|
-                output_events.each do |transition, e_list|
-                    if !verif_compute(e_list, Converter::Event.new(output, @circ.crit_path_length, transition))
-                        puts "Invalid computation for : insertion_point -> #{insert_point.get_full_name}, output -> #{output.name}, transition -> #{transition}"
-                    else
-                        puts "Valid computation for : insertion_point -> #{insert_point.get_full_name}, output -> #{output.name}, transition -> #{transition}"
-                    end
-                end
-            end
-        end
+        generate_stim_on_random_circuit
+        verif_all_computed_events(@compStim.events_computed)
+        @compStim.save_vec_list("computed_stim.txt",@compStim.stim_vec)
+
     end
 end
 
 if __FILE__ == $0
-    $CIRC_CARAC = [6, 3, 10, [:even, 0.70]]
+    $CIRC_CARAC = [6, 2, 4, [:even, 0.70]]
     $DELAY_MODEL = :int_multi
     $COMPILER = :ghdl3
     $FREQ = 1
@@ -240,6 +257,7 @@ if __FILE__ == $0
         'rm *'
         # print(self.class)
         env = Test_computeStim.new 
+        # env.one_insert_point
         env.run
         puts "Fin #{__FILE__}"
     end

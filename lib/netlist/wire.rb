@@ -153,17 +153,20 @@ module Netlist
             # * Only one "input" for a Wire 
             # crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
 
-            # get_inputs.difference(crit_node.values).each do |in_p|
-            if slack < @slack
+            if @slack.nil?
+                @slack = slack  
+            elsif slack < @slack
                 @slack = slack
-                source = get_source
-                if source.class.name == "Netlist::Wire"
-                    source.update_path_slack(@slack, delay_model)
-                elsif source.is_global?
-                    source.slack = @slack
-                elsif !source.is_global?
-                    get_source_comp.update_path_slack(@slack, delay_model)
-                end
+            end
+
+            source = get_source
+            input_slack = slack
+            if source.class.name == "Netlist::Wire"
+                source.update_path_slack(@slack, delay_model)
+            elsif source.is_global?
+                source.slack = @slack
+            elsif !source.is_global?
+                get_source_comp.update_path_slack(@slack, delay_model)
             end
             # end
 

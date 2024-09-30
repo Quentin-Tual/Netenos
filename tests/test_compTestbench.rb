@@ -7,19 +7,18 @@ require_relative "../lib/converter/genStim2.rb"
 # result = RubyProf.profile do
 include Netlist
 
-
-
 class Test_compTestbench
     attr_accessor :circ_init, :circ_alt
 
     def initialize
         
         puts "[+] Initial circuit generation" if $VERBOSE
-        gen_case 
+        # gen_case 
+        load_blif "../xparc.blif"
         gen_circ_files @circ_init
 
         # * : Alter the initial netlist
-        @modifier = Inserter::Tamperer.new(@circ_init.clone, @generator.grid, @circ_init.get_timings_hash)
+        @modifier = Inserter::Tamperer.new(@circ_init.clone, @grid, @circ_init.get_timings_hash)
         @modifier.select_ht("og_s38417")
                 
         puts "[+] Altered circuit generation" if $VERBOSE
@@ -43,13 +42,14 @@ class Test_compTestbench
 
     def stim_gen 
         @stim_generator = Converter::GenStim.new(@circ_init)
-        stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
-        @stim_generator.save_as_txt "stim.txt", bin_stim_vec: false
+        # stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
+        stim_seq = @stim_generator.gen_random_stim 100
+        @stim_generator.save_as_txt "stim.txt", bin_stim_vec: true
     end
 
     def testbench_gen 
         @tb_gen = Converter::GenCompTestbench.new(@circ_init, @circ_alt, $DELAY_MODEL)
-        @tb_gen.gen_testbench "stim.txt", $FREQ, bit_vec_stim: false
+        @tb_gen.gen_testbench "stim.txt", $FREQ, bit_vec_stim: true
     end
 
     def script_gen
@@ -60,11 +60,24 @@ class Test_compTestbench
         @script_generator.comp_tb_compile_script ".", @circ_init.name, @circ_alt.name, [$FREQ], $OPT, gtech_path:"."
     end
 
+    def load_blif path
+        blif_loader = Converter::ConvBlif2Netlist.new
+        @circ_init = blif_loader.convert path
+        @circ_init.getNetlistInformations $DELAY_MODEL
+        @grid = @circ_init.get_netlist_precedence_grid
+
+        @vhdl_converter = Converter::ConvNetlist2Vhdl.new
+        @vhdl_converter.gen_gtech
+
+        @viewer = Converter::DotGen.new
+    end 
+
     def gen_case
         @generator = Netlist::RandomGenComb.new *$CIRC_CARAC
         # * : Generate a netlist
         @circ_init = @generator.getRandomNetlist("rand")
         @circ_init.getNetlistInformations $DELAY_MODEL
+        @grid = @generator.grid
         # * : Generate gtech
         @vhdl_converter = Converter::ConvNetlist2Vhdl.new
         @vhdl_converter.gen_gtech
@@ -111,7 +124,7 @@ if __FILE__ == $0
     $DELAY_MODEL = :int_multi
     $FREQ = 10
 
-    Dir.chdir("tmp") do
+    Dir.chdir("tests/tmp") do
         puts "Lancement #{__FILE__}" 
         print(self.class)
         env = Test_compTestbench.new 

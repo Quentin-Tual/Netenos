@@ -9,6 +9,10 @@ module Converter
            return ((event.signal == signal) and (event.timestamp == timestamp) and (event.value == value))
         end
 
+        # def pretty_print q
+        #     puts "#<Event: signal=#{signal.name}, timestamp=#{timestamp}, value=#{value}}>"
+        # end
+
         def closest_inferior_timestamp events
             events.select{|e| e.timestamp <= timestamp}.min_by{|e| (e.timestamp - timestamp).abs}
         end
@@ -29,7 +33,7 @@ module Converter
 
     class ComputeStim
         attr_accessor :decisions, :transitions
-        attr_reader :side_inputs
+        attr_reader :side_inputs, :stim_vec, :events_computed
 
         def initialize netlist, delay_model
             @netlist = netlist
@@ -135,55 +139,70 @@ module Converter
                 @events_computed[insert_point] = {}
                 downstream_outputs = get_cone_outputs(insert_point)
                 downstream_outputs.each do |targeted_output|
-                    res = []
+                    res = nil
                     # @events_computed[insert_point][targeted_output] = {}
-                    tmp = []
+                    tmp = nil
 
                     #!DEBUG
-                    if insert_point.get_full_name == "And2220_i1"
-                        pp "here"
-                    end
+                    # if insert_point.get_full_name == "And2220_i1"
+                    #     pp "here"
+                    # end
 
+                    targeted_transition = nil
                     ["R","F"].each do |transition|
+                        targeted_transition = Converter::Event.new(targeted_output, @netlist.crit_path_length , transition, nil)      
                         # get_cone_outputs(insert_point)
-                        targeted_transition = Converter::Event.new(targeted_output, @netlist.crit_path_length , transition, nil)                        
-                        res << compute(targeted_transition, insert_point)
-                        # ! : Modifier la fonction 'compute' pour empêcher les cas solutions de sensibilisation uniquement dynamique (stimulation asynchrone).
-                        tmp << get_inputs_events
+                        res = compute(targeted_transition, insert_point)
+                        tmp = get_inputs_events
                         clean_data # Nettoyer @transitions, @forbidden_transitions, ...
+                        if res == :success
+                            break
+                        else 
+                            tmp = nil
+                            res = nil
+                            next
+                        end
                     end
 
-                    if res.include? :impossible
-                        next
-                    else
-                        @events_computed[insert_point][targeted_output] ={"R" => tmp[0], "F" => tmp[1]}
+                    if res == :success
+                        @events_computed[insert_point][targeted_transition] = tmp
                         break
+                    else
+                        next
                     end
                 end
+
                 if @events_computed[insert_point].empty?
                     # raise "Error : Insertion point #{insert_point.name} not observable on any output."
                     pp "Insertion point #{insert_point.get_full_name} not observable on any output."
                 end
                 @netlist.components.each{|comp| comp.tag = nil}
+                @netlist.get_inputs.each{|in_p| in_p.tag = nil}
             end
 
             @events_computed.delete_if{|insert_point, solution| solution.empty?}
 
             # TODO : Déterminer les vecteurs synchrones pour chaque cas(feuille de l'arbre) de @events_computed. Possible de le faire au cas par cas.
+            stim_pair = []
+            # TODO : Pour chaque signal à risque calculer un couple de vecteurs 
+            @events_computed.each do |insert_point, solution|
+                stim_pair << convert_events2vectors(solution.values[0])
+            end
+
+            # TODO : Transformer les couples de vecteurs en une suite de vecteurs unique 
+            @stim_vec = stim_pair.uniq.flatten
+
             # pp "test" #!DEBUG
-            return @events_computed
+            return @stim_vec
         end
 
         def compute event, insertion_point
-            
             @transitions << [event]
-
             backpropagate2([event])
-
             if @forbidden_transitions.last == event
-                if @forbidden_transitions.length > 1 #!DEBUG
-                    pp "unexpected"
-                end
+                # if @forbidden_transitions.length > 1 #!DEBUG
+                #     pp "unexpected"
+                # end
                 return :impossible
             else
                 return :success
@@ -276,6 +295,11 @@ module Converter
 
                 e_inputs = compute_transitions(e)
                 if e_inputs.nil? or e_inputs == [nil]
+                    # puts "transitions :"
+                    # pp @transitions #!DEBUG
+                    # puts "forbidden transitions :"
+                    # pp @forbidden_transitions #!DEBUG
+                    # e_inputs = compute_transitions(e) #!DEBUG
                     backtrack(e)
                     next
                 end
@@ -288,6 +312,7 @@ module Converter
                     @transitions << e_inputs
                 end
             end
+
         end 
 
         # def is_forbidden? transition
@@ -321,22 +346,43 @@ module Converter
                 event_list.sort_by{|e| e.timestamp}.each do |e| 
                     if e.timestamp <= event.timestamp and e.timestamp > previous_event.timestamp # ! e.timestamp <= event.timestamp, see if modification cause troubles
                         previous_event = e
-                    elsif e.timestamp > event.timestamp
+                    end
+                    if e.timestamp > event.timestamp
                         next_event = e
                         break
                     end
                 end
 
-                values = Set.new([event.value, previous_event.value])
-                case values
-                when Set["R"], Set["F"]
-                    return false
-                when Set["R","1"]
-                    return false
-                when Set["F", "0"]
-                    return false
-                else 
-                    
+                if !previous_event.signal.nil?
+                    values = [previous_event.value, event.value]
+                    case values
+                    when ["R","R"], ["F","F"]
+                        return false
+                    when ["1","R"]
+                        return false
+                    when ["0", "F"]
+                        return false
+                    when ["R", "0"]
+                        return false
+                    when ["F", "1"]
+                        return false
+                    end
+                end
+
+                if !next_event.nil?
+                    values = [event.value, next_event.value]
+                    case values
+                    when ["R","R"], ["F","F"]
+                        return false
+                    when ["1","R"]
+                        return false
+                    when ["0", "F"]
+                        return false
+                    when ["R", "0"]
+                        return false
+                    when ["F", "1"]
+                        return false
+                    end
                 end
                  # ! Should we accept a "0" transition directly followed by a "1" transition without a "R" in between ? same for "1" followed by "0" without a "F" -> Solution in Inertial Delay Incompatibility ? A priori not a problem, stable-0/1 are used to define a value already transitionned when one appears on the other input. Adding a "R" or a "F" a posteriori should not necessary lead to errors or incompatibilities (depends on the timestamp we use, which should be computed accordingly)
 
@@ -354,7 +400,8 @@ module Converter
                     else 
                         if !previous_event.signal.nil? and (event.timestamp - previous_event.timestamp) < sink.propag_time[@delay_model] and !previous_event.match? event
                             return false
-                        elsif !next_event.nil? and (next_event.timestamp - event.timestamp) < sink.propag_time[@delay_model] and !next_event.match? event
+                        end
+                        if !next_event.nil? and (next_event.timestamp - event.timestamp) < sink.propag_time[@delay_model] and !next_event.match? event
                             return false
                         end
                     end
@@ -366,7 +413,18 @@ module Converter
         
         def verify_transition *events
             # TODO : Vérifier que la transition est valide compte tenu des décisions précédentes
-            return (!(@forbidden_transitions.flatten(1).any?{|decision| events.include? decision}) and self.is_fixed_transitions_compatible?(events))
+            new_input_events = events.select{|e| e.signal.instance_of? Netlist::Port and e.signal.is_global? and e.signal.is_input?}
+            if !new_input_events.empty?
+                convertible = is_convertible?(get_inputs_events + new_input_events)
+            else 
+                convertible = true
+            end
+            return (!(@forbidden_transitions.flatten(1).any?{|decision| events.include? decision}) and is_fixed_transitions_compatible?(events) and convertible)
+            # if !new_input_events.empty?
+            #     return (tmp and is_convertible?(get_inputs_events + new_input_events))
+            # else
+            #     return tmp 
+            # end
         end
 
         def compute_transitions event, input_transition = nil
@@ -399,7 +457,7 @@ module Converter
                 end
             else
                 possible_inputs_transitions.select! do |inputs_transition|
-                    (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[1].tag == :target_path and (["R","F"].include? inputs_transition[1]  or non_stable_transition_on? gate.get_source_gates[1])) or (gate.get_source_gates[0].tag != :target_path and gate.get_source_gates[1].tag != :target_path)
+                    (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[1].tag == :target_path and (["R","F"].include? inputs_transition[1] or non_stable_transition_on? gate.get_source_gates[1])) or (gate.get_source_gates[0].tag != :target_path and gate.get_source_gates[1].tag != :target_path)
                 end
             end
 
@@ -443,8 +501,89 @@ module Converter
             end
         end
 
+        def is_convertible? event_list
+            event_list = event_list.select{|e| ["R","F"].include? e.value}
+            ref = event_list[0].timestamp
+            if event_list.all?{|e| e.timestamp == ref}
+                return true
+            else 
+                return false
+            end
+        end
+
+        def convert_events2vectors input_events
+            # * Converts an event list into a couple test vectors.
+            # ! Events must be convertible (see is_convertible?) 
+            if !is_convertible?(input_events)
+                raise "Error : Given events are not convertible into synchronous test vectors."
+            end
+
+            # TODO : Identifier l'instant de transition
+            transition_instant = nil
+            input_events.each do |e| 
+                if (e.value == "R" or e.value == "F") 
+                    transition_instant = e.timestamp
+                    break
+                end
+            end
+
+            # TODO : Récupérer les évènements avant et après l'instant de transition
+
+            # TODO : construire un vecteur de départ avec les valeur avant l'instant de transition
+            # TODO : construire un vecteur d'arrivée avec les après l'instant de transition
+            origin_vector = {}
+            arrival_vector = {}
+            input_events.each do |e|
+                if e.timestamp < transition_instant
+                    origin_vector[e.signal] = e.value
+                elsif e.timestamp == transition_instant
+                    case e.value
+                    when "R"
+                        origin_vector[e.signal] = "0"
+                        arrival_vector[e.signal] = "1"
+                    when "F"
+                        origin_vector[e.signal] = "1"
+                        arrival_vector[e.signal] = "0"
+                    when "1"
+                        origin_vector[e.signal] = "1"
+                        arrival_vector[e.signal] = "1"
+                    when "0"
+                        origin_vector[e.signal] = "0"
+                        arrival_vector[e.signal] = "0"
+                    else
+                        raise "Error : Unknown transition value"
+                    end
+                else
+                    arrival_vector[e.signal] = e.value
+                end
+            end
+
+            @netlist.get_inputs.each do |in_p|
+                if !origin_vector.include? in_p
+                    origin_vector[in_p] = "1" # ! Default value, can be changed to "X" if necessary
+                end
+                if !arrival_vector.include? in_p
+                    arrival_vector[in_p] = "1" # ! Default value, can be changed to "X" if necessary
+                end
+            end
+
+            # TODO : s'il manque des valeurs dans un des deux vecteurs (don't care) remplir avec la même valeur que dans l'autre vecteur  
+            input_events.collect{|e| e.signal}.uniq.each do |in_p|
+                if !origin_vector.include?(in_p)
+                    origin_vector[in_p] = arrival_vector[in_p]
+                elsif !arrival_vector.include?(in_p)
+                    arrival_vector[in_p] = origin_vector[in_p]
+                end
+            end
+
+            origin_vector = origin_vector.sort_by{|signal, value| signal.name[1..].to_i}.collect{|e| e[1]}.join
+            arrival_vector = arrival_vector.sort_by{|signal, value| signal.name[1..].to_i}.collect{|e| e[1]}.join
+
+            return origin_vector, arrival_vector
+        end     
+
         def get_inputs_events
-            return @transitions.flatten.select{|e| e.signal.instance_of? Netlist::Port}
+            return @transitions.flatten.select{|e| e.signal.instance_of? Netlist::Port and e.signal.is_input?}
         end
 
         def colorFixedGates
@@ -452,7 +591,29 @@ module Converter
                 t.signal.tag = :ht
             end
         end
-        
+
+        def save_vec_list path, vec_list, bin_stim_vec: false 
+            if path[-4..-1]!=".txt" and path[-5..-1]!=".stim"
+                path.concat ".txt"
+            end
+
+            src = Code.new
+            src << "# Stimuli sequence"
+
+            vec_list.each do |vec|
+                if !vec.nil? # ! TEST DEBUG
+                    if bin_stim_vec 
+                        src << vec
+                    else
+                        src << vec.to_i(2)
+                    end
+                else 
+                    raise "Error : nil test vector encountered."
+                end
+            end 
+
+            src.save_as path
+        end
     end
 
 end
