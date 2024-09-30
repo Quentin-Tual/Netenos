@@ -1,0 +1,5 @@
+$ version 1.1
+# Signals in packages :
+# Signals in entities :
+/circ_C17_1_tb/*
+/circ_C17_1_tb/uut/*
