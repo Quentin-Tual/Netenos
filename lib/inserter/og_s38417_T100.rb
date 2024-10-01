@@ -14,7 +14,11 @@ module Inserter
 
         def gen_netlist nb_trigger
             gen_payload
-            @payload_in <= gen_triggers(nb_trigger)
+            if nb_trigger == 1
+                @triggers << @payload_in
+            else
+                @payload_in <= gen_triggers(nb_trigger)
+            end
             @payload_in = @payload_in.partof.get_free_input
 
             @propag_time = {}

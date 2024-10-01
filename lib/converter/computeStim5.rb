@@ -1,6 +1,3 @@
-# ! Check if necessary to use hash as forbidden_transitions associating a fixed event as the key and banned events as the value.
-# ! We could need to set the key manually after a reaching inputs and going back to another branch of the circuit/tree.
-
 module Converter
 
     # Transition = Struct.new(:timestamp, :value)
@@ -28,8 +25,6 @@ module Converter
             end
         end
     end
-    # Choice = Struct.new(:events, :step)
-    # Decision = Struct.new(:events, :step)
 
     class ComputeStim
         attr_accessor :decisions, :transitions
@@ -53,7 +48,6 @@ module Converter
             return slack_h.select{|slack, gate| slack >= payload_delay}.values.flatten
         end
 
-        # ! When insertion point is a global input -> no get_sink_gates method for Netlist::Port
         def get_cone_outputs insertion_point
             # * search the output from the given insertion_point (last gate of the path)
             # * Tag each gate encountered as "target_path" 
@@ -76,7 +70,7 @@ module Converter
 
             until next_gates.empty?
                 current_gate = next_gates.shift
-                if current_gate.instance_of? Netlist::Port and current_gate.is_global? # ! If insertion point is the last gate before a primary output
+                if current_gate.instance_of? Netlist::Port and current_gate.is_global? # * If insertion point is the last gate before a primary output
                     cone_outputs << current_gate
                     next
                 end
@@ -91,7 +85,7 @@ module Converter
                 next_gates += current_gate_sinks unless next_gates.include? current_gate
             end
 
-            return cone_outputs # ! last gate of the path is considered the output, in the end we will need a table to convert a gate to the output connected 
+            return cone_outputs 
         end
 
         def analyse_netlist ht
@@ -106,7 +100,7 @@ module Converter
                 raise "Error : Unknown hardware trojan #{ht} encountered."
             end
 
-            @insert_points = get_insertion_points(delay_required) # ! hard value as it is the maximum delay in delay model :int_multi, check if possible to write a clean version
+            @insert_points = get_insertion_points(delay_required) 
             # @target_paths_outputs = {}
             # @downstream_outputs = {}
             # @insert_points.each do |signal|
@@ -190,8 +184,8 @@ module Converter
             end
 
             # TODO : Transformer les couples de vecteurs en une suite de vecteurs unique 
-            @stim_vec = stim_pair.uniq.flatten
-
+            # @stim_vec = stim_pair.uniq.flatten 
+            @stim_vec = stim_pair.flatten#!DEBUG
             # pp "test" #!DEBUG
             return @stim_vec
         end
@@ -269,7 +263,7 @@ module Converter
 
         def backpropagate2 event
             
-            if @events_to_process.empty? # ! might not be the first iteration and become true during the process, check if it is a problem
+            if @events_to_process.empty?
                 @events_to_process = [event].flatten
             else
                 @events_to_process << event
@@ -278,7 +272,7 @@ module Converter
             
             while !@events_to_process.empty? and @events_to_process != [nil]
                 # last_choice = get_last_choice
-                e = @events_to_process.pop # ! also shifts the corresponding object in @transitions leading to an empty @transitions element and errors -> Should be fixed !!! 
+                e = @events_to_process.pop 
                 if e.nil?
                     raise "Error : nil event encountered"
                 end 
@@ -305,7 +299,7 @@ module Converter
                 end
              
                 if !(@transitions.include? e_inputs) 
-                    # ! Push in order to process at first the target path 
+                    # * Push in order to process at first the target path 
                     @events_to_process << e_inputs.sort_by{|e| e.signal.tag.to_s}
                     @events_to_process.flatten!
                     
@@ -344,7 +338,7 @@ module Converter
                 previous_event = Event.new(nil,0.0,nil,nil)
                 next_event = nil
                 event_list.sort_by{|e| e.timestamp}.each do |e| 
-                    if e.timestamp <= event.timestamp and e.timestamp > previous_event.timestamp # ! e.timestamp <= event.timestamp, see if modification cause troubles
+                    if e.timestamp <= event.timestamp and e.timestamp > previous_event.timestamp
                         previous_event = e
                     end
                     if e.timestamp > event.timestamp
@@ -384,8 +378,7 @@ module Converter
                         return false
                     end
                 end
-                 # ! Should we accept a "0" transition directly followed by a "1" transition without a "R" in between ? same for "1" followed by "0" without a "F" -> Solution in Inertial Delay Incompatibility ? A priori not a problem, stable-0/1 are used to define a value already transitionned when one appears on the other input. Adding a "R" or a "F" a posteriori should not necessary lead to errors or incompatibilities (depends on the timestamp we use, which should be computed accordingly)
-
+                 
                 # Inertial Delay Incompatibility : An existing transition is too close from the proposed one, impossible according to inertial delay model
 
                 # TODO : Pour chaque sink gate de 'event.signal'
@@ -534,9 +527,7 @@ module Converter
             origin_vector = {}
             arrival_vector = {}
             input_events.each do |e|
-                if e.timestamp < transition_instant
-                    origin_vector[e.signal] = e.value
-                elsif e.timestamp == transition_instant
+                if e.timestamp == transition_instant
                     case e.value
                     when "R"
                         origin_vector[e.signal] = "0"
@@ -553,16 +544,16 @@ module Converter
                     else
                         raise "Error : Unknown transition value"
                     end
+                elsif e.timestamp < transition_instant
+                    origin_vector[e.signal] = e.value
                 else
                     arrival_vector[e.signal] = e.value
                 end
             end
 
             @netlist.get_inputs.each do |in_p|
-                if !origin_vector.include? in_p
+                if (!origin_vector.include?(in_p) and !arrival_vector.include?(in_p))
                     origin_vector[in_p] = "1" # ! Default value, can be changed to "X" if necessary
-                end
-                if !arrival_vector.include? in_p
                     arrival_vector[in_p] = "1" # ! Default value, can be changed to "X" if necessary
                 end
             end
@@ -603,9 +594,9 @@ module Converter
             vec_list.each do |vec|
                 if !vec.nil? # ! TEST DEBUG
                     if bin_stim_vec 
-                        src << vec
+                        src << vec.reverse
                     else
-                        src << vec.to_i(2)
+                        src << vec.reverse.to_i(2)
                     end
                 else 
                     raise "Error : nil test vector encountered."

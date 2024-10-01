@@ -435,7 +435,8 @@ module Inserter
                 attempts ||= 0
                 
                 loc, max_stage = select_location2(zone, @ht.get_triggers_nb, forbidden_locs)
-
+                puts "Inserted on #{loc.get_full_name}" if $VERBOSE
+                
                 # * : Payload insertion (removing old links and creating new ones)
                 # ! loc is not a Circuit class object anymore, with slack update it is now a Port class object
                 # loc.get_sinks.each{ |sink|
@@ -452,7 +453,7 @@ module Inserter
                 @ht.get_payload_in <= source
 
                 if source.is_global?
-                    max_delay = 0.0
+                    max_delay = @ht.payload_in.partof.propag_time[:int_multi]
                 else
                     max_delay = source.partof.cumulated_propag_time + @ht.payload_in.partof.propag_time[:int_multi]
                 end

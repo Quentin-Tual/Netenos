@@ -14,12 +14,14 @@ class Test_compTestbench
         
         puts "[+] Initial circuit generation" if $VERBOSE
         # gen_case 
-        load_blif "../xparc.blif"
+        load_blif "../C17.blif"
         gen_circ_files @circ_init
 
         # * : Alter the initial netlist
         @modifier = Inserter::Tamperer.new(@circ_init.clone, @grid, @circ_init.get_timings_hash)
-        @modifier.select_ht("og_s38417")
+        @modifier.select_ht("og_s38417", $HT_INPUT)
+
+        stim_compute # ! Test stim computation
                 
         puts "[+] Altered circuit generation" if $VERBOSE
         gen_alt_circ
@@ -31,7 +33,7 @@ class Test_compTestbench
 
     def run
         puts "[+] Stimulus generation" if $VERBOSE
-        stim_gen
+        # stim_gen # ! test_stim computation
         puts "[+] Testbench generation" if $VERBOSE
         testbench_gen
         puts "[+] Scripts generation" if $VERBOSE
@@ -44,12 +46,19 @@ class Test_compTestbench
         @stim_generator = Converter::GenStim.new(@circ_init)
         # stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
         stim_seq = @stim_generator.gen_random_stim 100
-        @stim_generator.save_as_txt "stim.txt", bin_stim_vec: true
+        @stim_generator.save_as_txt "stim.txt", bin_stim_vec: false
+    end
+
+    def stim_compute
+        @stim_computor = Converter::ComputeStim.new(@circ_init, $DELAY_MODEL)
+        @stim_computor.generate_stim(@circ_init, "og_s38417")
+        @stim_computor.save_vec_list("computed_stim.txt", @stim_computor.stim_vec)
+        @tmp = @stim_computor.events_computed
     end
 
     def testbench_gen 
         @tb_gen = Converter::GenCompTestbench.new(@circ_init, @circ_alt, $DELAY_MODEL)
-        @tb_gen.gen_testbench "stim.txt", $FREQ, bit_vec_stim: true
+        @tb_gen.gen_testbench "computed_stim.txt", $FREQ, bit_vec_stim: false
     end
 
     def script_gen
@@ -122,7 +131,9 @@ end
 if __FILE__ == $0
     $CIRC_CARAC = [6, 3, 10, [:even, 0.70]]
     $DELAY_MODEL = :int_multi
+    $HT_INPUT = 1
     $FREQ = 10
+    $OPT = [:ghdl, :all_sig]
 
     Dir.chdir("tests/tmp") do
         puts "Lancement #{__FILE__}" 
