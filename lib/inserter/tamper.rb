@@ -72,65 +72,68 @@ module Inserter
                 end
                 local_exp.pop
 
-            local_exp = to_global_exp(local_exp)
+            local_exp = @netlist.to_global_exp(local_exp)
 
             return local_exp[0]
         end
 
-        def to_global_exp local_exp
-            local_exp.length.times do |i|
-                case local_exp[i]
-                when Array
-                    to_global_exp local_exp[i]
-                when "and"
-                    next
-                else # "and"
-                    local_exp[i] = get_global_expression local_exp[i]
-                end
-            end
+        # ! Transfered in Netlist::Circuit
+        # def to_global_exp local_exp
+        #     local_exp.length.times do |i|
+        #         case local_exp[i]
+        #         when Array
+        #             to_global_exp local_exp[i]
+        #         when "and"
+        #             next
+        #         else # "and"
+        #             local_exp[i] = get_global_expression local_exp[i]
+        #         end
+        #     end
 
-            return local_exp
-        end
+        #     return local_exp
+        # end
 
-        def get_global_expression sig_full_name
-            if is_global_port_name? sig_full_name
-                return sig_full_name
-            else
-                comp = @netlist.get_component_named(sig_full_name.split('_')[0])
-                in_ports = comp.get_inputs
-                global_exp = []
+        # ! Transfered in Netlist::Circuit
+        # def get_global_expression sig_full_name
+        #     if is_global_port_name? sig_full_name
+        #         return sig_full_name
+        #     else
+        #         comp = @netlist.get_component_named(sig_full_name.split('_')[0])
+        #         in_ports = comp.get_inputs
+        #         global_exp = []
           
-                if comp.class == Netlist::Not
-                    global_exp << "not"
-                    next_full_name = in_ports[0].get_source.get_full_name
-                    if next_full_name[0] == 'w' 
-                        # Bypass the wire, transparent in a boolean expression
-                        global_exp << get_global_expression(in_ports[0].get_source.get_source.get_full_name)
-                    else
-                        global_exp << get_global_expression(next_full_name)
-                    end
-                else
-                    in_ports.each do |p|
-                        next_full_name = p.get_source.get_full_name
-                        if next_full_name[0] == 'w' 
-                            # Bypass the wire, transparent in a boolean expression
-                            global_exp << get_global_expression(p.get_source.get_source.get_full_name)
-                        else
-                            global_exp << get_global_expression(next_full_name)
-                        end
-                        global_exp << comp.class.to_s.split('::')[1].delete_suffix('2').downcase
-                    end
-                    global_exp.pop
-                end
-            end 
+        #         if comp.class == Netlist::Not
+        #             global_exp << "not"
+        #             next_full_name = in_ports[0].get_source.get_full_name
+        #             if next_full_name[0] == 'w' 
+        #                 # Bypass the wire, transparent in a boolean expression
+        #                 global_exp << get_global_expression(in_ports[0].get_source.get_source.get_full_name)
+        #             else
+        #                 global_exp << get_global_expression(next_full_name)
+        #             end
+        #         else
+        #             in_ports.each do |p|
+        #                 next_full_name = p.get_source.get_full_name
+        #                 if next_full_name[0] == 'w' 
+        #                     # Bypass the wire, transparent in a boolean expression
+        #                     global_exp << get_global_expression(p.get_source.get_source.get_full_name)
+        #                 else
+        #                     global_exp << get_global_expression(next_full_name)
+        #                 end
+        #                 global_exp << comp.class.to_s.split('::')[1].delete_suffix('2').downcase
+        #             end
+        #             global_exp.pop
+        #         end
+        #     end 
 
-            # pp global_exp  #!DEBUG
-            return global_exp
-        end 
+        #     # pp global_exp  #!DEBUG
+        #     return global_exp
+        # end 
 
-        def is_global_port_name? port_name
-            return not(port_name.split('_').length > 1)
-        end
+        # ! Transfered in Netlist::Circuit
+        # def is_global_port_name? port_name
+        #     return not(port_name.split('_').length > 1)
+        # end
 
         # ! : Legacy / Not working
         # def scan_netlist
@@ -453,9 +456,9 @@ module Inserter
                 @ht.get_payload_in <= source
 
                 if source.is_global?
-                    max_delay = @ht.payload_in.partof.propag_time[:int_multi]
+                    max_delay = source.cumulated_propag_time + loc.slack
                 else
-                    max_delay = source.partof.cumulated_propag_time + @ht.payload_in.partof.propag_time[:int_multi]
+                    max_delay = source.partof.cumulated_propag_time + loc.slack
                 end
                 trig = select_triggers_sig(@ht.get_triggers_nb, max_stage, max_delay)
             rescue ImpossibleResolution => e

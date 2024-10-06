@@ -14,7 +14,8 @@ class Test_compTestbench
         
         puts "[+] Initial circuit generation" if $VERBOSE
         # gen_case 
-        load_blif "../C17.blif"
+        load_blif "../p82.blif"
+        # load_enl "../test_circ.enl"
         gen_circ_files @circ_init
 
         # * : Alter the initial netlist
@@ -44,21 +45,21 @@ class Test_compTestbench
 
     def stim_gen 
         @stim_generator = Converter::GenStim.new(@circ_init)
-        # stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
-        stim_seq = @stim_generator.gen_random_stim 100
+        stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
+        # stim_seq = @stim_generator.gen_random_stim 100
         @stim_generator.save_as_txt "stim.txt", bin_stim_vec: false
     end
 
     def stim_compute
         @stim_computor = Converter::ComputeStim.new(@circ_init, $DELAY_MODEL)
-        @stim_computor.generate_stim(@circ_init, "og_s38417")
-        @stim_computor.save_vec_list("computed_stim.txt", @stim_computor.stim_vec)
+        @stim_computor.generate_stim(@circ_init, "og_s38417",save_explicit:"stim.txt")
+        # @stim_computor.save_as_txt("computed_stim.txt", @stim_computor.stim_vec)
         @tmp = @stim_computor.events_computed
     end
 
     def testbench_gen 
         @tb_gen = Converter::GenCompTestbench.new(@circ_init, @circ_alt, $DELAY_MODEL)
-        @tb_gen.gen_testbench "computed_stim.txt", $FREQ, bit_vec_stim: false
+        @tb_gen.gen_testbench "stim.txt", $FREQ, bit_vec_stim: false
     end
 
     def script_gen
@@ -67,6 +68,18 @@ class Test_compTestbench
         `make`
         # * : Only for nominal frequency at first
         @script_generator.comp_tb_compile_script ".", @circ_init.name, @circ_alt.name, [$FREQ], $OPT, gtech_path:"."
+    end
+
+    def load_enl path
+        @circ_init = Marshal.load(IO.read(path))
+        @circ_init.getNetlistInformations $DELAY_MODEL
+        @grid = @circ_init.get_netlist_precedence_grid
+
+        @vhdl_converter = Converter::ConvNetlist2Vhdl.new
+        @vhdl_converter.gen_gtech
+
+        @viewer = Converter::DotGen.new
+        @viewer.dot(@circ_init, @circ_init.name)
     end
 
     def load_blif path
@@ -79,6 +92,7 @@ class Test_compTestbench
         @vhdl_converter.gen_gtech
 
         @viewer = Converter::DotGen.new
+        @viewer.dot(@circ_init, @circ_init.name)
     end 
 
     def gen_case
@@ -131,8 +145,8 @@ end
 if __FILE__ == $0
     $CIRC_CARAC = [6, 3, 10, [:even, 0.70]]
     $DELAY_MODEL = :int_multi
-    $HT_INPUT = 1
-    $FREQ = 10
+    $HT_INPUT = 2
+    $FREQ = 1.1
     $OPT = [:ghdl, :all_sig]
 
     Dir.chdir("tests/tmp") do

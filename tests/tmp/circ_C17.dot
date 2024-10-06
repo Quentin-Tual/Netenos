@@ -1,0 +1,30 @@
+digraph circ_C17 {
+		graph [rankdir = LR];
+		Nand260[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand260|{2.0|2.0}}|{<o0>o0}}"]
+		Nand280[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand280|{2.0|2.0}}|{<o0>o0}}"]
+		Nand2100[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2100|{2.0|4.0}}|{<o0>o0}}"]
+		Nand2120[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2120|{2.0|6.0}}|{<o0>o0}}"]
+		Nand2140[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2140|{2.0|4.0}}|{<o0>o0}}"]
+		Nand2160[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nand2160|{2.0|6.0}}|{<o0>o0}}"]
+		i0[shape=cds,xlabel="i0"]
+		i1[shape=cds,xlabel="i1"]
+		i2[shape=cds,xlabel="i2"]
+		i3[shape=cds,xlabel="i3"]
+		i4[shape=cds,xlabel="i4"]
+		o0[shape=cds,xlabel="o0"]
+		o1[shape=cds,xlabel="o1"]
+		i0 -> Nand260:i0;
+		i1 -> Nand2100:i0;
+		i2 -> Nand260:i1;
+		i2 -> Nand280:i0;
+		i3 -> Nand280:i1;
+		i4 -> Nand2140:i0;
+		Nand260:o0 -> Nand2120:i0;
+		Nand280:o0 -> Nand2100:i1;
+		Nand280:o0 -> Nand2140:i1;
+		Nand2100:o0 -> Nand2120:i1;
+		Nand2100:o0 -> Nand2160:i0;
+		Nand2120:o0 -> o0;
+		Nand2140:o0 -> Nand2160:i1;
+		Nand2160:o0 -> o1;
+}

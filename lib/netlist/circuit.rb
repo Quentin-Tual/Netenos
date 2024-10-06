@@ -80,7 +80,6 @@ module Netlist
             return (fanout_list.sum.to_f / fanout_list.size).round(2)
         end
 
-        # ! Update with the new slack management
         def get_slack_hash delay_model = :int_multi
             if @crit_path_length.nil?
                 get_exact_crit_path_length delay_model
@@ -252,6 +251,74 @@ module Netlist
             end
         
             return grid.reverse
+        end
+
+        def to_global_exp local_exp
+            local_exp.length.times do |i|
+                case local_exp[i]
+                when Array
+                    to_global_exp local_exp[i]
+                when "and"
+                    next
+                else # "and"
+                    local_exp[i] = get_global_expression local_exp[i]
+                end
+            end
+
+            return local_exp
+        end
+
+        def get_global_expression sig_full_name
+            global_exp = []
+
+            if is_primary_input_name? sig_full_name
+                return sig_full_name
+            elsif is_primary_output_name? sig_full_name
+                global_exp << get_global_expression(get_port_named(sig_full_name).get_source.get_full_name)
+            else
+                comp = get_component_named(sig_full_name.split('_')[0])
+                in_ports = comp.get_inputs
+                # global_exp = []
+          
+                if comp.class == Netlist::Not
+                    global_exp << "not"
+                    next_full_name = in_ports[0].get_source.get_full_name
+                    if next_full_name[0] == 'w' 
+                        # Bypass the wire, transparent in a boolean expression
+                        global_exp << get_global_expression(in_ports[0].get_source.get_source.get_full_name)
+                    else
+                        global_exp << get_global_expression(next_full_name)
+                    end
+                else
+                    in_ports.each do |p|
+                        next_full_name = p.get_source.get_full_name
+                        if next_full_name[0] == 'w' 
+                            # Bypass the wire, transparent in a boolean expression
+                            global_exp << get_global_expression(p.get_source.get_source.get_full_name)
+                        else
+                            global_exp << get_global_expression(next_full_name)
+                        end
+                        global_exp << comp.class.to_s.split('::')[1].delete_suffix('2').downcase
+                    end
+                    global_exp.pop
+                end
+            end 
+
+            # pp global_exp  #!DEBUG
+            return global_exp
+        end 
+
+        def is_primary_output_name? port_name
+            return ((port_name[0] == 'o') and !port_name.include?('_'))
+        end
+
+        def is_primary_input_name? port_name
+            return ((port_name[0] == 'i') and !port_name.include?('_')) # fastest
+            # return get_inputs.any?{|in_p| in_p.name == port_name}
+        end
+
+        def is_global_port_name? port_name
+            return not(port_name.split('_').length > 1)
         end
 
         def save_as path

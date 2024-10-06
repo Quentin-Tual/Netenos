@@ -1,0 +1,22 @@
+v 4
+file . "nor2_d.vhd" "b1ed6009a5b3d24aae005fd51a9ed926863cef75" "20241004162648.329":
+  entity nor2_d at 2( 26) + 0 on 1687;
+  architecture rtl of nor2_d at 15( 245) + 0 on 1688;
+file . "not_d.vhd" "361bdc29c43a682fa78a9b8ed3480bc0a4b0c37b" "20241004162648.169":
+  entity not_d at 2( 26) + 0 on 1683;
+  architecture rtl of not_d at 14( 219) + 0 on 1684;
+file . "or2_d.vhd" "f71a1e0e4afcf62498b57227b2f5d1c1f9c8d4fa" "20241004162648.014":
+  entity or2_d at 2( 26) + 0 on 1679;
+  architecture rtl of or2_d at 15( 243) + 0 on 1680;
+file . "and2_d.vhd" "a19b89a2698e7b7558adde4f57e1d359290335b5" "20241004162647.932":
+  entity and2_d at 2( 26) + 0 on 1677;
+  architecture rtl of and2_d at 15( 245) + 0 on 1678;
+file . "xor2_d.vhd" "f246e6b559b1aed89c7e7c460927ec53150b7354" "20241004162648.092":
+  entity xor2_d at 2( 26) + 0 on 1681;
+  architecture rtl of xor2_d at 15( 245) + 0 on 1682;
+file . "nand2_d.vhd" "664ac0cf700353f90e303af9a3f30353c1ba773d" "20241004162648.250":
+  entity nand2_d at 2( 26) + 0 on 1685;
+  architecture rtl of nand2_d at 15( 247) + 0 on 1686;
+file . "buffer_d.vhd" "881381bd47b47f93a29018ffed34ca016ae6417e" "20241004162648.408":
+  entity buffer_d at 2( 26) + 0 on 1689;
+  architecture rtl of buffer_d at 14( 225) + 0 on 1690;

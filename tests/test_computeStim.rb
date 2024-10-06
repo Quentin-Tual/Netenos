@@ -50,7 +50,7 @@ class Test_computeStim
             events_computed = @compStim.generate_stim
             break if !events_computed.empty?
         end
-        pp "here"
+        # pp "here"
         # if @compStim.generate_stim 
         #     pp "Fail"
         # else
@@ -186,7 +186,7 @@ class Test_computeStim
 end
 
 if __FILE__ == $0
-    $CIRC_CARAC = [6, 3, 10, [:even, 0.70]]
+    $CIRC_CARAC = [8, 4, 10, [:even, 0.6]]
     $DELAY_MODEL = :int_multi
     $COMPILER = :ghdl3
     $FREQ = 1

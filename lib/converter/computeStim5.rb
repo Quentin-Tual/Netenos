@@ -40,6 +40,7 @@ module Converter
             @forbidden_transitions = [] #Hash.new([]) # Associates a stack of gate/transition pairs to one gate/decision pair, one key for each decision
             # @decisions_steps = Hash.new([])
             @events_to_process = []#Hash.new { |hash, key| hash[key]=[] }
+            @unobservables = []
         end
 
         def get_insertion_points payload_delay
@@ -118,7 +119,7 @@ module Converter
             # @netlist.components.each{|comp| comp.tag = nil}
         end
 
-        def generate_stim netlist=nil, ht="og_s38417"
+        def generate_stim netlist=nil, ht="og_s38417", save_explicit: nil
             if @netlist.nil? and netlist.nil?
                 raise "Error : No netlist provided."
             elsif !netlist.nil?
@@ -154,21 +155,19 @@ module Converter
                         else 
                             tmp = nil
                             res = nil
-                            next
                         end
                     end
 
                     if res == :success
                         @events_computed[insert_point][targeted_transition] = tmp
                         break
-                    else
-                        next
                     end
                 end
 
                 if @events_computed[insert_point].empty?
                     # raise "Error : Insertion point #{insert_point.name} not observable on any output."
                     pp "Insertion point #{insert_point.get_full_name} not observable on any output."
+                    @unobservables << insert_point.dup
                 end
                 @netlist.components.each{|comp| comp.tag = nil}
                 @netlist.get_inputs.each{|in_p| in_p.tag = nil}
@@ -177,15 +176,20 @@ module Converter
             @events_computed.delete_if{|insert_point, solution| solution.empty?}
 
             # TODO : Déterminer les vecteurs synchrones pour chaque cas(feuille de l'arbre) de @events_computed. Possible de le faire au cas par cas.
-            stim_pair = []
+            stim_pair_h = {}
             # TODO : Pour chaque signal à risque calculer un couple de vecteurs 
             @events_computed.each do |insert_point, solution|
-                stim_pair << convert_events2vectors(solution.values[0])
+                stim_pair_h[insert_point] = {solution.keys[0] => convert_events2vectors(solution.values[0])}
             end
 
-            # TODO : Transformer les couples de vecteurs en une suite de vecteurs unique 
+            if !save_explicit.nil?
+                save_explicit_stim_file(save_explicit, stim_pair_h)
+            end
+
+            # TODO : Transformer les couples de vecteurs en une suite de vecteurs uniques
             # @stim_vec = stim_pair.uniq.flatten 
-            @stim_vec = stim_pair.flatten#!DEBUG
+            @stim_vec = stim_pair_h.collect{|insert_point, solution| solution.values}.flatten#!DEBUG
+
             # pp "test" #!DEBUG
             return @stim_vec
         end
@@ -293,7 +297,7 @@ module Converter
                     # pp @transitions #!DEBUG
                     # puts "forbidden transitions :"
                     # pp @forbidden_transitions #!DEBUG
-                    # e_inputs = compute_transitions(e) #!DEBUG
+                    e_inputs = compute_transitions(e) #!DEBUG
                     backtrack(e)
                     next
                 end
@@ -496,6 +500,11 @@ module Converter
 
         def is_convertible? event_list
             event_list = event_list.select{|e| ["R","F"].include? e.value}
+            
+            if event_list.empty?
+                return true
+            end
+
             ref = event_list[0].timestamp
             if event_list.all?{|e| e.timestamp == ref}
                 return true
@@ -583,7 +592,33 @@ module Converter
             end
         end
 
-        def save_vec_list path, vec_list, bin_stim_vec: false 
+        def save_explicit_stim_file path, stim_pair_h, bin_stim_vec: false
+            if path[-4..-1]!=".txt" and path[-5..-1]!=".stim"
+                path.concat ".txt"
+            end
+
+            src = Code.new
+            src << "# Stimuli sequence"
+
+            stim_pair_h.each do |insert_point, solution|
+                src << "# signal=#{insert_point.get_full_name}, output=#{solution.keys[0].signal.get_full_name}"
+                solution.values.flatten.each do |vec|
+                    if !vec.nil? # ! TEST DEBUG
+                        if bin_stim_vec 
+                            src << vec.reverse
+                        else
+                            src << vec.reverse.to_i(2)
+                        end
+                    else 
+                        raise "Error : nil test vector encountered."
+                    end
+                end
+            end 
+
+            src.save_as path
+        end
+
+        def save_as_txt path, vec_list, bin_stim_vec: false 
             if path[-4..-1]!=".txt" and path[-5..-1]!=".stim"
                 path.concat ".txt"
             end

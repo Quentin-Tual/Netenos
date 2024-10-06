@@ -31,7 +31,8 @@ module Converter
             if !File.exist? "/tmp/netenos"
                 Dir.mkdir("/tmp/netenos")
             end
-            std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; map -s; write_blif /tmp/netenos/~#{File.basename(path)}"`
+            std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash -ac; amap; write_blif /tmp/netenos/~#{File.basename(path)}"`
+            # strash; &get -n; &nf; &put
             puts std_o if $VERBOSE
             return "/tmp/netenos/~#{File.basename(path)}"
         end

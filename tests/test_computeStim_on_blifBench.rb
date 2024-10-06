@@ -1,5 +1,5 @@
 require_relative "../lib/netenos.rb"
-# require_relative "../lib/converter/computeStim5.rb"
+# require_relative "../lib/converter/computeStim6.rb"
 
 include Netlist
 # include VHDL
@@ -64,7 +64,8 @@ class Test_computeStim
     
     def generate_stim_on_random_circuit
         # @circ = @generator.getValidRandomNetlist "test"
-        load_blif "../C17.blif"
+        load_blif "../xor5.blif"
+        # load_blif "../C17.blif"
         @circ.getNetlistInformations $DELAY_MODEL
         Converter::DotGen.new.dot @circ, "./test.dot"
         @compStim = Converter::ComputeStim.new(@circ, $DELAY_MODEL)
@@ -179,6 +180,33 @@ class Test_computeStim
         `make`
         `./compile.sh` 
     end
+
+    def simulate_exh 
+        # * Generate gtech
+        vhdl_generator = Converter::ConvNetlist2Vhdl.new(@circ)
+        vhdl_generator.gen_gtech
+        
+        # * Generate circuit vhdl description file
+        vhdl_generator.generate(@circ, $DELAY_MODEL)
+
+        # * Generate compile.sh and makefile
+        vhdl_compiler = Converter::VhdlCompiler.new
+        vhdl_compiler.gtech_makefile(".", $COMPILER)
+        vhdl_compiler.circ_compile_script(".", @circ.name, [$FREQ], [$COMPILER, :uut_sig], gtech_path: ".")
+
+        # * Generate stimuli file
+        stim_generator = Converter::GenStim.new(@circ)
+        stim_generator.gen_exhaustive_trans_stim
+        stim_generator.save_as_txt("stim.txt")
+
+        # * Generate testbench file 
+        tb_generator = Converter::GenTestbench.new(@circ)
+        tb_generator.gen_testbench("stim.txt", $FREQ, @circ.name)
+
+        # * Run simulation
+        `make`
+        `./compile.sh` 
+    end
     
     def simulation_matches_computations? trace, events_to_verify
         # * For each event
@@ -214,11 +242,12 @@ class Test_computeStim
     end
 
     def one_insert_point
-        load_blif("C17.blif")
+        load_blif("../xor5.blif")
         @compStim = Converter::ComputeStim.new(@circ, :int_multi)
-        insert_point = @circ.get_component_named("And2180").get_inputs[1]
+        Converter::DotGen.new.dot @circ, "./test.dot"
+        insert_point = @circ.get_port_named("i3")#.get_inputs[1]
         targeted_output = @compStim.get_cone_outputs(insert_point)[0]
-        expected_event =  Converter::Event.new(targeted_output, @circ.crit_path_length,"R")
+        expected_event =  Converter::Event.new(targeted_output, @circ.crit_path_length,"F")
         computed_events = @compStim.compute(expected_event, insert_point)
     end
 
@@ -236,13 +265,27 @@ class Test_computeStim
         end
     end
 
+    # def verif_all_unobservalbles
+    #     # TODO : Générer les fichiers nécessaires à la simulation d'un test exhaustif
+    #     # TODO : pour chaque signal non observable
+    #     @compStim.unobservables.each do |s|
+    #         # TODO : Pour chaque chemin entre 's' et une sortie 'o'
+
+    #             # TODO : ajouter des "probes" sur les signaux concernés permettant au testbench d'y accéder
+    #             # TODO : Traduire en une expression vhdl permettant de tester que 's' est observable sur la sortie
+    #             # TODO : ajouter l'expression dans un process du testbench, la simulation doit s'arrêter si les conditions sont remplies
+
+    #     end 
+    # end
+
     def run
         # get_resolvable_case
         # load_circuit
         generate_stim_on_random_circuit
+        # one_insert_point
         verif_all_computed_events(@compStim.events_computed)
-        @compStim.save_vec_list("computed_stim.txt",@compStim.stim_vec)
-
+        @compStim.save_as_txt("computed_stim.txt",@compStim.stim_vec)
+        # simulate_exh
     end
 end
 
