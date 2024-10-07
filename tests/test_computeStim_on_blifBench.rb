@@ -1,5 +1,5 @@
 require_relative "../lib/netenos.rb"
-# require_relative "../lib/converter/computeStim6.rb"
+require_relative "../lib/converter/computeStim7.rb"
 
 include Netlist
 # include VHDL
@@ -13,7 +13,7 @@ class Test_computeStim
         @insert_points = nil
         @targeted_transition = nil
 
-        @generator = Netlist::RandomGenComb.new *$CIRC_CARAC
+        @generator = Netlist::RandomGenComb.new(*$CIRC_CARAC)
     end
 
     def load_blif path
@@ -65,10 +65,11 @@ class Test_computeStim
     def generate_stim_on_random_circuit
         # @circ = @generator.getValidRandomNetlist "test"
         load_blif "../xor5.blif"
+        # load_blif "../f51m.blif"
         # load_blif "../C17.blif"
         @circ.getNetlistInformations $DELAY_MODEL
         Converter::DotGen.new.dot @circ, "./test.dot"
-        @compStim = Converter::ComputeStim.new(@circ, $DELAY_MODEL)
+        @compStim = Converter::ComputeStim.new(@circ, $DELAY_MODEL)#,["10100"])
 
         events_computed = nil
         # loop do 
@@ -284,7 +285,8 @@ class Test_computeStim
         generate_stim_on_random_circuit
         # one_insert_point
         verif_all_computed_events(@compStim.events_computed)
-        @compStim.save_as_txt("computed_stim.txt",@compStim.stim_vec)
+        @compStim.save_as_txt("computed_stim.txt",@compStim.stim_vec,)
+        puts "Unobservables : #{@compStim.unobservables.length}/#{@compStim.insert_points.length}"
         # simulate_exh
     end
 end

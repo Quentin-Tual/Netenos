@@ -80,9 +80,9 @@ module Converter
 
     class ComputeStim
         attr_accessor :decisions, :transitions
-        attr_reader :side_inputs, :stim_vec, :events_computed
+        attr_reader :side_inputs, :stim_vec, :events_computed, :unobservables, :insert_points
 
-        def initialize netlist, delay_model
+        def initialize netlist, delay_model, forbidden_vectors = []
             @netlist = netlist
             @delay_model = delay_model
             @netlist.getNetlistInformations delay_model
@@ -95,6 +95,7 @@ module Converter
             @unobservables = []
             @insert_point_observable = nil
             @insert_point = nil
+            @forbidden_vectors = forbidden_vectors
         end
 
         def get_insertion_points payload_delay
@@ -173,7 +174,7 @@ module Converter
             # @netlist.components.each{|comp| comp.tag = nil}
         end
 
-        def generate_stim netlist=nil, ht="og_s38417", save_explicit: nil
+        def generate_stim netlist=nil, ht="og_s38417", save_explicit: "explicit_stim.txt"
             if @netlist.nil? and netlist.nil?
                 raise "Error : No netlist provided."
             elsif !netlist.nil?
@@ -220,7 +221,7 @@ module Converter
 
                 if @events_computed[insert_point].empty?
                     # raise "Error : Insertion point #{insert_point.name} not observable on any output."
-                    pp "Insertion point #{insert_point.get_full_name} not observable on any output."
+                    pp "Insertion point #{insert_point.get_full_name} not observable on any output or no solution satisfying constraints (authorized vectors, etc)."
                     @unobservables << insert_point.dup
                 end
                 @netlist.components.each{|comp| comp.tag = nil}
@@ -239,7 +240,7 @@ module Converter
             if !save_explicit.nil?
                 save_explicit_stim_file(save_explicit, stim_pair_h)
             end
-
+ 
             # TODO : Transformer les couples de vecteurs en une suite de vecteurs uniques
             # @stim_vec = stim_pair.uniq.flatten 
             @stim_vec = stim_pair_h.collect{|insert_point, solution| solution.values}.flatten#!DEBUG
@@ -344,6 +345,7 @@ module Converter
                 @events_to_process.flatten!
             end
             
+            e = nil 
             while !@events_to_process.empty? and @events_to_process != [nil]
                 # last_choice = get_last_choice
                 e = @events_to_process.pop 
@@ -358,6 +360,12 @@ module Converter
 
                 # * If g is a primary INPUT
                 if g.instance_of? Netlist::Port and g.is_global? and g.is_input?
+                    if @events_to_process.empty? or @events_to_process == [nil] # * Should break the while, before check inputs
+                        test_vec_couple = convert_events2vectors(get_inputs_events)
+                        if !(@forbidden_vectors & test_vec_couple).empty?
+                            backtrack(e)
+                        end
+                    end
                     next
                 end
 
@@ -367,7 +375,7 @@ module Converter
                     # pp @transitions #!DEBUG
                     # puts "forbidden transitions :"
                     # pp @forbidden_transitions #!DEBUG
-                    e_inputs = compute_transitions(e) #!DEBUG
+                    # e_inputs = compute_transitions(e) #!DEBUG
                     backtrack(e)
                     next
                 end
@@ -382,8 +390,9 @@ module Converter
                         @insert_point_observable = e_inputs
                     end
                 end
-            end
 
+            end
+           
         end 
 
         # def is_forbidden? transition

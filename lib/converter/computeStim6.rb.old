@@ -24,7 +24,59 @@ module Converter
                 raise "Error : Unknown transition value encountered. Cannot obtain boolean equivalence."
             end
         end
+
+        def previous_value
+            case value
+            when "R","0"
+                "0"
+            when "F", "1"
+                "1"
+            else
+                raise "Error : Unknown transition value encountered. Cannot obtain boolean equivalence."
+            end
+        end
+
+        def afterward_value
+            case value
+            when "R", "1"
+                "1"
+            when "F", "0"
+                "0"
+            else
+                raise "Error : Unknown transition value encountered. Cannot obtain boolean equivalence for #{value}."
+            end
+        end
     end
+
+    class Decision
+        attr_reader :events
+
+        def initialize *events
+            @events = events
+        end
+
+        def match? decision
+            @events.zip(decision.events).all?{|e| e[0].match? e[1]}or @events.zip(decision.events.reverse).all?{|e| e[0].match? e[1]}
+        end
+
+        def include? event
+            @events.include? event
+        end
+
+        def one_match? event
+            @events.any?{|e| e.match? event}
+        end 
+
+        def any_parent_match? parent
+            @events.any?{|e| e.parent.match? parent}
+        end
+
+        def any_parent_equal? parent
+            @events.any?{|e| e.parent == parent}
+        end
+    end
+
+    # ! Use Decisions in @fobidden_transitions manage the banned transitions by pair when necessary. Add .match? and .include? methods to ease the modifications
 
     class ComputeStim
         attr_accessor :decisions, :transitions
@@ -41,6 +93,8 @@ module Converter
             # @decisions_steps = Hash.new([])
             @events_to_process = []#Hash.new { |hash, key| hash[key]=[] }
             @unobservables = []
+            @insert_point_observable = nil
+            @insert_point = nil
         end
 
         def get_insertion_points payload_delay
@@ -119,7 +173,7 @@ module Converter
             # @netlist.components.each{|comp| comp.tag = nil}
         end
 
-        def generate_stim netlist=nil, ht="og_s38417", save_explicit: nil
+        def generate_stim netlist=nil, ht="og_s38417", save_explicit: "explicit_stim.txt"
             if @netlist.nil? and netlist.nil?
                 raise "Error : No netlist provided."
             elsif !netlist.nil?
@@ -195,9 +249,10 @@ module Converter
         end
 
         def compute event, insertion_point
+            @insert_point = insertion_point
             @transitions << [event]
             backpropagate2([event])
-            if @forbidden_transitions.last == event
+            if @forbidden_transitions.any?{|d| d.include? event}
                 # if @forbidden_transitions.length > 1 #!DEBUG
                 #     pp "unexpected"
                 # end
@@ -226,17 +281,28 @@ module Converter
                     # end
                     transitions_to_delete << t
                 end
-                @forbidden_transitions.each do |e|
-                    # if e.signal.name == "Not8780" #!DEBUG
-                    #     pp "here"
-                    # end
-                    if e.parent.match? parent_to_be_deleted
-                        @forbidden_transitions.delete(e)
-                    end
+
+                @forbidden_transitions.delete_if do |d|
+                    d.any_parent_equal? parent_to_be_deleted
                 end
+                # @forbidden_transitions.each do |d|
+                #     # if e.signal.name == "Not8780" #!DEBUG
+                #     #     pp "here"
+                #     # end
+                #     if d.any_parent_match? parent_to_be_deleted
+                #         @forbidden_transitions.delete(d)
+                #     end
+                # end
             end
 
-            transitions_to_delete.each{|t| @transitions.delete(t)}
+            
+            transitions_to_delete.each do |t| 
+                @transitions.delete(t)
+                if !@insert_point_observable.nil? and @insert_point_observable.include?(t)
+                    @insert_point_observable = nil
+                end
+            end
+            
         end
 
         def backtrack wrong_transition
@@ -246,20 +312,24 @@ module Converter
             wrong_event = @transitions.select{|e| e.include? wrong_transition}[0]
             wrong_event.each{|e| recursive_transitions_deletion(e)}
             @transitions.delete(wrong_event)
+            if wrong_event == @insert_point_observable
+                @insert_point_observable = nil
+            end
             # TODO : Supprimer les forbidden decisions pour cette décision
-            @forbidden_transitions.delete_if do |e|
-                wrong_event.any?{|x| x.match? e.parent}
+            @forbidden_transitions.delete_if do |d|
+                wrong_event.any?{|e| d.any_parent_equal? e}
             end
 
             @events_to_process.delete_if do |e|
-                e.parent == wrong_transition.parent
+                wrong_event.any?{|t| t.parent == e.parent}
+                # e.parent == wrong_transition.parent
             end
             
             # print "Backtracking :" #!DEBUG
             # pp wrong_transition.signal
 
             # TODO : Ajouter la décision responsable du backtrack aux décisions interdites
-            @forbidden_transitions << wrong_transition
+            @forbidden_transitions << Decision.new(*wrong_event)
 
             # TODO : Retourner la dernière transition
             @events_to_process << wrong_transition.parent
@@ -297,7 +367,7 @@ module Converter
                     # pp @transitions #!DEBUG
                     # puts "forbidden transitions :"
                     # pp @forbidden_transitions #!DEBUG
-                    e_inputs = compute_transitions(e) #!DEBUG
+                    # e_inputs = compute_transitions(e) #!DEBUG
                     backtrack(e)
                     next
                 end
@@ -308,6 +378,9 @@ module Converter
                     @events_to_process.flatten!
                     
                     @transitions << e_inputs
+                    if e_inputs.collect{|e| e.signal}.include? @insert_point
+                        @insert_point_observable = e_inputs
+                    end
                 end
             end
 
@@ -395,10 +468,10 @@ module Converter
                     if sink.instance_of? Netlist::Port and sink.is_global?
                         next
                     else 
-                        if !previous_event.signal.nil? and (event.timestamp - previous_event.timestamp) < sink.propag_time[@delay_model] and !previous_event.match? event
+                        if !previous_event.signal.nil? and ((event.timestamp - previous_event.timestamp) < sink.propag_time[@delay_model] and (previous_event.afterward_value != event.previous_value))
                             return false
                         end
-                        if !next_event.nil? and (next_event.timestamp - event.timestamp) < sink.propag_time[@delay_model] and !next_event.match? event
+                        if !next_event.nil? and (next_event.timestamp - event.timestamp) < sink.propag_time[@delay_model] and  event.afterward_value != next_event.previous_value
                             return false
                         end
                     end
@@ -416,7 +489,12 @@ module Converter
             else 
                 convertible = true
             end
-            return (!(@forbidden_transitions.flatten(1).any?{|decision| events.include? decision}) and is_fixed_transitions_compatible?(events) and convertible)
+
+            not_forbidden = @forbidden_transitions.none?{|decision| decision.events == events}
+
+            compatibility = is_fixed_transitions_compatible?(events)
+
+            return (not_forbidden and compatibility and convertible)
             # if !new_input_events.empty?
             #     return (tmp and is_convertible?(get_inputs_events + new_input_events))
             # else
@@ -424,6 +502,7 @@ module Converter
             # end
         end
 
+        # ! Obsolete, probably not working
         def compute_transitions event, input_transition = nil
             # * : Compute the expected transition at the output and the deducted transition at the inputs
             # * : Optionnally an input transition is given, then the computation is easier
@@ -434,7 +513,7 @@ module Converter
 
             if gate.instance_of? Netlist::Port and gate.is_global? and gate.is_output? 
                 wire_event = Event.new(gate.get_source_comp, event.timestamp, event.value, event)
-                if @forbidden_transitions.include? wire_event
+                if @forbidden_transitions.any? {|decision| decision.include? wire_event} 
                     return nil
                 else
                     return [wire_event]
@@ -448,48 +527,41 @@ module Converter
             #     raise "HERE" #!DEBUG
             # end
 
-            if gate.instance_of? Netlist::Not
-                possible_inputs_transitions.select! do |inputs_transition|
-                    (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[0].tag != :target_path)
-                end
-            else
-                possible_inputs_transitions.select! do |inputs_transition|
-                    (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[1].tag == :target_path and (["R","F"].include? inputs_transition[1] or non_stable_transition_on? gate.get_source_gates[1])) or (gate.get_source_gates[0].tag != :target_path and gate.get_source_gates[1].tag != :target_path)
+            if @insert_point_observable.nil?
+                if gate.instance_of? Netlist::Not
+                    possible_inputs_transitions.select! do |inputs_transition|
+                        (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[0].tag != :target_path)
+                    end
+                else
+                    possible_inputs_transitions.select! do |inputs_transition|
+                        (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[1].tag == :target_path and (["R","F"].include? inputs_transition[1] or non_stable_transition_on? gate.get_source_gates[1])) or (gate.get_source_gates[0].tag != :target_path and gate.get_source_gates[1].tag != :target_path)
+                    end
                 end
             end
-
             # if possible_inputs_transitions.nil? or possible_inputs_transitions.include? nil
             #     raise "HERE" #!DEBUG
             # end
 
-            # TODO : Si inputs_transitions est nil faire un choix pour les deux entrées
-            if input_transition.nil?
-                
-                possible_inputs_transitions.each do |trans_pair|
-                    i0_trans = Event.new(gate.get_source_gates[0], input_transition_time, trans_pair[0], event)
-                    if !(gate.is_a? Netlist::Not) and !(gate.is_a? Netlist::Buffer)
-                        i1_trans = Event.new(gate.get_source_gates[1],input_transition_time, trans_pair[1], event)
-                    end
-                    
-                    if !(gate.is_a? Netlist::Not) and !(gate.is_a? Netlist::Buffer) 
-                        if verify_transition(i0_trans, i1_trans) 
-                            return [i0_trans, i1_trans]
-                        end
-                    else
-                        if verify_transition(i0_trans) 
-                            return [i0_trans]
-                        end 
-                    end
+        
+            possible_inputs_transitions.each do |trans_pair|
+                i0_trans = Event.new(gate.get_source_gates[0], input_transition_time, trans_pair[0], event)
+                if !(gate.is_a? Netlist::Not) and !(gate.is_a? Netlist::Buffer)
+                    i1_trans = Event.new(gate.get_source_gates[1],input_transition_time, trans_pair[1], event)
                 end
-
-                # TODO : la boucle est terminée et aucune transition n'a été validée -> lancer un backtracking 
-                return nil
-            else
-            # TODO : Sinon il est au format {"i0" => {t => trans.}} et on évince les cas non compatibles (val ET timing !)
-                raise "WIP"
-                # TODO : S'il ne reste aucun cas -> raise une erreur
-                # TODO : Sinon choisir une transition et renvoyer les transitions des deux entrées
+                
+                if !(gate.is_a? Netlist::Not) and !(gate.is_a? Netlist::Buffer) 
+                    if verify_transition(i0_trans, i1_trans) 
+                        return [i0_trans, i1_trans]
+                    end
+                else
+                    if verify_transition(i0_trans) 
+                        return [i0_trans]
+                    end 
+                end
             end
+
+            # TODO : la boucle est terminée et aucune transition n'a été validée -> lancer un backtracking 
+            return nil
         end
 
         def non_stable_transition_on? signal

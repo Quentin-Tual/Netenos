@@ -14,7 +14,7 @@ class Test_compTestbench
         
         puts "[+] Initial circuit generation" if $VERBOSE
         # gen_case 
-        load_blif "../p82.blif"
+        load_blif "../f51m.blif"
         # load_enl "../test_circ.enl"
         gen_circ_files @circ_init
 
@@ -22,7 +22,7 @@ class Test_compTestbench
         @modifier = Inserter::Tamperer.new(@circ_init.clone, @grid, @circ_init.get_timings_hash)
         @modifier.select_ht("og_s38417", $HT_INPUT)
 
-        stim_compute # ! Test stim computation
+        # stim_compute # ! Test stim computation
                 
         puts "[+] Altered circuit generation" if $VERBOSE
         gen_alt_circ
