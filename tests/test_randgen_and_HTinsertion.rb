@@ -7,8 +7,9 @@ require_relative "../lib/netenos.rb"
 include Netlist
 
 def gen_case 
-    @generator = Netlist::RandomGenComb.new 8, 4, 10, [:even, 0.70]
+    @generator = Netlist::RandomGenComb.new 8, 4, 15, [:even, 0.70]
     @circ = @generator.getRandomNetlist "test"
+    puts "Original circuit has combinational loop: #{@circ.has_combinational_loop?}"
     pp @circ.getNetlistInformations :int_multi
     @timings_h = @circ.get_timings_hash
     @slack_h = @circ.get_slack_hash
@@ -26,6 +27,7 @@ gen_case
 begin
     attempts ||= 0
     @modified = @modifier.insert2 
+    puts "Modified circuit has combinational loop: #{@modified.has_combinational_loop?}"
 rescue Inserter::ImpossibleInsertion, Inserter::ImpossibleResolution
     if $VERBOSE
         puts "Insertion attempt number #{attempts}"

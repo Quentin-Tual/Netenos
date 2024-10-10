@@ -6,10 +6,6 @@ module Converter
            return ((event.signal == signal) and (event.timestamp == timestamp) and (event.value == value))
         end
 
-        # def pretty_print q
-        #     puts "#<Event: signal=#{signal.name}, timestamp=#{timestamp}, value=#{value}}>"
-        # end
-
         def closest_inferior_timestamp events
             events.select{|e| e.timestamp <= timestamp}.min_by{|e| (e.timestamp - timestamp).abs}
         end
@@ -76,8 +72,6 @@ module Converter
         end
     end
 
-    # ! Use Decisions in @fobidden_transitions manage the banned transitions by pair when necessary. Add .match? and .include? methods to ease the modifications
-
     class ComputeStim
         attr_accessor :decisions, :transitions
         attr_reader :side_inputs, :stim_vec, :events_computed, :unobservables, :insert_points
@@ -100,7 +94,7 @@ module Converter
 
         def get_insertion_points payload_delay
             # * Returns a list of gate which outputs has a slack greater than the payload delay 
-            slack_h = @netlist.get_slack_hash @delay_model
+            slack_h = @netlist.get_slack_hash(@delay_model)
             return slack_h.select{|slack, gate| slack >= payload_delay}.values.flatten
         end
 
@@ -174,13 +168,13 @@ module Converter
             # @netlist.components.each{|comp| comp.tag = nil}
         end
 
-        def generate_stim netlist=nil, ht="og_s38417", save_explicit: "explicit_stim.txt"
+        def generate_stim netlist=nil, ht="og_s38417", save_explicit: "explicit_stim.txt", freq: 1.1
             if @netlist.nil? and netlist.nil?
                 raise "Error : No netlist provided."
             elsif !netlist.nil?
                 @netlist = netlist
             end
-            
+             
             analyse_netlist(ht)
             
             @events_computed = {}
@@ -238,7 +232,8 @@ module Converter
             end
 
             if !save_explicit.nil?
-                save_explicit_stim_file(save_explicit, stim_pair_h)
+                rep = (1 / (freq % 1).round(4)).to_i
+                save_explicit_stim_file(save_explicit, stim_pair_h, repetition: rep)
             end
  
             # TODO : Transformer les couples de vecteurs en une suite de vecteurs uniques
@@ -401,17 +396,17 @@ module Converter
         # end
 
         def is_fixed_transitions_compatible? events
-            # TODO : Vérifier que les events n'entrent pas en contradiction entre eux
+            # * : 'events' compatibility with each other
             if events.permutation(2).any?{|x,y| x.signal == y.signal and x.timestamp == y.timestamp and x.value != y.value}
                 return false
             end
 
-            # TODO : Vérifier que le signal concerné ne possède pas de transitions incompatibles
-            # Same timestamp and different value
+            # * : 'events' compatibility with fixed transitions
+
+            # * : Value incompatibility (same timestamp)
             events.each do |event|
                 event_list = @transitions.flatten.select{|fixed_event| fixed_event.signal == event.signal}
 
-                # Value incompatibility : Same timestamp different value
                 event_list.each do |fixed_event|
                     if fixed_event.timestamp == event.timestamp and fixed_event.value != event.value
                         return false
@@ -467,12 +462,6 @@ module Converter
                  
                 # Inertial Delay Incompatibility : An existing transition is too close from the proposed one, impossible according to inertial delay model
 
-                # TODO : Pour chaque sink gate de 'event.signal'
-                    # TODO : Si le délai inertiel de la sink gate entre la transition précédente et la transition proposée ou entre la transition proposée et la transition suivante est trop faible
-                        # TODO : retourner False
-                    # TODO : Sinon
-                        # TODO : retouner True
-                        
                 event.signal.get_sink_gates.each do |sink|
                     if sink.instance_of? Netlist::Port and sink.is_global?
                         next
@@ -491,7 +480,7 @@ module Converter
         end
         
         def verify_transition *events
-            # TODO : Vérifier que la transition est valide compte tenu des décisions précédentes
+            # * : Constraint -> uniq instant for non stable transition on inputs
             new_input_events = events.select{|e| e.signal.instance_of? Netlist::Port and e.signal.is_global? and e.signal.is_input?}
             if !new_input_events.empty?
                 convertible = is_convertible?(get_inputs_events + new_input_events)
@@ -499,8 +488,10 @@ module Converter
                 convertible = true
             end
 
+            # * Non-forbidden transitions constraint
             not_forbidden = @forbidden_transitions.none?{|decision| decision.events == events}
 
+            # * Compatibility constraints (regarding other fixed transitions)
             compatibility = is_fixed_transitions_compatible?(events)
 
             return (not_forbidden and compatibility and convertible)
@@ -673,25 +664,35 @@ module Converter
             end
         end
 
-        def save_explicit_stim_file path, stim_pair_h, bin_stim_vec: false
+        def save_explicit_stim_file path, stim_pair_h, bin_stim_vec: false, repetition: 1
             if path[-4..-1]!=".txt" and path[-5..-1]!=".stim"
                 path.concat ".txt"
             end
 
             src = Code.new
             src << "# Stimuli sequence"
+            src << "# Unobservables : #{@unobservables.length}" 
 
-            stim_pair_h.each do |insert_point, solution|
-                src << "# signal=#{insert_point.get_full_name}, output=#{solution.keys[0].signal.get_full_name}"
-                solution.values.flatten.each do |vec|
-                    if !vec.nil? # ! TEST DEBUG
-                        if bin_stim_vec 
-                            src << vec.reverse
-                        else
-                            src << vec.reverse.to_i(2)
+            stim_pair_rh = stim_pair_h.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(insert_point, solution), result|
+                signal = solution.keys[0].signal
+                vectors = solution.values[0]
+                result[vectors] << [insert_point, signal]
+            end
+            # stim_pair_rh = stim_pair_rh.invert
+
+            stim_pair_rh.each do |vectors, target|
+                src << "# " + (target.collect{|insert_point, output| "s=#{insert_point.get_full_name}, o=#{output.get_full_name}"}.join("; "))
+                repetition.times do |i|
+                    vectors.each do |vec|
+                        if !vec.nil? # ! TEST DEBUG
+                            if bin_stim_vec 
+                                src << vec.reverse
+                            else
+                                src << vec.reverse.to_i(2)
+                            end
+                        else 
+                            raise "Error : nil test vector encountered."
                         end
-                    else 
-                        raise "Error : nil test vector encountered."
                     end
                 end
             end 

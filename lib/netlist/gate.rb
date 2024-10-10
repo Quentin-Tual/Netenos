@@ -117,12 +117,12 @@ module Netlist
             @cumulated_propag_time = [elapsed + @propag_time[delay_model], @cumulated_propag_time].max
 
             get_output.get_sinks.each do |sink|
-                if sink.class.name == "Netlist::Wire"
-                    sink.update_path_delay @cumulated_propag_time, delay_model
+                if sink.instance_of? Netlist::Wire
+                    sink.update_path_delay(@cumulated_propag_time, delay_model)
                 elsif sink.is_global?
                     sink.cumulated_propag_time = @cumulated_propag_time
                 elsif !sink.is_global?
-                    sink.partof.update_path_delay @cumulated_propag_time, delay_model
+                    sink.partof.update_path_delay(@cumulated_propag_time, delay_model)
                 end
             end
         end

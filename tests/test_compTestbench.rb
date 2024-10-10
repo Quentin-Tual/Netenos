@@ -22,7 +22,7 @@ class Test_compTestbench
         @modifier = Inserter::Tamperer.new(@circ_init.clone, @grid, @circ_init.get_timings_hash)
         @modifier.select_ht("og_s38417", $HT_INPUT)
 
-        # stim_compute # ! Test stim computation
+        stim_compute # ! Test stim computation
                 
         puts "[+] Altered circuit generation" if $VERBOSE
         gen_alt_circ
@@ -52,7 +52,7 @@ class Test_compTestbench
 
     def stim_compute
         @stim_computor = Converter::ComputeStim.new(@circ_init, $DELAY_MODEL)
-        @stim_computor.generate_stim(@circ_init, "og_s38417",save_explicit:"stim.txt")
+        @stim_computor.generate_stim(@circ_init, "og_s38417",save_explicit: "stim.txt", freq: $FREQ)
         # @stim_computor.save_as_txt("computed_stim.txt", @stim_computor.stim_vec)
         @tmp = @stim_computor.events_computed
     end
@@ -143,7 +143,7 @@ class Test_compTestbench
 end
 
 if __FILE__ == $0
-    $CIRC_CARAC = [6, 3, 10, [:even, 0.70]]
+    $CIRC_CARAC = [8, 4, 10, [:custom, 0.70]]
     $DELAY_MODEL = :int_multi
     $HT_INPUT = 2
     $FREQ = 1.1

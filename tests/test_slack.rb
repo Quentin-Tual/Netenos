@@ -9,27 +9,36 @@ class Test_computeStim
     
     def initialize
         @circ = nil
+        @generator = Netlist::RandomGenComb.new(*$CIRC_CARAC)
     end
 
     def load_blif path
         @circ = Converter::ConvBlif2Netlist.new.convert path
     end
+
+    def gen_rand_circ 
+        @circ = @generator.getValidRandomNetlist "test"
+        @circ.getNetlistInformations $DELAY_MODEL
+    end
     
     def run
-        @circ = load_blif("C17.blif")
+        # load_blif("../C17.blif")
+        gen_rand_circ
         @circ.getNetlistInformations($DELAY_MODEL)
         Converter::DotGen.new.dot @circ, "./test.dot"
         slack_h = @circ.get_slack_hash($DELAY_MODEL)
 
-        if slack_h.length <= 1
+        if slack_h.length <= 1 and slack_h.keys.include?(nil)
             puts "Not valid slack"
         else 
+            pp slack_h
             puts "Valid !!"
         end
     end
 end
 
 if __FILE__ == $0
+    $CIRC_CARAC = [8, 4, 15, [:custom, 0.70]]
     $DELAY_MODEL = :int_multi
     $COMPILER = :ghdl3
     $FREQ = 1

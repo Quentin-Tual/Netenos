@@ -9,7 +9,7 @@ module Inserter
         def initialize nb_trigger = 4
             # * : For the moment the only parameters allowed are power of 2 numbers. This is faster to develop and easier for a start. It may evolve later to allow more possibilities.
             super
-            @netlist = gen_netlist nb_trigger
+            @netlist = gen_netlist(nb_trigger)
         end
 
         def gen_netlist nb_trigger

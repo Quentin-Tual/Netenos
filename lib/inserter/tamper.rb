@@ -281,7 +281,7 @@ module Inserter
             #     raise "Error: selected insertion location has no sink.\n -> #{attacked_sig.get_full_name}"
             # end
 
-            return attacked_sig, stage
+            return attacked_sig, stage-1 # * Since the stage is the component one, we need to substract 1 to get the stage number of the signals usable by the trigger.
         end
 
         def get_min_stage min_stage, nb_trigger_sig, nb_available_sig = 0
