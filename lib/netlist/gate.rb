@@ -16,7 +16,7 @@ module Netlist
             @ports.each_value{|io| io.each{|p| p.partof = self}}
             @partof = partof
             @components = [] 
-            @propag_time = {    :one => 1.0, 
+            @propag_time = {    :one => 1, 
                                 :int => (((nb_inputs+1.0)/2.0)).round(3), 
                                 :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3),
                                 :fract => (0.3 + ((((nb_inputs+1.0)/2.0)*rand(0.9..1.1))/2.2)).round(3)
@@ -24,11 +24,11 @@ module Netlist
 
             klass = self.class.name.split("::")[1]
             if klass == "Xor2"
-                @propag_time[:int_multi] = 2.5
+                @propag_time[:int_multi] = 5
             elsif klass == "Nand2" or klass == "Nor2" 
-                @propag_time[:int_multi] = 2.0
+                @propag_time[:int_multi] = 4
             else
-                @propag_time[:int_multi] = 1.5
+                @propag_time[:int_multi] = 3
             end
 
             @cumulated_propag_time = 0.0
@@ -158,14 +158,14 @@ module Netlist
     class And2 < Gate
         def get_input_transition output_transition
             case output_transition
-            when "0" 
-                return [["0","0"],["0","1"],["1","0"],["0","R"],["R","0"],["0","F"],["F","0"],["R","F"],["F","R"]]
-            when "1" 
-                return [["1","1"]]
-            when "R"
-                return [["1","R"],["R","1"],["R","R"]]
-            when "F"
-                return [["1","F"],["F","1"],["F","F"]]
+            when :S0 
+                return [[:S0,:S0],[:S0,:S1],[:S1,:S0],[:S0,:R],[:R,:S0],[:S0,:F],[:F,:S0],[:R,:F],[:F,:R]]
+            when :S1 
+                return [[:S1,:S1]]
+            when :R
+                return [[:S1,:R],[:R,:S1],[:R,:R]]
+            when :F
+                return [[:S1,:F],[:F,:S1],[:F,:F]]
             else
                 raise "Error: Unexpected transition value encountered."
             end
@@ -173,14 +173,14 @@ module Netlist
 
         def get_output_transition input_transitions
             case input_transitions
-            when ["0","0"], ["0","1"], ["1","0"], ["R","F"], ["F","R"],["R","0"], ["0","R"], ["F","0"], ["0","F"]
-                return "0"
-            when ["1","1"]
-                return "1"
-            when ["R","R"], ["1","R"], ["R","1"]
-                return "R"
-            when ["F","F"], ["1", "F"], ["F", "1"]
-                return "F"
+            when [:S0,:S0], [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R],[:R,:S0], [:S0,:R], [:F,:S0], [:S0,:F]
+                return :S0
+            when [:S1,:S1]
+                return :S1
+            when [:R,:R], [:S1,:R], [:R,:S1]
+                return :R
+            when [:F,:F], [:S1, :F], [:F, :S1]
+                return :F
             else
                 raise "Error: Unexpected output transitions values encountered."
             end
@@ -190,14 +190,14 @@ module Netlist
     class Or2 < Gate
         def get_input_transition output_transition
             case output_transition
-            when "0" 
-                return [["0","0"]]
-            when "1" 
-                return [["0","1"],["1","0"],["1","1"],["1","F"],["F","1"],["1","R"],["R","1"],["R","F"],["F","R"]]
-            when "R"
-                return [["0","R"],["R","0"],["R","R"]]
-            when "F"
-                return [["0","F"],["F","0"],["F","F"]]
+            when :S0 
+                return [[:S0,:S0]]
+            when :S1 
+                return [[:S0,:S1],[:S1,:S0],[:S1,:S1],[:S1,:F],[:F,:S1],[:S1,:R],[:R,:S1],[:R,:F],[:F,:R]]
+            when :R
+                return [[:S0,:R],[:R,:S0],[:R,:R]]
+            when :F
+                return [[:S0,:F],[:F,:S0],[:F,:F]]
             else
                 raise "Error: Unexpected output transition value encountered."
             end
@@ -205,14 +205,14 @@ module Netlist
 
         def get_output_transition input_transitions
             case input_transitions
-            when ["0","0"]
-                return "0"
-            when ["1","1"], ["0","1"], ["1","0"], ["R","F"], ["F","R"], ["1","R"], ["R","1"], ["1", "F"], ["F", "1"]
-                return "1"
-            when ["R","R"], ["R","0"], ["0","R"]
-                return "R"
-            when ["F","F"], ["F","0"], ["0","F"]
-                return "F"
+            when [:S0,:S0]
+                return :S0
+            when [:S1,:S1], [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R], [:S1,:R], [:R,:S1], [:S1, :F], [:F, :S1]
+                return :S1
+            when [:R,:R], [:R,:S0], [:S0,:R]
+                return :R
+            when [:F,:F], [:F,:S0], [:S0,:F]
+                return :F
             else
                 raise "Error: Unexpected output transitions values encountered."
             end
@@ -222,14 +222,14 @@ module Netlist
     class Xor2 < Gate
         def get_input_transition output_transition
             case output_transition
-            when "0" 
-                return [["0","0"],["1","1"],["R","R"],["F","F"]]
-            when "1" 
-                return [["0","1"],["1","0"],["R","F"],["F","R"]]
-            when "R"
-                return [["0","R"],["R","0"],["1","F"],["F","1"]]
-            when "F"
-                return [["0","F"],["F","0"],["1","R"],["R","1"]]
+            when :S0 
+                return [[:S0,:S0],[:S1,:S1],[:R,:R],[:F,:F]]
+            when :S1 
+                return [[:S0,:S1],[:S1,:S0],[:R,:F],[:F,:R]]
+            when :R
+                return [[:S0,:R],[:R,:S0],[:S1,:F],[:F,:S1]]
+            when :F
+                return [[:S0,:F],[:F,:S0],[:S1,:R],[:R,:S1]]
             else
                 raise "Error: Unexpected transition value encountered."
             end
@@ -237,14 +237,14 @@ module Netlist
         
         def get_output_transition input_transitions
             case input_transitions
-            when ["0","0"], ["1","1"], ["F","F"], ["R","R"]
-                return "0"
-            when ["0","1"], ["1","0"], ["R","F"], ["F","R"]
-                return "1"
-            when ["R","0"], ["0","R"], ["1", "F"], ["F", "1"]
-                return "R"
-            when ["F","0"], ["0","F"], ["1","R"], ["R","1"]
-                return "F"
+            when [:S0,:S0], [:S1,:S1], [:F,:F], [:R,:R]
+                return :S0
+            when [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R]
+                return :S1
+            when [:R,:S0], [:S0,:R], [:S1, :F], [:F, :S1]
+                return :R
+            when [:F,:S0], [:S0,:F], [:S1,:R], [:R,:S1]
+                return :F
             else
                 raise "Error: Unexpected output transitions values encountered."
             end
@@ -254,14 +254,14 @@ module Netlist
     class Nor2 < Gate
         def get_input_transition output_transition
             case output_transition
-            when "0" 
-                return [["0","1"],["1","0"],["1","1"],["1","R"],["R","1"],["1","F"],["F","1"]]
-            when "1" 
-                return [["0","0"]]
-            when "R"
-                return [["0","F"],["F","0"],["F","F"]]
-            when "F"
-                return [["0","R"],["R","0"],["R","R"]]
+            when :S0 
+                return [[:S0,:S1],[:S1,:S0],[:S1,:S1],[:S1,:R],[:R,:S1],[:S1,:F],[:F,:S1]]
+            when :S1 
+                return [[:S0,:S0]]
+            when :R
+                return [[:S0,:F],[:F,:S0],[:F,:F]]
+            when :F
+                return [[:S0,:R],[:R,:S0],[:R,:R]]
             else
                 raise "Error: Unexpected transition value encountered."
             end
@@ -269,14 +269,14 @@ module Netlist
 
         def get_output_transition input_transitions
             case input_transitions
-            when ["1","1"], ["0","1"], ["1","0"], ["R","F"], ["F","R"], ["1","R"], ["R","1"], ["1", "F"], ["F", "1"]
-                return "0"
-            when ["0","0"]
-                return "1"
-            when ["F","F"], ["F","0"], ["0","F"]
-                return "R"
-            when ["R","R"], ["R","0"], ["0","R"]
-                return "F"
+            when [:S1,:S1], [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R], [:S1,:R], [:R,:S1], [:S1, :F], [:F, :S1]
+                return :S0
+            when [:S0,:S0]
+                return :S1
+            when [:F,:F], [:F,:S0], [:S0,:F]
+                return :R
+            when [:R,:R], [:R,:S0], [:S0,:R]
+                return :F
             else
                 raise "Error: Unexpected output transitions values encountered."
             end
@@ -286,14 +286,14 @@ module Netlist
     class Nand2 < Gate
         def get_input_transition output_transition
             case output_transition
-            when "0" 
-                return [["1","1"]]
-            when "1" 
-                return [["0","0"],["1","0"],["0","1"],["0","R"],["R","0"],["0","F"],["F","0"]]
-            when "R"
-                return [["1","F"],["F","1"],["F","F"]]
-            when "F"
-                return [["1","R"],["R","1"],["R","R"]]
+            when :S0 
+                return [[:S1,:S1]]
+            when :S1 
+                return [[:S0,:S0],[:S1,:S0],[:S0,:S1],[:S0,:R],[:R,:S0],[:S0,:F],[:F,:S0]]
+            when :R
+                return [[:S1,:F],[:F,:S1],[:F,:F]]
+            when :F
+                return [[:S1,:R],[:R,:S1],[:R,:R]]
             else
                 raise "Error: Unexpected transition value encountered."
             end
@@ -301,14 +301,14 @@ module Netlist
 
         def get_output_transition input_transitions
             case input_transitions
-            when ["1","1"]
-                return "0"
-            when ["0","0"], ["0","1"], ["1","0"], ["R","F"], ["F","R"],["R","0"], ["0","R"], ["F","0"], ["0","F"]
-                return "1"
-            when ["F","F"], ["1", "F"], ["F", "1"]
-                return "R"
-            when ["R","R"], ["1","R"], ["R","1"]
-                return "F"
+            when [:S1,:S1]
+                return :S0
+            when [:S0,:S0], [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R],[:R,:S0], [:S0,:R], [:F,:S0], [:S0,:F]
+                return :S1
+            when [:F,:F], [:S1, :F], [:F, :S1]
+                return :R
+            when [:R,:R], [:S1,:R], [:R,:S1]
+                return :F
             else
                 raise "Error: Unexpected output transitions values encountered."
             end
@@ -323,7 +323,7 @@ module Netlist
             @ports.each_value{|p| p[0].partof = self}
             @partof = partof
             @components = []
-            @propag_time = {:one => 1.0, :int => 1.0, :int_multi => 1.0, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
+            @propag_time = {:one => 1, :int => 1.0, :int_multi => 2, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
             @cumulated_propag_time = 0.0
             @slack = 0.0
 
@@ -356,14 +356,14 @@ module Netlist
 
         def get_input_transition output_transition
             case output_transition
-            when "0" 
-                return [["1"]]
-            when "1" 
-                return [["0"]]
-            when "R"
-                return [["F"]]
-            when "F"
-                return [["R"]]
+            when :S0 
+                return [[:S1]]
+            when :S1 
+                return [[:S0]]
+            when :R
+                return [[:F]]
+            when :F
+                return [[:R]]
             else
                 raise "Error: Unexpected transition value encountered."
             end
@@ -371,14 +371,14 @@ module Netlist
 
         def get_output_transition input_transitions
             case input_transitions
-            when "1"
-                return "0"
-            when "0"
-                return "1"
-            when "F"
-                return "R"
-            when "R"
-                return "F"
+            when :S1
+                return :S0
+            when :S0
+                return :S1
+            when :F
+                return :R
+            when :R
+                return :F
             else
                 raise "Error: Unexpected output transitions values encountered."
             end
@@ -422,14 +422,14 @@ module Netlist
 
         def get_input_transition output_transition
             case output_transition
-            when "0" 
-                return [["0"]]
-            when "1" 
-                return [["1"]]
-            when "R"
-                return [["R"]]
-            when "F"
-                return [["F"]]
+            when :S0 
+                return [[:S0]]
+            when :S1 
+                return [[:S1]]
+            when :R
+                return [[:R]]
+            when :F
+                return [[:F]]
             else
                 raise "Error: Unexpected transition value encountered."
             end
@@ -437,14 +437,14 @@ module Netlist
 
         def get_output_transition *input_transitions
             case input_transitions
-            when "0"
-                return "0"
-            when "1"
-                return "1"
-            when "R"
-                return "R"
-            when "F"
-                return "F"
+            when :S0
+                return :S0
+            when :S1
+                return :S1
+            when :R
+                return :R
+            when :F
+                return :F
             else
                 raise "Error: Unexpected output transitions values encountered."
             end

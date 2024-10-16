@@ -12,9 +12,9 @@ end entity rand_140_1_tb;
 architecture netenos of rand_140_1_tb is
 
     constant unit_delay : time := 1 ps;
-    constant nom_period : time := (unit_delay * 19.5);
+    constant nom_period : time := (unit_delay * 39);
 
-    signal tb_in : std_logic_vector(5 downto 0);
+    signal tb_in : std_logic_vector(7 downto 0);
     
     signal tb_out : std_logic_vector(3 downto 0);
    
@@ -42,6 +42,8 @@ begin
        tb_in(3), 
        tb_in(4), 
        tb_in(5), 
+       tb_in(6), 
+       tb_in(7), 
        tb_out(0), 
        tb_out(1), 
        tb_out(2), 
@@ -53,8 +55,8 @@ begin
     begin
 
         
-        wait for 17.5 * unit_delay;
-        tb_in(4) <= '0';
+        wait for 35 * unit_delay;
+        tb_in(6) <= '0';
      
 
         wait for nom_period;

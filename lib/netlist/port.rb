@@ -8,8 +8,8 @@ module Netlist
             @partof = partof
             @direction = direction
             @slack = nil
-            @cumulated_propag_time = 0.0
-            @capacitance = 0.0
+            @cumulated_propag_time = 0
+            # @capacitance = 0.0
 
             @transitions = []
             @forbidden_transitions = []

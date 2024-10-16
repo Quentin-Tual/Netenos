@@ -13,6 +13,7 @@ module Converter
             @parent = parent # will reference an Event class instance
             @children = nil # will reference a Decision class instance
             @forbidden = []
+            # @possible = []
         end
 
         def match? event
@@ -25,9 +26,9 @@ module Converter
 
         def boolean_value
             case value
-            when "R", "1"
+            when :R, :S1
                 "1"
-            when "F", "0"
+            when :F, :S0
                 "0"
             else
                 raise "Error : Unknown transition value encountered. Cannot obtain boolean equivalence."
@@ -36,10 +37,10 @@ module Converter
 
         def previous_value
             case value
-            when "R","0"
-                "0"
-            when "F", "1"
-                "1"
+            when :R,:S0
+                :S0
+            when :F, :S1
+                :S1
             else
                 raise "Error : Unknown transition value encountered. Cannot obtain boolean equivalence."
             end
@@ -47,10 +48,10 @@ module Converter
 
         def afterward_value
             case value
-            when "R", "1"
-                "1"
-            when "F", "0"
-                "0"
+            when :R, :S1
+                :S1
+            when :F, :S0
+                :S0
             else
                 raise "Error : Unknown transition value encountered. Cannot obtain boolean equivalence for #{value}."
             end
@@ -221,7 +222,7 @@ module Converter
                     # end
 
                     targeted_transition = nil
-                    ["R","F"].each do |transition|
+                    [:R,:F].each do |transition|
                         targeted_transition = Converter::Event.new(targeted_output, @netlist.crit_path_length , transition, nil)      
                         # get_cone_outputs(insert_point)
                         res = compute(targeted_transition, insert_point)
@@ -470,14 +471,14 @@ module Converter
 
                 # if !previous_event.signal.nil?
                 #     values = [previous_event.value, event.value]
-                #     if [["R","R"], ["F","F"], ["1","R"], ["0", "F"], ["R", "0"], ["F", "1"]].include? values
+                #     if [[:R,:R], [:F,:F], [:S1,:R], [:S0, :F], [:R, :S0], [:F, :S1]].include? values
                 #         return false
                 #     end
                 # end
 
                 # if !next_event.nil?
                 #     values = [event.value, next_event.value]
-                #     if [["R","R"], ["F","F"], ["1","R"], ["0", "F"], ["R", "0"], ["F", "1"]].include? values
+                #     if [[:R,:R], [:F,:F], [:S1,:R], [:S0, :F], [:R, :S0], [:F, :S1]].include? values
                 #         return false
                 #     end
                 # end
@@ -551,28 +552,26 @@ module Converter
             end
 
             possible_inputs_transitions = gate.get_input_transition(event.value)
-            # input_transition_time = event.timestamp - gate.propag_time[@delay_model]
-
-            # if possible_inputs_transitions.nil? or possible_inputs_transitions.include? nil
-            #     raise "HERE" #!DEBUG
-            # end
 
             if @insert_point_observable.nil?
                 possible_inputs_transitions = target_path_controlling(possible_inputs_transitions, event.signal)
             end
-            # if possible_inputs_transitions.nil? or possible_inputs_transitions.include? nil
-            #     raise "HERE" #!DEBUG
-            # end
 
-            possible_inputs_transitions = get_event_list(possible_inputs_transitions, event)
+            possible_inputs_events = get_event_list(possible_inputs_transitions, event)
 
-            # ! Opti : Check if possible to verify if one transition has already been fixed, if it is the case, then skip to the end and accept it.
+            # * : Check if possible to verify if one transition has already been fixed, if it is the case, then skip to the end accepting it.
+            possible_inputs_events.each do |proposed_events|
+                if @signal_events[event.signal].any?{|e| !e.children.nil? and e.children.match? Decision.new(*proposed_events)}
+                    # event.possible = possible_inputs_events - proposed_events
+                    return proposed_events
+                end
+            end
 
-            possible_inputs_transitions.select! do |proposed_events|
+            possible_inputs_events.select! do |proposed_events|
                 !is_forbidden?(proposed_events, event)
             end
 
-            possible_inputs_transitions.select! do |proposed_events|
+            possible_inputs_events.select! do |proposed_events|
                 new_input_events = proposed_events.select{|e| e.signal.instance_of?(Netlist::Port) and e.signal.is_global? and e.signal.is_input?}
 
                 if new_input_events.empty?
@@ -582,8 +581,9 @@ module Converter
                 end
             end
 
-            possible_inputs_transitions.each do |proposed_events|
+            possible_inputs_events.each do |proposed_events|
                 if is_fixed_transitions_compatible?(proposed_events)
+                    # event.possible = possible_inputs_events - proposed_events
                     return proposed_events
                 end
             end 
@@ -597,11 +597,11 @@ module Converter
             if gate.instance_of? Netlist::Not
                 possible_inputs_transitions.select! do |inputs_transition|
                     if gate.get_source_gates[0].tag == :target_path
-                        non_stable_transition_on? gate.get_source_gates[0] or inputs_transition[0] == "R" or inputs_transition[0] == "F"
+                        non_stable_transition_on? gate.get_source_gates[0] or inputs_transition[0] == :R or inputs_transition[0] == :F
                     else
                         true
                     end 
-                    # (gate.get_source_gates[0].tag == :target_path and (["R","F"].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[0].tag != :target_path)
+                    # (gate.get_source_gates[0].tag == :target_path and ([:R,:F].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[0].tag != :target_path)
                 end
             else
                 possible_inputs_transitions.select! do |inputs_transition|
@@ -610,9 +610,9 @@ module Converter
                         true
                     else
                         if is_target_path[0]
-                            (non_stable_transition_on? gate.get_source_gates[0] or inputs_transition[0] == "R" or inputs_transition[0] == "F")
+                            (non_stable_transition_on? gate.get_source_gates[0] or inputs_transition[0] == :R or inputs_transition[0] == :F)
                         else
-                            (non_stable_transition_on? gate.get_source_gates[1] or inputs_transition[1] == "R" or inputs_transition[1] == "F")
+                            (non_stable_transition_on? gate.get_source_gates[1] or inputs_transition[1] == :R or inputs_transition[1] == :F)
                         end
                     end
                 end
@@ -646,12 +646,12 @@ module Converter
 
         def non_stable_transition_on? signal
             @signal_events[signal].flatten.any? do |e|
-                ["R","F"].include?(e.value)
+                [:R,:F].include?(e.value)
             end
         end
 
         def is_convertible? event_list
-            event_list.select!{|e| ["R","F"].include? e.value}
+            event_list.select!{|e| [:R,:F].include? e.value}
             
             if event_list.empty?
                 return true
@@ -675,7 +675,7 @@ module Converter
             # TODO : Identifier l'instant de transition
             transition_instant = nil
             input_events.each do |e| 
-                if (e.value == "R" or e.value == "F") 
+                if (e.value == :R or e.value == :F) 
                     transition_instant = e.timestamp
                     break
                 end
@@ -690,32 +690,32 @@ module Converter
             input_events.each do |e|
                 if e.timestamp == transition_instant
                     case e.value
-                    when "R"
+                    when :R
                         origin_vector[e.signal] = "0"
                         arrival_vector[e.signal] = "1"
-                    when "F"
+                    when :F
                         origin_vector[e.signal] = "1"
                         arrival_vector[e.signal] = "0"
-                    when "1"
+                    when :S1
                         origin_vector[e.signal] = "1"
                         arrival_vector[e.signal] = "1"
-                    when "0"
-                        origin_vector[e.signal] = "0"
+                    when :S0
+                        origin_vector[e.signal] = "1"
                         arrival_vector[e.signal] = "0"
                     else
                         raise "Error : Unknown transition value"
                     end
                 elsif e.timestamp < transition_instant
-                    origin_vector[e.signal] = e.value
+                    origin_vector[e.signal] = e.boolean_value
                 else
-                    arrival_vector[e.signal] = e.value
+                    arrival_vector[e.signal] = e.boolean_value
                 end
             end
 
             @netlist.get_inputs.each do |in_p|
                 if (!origin_vector.include?(in_p) and !arrival_vector.include?(in_p))
-                    origin_vector[in_p] = "1" # ! Default value, can be changed to "X" if necessary
-                    arrival_vector[in_p] = "1" # ! Default value, can be changed to "X" if necessary
+                    origin_vector[in_p] = :S1 # ! Default value, can be changed to "X" if necessary
+                    arrival_vector[in_p] = :S1 # ! Default value, can be changed to "X" if necessary
                 end
             end
 

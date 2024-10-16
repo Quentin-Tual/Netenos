@@ -300,7 +300,7 @@ class Test_computeStim
 end
 
 if __FILE__ == $0
-    $CIRC_CARAC = [6, 4, 10, [:custom, 0.5]]
+    $CIRC_CARAC = [8, 4, 10, [:custom, 0.6]]
     $DELAY_MODEL = :int_multi
     $COMPILER = :ghdl3
     $FREQ = 1
