@@ -278,8 +278,8 @@ class Test_computeStim
     # end
 
     def run
-        @circ = @generator.getValidRandomNetlist "test"
-        # load_blif "../xor5.blif"
+        # @circ = @generator.getValidRandomNetlist "test"
+        load_blif "../xor5.blif"
         # load_blif "../f51m.blif"
         # load_blif "../C17.blif"
         RubyProf.start

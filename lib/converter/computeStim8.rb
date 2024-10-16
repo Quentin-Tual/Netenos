@@ -3,7 +3,7 @@ module Converter
     # Transition = Struct.new(:timestamp, :value)
     class Event 
         attr_reader :signal, :timestamp, :value, :parent
-        attr_accessor :children, :forbidden
+        attr_accessor :children, :forbidden, :possible
 
         def initialize signal, timestamp, value, parent
             @signal = signal
@@ -13,7 +13,7 @@ module Converter
             @parent = parent # will reference an Event class instance
             @children = nil # will reference a Decision class instance
             @forbidden = []
-            # @possible = []
+            @possible = []
         end
 
         def match? event
@@ -336,8 +336,7 @@ module Converter
             # TODO : Ajouter la décision responsable du backtrack aux décisions interdites
             wrong_decision.parent.forbidden << wrong_decision
             # TODO : Supprimer les forbidden decisions pour cette décision
-            wrong_decision.events.each{|e| e.children = nil} # Remove reference to garbage the events resulting of the decision deleted  
-
+            wrong_decision.events.each{|e| e.children = nil; e.possible = []} # Remove reference to garbage the events resulting of the decision deleted  
             # wrong_decision.each{|e| recursive_transitions_deletion(e)}
             # @transitions.delete(wrong_decision)
             if wrong_decision.events == @insert_point_observable
@@ -551,24 +550,33 @@ module Converter
                 end
             end
 
-            possible_inputs_transitions = gate.get_input_transition(event.value)
+            # * : Check if possible events have already been computed then avoid doing again
+            if event.possible.empty?
+                possible_inputs_transitions = gate.get_input_transition(event.value)
 
-            if @insert_point_observable.nil?
-                possible_inputs_transitions = target_path_controlling(possible_inputs_transitions, event.signal)
+                possible_inputs_events = get_event_list(possible_inputs_transitions, event)
+            else
+                possible_inputs_events = event.possible
             end
 
-            possible_inputs_events = get_event_list(possible_inputs_transitions, event)
+            if @insert_point_observable.nil?
+                possible_inputs_transitions = target_path_controlling2(possible_inputs_events, event.signal)
+            end
 
             # * : Check if possible to verify if one transition has already been fixed, if it is the case, then skip to the end accepting it.
             possible_inputs_events.each do |proposed_events|
                 if @signal_events[event.signal].any?{|e| !e.children.nil? and e.children.match? Decision.new(*proposed_events)}
-                    # event.possible = possible_inputs_events - proposed_events
+                    event.possible = possible_inputs_events - proposed_events
                     return proposed_events
                 end
             end
 
             possible_inputs_events.select! do |proposed_events|
                 !is_forbidden?(proposed_events, event)
+            end
+
+            if possible_inputs_events.empty?
+                return nil
             end
 
             possible_inputs_events.select! do |proposed_events|
@@ -583,13 +591,39 @@ module Converter
 
             possible_inputs_events.each do |proposed_events|
                 if is_fixed_transitions_compatible?(proposed_events)
-                    # event.possible = possible_inputs_events - proposed_events
+                    event.possible = possible_inputs_events - proposed_events
                     return proposed_events
                 end
             end 
 
             # TODO : la boucle est terminée et aucune transition n'a été validée -> lancer un backtracking 
             return nil
+        end
+
+        def target_path_controlling2 events, gate
+            if gate.instance_of? Netlist::Not
+                events.select! do |inputs_event|
+                    if gate.get_source_gates[0].tag == :target_path
+                        non_stable_transition_on? gate.get_source_gates[0] or [:R,:F].include? inputs_event[0].value
+                    else
+                        true
+                    end 
+                    # (gate.get_source_gates[0].tag == :target_path and ([:R,:F].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[0].tag != :target_path)
+                end
+            else
+                events.select! do |inputs_event|
+                    is_target_path = [gate.get_source_gates[0].tag == :target_path, gate.get_source_gates[1].tag == :target_path]
+                    if (!is_target_path[0] and !is_target_path[1])
+                        true
+                    else
+                        if is_target_path[0]
+                            (non_stable_transition_on? gate.get_source_gates[0] or [:R,:F].include? inputs_event[0].value)
+                        else
+                            (non_stable_transition_on? gate.get_source_gates[1] or [:R,:F].include? inputs_event[1].value)
+                        end
+                    end
+                end
+            end
         end
 
         def target_path_controlling possible_inputs_transitions, gate 

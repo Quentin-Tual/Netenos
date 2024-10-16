@@ -1,5 +1,5 @@
 $ version 1.1
 # Signals in packages :
 # Signals in entities :
-/rand_140_1_tb/*
-/rand_140_1_tb/uut/*
+/circ_source_1_tb/*
+/circ_source_1_tb/uut/*
