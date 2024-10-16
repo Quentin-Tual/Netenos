@@ -32,6 +32,9 @@ module Netlist
 
             if source.is_a? Port or source.is_a? Wire
                 source.fanout << self
+            elsif source.is_a? Reverse::InvertedGate
+                source.source << self
+                @fanin = source
             else
                 # pp source.class #!DEBUG
                 source.get_free_input << self

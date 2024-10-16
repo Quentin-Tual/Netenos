@@ -30,7 +30,7 @@ module Netlist
                     @wires << e
                     e.partof = self
 
-                when Circuit
+                when Circuit, Gate, Reverse::InvertedGate
                     @components << e
                     e.partof = self
                 

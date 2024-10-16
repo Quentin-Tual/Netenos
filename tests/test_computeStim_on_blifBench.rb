@@ -1,5 +1,7 @@
 require_relative "../lib/netenos.rb"
-require_relative "../lib/converter/computeStim7.rb"
+require_relative "../lib/converter/computeStim8.rb"
+require 'ruby-prof'
+require 'logger'
 
 include Netlist
 # include VHDL
@@ -63,10 +65,6 @@ class Test_computeStim
     end
     
     def generate_stim_on_random_circuit
-        # @circ = @generator.getValidRandomNetlist "test"
-        load_blif "../xor5.blif"
-        # load_blif "../f51m.blif"
-        # load_blif "../C17.blif"
         @circ.getNetlistInformations $DELAY_MODEL
         Converter::DotGen.new.dot @circ, "./test.dot"
         @compStim = Converter::ComputeStim.new(@circ, $DELAY_MODEL)#,["10100"])
@@ -280,10 +278,20 @@ class Test_computeStim
     # end
 
     def run
+        @circ = @generator.getValidRandomNetlist "test"
+        # load_blif "../xor5.blif"
+        # load_blif "../f51m.blif"
+        # load_blif "../C17.blif"
+        RubyProf.start
         # get_resolvable_case
         # load_circuit
-        generate_stim_on_random_circuit
+            generate_stim_on_random_circuit
         # one_insert_point
+        result = RubyProf.stop
+        printer = RubyProf::FlatPrinter.new(result)
+        printer.print(STDOUT)
+        File.write("profile_#{@circ.name}", Marshal.dump(result))
+
         verif_all_computed_events(@compStim.events_computed)
         @compStim.save_as_txt("computed_stim.txt",@compStim.stim_vec,)
         puts "Unobservables : #{@compStim.unobservables.length}/#{@compStim.insert_points.length}"
@@ -292,14 +300,15 @@ class Test_computeStim
 end
 
 if __FILE__ == $0
-    $CIRC_CARAC = [6, 2, 4, [:even, 0.70]]
+    $CIRC_CARAC = [6, 4, 10, [:custom, 0.5]]
     $DELAY_MODEL = :int_multi
     $COMPILER = :ghdl3
     $FREQ = 1
 
     Dir.chdir("tests/tmp") do
         puts "Lancement #{__FILE__}" 
-        'rm *'
+        `rm *`
+        `touch test.log`
         # print(self.class)
         env = Test_computeStim.new 
         # env.one_insert_point

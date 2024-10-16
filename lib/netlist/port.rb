@@ -41,7 +41,11 @@ module Netlist
         end
 
         def is_global?
-            self.partof.partof.nil?
+            if @global.nil?
+                @global = @partof.partof.nil?
+            else
+                @global
+            end
         end
 
         def is_output?
