@@ -210,7 +210,9 @@ module Inserter
 
             @ht.components.each do |comp|
                 comp.tag = :ht
+                comp.partof = @netlist
             end
+
 
         end
 

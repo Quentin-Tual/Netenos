@@ -7,7 +7,7 @@ require_relative "../lib/netenos.rb"
 include Netlist
 
 def gen_case 
-    @generator = Netlist::RandomGenComb.new 8, 4, 15, [:even, 0.70]
+    @generator = Netlist::RandomGenComb.new 7, 7, 8, [:even, 0.75]
     @circ = @generator.getRandomNetlist "test"
     puts "Original circuit has combinational loop: #{@circ.has_combinational_loop?}"
     pp @circ.getNetlistInformations :int_multi
