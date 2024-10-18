@@ -128,7 +128,7 @@ module Netlist
         end
         
         def get_sink_gates
-            self.get_output.get_sinks.collect do |sink| 
+            get_output.get_sinks.collect do |sink| 
                 if sink.is_a? Netlist::Port and sink.is_global?
                     sink
                 else
@@ -138,13 +138,17 @@ module Netlist
         end
 
         def get_source_gates
-            self.get_inputs.collect do |ip|
-                source = ip.get_source
-                if source.is_a? Netlist::Port and source.is_global?
-                    source
-                else
-                    source.partof
+            if @source_gates.nil?
+                @source_gates = get_inputs.collect do |ip|
+                    source = ip.get_source
+                    if source.is_a? Netlist::Port and source.is_global?
+                        source
+                    else
+                        source.partof
+                    end
                 end
+            else
+                @source_gates
             end
         end
     end
@@ -156,6 +160,14 @@ module Netlist
     class Nor3 < Gate; end
 
     class And2 < Gate
+        attr_reader :delayed_transition_detectable
+
+        def initialize
+            super
+            @delayed_transition_detectable = :R
+            @side_input_values = [:S1,:R]
+        end
+
         def get_input_transition output_transition
             case output_transition
             when :S0 
@@ -188,6 +200,14 @@ module Netlist
     end
 
     class Or2 < Gate
+        attr_reader :delayed_transition_detectable
+
+        def initialize
+            super
+            @delayed_transition_detectable = :F
+            @side_input_values = [:S0,:F]
+        end
+
         def get_input_transition output_transition
             case output_transition
             when :S0 
@@ -220,6 +240,7 @@ module Netlist
     end
     
     class Xor2 < Gate
+
         def get_input_transition output_transition
             case output_transition
             when :S0 
@@ -252,6 +273,14 @@ module Netlist
     end
 
     class Nor2 < Gate
+        attr_reader :delayed_transition_detectable
+
+        def initialize
+            super
+            @delayed_transition_detectable = :F
+            @side_input_values = [:S0,:F]
+        end
+
         def get_input_transition output_transition
             case output_transition
             when :S0 
@@ -284,6 +313,14 @@ module Netlist
     end
 
     class Nand2 < Gate
+        attr_reader :delayed_transition_detectable
+
+        def initialize
+            super
+            @delayed_transition_detectable = :R
+            @side_input_values = [:S1,:R]
+        end
+
         def get_input_transition output_transition
             case output_transition
             when :S0 

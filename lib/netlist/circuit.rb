@@ -421,7 +421,7 @@ module Netlist
             stack = Set.new            
 
             @components.each do |component|
-            return true if dfs(component, visited, stack)
+                return true if dfs(component, visited, stack)
             end
 
             false

@@ -99,24 +99,41 @@ module Converter
     end
 
     class ComputeStim
-        attr_accessor :decisions, :transitions
-        attr_reader :side_inputs, :stim_vec, :events_computed, :unobservables, :insert_points
+        attr_accessor :decisions, :transitions, :test
+        attr_reader :side_inputs, :stim_vec, :events_computed, :unobservables, :insert_points, :observable
 
         def initialize netlist, delay_model, forbidden_vectors = []
             @netlist = netlist
-            @delay_model = delay_model
             @netlist.getNetlistInformations delay_model
+            @delay_model = delay_model
+            @forbidden_vectors = forbidden_vectors
+            
             @signal_events = Hash.new { |hash, key| hash[key]=[] }
             @transitions = []
-            # @decisions = []
             @forbidden_transitions = [] #Hash.new([]) # Associates a stack of gate/transition pairs to one gate/decision pair, one key for each decision
-            # @decisions_steps = Hash.new([])
             @events_to_process = []#Hash.new { |hash, key| hash[key]=[] }
-            @unobservables = []
-            @insert_point_observable = nil
+
             @insert_point = nil
-            @forbidden_vectors = forbidden_vectors
+            @insert_point_observable = nil
+            @observables = Set.new()
+            @unobservables = []
             # @logger = Logger.new("test.log") if $VERBOSE
+            @test = 0
+        end
+
+        def analyse_netlist ht
+            case ht
+            when "og_s38417"
+                delay_required = Inserter::Og_s38417.new.get_payload_out.partof.propag_time[@delay_model]
+            when "xor_and"
+                delay_required = Inserter::Xor_And.new.get_payload_out.partof.propag_time[@delay_model]
+            when "it_s38417"
+                delay_required = Inserter::It_s38417.new.get_payload_out.partof.propag_time[@delay_model]
+            else
+                raise "Error : Unknown hardware trojan #{ht} encountered."
+            end
+
+            @insert_points = get_insertion_points(delay_required) 
         end
 
         def get_insertion_points payload_delay
@@ -156,7 +173,6 @@ module Converter
                 primary_outputs, current_gate_sinks = current_gate.get_sink_gates.partition{|g| g.is_a? Netlist::Port and g.is_global?}
                 current_gate_sinks = current_gate_sinks.select{|g| g.tag != :target_path}
                 
-                # cone_outputs << current_gate unless primary_outputs.empty?
                 cone_outputs << primary_outputs unless primary_outputs.empty?
                 cone_outputs.flatten!
                 next_gates += current_gate_sinks unless next_gates.include? current_gate
@@ -165,34 +181,11 @@ module Converter
             return cone_outputs 
         end
 
-        def analyse_netlist ht
-            case ht
-            when "og_s38417"
-                delay_required = Inserter::Og_s38417.new.get_payload_out.partof.propag_time[@delay_model]
-            when "xor_and"
-                delay_required = Inserter::Xor_And.new.get_payload_out.partof.propag_time[@delay_model]
-            when "it_s38417"
-                delay_required = Inserter::It_s38417.new.get_payload_out.partof.propag_time[@delay_model]
-            else
-                raise "Error : Unknown hardware trojan #{ht} encountered."
-            end
-
-            @insert_points = get_insertion_points(delay_required) 
-            # @target_paths_outputs = {}
-            # @downstream_outputs = {}
-            # @insert_points.each do |signal|
-            #     @downstream_outputs[signal] = get_cone_outputs(signal) 
-            # end
-        end
-
         def clean_data
             @signal_events = Hash.new { |hash, key| hash[key]=[] }
             @transitions = []
-            # @decisions = []
-            @forbidden_transitions = [] #Hash.new([]) # Associates a stack of gate/transition pairs to one gate/decision pair, one key for each decision
-            # @decisions_steps = Hash.new([])
+            @forbidden_transitions = [] 
             @events_to_process = []
-            # @netlist.components.each{|comp| comp.tag = nil}
         end
 
         def generate_stim netlist=nil, ht="og_s38417", save_explicit: "explicit_stim.txt", freq: 1.1
@@ -209,46 +202,56 @@ module Converter
             @events_computed = {}
 
             @insert_points.each do |insert_point|
-                @events_computed[insert_point] = {}
-                downstream_outputs = get_cone_outputs(insert_point)
-                downstream_outputs.each do |targeted_output|
-                    res = nil
-                    # @events_computed[insert_point][targeted_output] = {}
-                    tmp = nil
+                insert_point_event = nil
+                if @observables.include? insert_point # * If the insert_point is already observable, skip to the next insert point
+                    next
+                else
+                    @events_computed[insert_point] = {}
+                    downstream_outputs = get_cone_outputs(insert_point)
+                    downstream_outputs.each do |targeted_output|
+                        res = nil
+                        tmp = nil
+                        targeted_transition = nil
 
-                    #!DEBUG
-                    # if insert_point.get_full_name == "And2220_i1"
-                    #     pp "here"
-                    # end
+                        last_gate = targeted_output.get_source_comp
+                        if last_gate.instance_of? Netlist::Xor2 or last_gate.instance_of? Netlist::Not
+                            transitions_to_try = [:R,:F]
+                        else
+                            output_delayed_detectable_transition = last_gate.delayed_transition_detectable 
+                            transitions_to_try = [output_delayed_detectable_transition, [:R,:F] - [output_delayed_detectable_transition]].flatten
+                        end
 
-                    targeted_transition = nil
-                    [:R,:F].each do |transition|
-                        targeted_transition = Converter::Event.new(targeted_output, @netlist.crit_path_length , transition, nil)      
-                        # get_cone_outputs(insert_point)
-                        res = compute(targeted_transition, insert_point)
-                        tmp = get_inputs_events
-                        clean_data # Nettoyer @transitions, @forbidden_transitions, ...
+                        transitions_to_try.each do |transition|
+                            targeted_transition = Converter::Event.new(targeted_output, @netlist.crit_path_length , transition, nil)      
+                            # get_cone_outputs(insert_point)
+                            res = compute(targeted_transition, insert_point)
+                            tmp = get_inputs_events
+                            insert_point_event = @signal_events[insert_point.get_source_comp].find{|e| [:R,:F].include? e.value}
+                            clean_data # Nettoyer @transitions, @forbidden_transitions, ...
+                            if res == :success
+                                break
+                            else 
+                                tmp = nil
+                                res = nil
+                            end
+                        end
+
                         if res == :success
+                            @events_computed[insert_point][targeted_transition] = tmp
                             break
-                        else 
-                            tmp = nil
-                            res = nil
                         end
                     end
 
-                    if res == :success
-                        @events_computed[insert_point][targeted_transition] = tmp
-                        break
+                    if @events_computed[insert_point].empty?
+                        pp "Insertion point #{insert_point.get_full_name} not observable on any output or no solution satisfying constraints (authorized vectors, etc)."
+                        @unobservables << insert_point
+                    elsif !insert_point_event.nil?
+                        pp "Insertion point #{insert_point.get_full_name} observable."
+                        get_observable_signals(insert_point_event)
                     end
+                    @netlist.components.each{|comp| comp.tag = nil}
+                    @netlist.get_inputs.each{|in_p| in_p.tag = nil}
                 end
-
-                if @events_computed[insert_point].empty?
-                    # raise "Error : Insertion point #{insert_point.name} not observable on any output."
-                    pp "Insertion point #{insert_point.get_full_name} not observable on any output or no solution satisfying constraints (authorized vectors, etc)."
-                    @unobservables << insert_point.dup
-                end
-                @netlist.components.each{|comp| comp.tag = nil}
-                @netlist.get_inputs.each{|in_p| in_p.tag = nil}
             end
 
             @events_computed.delete_if{|insert_point, solution| solution.empty?}
@@ -266,10 +269,8 @@ module Converter
             end
  
             # TODO : Transformer les couples de vecteurs en une suite de vecteurs uniques
-            # @stim_vec = stim_pair.uniq.flatten 
             @stim_vec = stim_pair_h.collect{|insert_point, solution| solution.values}.flatten
 
-            # pp "test" #!DEBUG
             return @stim_vec
         end
 
@@ -280,10 +281,6 @@ module Converter
             @transitions << Decision.new(*event)
             backpropagate2([event])
             if event.forbidden.any?{|f| f.one_match? event}
-            # if @forbidden_transitions.any?{|d| d.include? event}
-                # if @forbidden_transitions.length > 1 #!DEBUG
-                #     pp "unexpected"
-                # end
                 return :impossible
             else
                 return :success
@@ -291,7 +288,6 @@ module Converter
         end
 
         def recursive_transitions_deletion parent_to_delete
-            
             child_decision = parent_to_delete.children
 
             unless child_decision.nil?
@@ -300,35 +296,23 @@ module Converter
                 end
             end
 
-            # @forbidden_transitions.delete_if do |d|
-            #     d.any_parent_equal? parent_to_delete
-            # end
-            # @forbidden_transitions.delete(parent_to_delete.parent.children) # Remove the Decision containing the event to delete
             @transitions.delete(parent_to_delete.parent.children) # Remove the Decision containing the event to delete
             @signal_events[parent_to_delete.signal].delete(parent_to_delete)
             @events_to_process.delete(parent_to_delete)
             if !@insert_point_observable.nil? and @insert_point_observable.include?(parent_to_delete)
                 @insert_point_observable = nil
             end
-            # parent_to_delete.parent.children = nil # Remove reference from parent to the instance to delete
-            
         end
 
         def backtrack wrong_event
             # @logger.info("Backtracking event (#{wrong_event.signal.name},#{wrong_event.timestamp},#{wrong_event.value})") if $VERBOSE
 
-            # if wrong_event.signal.name == "Nand2400"  #!DEBUG
-            #     pp "here"
-            # end
-
             if wrong_event.signal.instance_of?(Netlist::Port) and wrong_event.signal.is_global? and wrong_event.signal.is_output?
                 wrong_event.forbidden << Decision.new(*wrong_event) # * Event contradicts itself -> ends the research
-                # @forbidden_transitions << Decision.new(*wrong_event)
                 return 
             end
 
             wrong_decision = wrong_event.parent.children
-            # wrong_decision = @transitions.select{|e| e.include? wrong_event}[0]
             wrong_decision.events.each do |e|
                 recursive_transitions_deletion(e)
             end
@@ -337,35 +321,15 @@ module Converter
             wrong_decision.parent.forbidden << wrong_decision
             # TODO : Supprimer les forbidden decisions pour cette décision
             wrong_decision.events.each{|e| e.children = nil; e.possible = []} # Remove reference to garbage the events resulting of the decision deleted  
-            # wrong_decision.each{|e| recursive_transitions_deletion(e)}
-            # @transitions.delete(wrong_decision)
             if wrong_decision.events == @insert_point_observable
                 @insert_point_observable = nil
             end
-
-            
-            # @forbidden_transitions.delete_if do |d|
-            #     wrong_decision.any?{|e| d.any_parent_equal? e}
-            # end
-
-
-            # @events_to_process.delete_if do |e|
-            #     e.parent == 
-            #     # e.parent == wrong_event.parent
-            # end
-            
-            # print "Backtracking :" #!DEBUG
-            # pp wrong_event.signal
-
-            
-            # @forbidden_transitions << wrong_decision
 
             # TODO : Retourner la dernière transition
             @events_to_process << wrong_decision.parent
         end
 
         def backpropagate2 event
-            
             if @events_to_process.empty?
                 @events_to_process = [event].flatten
             else
@@ -382,9 +346,6 @@ module Converter
                 end 
                 # @logger.info("Backpropagating event (#{e.signal.name},#{e.timestamp},#{e.value})") if $VERBOSE
 
-                # print "Backpropagate :" #!DEBUG
-                # pp e.signal
-
                 g = e.signal
 
                 # * If g is a primary INPUT
@@ -400,10 +361,6 @@ module Converter
 
                 e_inputs = compute_transitions(e)
                 if e_inputs.nil? or e_inputs == [nil]
-                    # puts "transitions :"
-                    # pp @transitions #!DEBUG
-                    # puts "forbidden transitions :"
-                    # pp @forbidden_transitions #!DEBUG
                     # e_inputs = compute_transitions(e) #!DEBUG
                     backtrack(e)
                     next
@@ -418,8 +375,14 @@ module Converter
 
                 if !(@signal_events[new_decision.events[0].signal].include?(new_decision.events[0]) and @signal_events[new_decision.events[1].signal].include?(new_decision.events[1]))
                     # * Push in order to process at first the target path 
-                    @events_to_process << e_inputs.sort_by{|e| e.signal.tag.to_s}
-                    @events_to_process.flatten!
+                    if e_inputs.any?{|e| e.signal.tag == :target_path}
+                        @events_to_process << e_inputs.sort_by{|e| e.signal.tag.to_s}
+                        @events_to_process.flatten!
+                    else
+                        # @events_to_process << e_inputs.sort_by{|e| e.timestamp} # Prio au plus long chemin
+                        @events_to_process << e_inputs.sort_by{|e| -e.timestamp} # Prio au plus court chemin
+                        @events_to_process.flatten!
+                    end
                     
                     @transitions << new_decision
                     e_inputs.each{|e| @signal_events[e.signal] << e}
@@ -428,12 +391,15 @@ module Converter
                         @insert_point_observable = e_inputs
                     end
                 end
-
             end
-           
         end 
 
-        def is_fixed_transitions_compatible? events
+        def get_observable_signals event            
+            get_observable_signals(event.parent) unless event.parent.nil?
+            @observables << event.signal
+        end 
+
+        def is_fixed_transitions_compatible? events, gate
             # * : 'events' compatibility with each other
             if events.length > 1
                 if (events[0].signal == events[1].signal) and (events[0].timestamp == events[1].timestamp) and (events[0].value != events[1].value)
@@ -447,15 +413,9 @@ module Converter
             events.each do |event|
                 event_list = @signal_events[event.signal]
 
-                event_list.reverse_each do |fixed_event| # * : reverse_each expecting it helps to reduce number of iterations (the latest added should be the closest to the proposed transition)
-                    if fixed_event.timestamp == event.timestamp and fixed_event.value != event.value
-                        return false
-                    end
-                end
-
                 # * Different timestamp and incompatible value (resulting state of the earliest transition)
+                # ! Opti : We should be able to check this far earlier -> check if timestamp is too close from the latest transition or next transition, select! proposed that fits with inertial delay and previous or next value, then check for forbidden transitions and all
                 # Value incompatibility : Latest fixed transition results in a value which make impossible the proposed transition
-                # latest_event_timestamp = 0.0
                 previous_event = Event.new(nil,0.0,nil,nil)
                 next_event = nil
                 event_list.sort_by{|e| e.timestamp}.each do |e| 
@@ -467,70 +427,23 @@ module Converter
                         break
                     end
                 end
-
-                # if !previous_event.signal.nil?
-                #     values = [previous_event.value, event.value]
-                #     if [[:R,:R], [:F,:F], [:S1,:R], [:S0, :F], [:R, :S0], [:F, :S1]].include? values
-                #         return false
-                #     end
-                # end
-
-                # if !next_event.nil?
-                #     values = [event.value, next_event.value]
-                #     if [[:R,:R], [:F,:F], [:S1,:R], [:S0, :F], [:R, :S0], [:F, :S1]].include? values
-                #         return false
-                #     end
-                # end
-                 
                 # Inertial Delay Incompatibility : An existing transition is too close from the proposed one, impossible according to inertial delay model
-
-                event.signal.get_sink_gates.each do |sink|
-                    if sink.instance_of? Netlist::Port and sink.is_global?
-                        next
-                    else 
-                        if !previous_event.signal.nil? and ((event.timestamp - previous_event.timestamp) < sink.propag_time[@delay_model] and (previous_event.afterward_value != event.previous_value))
+                # event.signal.get_sink_gates.each do |sink|
+                    # if sink.instance_of? Netlist::Port and sink.is_global?
+                    #     next
+                    # else 
+                        if !previous_event.signal.nil? and ((event.timestamp - previous_event.timestamp) < gate.propag_time[@delay_model] and (previous_event.afterward_value != event.previous_value))
                             return false
                         end
-                        if !next_event.nil? and (next_event.timestamp - event.timestamp) < sink.propag_time[@delay_model] and  event.afterward_value != next_event.previous_value
+                        if !next_event.nil? and (next_event.timestamp - event.timestamp) < gate.propag_time[@delay_model] and  event.afterward_value != next_event.previous_value
                             return false
                         end
-                    end
-                end
+                    # end
+                # end
             end
 
             return true
         end
-        
-        # def verify_transition *events
-        #     # * : Constraint -> uniq instant for non stable transition on inputs
-        #     new_input_events = events.select{|e| e.signal.instance_of? Netlist::Port and e.signal.is_global? and e.signal.is_input?}
-        #     if !new_input_events.empty?
-        #         convertible = is_convertible?(get_inputs_events + new_input_events)
-        #     else 
-        #         convertible = true
-        #     end
-        #     if !convertible
-        #         return false
-        #     end
-        #     # * Non-forbidden transitions constraint
-
-        #     not_forbidden = @forbidden_transitions.none?{|decision| decision.match?(Decision.new(*events))}  
-        #     if !not_forbidden
-        #         return false
-        #     end
-        #     # * Compatibility constraints (regarding other fixed transitions)
-        #     compatibility = is_fixed_transitions_compatible?(events)
-        #     if !compatibility
-        #         return false
-        #     end
-
-        #     return true
-        #     # if !new_input_events.empty?
-        #     #     return (tmp and is_convertible?(get_inputs_events + new_input_events))
-        #     # else
-        #     #     return tmp 
-        #     # end
-        # end
 
         def compute_transitions event, input_transition = nil
             # * : Compute the expected transition at the output and the deducted transition at the inputs
@@ -560,7 +473,7 @@ module Converter
             end
 
             if @insert_point_observable.nil?
-                possible_inputs_transitions = target_path_controlling2(possible_inputs_events, event.signal)
+                possible_inputs_transitions = target_path_controlling(possible_inputs_events, event.signal)
             end
 
             # * : Check if possible to verify if one transition has already been fixed, if it is the case, then skip to the end accepting it.
@@ -571,26 +484,101 @@ module Converter
                 end
             end
 
+            # * Check if some transitions are not compatible with the current fixed transitions
+            possible_inputs_events.select! do |proposed_events|
+                proposed_events.none? do |proposed_event|
+                    @signal_events[proposed_event.signal].any? do |fixed_event|
+                        fixed_event.timestamp == proposed_event.timestamp and fixed_event.value != proposed_event.value
+                    end
+                end
+            end
+
+            # possible_inputs_events.select! do |proposed_events|
+            #     proposed_events.none? do |proposed_event|
+            #         event_list = @signal_events[proposed_event.signal]
+            #         previous_event = Event.new(nil,0.0,nil,nil)
+            #         next_event = nil
+            #         event_list.sort_by{|e| e.timestamp}.each do |e| 
+            #             if e.timestamp < proposed_event.timestamp and e.timestamp > previous_event.timestamp
+            #                 previous_event = e
+            #             end
+            #             if e.timestamp > proposed_event.timestamp
+            #                 next_event = e
+            #                 break
+            #             end
+            #         end
+                
+            #         if !previous_event.signal.nil? 
+            #             if ((proposed_event.timestamp - previous_event.timestamp) < gate.propag_time[@delay_model] and (previous_event.afterward_value != proposed_event.previous_value))
+            #                 true
+            #             else
+            #                 false
+            #             end     
+            #         end
+
+            #         if !next_event.nil? 
+            #             if (next_event.timestamp - event.timestamp) < gate.propag_time[@delay_model] and proposed_event.afterward_value != next_event.previous_value
+            #                 true
+            #             else
+            #                 false
+            #             end
+            #         end
+            #     end
+            # end
+            # * Different timestamp and incompatible value (resulting state of the earliest transition)
+            # ! Opti : We should be able to check this far earlier -> check if timestamp is too close from the latest transition or next transition, select! proposed events that fits with inertial delay and previous or next value, then check for forbidden transitions and all
+            # Value incompatibility : Latest fixed transition results in a value which make impossible the proposed transition
+            # previous_event = Event.new(nil,0.0,nil,nil)
+            # next_event = nil
+            # event_list.sort_by{|e| e.timestamp}.each do |e| 
+            #     if e.timestamp < event.timestamp and e.timestamp > previous_event.timestamp
+            #         previous_event = e
+            #     end
+            #     if e.timestamp > event.timestamp
+            #         next_event = e
+            #         break
+            #     end
+            # end
+            # # Inertial Delay Incompatibility : An existing transition is too close from the proposed one, impossible according to inertial delay model
+            # event.signal.get_sink_gates.each do |sink|
+            #     if sink.instance_of? Netlist::Port and sink.is_global?
+            #         next
+            #     else 
+            #         if !previous_event.signal.nil? and ((event.timestamp - previous_event.timestamp) < sink.propag_time[@delay_model] and (previous_event.afterward_value != event.previous_value))
+            #             return false
+            #         end
+            #         if !next_event.nil? and (next_event.timestamp - event.timestamp) < sink.propag_time[@delay_model] and  event.afterward_value != next_event.previous_value
+            #             return false
+            #         end
+            #     end
+            # end
+
+
             possible_inputs_events.select! do |proposed_events|
                 !is_forbidden?(proposed_events, event)
             end
 
-            if possible_inputs_events.empty?
-                return nil
-            end
-
+            
             possible_inputs_events.select! do |proposed_events|
                 new_input_events = proposed_events.select{|e| e.signal.instance_of?(Netlist::Port) and e.signal.is_global? and e.signal.is_input?}
-
+                
                 if new_input_events.empty?
                     true
                 else
                     is_convertible?(get_inputs_events + new_input_events)
                 end
             end
+            
+            # if possible_inputs_events.empty? # ? Useless ?
+            #     return nil
+            # else 
+            #     event.possible = possible_inputs_events - possible_inputs_events[0]
+            #     return possible_inputs_events[0]
+            # end
 
+            
             possible_inputs_events.each do |proposed_events|
-                if is_fixed_transitions_compatible?(proposed_events)
+                if is_fixed_transitions_compatible?(proposed_events, gate)
                     event.possible = possible_inputs_events - proposed_events
                     return proposed_events
                 end
@@ -600,59 +588,47 @@ module Converter
             return nil
         end
 
-        def target_path_controlling2 events, gate
+        def target_path_controlling events, gate
+            # ! Opti : Directly compute the right transitions using a method or an attribute of gate
             if gate.instance_of? Netlist::Not
                 events.select! do |inputs_event|
                     if gate.get_source_gates[0].tag == :target_path
                         non_stable_transition_on? gate.get_source_gates[0] or [:R,:F].include? inputs_event[0].value
                     else
                         true
-                    end 
-                    # (gate.get_source_gates[0].tag == :target_path and ([:R,:F].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[0].tag != :target_path)
+                    end
                 end
             else
                 events.select! do |inputs_event|
                     is_target_path = [gate.get_source_gates[0].tag == :target_path, gate.get_source_gates[1].tag == :target_path]
+                    inputs_value = [inputs_event[0].value, inputs_event[1].value]
                     if (!is_target_path[0] and !is_target_path[1])
                         true
                     else
                         if is_target_path[0]
-                            (non_stable_transition_on? gate.get_source_gates[0] or [:R,:F].include? inputs_event[0].value)
+                            if non_stable_transition_on? gate.get_source_gates[0] or [:R,:F].include? inputs_value[0]
+                                if inputs_value[0] == inputs_value[1] and !gate.instance_of? Netlist::Xor2
+                                    inputs_value[0] == gate.delayed_transition_detectable
+                                else
+                                    true
+                                end
+                            else
+                                false
+                            end
                         else
-                            (non_stable_transition_on? gate.get_source_gates[1] or [:R,:F].include? inputs_event[1].value)
+                            if non_stable_transition_on? gate.get_source_gates[1] or [:R,:F].include? inputs_value[1]
+                                if inputs_value[0] == inputs_value[1] and !gate.instance_of? Netlist::Xor2
+                                    inputs_value[1] == gate.delayed_transition_detectable
+                                else
+                                    true
+                                end
+                            else
+                                false
+                            end
                         end
                     end
                 end
             end
-        end
-
-        def target_path_controlling possible_inputs_transitions, gate 
-
-            if gate.instance_of? Netlist::Not
-                possible_inputs_transitions.select! do |inputs_transition|
-                    if gate.get_source_gates[0].tag == :target_path
-                        non_stable_transition_on? gate.get_source_gates[0] or inputs_transition[0] == :R or inputs_transition[0] == :F
-                    else
-                        true
-                    end 
-                    # (gate.get_source_gates[0].tag == :target_path and ([:R,:F].include? inputs_transition[0] or non_stable_transition_on? gate.get_source_gates[0])) or (gate.get_source_gates[0].tag != :target_path)
-                end
-            else
-                possible_inputs_transitions.select! do |inputs_transition|
-                    is_target_path = [gate.get_source_gates[0].tag == :target_path, gate.get_source_gates[1].tag == :target_path]
-                    if (!is_target_path[0] and !is_target_path[1])
-                        true
-                    else
-                        if is_target_path[0]
-                            (non_stable_transition_on? gate.get_source_gates[0] or inputs_transition[0] == :R or inputs_transition[0] == :F)
-                        else
-                            (non_stable_transition_on? gate.get_source_gates[1] or inputs_transition[1] == :R or inputs_transition[1] == :F)
-                        end
-                    end
-                end
-            end
-
-            return possible_inputs_transitions
         end
 
         def get_event_list transition_pairs, event
@@ -675,7 +651,6 @@ module Converter
         def is_forbidden?(events, parent)
             # * : Check if the event list contains a forbidden transition
             parent.forbidden.any?{|f| f.match? Decision.new(*events)}
-            # @forbidden_transitions.none?{|decision| decision.match?(Decision.new(*events))} # ! Opti : Check if possible to avoid using none? method on @forbidden_transitions -> use forbidden_children in each event allowing to ease adding, deleting, and verifying the forbidden transitions
         end
 
         def non_stable_transition_on? signal

@@ -96,9 +96,9 @@ module Netlist
             end
         end
 
-        # def get_source_comp
-        #     return get_source.class.name == "Netlist::Wire" ? source : source.partof
-        # end
+        def get_source_comp
+            return (is_global? and is_input?) ? self : @fanin.partof
+        end
 
         # def get_sinks_comp
         #     return get_sinks.collect{|sink| 

@@ -46,7 +46,7 @@ module Netlist
                 trace = vcd_loader.extract2 "#{@netlist.name}_#{1}_tb.vcd", compiler
 
                 # * If every output signal take both value 0 and 1 at least one time in the simulation -> end the loop
-                break if trace["id_tab"].values.all?{|output_name| trace["output_traces"].flatten.include? "#{output_name}0" and trace["output_traces"].flatten.include? "#{output_name}1"} 
+                break if trace["id_tab"].values.all?{|output_name| trace["output_traces"].flatten.include? "#{output_name}0" and trace["output_traces"].flatten.include? "#{output_name}1"} and !@netlist.has_combinational_loop?
             end
             puts "Found with #{attempts} attempts." #!DEBUG
             # * Return the found netlist
