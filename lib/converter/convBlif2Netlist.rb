@@ -53,7 +53,7 @@ module Converter
             input_names.each_with_index do |name, n| 
                 next if name == "\\"
                 new_port = Netlist::Port.new("i#{n + @nb_inputs}", :in)
-                @netlist << new_port
+                @netlist << new_port # ! BUG : @netlist is nil sometimes ?
                 @sym_tab[name] = new_port
             end
 
@@ -107,7 +107,17 @@ module Converter
                 when /\A#/, /\A\n/
                     next
                 when /\A.model/
-                    @netlist = Netlist::Circuit.new("circ_#{line.split[-1].split(".")[0]}")
+                    # begin
+                        # circ_name = line.split[-1].split(".")[0]
+                        # circ_name.tr!("/", "")
+                        # if circ_name.empty? or circ_name == "source"
+                            circ_name = File.basename(path).split('.').first
+                            circ_name.tr!("~", "")
+                        # end
+                        @netlist = Netlist::Circuit.new("circ_#{circ_name}")
+                    # rescue => e
+                    #     raise "Error : circuit name not found in line #{i} in file #{path}.\n-> \"#{line}\""
+                    # end
                 when /\A.inputs/
                     parse_inputs_line(line)
                 when /\A.outputs/

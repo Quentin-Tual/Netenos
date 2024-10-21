@@ -31,7 +31,7 @@ module Netlist
                 @propag_time[:int_multi] = 3
             end
 
-            @cumulated_propag_time = 0.0
+            @cumulated_propag_time = 0
             # @slack = nil
             @tag = nil
         end
@@ -83,7 +83,7 @@ module Netlist
                 input_slack = crit_node.keys[0] - in_p.get_source_cumul_propag_time + slack 
                 if in_p.slack.nil? or in_p.slack > input_slack 
                     in_p.slack = input_slack
-                    if source.class.name == "Netlist::Wire"
+                    if source.instance_of? Netlist::Wire
                         # * Recursively calls update_path_slack method of the source wire
                         source.update_path_slack(input_slack, delay_model) # ! Update wire class method update_path_slack
                     elsif source.is_global?
@@ -361,8 +361,8 @@ module Netlist
             @partof = partof
             @components = []
             @propag_time = {:one => 1, :int => 1.0, :int_multi => 2, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
-            @cumulated_propag_time = 0.0
-            @slack = 0.0
+            @cumulated_propag_time = 0
+            @slack = 0
 
             @decisions = []
             @forbidden_transitions = []
@@ -423,15 +423,15 @@ module Netlist
     end
 
     class Buffer < Gate
-        def initialize propag_time=1.0, name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil
+        def initialize propag_time=1, name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil
             @name = name
             @ports = {:in => [Netlist::Port.new("i0", :in)], :out => [Netlist::Port.new("o0", :out)]}
             @ports.each_value{|p| p[0].partof = self}
             @partof = partof
             @components = []
-            @propag_time = {:one => propag_time, :int => propag_time, :int_multi => propag_time, :int_rand => propag_time*rand(0.9..1.1).round(3), :fract => (propag_time*rand(0.9..1.1) + 0.3).round(3)}
-            @cumulated_propag_time = 0.0
-            @slack = 0.0
+            @propag_time = {:one => propag_time, :int => propag_time.to_f, :int_multi => propag_time, :int_rand => propag_time*rand(0.9..1.1).round(3), :fract => (propag_time*rand(0.9..1.1) + 0.3).round(3)}
+            @cumulated_propag_time = 0
+            @slack = 0
         end
 
         def <<(e)

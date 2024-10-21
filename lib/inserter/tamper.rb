@@ -210,9 +210,8 @@ module Inserter
 
             @ht.components.each do |comp|
                 comp.tag = :ht
-                comp.partof = @netlist
+                # comp.partof = @netlist
             end
-
 
         end
 
@@ -480,12 +479,11 @@ module Inserter
                 #     sink.unplug @ht.get_payload_out.get_full_name
                 #     sink <= rescue_data[:loc_sinks].shift
                 # }
-                if (attempts += 1) < 5
-                    retry
-                else
-                   raise ImpossibleResolution.new("Error : No resolution found for this case. Try again.") 
-                end
-                 # ! Si toujours pas réussi après 5 tentative, lever une exception ImpossibleInsertion et la rattraper au niveau "insert", par exemple dans les expériences regénérer un nouveau cas
+                # if (attempts += 1) < 5
+                retry
+                # else
+                #    raise ImpossibleResolution.new("Error : No resolution found for this case. Try again.") 
+                # end
             end 
 
             # * : Linking triggers slot to selected triggers signals (already existing in the authentic circuit).

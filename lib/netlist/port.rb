@@ -17,7 +17,7 @@ module Netlist
         end
 
         def is_free?
-            if is_global? true
+            if is_global? # true
                 if @direction == :in 
                     return fanout.empty?
                 else
@@ -40,12 +40,12 @@ module Netlist
             return @direction == :in
         end
 
-        def is_global? force = false
-            if @global.nil? or force
+        def is_global? #force = false
+            #if @global.nil? or force
                 @global = @partof.partof.nil?
-            else
-                @global
-            end
+            # else
+                # @global
+            # end
         end
 
         def is_output?

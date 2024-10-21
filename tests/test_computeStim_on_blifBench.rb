@@ -278,10 +278,10 @@ class Test_computeStim
     # end
 
     def run
-        @circ = @generator.getValidRandomNetlist "test"
+        # @circ = @generator.getValidRandomNetlist "test"
         # load_blif "../C17.blif"
         # load_blif "../xor5.blif"
-        # load_blif "../p82.blif"
+        load_blif "../p82.blif"
         # load_blif "../f51m.blif"
         RubyProf.start
         # get_resolvable_case
@@ -293,7 +293,7 @@ class Test_computeStim
         printer.print(STDOUT)
         File.write("profile_#{@circ.name}", Marshal.dump(result))
 
-        verif_all_computed_events(@compStim.events_computed)
+        # verif_all_computed_events(@compStim.events_computed)
         # @compStim.save_as_txt("computed_stim.txt",@compStim.stim_vec,)
         puts "Unobservables : #{@compStim.unobservables.length}/#{@compStim.insert_points.length}"
         pp @circ_carac
@@ -308,13 +308,13 @@ if __FILE__ == $0
     # $CIRC_CARAC = [8, 4, 11, [:custom, 0.63]] # 45 gates
     # $CIRC_CARAC = [7, 7, 8, [:custom, 0.78]] # 45 gates short crit_path
     # $CIRC_CARAC = [6, 3, 15, [:custom, 0.5]] # 45 gates long crit_path
-    # $CIRC_CARAC = [8, 4, 11, [:custom, 0.74]] # 50 gates
+    $CIRC_CARAC = [8, 4, 11, [:custom, 0.74]] # 50 gates
     # $CIRC_CARAC = [8, 5, 11, [:custom, 0.65]] # 55 gates
     # $CIRC_CARAC = [8, 4, 15, [:custom, 0.6]] # 60 gates
     # $CIRC_CARAC = [8, 5, 12, [:custom, 0.7]] # 60 gates
     # $CIRC_CARAC = [10, 5, 10, [:custom, 0.75]] # 60 gates short crit_path
     # $CIRC_CARAC = [11, 7, 8, [:custom, 0.8]] # 60 gates very short crit_path
-    $CIRC_CARAC = [8, 8, 15, [:custom, 0.7]] # 93 gates
+    # $CIRC_CARAC = [8, 8, 15, [:custom, 0.7]] # 93 gates
     $DELAY_MODEL = :int_multi
     $COMPILER = :ghdl3
     $FREQ = 1

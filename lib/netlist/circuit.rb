@@ -2,7 +2,7 @@ require_relative 'port.rb'
 
 module Netlist
     class Circuit
-        attr_accessor :name, :ports, :components, :partof, :wires, :crit_path_length
+        attr_accessor :name, :ports, :components, :constants, :partof, :wires, :crit_path_length
 
         def initialize name, partof = nil
             @name = name
@@ -18,6 +18,9 @@ module Netlist
         def <<(e)
             e.partof = self
             case e 
+                when Constant
+                    @constants << e
+                    
                 when Port
                     case e.direction
                     when :in
@@ -33,6 +36,7 @@ module Netlist
                 when Circuit, Gate, Reverse::InvertedGate
                     @components << e
                     e.partof = self
+
                 
                 else raise "Error : Unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
             end
@@ -120,9 +124,14 @@ module Netlist
             (get_inputs + @components.flat_map(&:get_inputs)).each { |port| port.slack = @crit_path_length }
         
             # Calculate slack for each output
-            get_outputs.each do |out_p|
-                out_p.slack = @crit_path_length - out_p.cumulated_propag_time
-                out_p.get_source_gates.update_path_slack(out_p.slack, delay_model)
+            get_outputs.each do |primary_output|
+                primary_output.slack = @crit_path_length - primary_output.cumulated_propag_time
+                source_node = primary_output.get_source_gates
+                if source_node.is_a? Netlist::Wire and source_node.is_global?
+                    source_node.slack = primary_output.slack
+                else
+                    source_node.update_path_slack(primary_output.slack, delay_model)
+                end
             end
         
             # Create the slack hash
@@ -145,7 +154,7 @@ module Netlist
                 end
             end
         
-            return tmp.sort.to_h
+            return tmp.sort.to_h # ! ERROR : with some benchmark circuits (x2.blif from LGsynth91), 'sort' : comparison of Array with Array failed (ArgumentError)
         end
         
         def topological_sort

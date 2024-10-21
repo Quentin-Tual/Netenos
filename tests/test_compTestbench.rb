@@ -14,7 +14,14 @@ class Test_compTestbench
         
         puts "[+] Initial circuit generation" if $VERBOSE
         # gen_case 
-        load_blif "../f51m.blif"
+
+        load_blif "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/x2.blif"
+
+        if @circ_init.has_combinational_loop?
+            raise "Error : Combinational loop detected in #{@circ_init}"
+        end
+
+        # load_blif "../f51m.blif"
         # load_enl "../test_circ.enl"
         gen_circ_files @circ_init
 
@@ -22,7 +29,7 @@ class Test_compTestbench
         @modifier = Inserter::Tamperer.new(@circ_init.clone, @grid, @circ_init.get_timings_hash)
         @modifier.select_ht("og_s38417", $HT_INPUT)
 
-        stim_compute # ! Test stim computation
+        # stim_compute # ! Test stim computation
                 
         puts "[+] Altered circuit generation" if $VERBOSE
         gen_alt_circ
@@ -34,7 +41,7 @@ class Test_compTestbench
 
     def run
         puts "[+] Stimulus generation" if $VERBOSE
-        # stim_gen # ! test_stim computation
+        stim_gen # ! Test stim computation
         puts "[+] Testbench generation" if $VERBOSE
         testbench_gen
         puts "[+] Scripts generation" if $VERBOSE
@@ -45,8 +52,8 @@ class Test_compTestbench
 
     def stim_gen 
         @stim_generator = Converter::GenStim.new(@circ_init)
-        stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
-        # stim_seq = @stim_generator.gen_random_stim 100
+        # stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
+        stim_seq = @stim_generator.gen_random_stim 100
         @stim_generator.save_as_txt "stim.txt", bin_stim_vec: false
     end
 

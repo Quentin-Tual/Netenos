@@ -1,3 +1,5 @@
+all: clean gem_update
+
 gem_update:
 	gem build netenos.gemspec
 	gem install --local Netenos-*.gem
@@ -10,5 +12,4 @@ push: clean gem_update
 
 clean:
 	rm -f *.gem
-	rm -rf exp*
-	rm -rf tests/tmp/*
+	rm -r tests/tmp/*

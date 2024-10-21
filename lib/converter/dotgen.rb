@@ -7,6 +7,7 @@ module Converter
             @sym_tab = {}
             head circuit.name
             comp circuit.components, delay_model
+            const circuit.constants
             ios circuit.ports
             wiring circuit
             circuit.components.each{|comp| comp_wiring(comp)}
@@ -26,6 +27,13 @@ module Converter
                   @code << "#{port.name}[shape=cds,xlabel=\"#{port.name}\"]"
                   @sym_tab[port.name] = Netlist::Port
                 end
+            end
+        end
+
+        def const constants
+            constants.each do |const|   
+                @code << "#{const.name}[shape=cds,xlabel=\"#{const.name}\"]"
+                @sym_tab[const.name] = Netlist::Constant
             end
         end
 
@@ -49,7 +57,8 @@ module Converter
         end
 
         def wiring circuit
-            circuit.get_inputs.each{ |source|
+            source_list = circuit.get_inputs + circuit.constants 
+            source_list.each{ |source|
                 source.get_sinks.each{ |sink|
                     if sink.class == Netlist::Wire
                         wire sink, source

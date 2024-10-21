@@ -100,7 +100,7 @@ module Converter
 
     class ComputeStim
         attr_accessor :decisions, :transitions, :test
-        attr_reader :side_inputs, :stim_vec, :events_computed, :unobservables, :insert_points, :observable
+        attr_reader :side_inputs, :stim_vec, :events_computed, :unobservables, :insert_points, :observables
 
         def initialize netlist, delay_model, forbidden_vectors = []
             @netlist = netlist
@@ -116,7 +116,7 @@ module Converter
             @insert_point = nil
             @insert_point_observable = nil
             @observables = Set.new()
-            @unobservables = []
+            @unobservables = Set.new()
             # @logger = Logger.new("test.log") if $VERBOSE
             @test = 0
         end
@@ -139,7 +139,7 @@ module Converter
         def get_insertion_points payload_delay
             # * Returns a list of gate which outputs has a slack greater than the payload delay 
             slack_h = @netlist.get_slack_hash(@delay_model)
-            return slack_h.select{|slack, gate| slack >= payload_delay}.values.flatten
+            return slack_h.select{|slack, gate| slack >= payload_delay and !gate.instance_of? Netlist::Port}.values.flatten
         end
 
         def get_cone_outputs insertion_point
@@ -160,7 +160,7 @@ module Converter
                 next_gates = insertion_point.partof.get_sink_gates
             end
 
-            cone_outputs = []
+            cone_outputs = Set.new
 
             until next_gates.empty?
                 current_gate = next_gates.shift
@@ -178,6 +178,9 @@ module Converter
                 next_gates += current_gate_sinks unless next_gates.include? current_gate
             end
 
+            # * Filter primary outputs plugged to a constant
+            cone_outputs = cone_outputs.to_a.flatten.select{|g| !g.get_source.instance_of?(Netlist::Constant)}
+
             return cone_outputs 
         end
 
@@ -190,6 +193,7 @@ module Converter
 
         def generate_stim netlist=nil, ht="og_s38417", save_explicit: "explicit_stim.txt", freq: 1.1
             # @logger.info("Generating stimulus for #{ht} hardware trojan") if $VERBOSE
+            puts "[+] Generating stimulus for #{ht} hardware trojan on #{netlist.name}" if $VERBOSE
 
             if @netlist.nil? and netlist.nil?
                 raise "Error : No netlist provided."
@@ -202,6 +206,7 @@ module Converter
             @events_computed = {}
 
             @insert_points.each do |insert_point|
+                puts "|--[+] Search with insert point #{insert_point.get_full_name}" if $VERBOSE
                 insert_point_event = nil
                 if @observables.include? insert_point # * If the insert_point is already observable, skip to the next insert point
                     next
@@ -209,6 +214,7 @@ module Converter
                     @events_computed[insert_point] = {}
                     downstream_outputs = get_cone_outputs(insert_point)
                     downstream_outputs.each do |targeted_output|
+                        puts "    |--[+] Search with targeted output #{targeted_output.get_full_name}" if $VERBOSE
                         res = nil
                         tmp = nil
                         targeted_transition = nil
@@ -243,10 +249,12 @@ module Converter
                     end
 
                     if @events_computed[insert_point].empty?
-                        pp "Insertion point #{insert_point.get_full_name} not observable on any output or no solution satisfying constraints (authorized vectors, etc)."
+                        # pp "Insertion point #{insert_point.get_full_name} not observable on any output or no solution satisfying constraints (authorized vectors, etc)."
+                        puts "    |--[+] No solution satisfying constraints for insertion point #{insert_point.get_full_name}." if $VERBOSE
                         @unobservables << insert_point
                     elsif !insert_point_event.nil?
-                        pp "Insertion point #{insert_point.get_full_name} observable."
+                        puts "    |--[-] Solution found for insertion point #{insert_point.get_full_name}." if $VERBOSE
+                        # pp "Insertion point #{insert_point.get_full_name} observable."
                         get_observable_signals(insert_point_event)
                     end
                     @netlist.components.each{|comp| comp.tag = nil}
@@ -255,6 +263,8 @@ module Converter
             end
 
             @events_computed.delete_if{|insert_point, solution| solution.empty?}
+
+            @observables.intersection(@unobservables).each{|s| @unobservables.delete(s)}
 
             # TODO : Déterminer les vecteurs synchrones pour chaque cas(feuille de l'arbre) de @events_computed. Possible de le faire au cas par cas.
             stim_pair_h = {}
@@ -379,15 +389,25 @@ module Converter
                         @events_to_process << e_inputs.sort_by{|e| e.signal.tag.to_s}
                         @events_to_process.flatten!
                     else
-                        # @events_to_process << e_inputs.sort_by{|e| e.timestamp} # Prio au plus long chemin
-                        @events_to_process << e_inputs.sort_by{|e| -e.timestamp} # Prio au plus court chemin
+                        @events_to_process << e_inputs#.sort_by{|e| e.timestamp} # Prio au plus long chemin
+                        # @events_to_process << e_inputs.sort_by{|e| -e.timestamp} # Prio au plus court chemin
                         @events_to_process.flatten!
                     end
                     
                     @transitions << new_decision
                     e_inputs.each{|e| @signal_events[e.signal] << e}
 
-                    if e_inputs.collect{|e| e.signal}.include? @insert_point
+                    concerned_signals = []
+                    e_inputs.each do |e|
+                        if e.signal.instance_of? Netlist::Port 
+                            if e.signal.is_global? and e.signal.is_input? 
+                                concerned_signals << e.signal.get_sinks
+                            end
+                        else
+                            concerned_signals += e.signal.get_output.get_sinks
+                        end
+                    end
+                    if concerned_signals.include? @insert_point
                         @insert_point_observable = e_inputs
                     end
                 end
@@ -396,8 +416,12 @@ module Converter
 
         def get_observable_signals event            
             get_observable_signals(event.parent) unless event.parent.nil?
-            @observables << event.signal
-        end 
+            if event.signal.instance_of? Netlist::Port
+                @observables += event.signal.get_sinks
+            else
+                @observables += (event.signal.get_output.get_sinks - @netlist.get_outputs)
+            end
+        end
 
         def is_fixed_transitions_compatible? events, gate
             # * : 'events' compatibility with each other
@@ -723,8 +747,8 @@ module Converter
 
             @netlist.get_inputs.each do |in_p|
                 if (!origin_vector.include?(in_p) and !arrival_vector.include?(in_p))
-                    origin_vector[in_p] = :S1 # ! Default value, can be changed to "X" if necessary
-                    arrival_vector[in_p] = :S1 # ! Default value, can be changed to "X" if necessary
+                    origin_vector[in_p] = "1" # ! Default value, can be changed to "X" if necessary
+                    arrival_vector[in_p] = "1" # ! Default value, can be changed to "X" if necessary
                 end
             end
 
