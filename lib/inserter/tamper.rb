@@ -263,7 +263,7 @@ module Inserter
                 end
             end
 
-            sig_pool.select!{|in_p| !forbidden_locs.include? in_p}
+            sig_pool.select!{|in_p, stage| !forbidden_locs.include? in_p}
 
             if sig_pool.empty?
                 raise ImpossibleInsertion.new("Error: No insertion location found.")

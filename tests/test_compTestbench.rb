@@ -15,7 +15,7 @@ class Test_compTestbench
         puts "[+] Initial circuit generation" if $VERBOSE
         # gen_case 
 
-        load_blif "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/x2.blif"
+        load_blif "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/clpl.blif"
 
         if @circ_init.has_combinational_loop?
             raise "Error : Combinational loop detected in #{@circ_init}"
