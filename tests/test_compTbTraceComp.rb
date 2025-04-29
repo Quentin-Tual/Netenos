@@ -14,21 +14,32 @@ class Test_compTbTraceCompt < Test_compTestbench
 
     end
 
+    def compare_traces
+        # TODO : Charger les traces
+        trace_extractor = VCD::Vcd_Signal_Extractor.new
+        
+        if $FREQ == "Infinity"
+            monitored_signals = @circ_init.get_outputs.collect{|o| "tb_#{o.name}"}
+        else
+            monitored_signals = @circ_init.get_outputs.collect{|o| "tb_#{o.name}_s"}
+        end
+
+        t = trace_extractor.extract2 "#{@circ_init.name}_#{$FREQ.to_s.split('.').join}_tb.vcd", $COMPILER, monitored_signals
+
+        # TODO : Instancier un comparateur et lancer la comparaison
+        comparator = VCD::Vcd_Comparer.new
+        cycle_diff = comparator.compare_comparative_tb_traces2(t["output_traces"], monitored_signals, @circ_init.crit_path_length+1, @circ_alt.crit_path_length+1)
+
+        # pp cycle_diff
+        # TODO : Vérifier la correspondance du print avec gtkwave
+        return cycle_diff
+    end
+
     def run
         # * Generate, compile and simulate 
         super
         # `./compile.sh`
-
-        # TODO : Charger les traces
-        trace_extractor = VCD::Vcd_Signal_Extractor.new
-        t = trace_extractor.extract "#{@circ_init.name}_#{$FREQ}_tb.vcd", $COMPILER
-
-        # TODO : Instancier un comparateur et lancer la comparaison
-        comparator = VCD::Vcd_Comparer.new
-        cycle_diff = comparator.compare_comparative_tb_traces t["output_traces"], @circ_init.get_outputs.collect{|o| "tb_#{o.name}_s"}, @circ_init.crit_path_length+1, @circ_alt.crit_path_length+1
-
-        pp cycle_diff
-        # TODO : Vérifier la correspondance du print avec gtkwave
+        compare_traces
     end
 
 end

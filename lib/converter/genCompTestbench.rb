@@ -5,29 +5,31 @@ module Converter
     class GenCompTestbench
         attr_accessor :stimuli, :netlist_data
 
-        def initialize netlist_init, netlist_alt, delay_model, margin: 0
+        def initialize netlist_init, netlist_alt, delay_model, margin: 2
+            @delay_model = delay_model
+            
             @netlist_init_data = data_extraction(netlist_init, margin)
             @netlist_alt_data = data_extraction(netlist_alt, margin)
             
-            crit_path_max = [@netlist_init_data[:crit_path_length], @netlist_alt_data[:crit_path_length]].max + 1
+            crit_path_max = [@netlist_init_data[:crit_path_length], @netlist_alt_data[:crit_path_length]].max
             @netlist_init_data[:crit_path_length] = crit_path_max
             @netlist_alt_data[:crit_path_length] = crit_path_max
 
             @tb_src = Code.new
             @portmap = ""
-            @delay_model = delay_model
         end
 
         def data_extraction netlist, margin
             ret = {}
 
             ret[:entity_name] = netlist.name
+
             ret[:ports] = {
                 (:in) => netlist.get_inputs.collect{|p| p.name},
                 (:out) => netlist.get_outputs.collect{|p| p.name}
             }
-            # ret[:crit_path_length] = (netlist.get_exact_crit_path_length(@delay_model))
 
+            ret[:crit_path_length] = (netlist.get_exact_crit_path_length(@delay_model))
             ret[:crit_path_length] = netlist.crit_path_length + margin
 
             return ret
@@ -44,7 +46,7 @@ module Converter
             case stim_type
             when String 
                 @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_comp_template.vhdl"))
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_comp_template2.vhdl"))
             else
                 raise "Error: stimulus type not available for comparer testbench."
             end
@@ -97,7 +99,7 @@ module Converter
     end
 
     class GenDetectTestbench < GenCompTestbench
-        def initialize netlist_init, netlist_alt, delay_model, margin: 0
+        def initialize netlist_init, netlist_alt, delay_model, margin: 2
             super
         end
 
@@ -112,7 +114,7 @@ module Converter
             case stim_type
             when String 
                 @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_detect_template.vhdl"))
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_detect_template2.vhdl"))
             else
                 raise "Error: stimulus type not available for comparer testbench."
             end

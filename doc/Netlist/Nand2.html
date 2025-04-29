@@ -6,7 +6,7 @@
 <title>
   Class: Netlist::Nand2
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -98,28 +98,270 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/netlist/gate.rb</dd>
+    <dd>lib/netlist/gate.rb<span class="defines">,<br />
+  lib/atetaAddOn/addon_gates.rb</span>
+</dd>
   </dl>
   
 </div>
 
 
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="PROPAG_TIME-constant" class="">PROPAG_TIME =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span><span class='symbol'>:one</span> <span class='op'>=&gt;</span> <span class='int'>1</span><span class='comma'>,</span> <span class='symbol'>:int_multi</span> <span class='op'>=&gt;</span> <span class='int'>4</span><span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
 
 
 
 
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#controlling_value-instance_method" title="#controlling_value (instance method)">#<strong>controlling_value</strong>  &#x21d2; Object </a>
+    
 
-  <h2>Instance Attribute Summary</h2>
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute controlling_value.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#opposite_transition_detectable-instance_method" title="#opposite_transition_detectable (instance method)">#<strong>opposite_transition_detectable</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute opposite_transition_detectable.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#same_transition_detectable-instance_method" title="#same_transition_detectable (instance method)">#<strong>same_transition_detectable</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute same_transition_detectable.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#side_input_value-instance_method" title="#side_input_value (instance method)">#<strong>side_input_value</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute side_input_value.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
   
   <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Gate.html" title="Netlist::Gate (class)">Gate</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Gate.html#cumulated_propag_time-instance_method" title="Netlist::Gate#cumulated_propag_time (method)">#cumulated_propag_time</a></span>, <span class='object_link'><a href="Gate.html#name-instance_method" title="Netlist::Gate#name (method)">#name</a></span>, <span class='object_link'><a href="Gate.html#partof-instance_method" title="Netlist::Gate#partof (method)">#partof</a></span>, <span class='object_link'><a href="Gate.html#ports-instance_method" title="Netlist::Gate#ports (method)">#ports</a></span>, <span class='object_link'><a href="Gate.html#propag_time-instance_method" title="Netlist::Gate#propag_time (method)">#propag_time</a></span>, <span class='object_link'><a href="Gate.html#slack-instance_method" title="Netlist::Gate#slack (method)">#slack</a></span>, <span class='object_link'><a href="Gate.html#tag-instance_method" title="Netlist::Gate#tag (method)">#tag</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Gate.html#cumulated_propag_time-instance_method" title="Netlist::Gate#cumulated_propag_time (method)">#cumulated_propag_time</a></span>, <span class='object_link'><a href="Gate.html#decisions-instance_method" title="Netlist::Gate#decisions (method)">#decisions</a></span>, <span class='object_link'><a href="Gate.html#forbidden_transitions-instance_method" title="Netlist::Gate#forbidden_transitions (method)">#forbidden_transitions</a></span>, <span class='object_link'><a href="Gate.html#name-instance_method" title="Netlist::Gate#name (method)">#name</a></span>, <span class='object_link'><a href="Gate.html#partof-instance_method" title="Netlist::Gate#partof (method)">#partof</a></span>, <span class='object_link'><a href="Gate.html#ports-instance_method" title="Netlist::Gate#ports (method)">#ports</a></span>, <span class='object_link'><a href="Gate.html#propag_time-instance_method" title="Netlist::Gate#propag_time (method)">#propag_time</a></span>, <span class='object_link'><a href="Gate.html#slack-instance_method" title="Netlist::Gate#slack (method)">#slack</a></span>, <span class='object_link'><a href="Gate.html#tag-instance_method" title="Netlist::Gate#tag (method)">#tag</a></span></p>
 
   
   
   <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Circuit.html#components-instance_method" title="Netlist::Circuit#components (method)">#components</a></span>, <span class='object_link'><a href="Circuit.html#crit_path_length-instance_method" title="Netlist::Circuit#crit_path_length (method)">#crit_path_length</a></span>, <span class='object_link'><a href="Circuit.html#name-instance_method" title="Netlist::Circuit#name (method)">#name</a></span>, <span class='object_link'><a href="Circuit.html#partof-instance_method" title="Netlist::Circuit#partof (method)">#partof</a></span>, <span class='object_link'><a href="Circuit.html#ports-instance_method" title="Netlist::Circuit#ports (method)">#ports</a></span>, <span class='object_link'><a href="Circuit.html#wires-instance_method" title="Netlist::Circuit#wires (method)">#wires</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Circuit.html#components-instance_method" title="Netlist::Circuit#components (method)">#components</a></span>, <span class='object_link'><a href="Circuit.html#constants-instance_method" title="Netlist::Circuit#constants (method)">#constants</a></span>, <span class='object_link'><a href="Circuit.html#crit_path_length-instance_method" title="Netlist::Circuit#crit_path_length (method)">#crit_path_length</a></span>, <span class='object_link'><a href="Circuit.html#name-instance_method" title="Netlist::Circuit#name (method)">#name</a></span>, <span class='object_link'><a href="Circuit.html#partof-instance_method" title="Netlist::Circuit#partof (method)">#partof</a></span>, <span class='object_link'><a href="Circuit.html#ports-instance_method" title="Netlist::Circuit#ports (method)">#ports</a></span>, <span class='object_link'><a href="Circuit.html#transition_probability_h-instance_method" title="Netlist::Circuit#transition_probability_h (method)">#transition_probability_h</a></span>, <span class='object_link'><a href="Circuit.html#wires-instance_method" title="Netlist::Circuit#wires (method)">#wires</a></span></p>
 
 
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#compute_transit_proba-instance_method" title="#compute_transit_proba (instance method)">#<strong>compute_transit_proba</strong>(proba_i0, proba_i1, rounding = 5)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_input_transition-instance_method" title="#get_input_transition (instance method)">#<strong>get_input_transition</strong>(output_transition)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_output_transition-instance_method" title="#get_output_transition (instance method)">#<strong>get_output_transition</strong>(input_transitions)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(*args)  &#x21d2; Nand2 </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Nand2.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
 
   
   
@@ -127,10 +369,10 @@
   
   
   
-  <h2>Method Summary</h2>
+  
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Gate.html" title="Netlist::Gate (class)">Gate</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Gate.html#<<-instance_method" title="Netlist::Gate#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="Gate.html#get_output-instance_method" title="Netlist::Gate#get_output (method)">#get_output</a></span>, <span class='object_link'><a href="Gate.html#get_outputs-instance_method" title="Netlist::Gate#get_outputs (method)">#get_outputs</a></span>, <span class='object_link'><a href="Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Gate.html#update_path_delay-instance_method" title="Netlist::Gate#update_path_delay (method)">#update_path_delay</a></span>, <span class='object_link'><a href="Gate.html#update_path_slack-instance_method" title="Netlist::Gate#update_path_slack (method)">#update_path_slack</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Gate.html#<<-instance_method" title="Netlist::Gate#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="Gate.html#clear_name2obj-instance_method" title="Netlist::Gate#clear_name2obj (method)">#clear_name2obj</a></span>, <span class='object_link'><a href="Gate.html#clear_source_gates-instance_method" title="Netlist::Gate#clear_source_gates (method)">#clear_source_gates</a></span>, <span class='object_link'><a href="Gate.html#get_inputs-instance_method" title="Netlist::Gate#get_inputs (method)">#get_inputs</a></span>, <span class='object_link'><a href="Gate.html#get_output-instance_method" title="Netlist::Gate#get_output (method)">#get_output</a></span>, <span class='object_link'><a href="Gate.html#get_outputs-instance_method" title="Netlist::Gate#get_outputs (method)">#get_outputs</a></span>, <span class='object_link'><a href="Gate.html#get_sink_gates-instance_method" title="Netlist::Gate#get_sink_gates (method)">#get_sink_gates</a></span>, <span class='object_link'><a href="Gate.html#get_source_gates-instance_method" title="Netlist::Gate#get_source_gates (method)">#get_source_gates</a></span>, <span class='object_link'><a href="Gate.html#update_path_delay-instance_method" title="Netlist::Gate#update_path_delay (method)">#update_path_delay</a></span>, <span class='object_link'><a href="Gate.html#update_path_slack-instance_method" title="Netlist::Gate#update_path_slack (method)">#update_path_slack</a></span></p>
 
   
   
@@ -141,21 +383,385 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Circuit.html#<<-instance_method" title="Netlist::Circuit#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="Circuit.html#contains_registers%3F-instance_method" title="Netlist::Circuit#contains_registers? (method)">#contains_registers?</a></span>, <span class='object_link'><a href="Circuit.html#getNetlistInformations-instance_method" title="Netlist::Circuit#getNetlistInformations (method)">#getNetlistInformations</a></span>, <span class='object_link'><a href="Circuit.html#get_component_named-instance_method" title="Netlist::Circuit#get_component_named (method)">#get_component_named</a></span>, <span class='object_link'><a href="Circuit.html#get_exact_crit_path_length-instance_method" title="Netlist::Circuit#get_exact_crit_path_length (method)">#get_exact_crit_path_length</a></span>, <span class='object_link'><a href="Circuit.html#get_free_input-instance_method" title="Netlist::Circuit#get_free_input (method)">#get_free_input</a></span>, <span class='object_link'><a href="Circuit.html#get_free_output-instance_method" title="Netlist::Circuit#get_free_output (method)">#get_free_output</a></span>, <span class='object_link'><a href="Circuit.html#get_free_port-instance_method" title="Netlist::Circuit#get_free_port (method)">#get_free_port</a></span>, <span class='object_link'><a href="Circuit.html#get_inputs-instance_method" title="Netlist::Circuit#get_inputs (method)">#get_inputs</a></span>, <span class='object_link'><a href="Circuit.html#get_mean_fanout-instance_method" title="Netlist::Circuit#get_mean_fanout (method)">#get_mean_fanout</a></span>, <span class='object_link'><a href="Circuit.html#get_outputs-instance_method" title="Netlist::Circuit#get_outputs (method)">#get_outputs</a></span>, <span class='object_link'><a href="Circuit.html#get_port_named-instance_method" title="Netlist::Circuit#get_port_named (method)">#get_port_named</a></span>, <span class='object_link'><a href="Circuit.html#get_ports-instance_method" title="Netlist::Circuit#get_ports (method)">#get_ports</a></span>, <span class='object_link'><a href="Circuit.html#get_slack_hash-instance_method" title="Netlist::Circuit#get_slack_hash (method)">#get_slack_hash</a></span>, <span class='object_link'><a href="Circuit.html#get_timings_hash-instance_method" title="Netlist::Circuit#get_timings_hash (method)">#get_timings_hash</a></span>, <span class='object_link'><a href="Circuit.html#get_wire_named-instance_method" title="Netlist::Circuit#get_wire_named (method)">#get_wire_named</a></span>, <span class='object_link'><a href="Circuit.html#initialize-instance_method" title="Netlist::Circuit#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Circuit.html#pretty_print-instance_method" title="Netlist::Circuit#pretty_print (method)">#pretty_print</a></span>, <span class='object_link'><a href="Circuit.html#save_as-instance_method" title="Netlist::Circuit#save_as (method)">#save_as</a></span>, <span class='object_link'><a href="Circuit.html#to_hash-instance_method" title="Netlist::Circuit#to_hash (method)">#to_hash</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Circuit.html#<<-instance_method" title="Netlist::Circuit#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="Circuit.html#cache_inputs_in_name2obj-instance_method" title="Netlist::Circuit#cache_inputs_in_name2obj (method)">#cache_inputs_in_name2obj</a></span>, <span class='object_link'><a href="Circuit.html#clear_all_cached_data-instance_method" title="Netlist::Circuit#clear_all_cached_data (method)">#clear_all_cached_data</a></span>, <span class='object_link'><a href="Circuit.html#clear_cumulated_propag_times-instance_method" title="Netlist::Circuit#clear_cumulated_propag_times (method)">#clear_cumulated_propag_times</a></span>, <span class='object_link'><a href="Circuit.html#clear_name2obj-instance_method" title="Netlist::Circuit#clear_name2obj (method)">#clear_name2obj</a></span>, <span class='object_link'><a href="Circuit.html#contains_registers%3F-instance_method" title="Netlist::Circuit#contains_registers? (method)">#contains_registers?</a></span>, <span class='object_link'><a href="Circuit.html#dfs-instance_method" title="Netlist::Circuit#dfs (method)">#dfs</a></span>, <span class='object_link'><a href="Circuit.html#getNetlistInformations-instance_method" title="Netlist::Circuit#getNetlistInformations (method)">#getNetlistInformations</a></span>, <span class='object_link'><a href="Circuit.html#get_all_eval_procs-instance_method" title="Netlist::Circuit#get_all_eval_procs (method)">#get_all_eval_procs</a></span>, <span class='object_link'><a href="Circuit.html#get_all_ruby_expr-instance_method" title="Netlist::Circuit#get_all_ruby_expr (method)">#get_all_ruby_expr</a></span>, <span class='object_link'><a href="Circuit.html#get_component_named-instance_method" title="Netlist::Circuit#get_component_named (method)">#get_component_named</a></span>, <span class='object_link'><a href="Circuit.html#get_dot_graph-instance_method" title="Netlist::Circuit#get_dot_graph (method)">#get_dot_graph</a></span>, <span class='object_link'><a href="Circuit.html#get_eval_proc-instance_method" title="Netlist::Circuit#get_eval_proc (method)">#get_eval_proc</a></span>, <span class='object_link'><a href="Circuit.html#get_exact_crit_path_length-instance_method" title="Netlist::Circuit#get_exact_crit_path_length (method)">#get_exact_crit_path_length</a></span>, <span class='object_link'><a href="Circuit.html#get_free_input-instance_method" title="Netlist::Circuit#get_free_input (method)">#get_free_input</a></span>, <span class='object_link'><a href="Circuit.html#get_free_output-instance_method" title="Netlist::Circuit#get_free_output (method)">#get_free_output</a></span>, <span class='object_link'><a href="Circuit.html#get_free_port-instance_method" title="Netlist::Circuit#get_free_port (method)">#get_free_port</a></span>, <span class='object_link'><a href="Circuit.html#get_inputs-instance_method" title="Netlist::Circuit#get_inputs (method)">#get_inputs</a></span>, <span class='object_link'><a href="Circuit.html#get_insertion_points-instance_method" title="Netlist::Circuit#get_insertion_points (method)">#get_insertion_points</a></span>, <span class='object_link'><a href="Circuit.html#get_mean_fanout-instance_method" title="Netlist::Circuit#get_mean_fanout (method)">#get_mean_fanout</a></span>, <span class='object_link'><a href="Circuit.html#get_nb_inputs-instance_method" title="Netlist::Circuit#get_nb_inputs (method)">#get_nb_inputs</a></span>, <span class='object_link'><a href="Circuit.html#get_netlist_precedence_grid-instance_method" title="Netlist::Circuit#get_netlist_precedence_grid (method)">#get_netlist_precedence_grid</a></span>, <span class='object_link'><a href="Circuit.html#get_netlist_precedence_grid_old-instance_method" title="Netlist::Circuit#get_netlist_precedence_grid_old (method)">#get_netlist_precedence_grid_old</a></span>, <span class='object_link'><a href="Circuit.html#get_output_path-instance_method" title="Netlist::Circuit#get_output_path (method)">#get_output_path</a></span>, <span class='object_link'><a href="Circuit.html#get_outputs-instance_method" title="Netlist::Circuit#get_outputs (method)">#get_outputs</a></span>, <span class='object_link'><a href="Circuit.html#get_port_named-instance_method" title="Netlist::Circuit#get_port_named (method)">#get_port_named</a></span>, <span class='object_link'><a href="Circuit.html#get_ports-instance_method" title="Netlist::Circuit#get_ports (method)">#get_ports</a></span>, <span class='object_link'><a href="Circuit.html#get_ruby_expr-instance_method" title="Netlist::Circuit#get_ruby_expr (method)">#get_ruby_expr</a></span>, <span class='object_link'><a href="Circuit.html#get_ruby_expr_util-instance_method" title="Netlist::Circuit#get_ruby_expr_util (method)">#get_ruby_expr_util</a></span>, <span class='object_link'><a href="Circuit.html#get_slack_hash-instance_method" title="Netlist::Circuit#get_slack_hash (method)">#get_slack_hash</a></span>, <span class='object_link'><a href="Circuit.html#get_timings_hash-instance_method" title="Netlist::Circuit#get_timings_hash (method)">#get_timings_hash</a></span>, <span class='object_link'><a href="Circuit.html#get_transition_probability_h-instance_method" title="Netlist::Circuit#get_transition_probability_h (method)">#get_transition_probability_h</a></span>, <span class='object_link'><a href="Circuit.html#get_wire_named-instance_method" title="Netlist::Circuit#get_wire_named (method)">#get_wire_named</a></span>, <span class='object_link'><a href="Circuit.html#has_combinational_loop%3F-instance_method" title="Netlist::Circuit#has_combinational_loop? (method)">#has_combinational_loop?</a></span>, <span class='object_link'><a href="Circuit.html#is_global_port_name%3F-instance_method" title="Netlist::Circuit#is_global_port_name? (method)">#is_global_port_name?</a></span>, <span class='object_link'><a href="Circuit.html#is_primary_input_name%3F-instance_method" title="Netlist::Circuit#is_primary_input_name? (method)">#is_primary_input_name?</a></span>, <span class='object_link'><a href="Circuit.html#is_primary_output_name%3F-instance_method" title="Netlist::Circuit#is_primary_output_name? (method)">#is_primary_output_name?</a></span>, <span class='object_link'><a href="Circuit.html#pretty_print-instance_method" title="Netlist::Circuit#pretty_print (method)">#pretty_print</a></span>, <span class='object_link'><a href="Circuit.html#save_as-instance_method" title="Netlist::Circuit#save_as (method)">#save_as</a></span>, <span class='object_link'><a href="Circuit.html#to_hash-instance_method" title="Netlist::Circuit#to_hash (method)">#to_hash</a></span>, <span class='object_link'><a href="Circuit.html#topological_sort-instance_method" title="Netlist::Circuit#topological_sort (method)">#topological_sort</a></span>, <span class='object_link'><a href="Circuit.html#topological_sort_util-instance_method" title="Netlist::Circuit#topological_sort_util (method)">#topological_sort_util</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
-    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">Netlist::Gate</a></span></p>
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(*args)  &#x21d2; <tt><span class='object_link'><a href="" title="Netlist::Nand2 (class)">Nand2</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Nand2.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+377
+378
+379
+380
+381
+382
+383</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 377</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span>
+    <span class='kw'>super</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span>
+    <span class='ivar'>@same_transition_detectable</span> <span class='op'>=</span> <span class='symbol'>:R</span>
+    <span class='ivar'>@opposite_transition_detectable</span> <span class='op'>=</span> <span class='symbol'>:F</span>
+    <span class='ivar'>@side_input_values</span> <span class='op'>=</span> <span class='symbol'>:S1</span>
+    <span class='ivar'>@controlling_value</span> <span class='op'>=</span> <span class='symbol'>:S0</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
   
 </div>
 
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="controlling_value-instance_method">
+  
+    #<strong>controlling_value</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute controlling_value.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 375</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_controlling_value'>controlling_value</span>
+  <span class='ivar'>@controlling_value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="opposite_transition_detectable-instance_method">
+  
+    #<strong>opposite_transition_detectable</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute opposite_transition_detectable.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 375</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_opposite_transition_detectable'>opposite_transition_detectable</span>
+  <span class='ivar'>@opposite_transition_detectable</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="same_transition_detectable-instance_method">
+  
+    #<strong>same_transition_detectable</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute same_transition_detectable.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 375</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_same_transition_detectable'>same_transition_detectable</span>
+  <span class='ivar'>@same_transition_detectable</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="side_input_value-instance_method">
+  
+    #<strong>side_input_value</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute side_input_value.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 375</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_side_input_value'>side_input_value</span>
+  <span class='ivar'>@side_input_value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="compute_transit_proba-instance_method">
+  
+    #<strong>compute_transit_proba</strong>(proba_i0, proba_i1, rounding = 5)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+415
+416
+417</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 415</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_compute_transit_proba'>compute_transit_proba</span> <span class='id identifier rubyid_proba_i0'>proba_i0</span><span class='comma'>,</span> <span class='id identifier rubyid_proba_i1'>proba_i1</span><span class='comma'>,</span> <span class='id identifier rubyid_rounding'>rounding</span> <span class='op'>=</span> <span class='int'>5</span>
+    <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_proba_i0'>proba_i0</span> <span class='op'>*</span> <span class='id identifier rubyid_proba_i1'>proba_i1</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='float'>1.0</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='id identifier rubyid_proba_i0'>proba_i0</span> <span class='op'>*</span> <span class='id identifier rubyid_proba_i1'>proba_i1</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='id identifier rubyid_rounding'>rounding</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_input_transition-instance_method">
+  
+    #<strong>get_input_transition</strong>(output_transition)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 385</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_input_transition'>get_input_transition</span> <span class='id identifier rubyid_output_transition'>output_transition</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_output_transition'>output_transition</span>
+    <span class='kw'>when</span> <span class='symbol'>:S0</span> 
+        <span class='kw'>return</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='symbol'>:S1</span><span class='comma'>,</span><span class='symbol'>:S1</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+    <span class='kw'>when</span> <span class='symbol'>:S1</span> 
+        <span class='kw'>return</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='symbol'>:S0</span><span class='comma'>,</span><span class='symbol'>:S0</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:S1</span><span class='comma'>,</span><span class='symbol'>:S0</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:S0</span><span class='comma'>,</span><span class='symbol'>:S1</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:S0</span><span class='comma'>,</span><span class='symbol'>:R</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:R</span><span class='comma'>,</span><span class='symbol'>:S0</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:S0</span><span class='comma'>,</span><span class='symbol'>:F</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:F</span><span class='comma'>,</span><span class='symbol'>:S0</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+    <span class='kw'>when</span> <span class='symbol'>:R</span>
+        <span class='kw'>return</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='symbol'>:S1</span><span class='comma'>,</span><span class='symbol'>:F</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:F</span><span class='comma'>,</span><span class='symbol'>:S1</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:F</span><span class='comma'>,</span><span class='symbol'>:F</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+    <span class='kw'>when</span> <span class='symbol'>:F</span>
+        <span class='kw'>return</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='symbol'>:S1</span><span class='comma'>,</span><span class='symbol'>:R</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:R</span><span class='comma'>,</span><span class='symbol'>:S1</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:R</span><span class='comma'>,</span><span class='symbol'>:R</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Unexpected transition value encountered.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_output_transition-instance_method">
+  
+    #<strong>get_output_transition</strong>(input_transitions)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 400</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_output_transition'>get_output_transition</span> <span class='id identifier rubyid_input_transitions'>input_transitions</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_input_transitions'>input_transitions</span>
+    <span class='kw'>when</span> <span class='lbracket'>[</span><span class='symbol'>:S1</span><span class='comma'>,</span><span class='symbol'>:S1</span><span class='rbracket'>]</span>
+        <span class='kw'>return</span> <span class='symbol'>:S0</span>
+    <span class='kw'>when</span> <span class='lbracket'>[</span><span class='symbol'>:S0</span><span class='comma'>,</span><span class='symbol'>:S0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:S0</span><span class='comma'>,</span><span class='symbol'>:S1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:S1</span><span class='comma'>,</span><span class='symbol'>:S0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:R</span><span class='comma'>,</span><span class='symbol'>:F</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:F</span><span class='comma'>,</span><span class='symbol'>:R</span><span class='rbracket'>]</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='symbol'>:R</span><span class='comma'>,</span><span class='symbol'>:S0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:S0</span><span class='comma'>,</span><span class='symbol'>:R</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:F</span><span class='comma'>,</span><span class='symbol'>:S0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:S0</span><span class='comma'>,</span><span class='symbol'>:F</span><span class='rbracket'>]</span>
+        <span class='kw'>return</span> <span class='symbol'>:S1</span>
+    <span class='kw'>when</span> <span class='lbracket'>[</span><span class='symbol'>:F</span><span class='comma'>,</span><span class='symbol'>:F</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:S1</span><span class='comma'>,</span> <span class='symbol'>:F</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:F</span><span class='comma'>,</span> <span class='symbol'>:S1</span><span class='rbracket'>]</span>
+        <span class='kw'>return</span> <span class='symbol'>:R</span>
+    <span class='kw'>when</span> <span class='lbracket'>[</span><span class='symbol'>:R</span><span class='comma'>,</span><span class='symbol'>:R</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:S1</span><span class='comma'>,</span><span class='symbol'>:R</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:R</span><span class='comma'>,</span><span class='symbol'>:S1</span><span class='rbracket'>]</span>
+        <span class='kw'>return</span> <span class='symbol'>:F</span>
+    <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Unexpected output transitions values encountered.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 17 16:20:27 2024 by
+  Generated on Tue Apr 29 10:04:22 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.2).
+  0.9.37 (ruby-3.3.1).
 </div>
 
     </div>

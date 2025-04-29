@@ -6,7 +6,7 @@
 <title>
   Class: Converter::VhdlCompiler
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -139,7 +139,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#circ_compile_script-instance_method" title="#circ_compile_script (instance method)">#<strong>circ_compile_script</strong>(path, circ_init_name, freq_list, compiler = [:ghdl, :minimal_sig], append = false, gtech_path: &quot;../../gtech&quot;)  &#x21d2; Object </a>
+      <a href="#circ_compile_script-instance_method" title="#circ_compile_script (instance method)">#<strong>circ_compile_script</strong>(path, circ_init_name, freq_list, compiler = [:ghdl, :minimal_sig], append = false, gtech_path: &quot;../../gtech&quot;, vcd: true)  &#x21d2; Object </a>
     
 
     
@@ -161,7 +161,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#comp_tb_compile_script-instance_method" title="#comp_tb_compile_script (instance method)">#<strong>comp_tb_compile_script</strong>(path, circ_init_name, circ_alt_name, freq_list, compiler = [:ghdl, :minimal_sig], append = false, gtech_path: &quot;../../gtech&quot;)  &#x21d2; Object </a>
+      <a href="#comp_tb_compile_script-instance_method" title="#comp_tb_compile_script (instance method)">#<strong>comp_tb_compile_script</strong>(path, circ_init_name, circ_alt_name, freq_list, compiler = [:ghdl, :minimal_sig], append = false, gtech_path: &quot;../../gtech&quot;, vcd: true)  &#x21d2; Object </a>
     
 
     
@@ -206,6 +206,50 @@
   <span class="summary_signature">
     
       <a href="#generate_compile_script-instance_method" title="#generate_compile_script (instance method)">#<strong>generate_compile_script</strong>(circuit, test_frequencies = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_exclude_file-instance_method" title="#generate_exclude_file (instance method)">#<strong>generate_exclude_file</strong>(testbench_name, path, signals = [])  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_include_file-instance_method" title="#generate_include_file (instance method)">#<strong>generate_include_file</strong>(testbench_name, path, signals = [])  &#x21d2; Object </a>
     
 
     
@@ -394,7 +438,7 @@
       <div class="method_details ">
   <h3 class="signature " id="circ_compile_script-instance_method">
   
-    #<strong>circ_compile_script</strong>(path, circ_init_name, freq_list, compiler = [:ghdl, :minimal_sig], append = false, gtech_path: &quot;../../gtech&quot;)  &#x21d2; <tt>Object</tt> 
+    #<strong>circ_compile_script</strong>(path, circ_init_name, freq_list, compiler = [:ghdl, :minimal_sig], append = false, gtech_path: &quot;../../gtech&quot;, vcd: true)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -406,22 +450,6 @@
       <pre class="lines">
 
 
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
 228
 229
 230
@@ -506,12 +534,40 @@
 309
 310
 311
-312</pre>
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 228</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_circ_compile_script'>circ_compile_script</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='comma'>,</span> <span class='id identifier rubyid_freq_list'>freq_list</span><span class='comma'>,</span> <span class='id identifier rubyid_compiler'>compiler</span><span class='op'>=</span><span class='lbracket'>[</span><span class='symbol'>:ghdl</span><span class='comma'>,</span> <span class='symbol'>:minimal_sig</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_append'>append</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>gtech_path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>../../gtech</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_circ_compile_script'>circ_compile_script</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='comma'>,</span> <span class='id identifier rubyid_freq_list'>freq_list</span><span class='comma'>,</span> <span class='id identifier rubyid_compiler'>compiler</span><span class='op'>=</span><span class='lbracket'>[</span><span class='symbol'>:ghdl</span><span class='comma'>,</span> <span class='symbol'>:minimal_sig</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_append'>append</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>gtech_path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>../../gtech</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>vcd:</span> <span class='kw'>true</span>
     <span class='id identifier rubyid_code'>code</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span>
     <span class='kw'>if</span> <span class='id identifier rubyid_compiler'>compiler</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
        <span class='id identifier rubyid_opt'>opt</span> <span class='op'>=</span>  <span class='id identifier rubyid_compiler'>compiler</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
@@ -524,7 +580,7 @@
         <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
             <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot;[+] compiling $(basename $(cd .. &amp;&amp; pwd))/$(basename $(pwd))/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;  at  $(date +%FT%T)</span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>end</span>
-        <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc  --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> --std=08 -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd </span><span class='tstring_end'>&quot;</span></span>
         <span class='id identifier rubyid_freq_list'>freq_list</span> <span class='op'>=</span> <span class='id identifier rubyid_freq_list'>freq_list</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_freq'>freq</span><span class='op'>|</span>
             <span class='id identifier rubyid_freq'>freq</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
         <span class='kw'>end</span> 
@@ -532,16 +588,24 @@
             <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
                 <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot; |--[+] compiling </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb\&quot;</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span>
-            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -M 1g -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vhd </span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc  --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -M 6g --std=08 -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vhd</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
                 <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot; |--[+] elaborating </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb\&quot;</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span>
-            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -M 1g -e </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc  --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -M 6g --std=08 -e </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb -</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
                 <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot; |--[+] simulating </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb\&quot;</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span>
-            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -r </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --format=vcd -w </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
+            <span class='kw'>if</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:minimal_sig</span>
+                <span class='id identifier rubyid_generate_include_file'>generate_include_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+                <span class='id identifier rubyid_generate_exclude_file'>generate_exclude_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>*:*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+            <span class='kw'>elsif</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:uut_sig</span>
+                <span class='id identifier rubyid_generate_include_file'>generate_include_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+                <span class='id identifier rubyid_generate_exclude_file'>generate_exclude_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uut:*:*</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref_unit:*:*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+            <span class='kw'>end</span>
+            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc  --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -std=08 -r </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --format=vcd -w</span><span class='tstring_end'>&quot;</span></span>
             <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span>
+            
         <span class='kw'>end</span>
     <span class='kw'>when</span> <span class='symbol'>:ghdl2</span>
         <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
@@ -569,11 +633,8 @@
             <span class='kw'>else</span>
                 <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl --elab-run --std=08 --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -P=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --vcd=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span>
-
-            <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span>
-            
+            <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span> 
         <span class='kw'>end</span>
-        
     <span class='kw'>else</span> <span class='comment'># :ghdl3 as default option
 </span>        <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
             <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot;[+] compiling $(basename $(cd .. &amp;&amp; pwd))/$(basename $(pwd))/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;  at  $(date +%FT%T)</span><span class='tstring_end'>&quot;</span></span>
@@ -595,15 +656,22 @@
                 <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot; |--[+] simulating </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb\&quot;</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span> 
             <span class='comment'># code &lt;&lt; &quot;ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd&quot;
-</span>            <span class='kw'>if</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:minimal_sig</span>
-                <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl --elab-run --std=08 --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -P=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --read-wave-opt=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.opt --vcd=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
+</span>            
+            <span class='id identifier rubyid_opt_args'>opt_args</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+
+            <span class='kw'>if</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:minimal_sig</span>
+                <span class='id identifier rubyid_opt_args'>opt_args</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--read-wave-opt=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.opt</span><span class='tstring_end'>&quot;</span></span>
                 <span class='id identifier rubyid_generate_wave_opt_file'>generate_wave_opt_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span>
             <span class='kw'>elsif</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:uut_sig</span>
-                <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl --elab-run --std=08 --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -P=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --read-wave-opt=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.opt --vcd=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
+                <span class='id identifier rubyid_opt_args'>opt_args</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--read-wave-opt=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.opt</span><span class='tstring_end'>&quot;</span></span>
                 <span class='id identifier rubyid_generate_wave_opt_file'>generate_wave_opt_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uut/*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-            <span class='kw'>else</span>
-                <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl --elab-run --std=08 --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -P=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --vcd=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span>
+
+            <span class='kw'>if</span> <span class='id identifier rubyid_vcd'>vcd</span>
+                <span class='id identifier rubyid_opt_args'>opt_args</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--vcd=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
+            <span class='kw'>end</span>
+
+            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl --elab-run --std=08 --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -P=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_opt_args'>opt_args</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 
             <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span>
         <span class='kw'>end</span> 
@@ -620,7 +688,7 @@
       <div class="method_details ">
   <h3 class="signature " id="comp_tb_compile_script-instance_method">
   
-    #<strong>comp_tb_compile_script</strong>(path, circ_init_name, circ_alt_name, freq_list, compiler = [:ghdl, :minimal_sig], append = false, gtech_path: &quot;../../gtech&quot;)  &#x21d2; <tt>Object</tt> 
+    #<strong>comp_tb_compile_script</strong>(path, circ_init_name, circ_alt_name, freq_list, compiler = [:ghdl, :minimal_sig], append = false, gtech_path: &quot;../../gtech&quot;, vcd: true)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -735,12 +803,28 @@
 207
 208
 209
-210</pre>
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 107</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_comp_tb_compile_script'>comp_tb_compile_script</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_alt_name'>circ_alt_name</span><span class='comma'>,</span> <span class='id identifier rubyid_freq_list'>freq_list</span><span class='comma'>,</span> <span class='id identifier rubyid_compiler'>compiler</span><span class='op'>=</span><span class='lbracket'>[</span><span class='symbol'>:ghdl</span><span class='comma'>,</span> <span class='symbol'>:minimal_sig</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_append'>append</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>gtech_path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>../../gtech</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_comp_tb_compile_script'>comp_tb_compile_script</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='comma'>,</span> <span class='id identifier rubyid_circ_alt_name'>circ_alt_name</span><span class='comma'>,</span> <span class='id identifier rubyid_freq_list'>freq_list</span><span class='comma'>,</span> <span class='id identifier rubyid_compiler'>compiler</span><span class='op'>=</span><span class='lbracket'>[</span><span class='symbol'>:ghdl</span><span class='comma'>,</span> <span class='symbol'>:minimal_sig</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_append'>append</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>gtech_path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>../../gtech</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>vcd:</span> <span class='kw'>true</span>
     <span class='id identifier rubyid_code'>code</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span>
     <span class='kw'>if</span> <span class='id identifier rubyid_compiler'>compiler</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
        <span class='id identifier rubyid_opt'>opt</span> <span class='op'>=</span>  <span class='id identifier rubyid_compiler'>compiler</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
@@ -753,8 +837,8 @@
         <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
             <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot;[+] compiling $(basename $(cd .. &amp;&amp; pwd))/$(basename $(pwd))/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;  at  $(date +%FT%T)</span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>end</span>
-        <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_alt_name'>circ_alt_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc  --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> --std=08 -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc  --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> --std=08 -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_alt_name'>circ_alt_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd</span><span class='tstring_end'>&quot;</span></span>
         <span class='id identifier rubyid_freq_list'>freq_list</span> <span class='op'>=</span> <span class='id identifier rubyid_freq_list'>freq_list</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_freq'>freq</span><span class='op'>|</span>
             <span class='id identifier rubyid_freq'>freq</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
         <span class='kw'>end</span> 
@@ -762,17 +846,26 @@
             <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
                 <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot; |--[+] compiling </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb\&quot;</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span>
-            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -M 1g -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vhd </span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -M 6g --std=08 -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vhd</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
                 <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot; |--[+] elaborating </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb\&quot;</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span>
-            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -M 1g -e </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc  --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -M 6g --std=08 -e </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
                 <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot; |--[+] simulating </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb\&quot;</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span>
-            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -r </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --format=vcd -w </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
+            <span class='kw'>if</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:minimal_sig</span>
+                <span class='id identifier rubyid_generate_include_file'>generate_include_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+                <span class='id identifier rubyid_generate_exclude_file'>generate_exclude_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>*:*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+            <span class='kw'>elsif</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:uut_sig</span>
+                <span class='id identifier rubyid_generate_include_file'>generate_include_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+                <span class='id identifier rubyid_generate_exclude_file'>generate_exclude_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uut:*:*</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ref_unit:*:*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+            <span class='kw'>end</span>
+            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc  --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -L </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> -M 6g --std=08 -r </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --format=vcd -w</span><span class='tstring_end'>&quot;</span></span>
             <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span>
-        <span class='kw'>end</span>
+            <span class='comment'># code &lt;&lt; &quot;nvc  --work=#{circ_init_name}_lib -L #{gtech_path} --std=08 -r #{circ_init_name}_#{freq}_tb --format=vcd -w&quot;
+</span>            <span class='comment'># code.newline
+</span>        <span class='kw'>end</span>
     <span class='kw'>when</span> <span class='symbol'>:ghdl2</span>
         <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
             <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot;[+] compiling $(basename $(cd .. &amp;&amp; pwd))/$(basename $(pwd))/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;  at  $(date +%FT%T)</span><span class='tstring_end'>&quot;</span></span>
@@ -827,15 +920,22 @@
                 <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo \&quot; |--[+] simulating </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb\&quot;</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span> 
             <span class='comment'># code &lt;&lt; &quot;ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd&quot;
-</span>            <span class='kw'>if</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:minimal_sig</span>
-                <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl --elab-run --std=08 --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -P=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --read-wave-opt=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.opt --vcd=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
+</span>            
+            <span class='id identifier rubyid_opt_args'>opt_args</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+
+            <span class='kw'>if</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:minimal_sig</span>
+                <span class='id identifier rubyid_opt_args'>opt_args</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--read-wave-opt=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.opt </span><span class='tstring_end'>&quot;</span></span>
                 <span class='id identifier rubyid_generate_wave_opt_file'>generate_wave_opt_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span>
             <span class='kw'>elsif</span> <span class='id identifier rubyid_opt'>opt</span> <span class='op'>==</span> <span class='symbol'>:uut_sig</span>
-                <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl --elab-run --std=08 --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -P=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --read-wave-opt=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.opt --vcd=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
+                <span class='id identifier rubyid_opt_args'>opt_args</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--read-wave-opt=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.opt </span><span class='tstring_end'>&quot;</span></span>
                 <span class='id identifier rubyid_generate_wave_opt_file'>generate_wave_opt_file</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uut/*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
-            <span class='kw'>else</span>
-                <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl --elab-run --std=08 --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -P=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb --vcd=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd</span><span class='tstring_end'>&quot;</span></span>
             <span class='kw'>end</span>
+
+            <span class='kw'>if</span> <span class='id identifier rubyid_vcd'>vcd</span>
+                <span class='id identifier rubyid_opt_args'>opt_args</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--vcd=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb.vcd </span><span class='tstring_end'>&quot;</span></span>
+            <span class='kw'>end</span>
+
+            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl --elab-run --std=08 --work=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_lib -P=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gtech_path'>gtech_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_init_name'>circ_init_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_freq'>freq</span><span class='embexpr_end'>}</span><span class='tstring_content'>_tb </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_opt_args'>opt_args</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 
             <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span>
         <span class='kw'>end</span> 
@@ -952,62 +1052,62 @@
       <pre class="lines">
 
 
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
 376
 377
-378</pre>
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 376</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate_compile_script'>generate_compile_script</span> <span class='id identifier rubyid_circuit'>circuit</span><span class='comma'>,</span> <span class='id identifier rubyid_test_frequencies'>test_frequencies</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='id identifier rubyid_code'>code</span><span class='op'>=</span><span class='const'>Code</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -1068,6 +1168,94 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="generate_exclude_file-instance_method">
+  
+    #<strong>generate_exclude_file</strong>(testbench_name, path, signals = [])  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 353</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_exclude_file'>generate_exclude_file</span> <span class='id identifier rubyid_testbench_name'>testbench_name</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_signals'>signals</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'># include file\n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_signals'>signals</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+        <span class='id identifier rubyid_signals'>signals</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span>
+            <span class='id identifier rubyid_str'>str</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:*:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='embexpr_end'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_testbench_name'>testbench_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.exclude</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_include_file-instance_method">
+  
+    #<strong>generate_include_file</strong>(testbench_name, path, signals = [])  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 342</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_include_file'>generate_include_file</span> <span class='id identifier rubyid_testbench_name'>testbench_name</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_signals'>signals</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'># include file\n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_signals'>signals</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+        <span class='id identifier rubyid_signals'>signals</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span>
+            <span class='id identifier rubyid_str'>str</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:*:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='embexpr_end'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_testbench_name'>testbench_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.include</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="generate_wave_opt_file-instance_method">
   
     #<strong>generate_wave_opt_file</strong>(testbench_name, path, signals = [])  &#x21d2; <tt>Object</tt> 
@@ -1082,20 +1270,20 @@
       <pre class="lines">
 
 
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324</pre>
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 314</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 364</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate_wave_opt_file'>generate_wave_opt_file</span> <span class='id identifier rubyid_testbench_name'>testbench_name</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_signals'>signals</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     
@@ -1178,7 +1366,7 @@
         <span class='kw'>end</span>
         <span class='kw'>case</span> <span class='id identifier rubyid_compiler'>compiler</span>
         <span class='kw'>when</span> <span class='symbol'>:nvc</span>
-            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=gtech_lib -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_entity'>entity</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd</span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nvc --work=gtech_lib --std=08 -a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_entity'>entity</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd </span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>else</span>
             <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ghdl -a --std=08 --work=gtech_lib </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_entity'>entity</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vhd</span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>end</span>
@@ -1212,15 +1400,15 @@
       <pre class="lines">
 
 
-380
-381
-382
-383
-384
-385</pre>
+430
+431
+432
+433
+434
+435</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 380</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/vhdlCompileScript.rb', line 430</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run_compile_script'>run_compile_script</span> <span class='id identifier rubyid_circuit'>circuit</span>
     <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
@@ -1238,9 +1426,9 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 17 16:20:28 2024 by
+  Generated on Tue Apr 29 10:04:27 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.2).
+  0.9.37 (ruby-3.3.1).
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Class: Inserter::Og_s38417
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -258,7 +258,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="HT.html" title="Inserter::HT (class)">HT</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="HT.html#compute_transit_proba-instance_method" title="Inserter::HT#compute_transit_proba (method)">#compute_transit_proba</a></span>, <span class='object_link'><a href="HT.html#get_components-instance_method" title="Inserter::HT#get_components (method)">#get_components</a></span>, <span class='object_link'><a href="HT.html#get_payload_in-instance_method" title="Inserter::HT#get_payload_in (method)">#get_payload_in</a></span>, <span class='object_link'><a href="HT.html#get_payload_out-instance_method" title="Inserter::HT#get_payload_out (method)">#get_payload_out</a></span>, <span class='object_link'><a href="HT.html#get_transition_probability-instance_method" title="Inserter::HT#get_transition_probability (method)">#get_transition_probability</a></span>, <span class='object_link'><a href="HT.html#get_triggers-instance_method" title="Inserter::HT#get_triggers (method)">#get_triggers</a></span>, <span class='object_link'><a href="HT.html#get_triggers_nb-instance_method" title="Inserter::HT#get_triggers_nb (method)">#get_triggers_nb</a></span>, <span class='object_link'><a href="HT.html#is_inserted%3F-instance_method" title="Inserter::HT#is_inserted? (method)">#is_inserted?</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="HT.html#compute_transit_proba-instance_method" title="Inserter::HT#compute_transit_proba (method)">#compute_transit_proba</a></span>, <span class='object_link'><a href="HT.html#get_components-instance_method" title="Inserter::HT#get_components (method)">#get_components</a></span>, <span class='object_link'><a href="HT.html#get_exact_crit_path-instance_method" title="Inserter::HT#get_exact_crit_path (method)">#get_exact_crit_path</a></span>, <span class='object_link'><a href="HT.html#get_payload_in-instance_method" title="Inserter::HT#get_payload_in (method)">#get_payload_in</a></span>, <span class='object_link'><a href="HT.html#get_payload_out-instance_method" title="Inserter::HT#get_payload_out (method)">#get_payload_out</a></span>, <span class='object_link'><a href="HT.html#get_transition_probability-instance_method" title="Inserter::HT#get_transition_probability (method)">#get_transition_probability</a></span>, <span class='object_link'><a href="HT.html#get_trigger_transition_proba-instance_method" title="Inserter::HT#get_trigger_transition_proba (method)">#get_trigger_transition_proba</a></span>, <span class='object_link'><a href="HT.html#get_triggers-instance_method" title="Inserter::HT#get_triggers (method)">#get_triggers</a></span>, <span class='object_link'><a href="HT.html#get_triggers_nb-instance_method" title="Inserter::HT#get_triggers_nb (method)">#get_triggers_nb</a></span>, <span class='object_link'><a href="HT.html#is_inserted%3F-instance_method" title="Inserter::HT#is_inserted? (method)">#is_inserted?</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -288,19 +288,19 @@
       <pre class="lines">
 
 
+8
 9
 10
 11
-12
-13</pre>
+12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 8</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span> <span class='op'>=</span> <span class='int'>4</span>
     <span class='comment'># * : For the moment the only parameters allowed are power of 2 numbers. This is faster to develop and easier for a start. It may evolve later to allow more possibilities.
 </span>    <span class='kw'>super</span>
-    <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_netlist'>gen_netlist</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span>
+    <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_netlist'>gen_netlist</span><span class='lparen'>(</span><span class='id identifier rubyid_nb_trigger'>nb_trigger</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -340,12 +340,12 @@
       <pre class="lines">
 
 
+6
 7
-8
-9</pre>
+8</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 6</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_components'>components</span>
   <span class='ivar'>@components</span>
@@ -377,6 +377,7 @@
       <pre class="lines">
 
 
+14
 15
 16
 17
@@ -394,14 +395,21 @@
 29
 30
 31
-32</pre>
+32
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_netlist'>gen_netlist</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span>
     <span class='id identifier rubyid_gen_payload'>gen_payload</span>
-    <span class='ivar'>@payload_in</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_gen_triggers'>gen_triggers</span><span class='lparen'>(</span><span class='id identifier rubyid_nb_trigger'>nb_trigger</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span> <span class='op'>==</span> <span class='int'>1</span>
+        <span class='ivar'>@triggers</span> <span class='op'>&lt;&lt;</span> <span class='ivar'>@payload_in</span>
+    <span class='kw'>else</span>
+        <span class='ivar'>@payload_in</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_gen_triggers'>gen_triggers</span><span class='lparen'>(</span><span class='id identifier rubyid_nb_trigger'>nb_trigger</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
     <span class='ivar'>@payload_in</span> <span class='op'>=</span> <span class='ivar'>@payload_in</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_get_free_input'>get_free_input</span>
 
     <span class='ivar'>@propag_time</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -437,19 +445,19 @@
       <pre class="lines">
 
 
-72
-73
-74
 75
 76
 77
-78</pre>
+78
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_payload'>gen_payload</span> 
-    <span class='id identifier rubyid_generated_payload'>generated_payload</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">new</a></span></span>
+    <span class='id identifier rubyid_generated_payload'>generated_payload</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Or2.html#initialize-instance_method" title="Netlist::Or2#initialize (method)">new</a></span></span>
     <span class='ivar'>@components</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_generated_payload'>generated_payload</span>
     <span class='ivar'>@payload_out</span> <span class='op'>=</span> <span class='id identifier rubyid_generated_payload'>generated_payload</span><span class='period'>.</span><span class='id identifier rubyid_get_output'>get_output</span>
     <span class='ivar'>@payload_in</span> <span class='op'>=</span> <span class='id identifier rubyid_generated_payload'>generated_payload</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
@@ -475,9 +483,6 @@
       <pre class="lines">
 
 
-34
-35
-36
 37
 38
 39
@@ -511,17 +516,20 @@
 67
 68
 69
-70</pre>
+70
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/og_s38417_T100.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_triggers'>gen_triggers</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span>
 
     <span class='id identifier rubyid_input_gates'>input_gates</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_nb_gates'>nb_gates</span> <span class='op'>=</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span><span class='op'>/</span><span class='int'>2</span>
     <span class='id identifier rubyid_nb_gates'>nb_gates</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
-        <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">new</a></span></span>
+        <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Nor2.html#initialize-instance_method" title="Netlist::Nor2#initialize (method)">new</a></span></span>
         <span class='id identifier rubyid_input_gates'>input_gates</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_tmp'>tmp</span>
         <span class='ivar'>@components</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_tmp'>tmp</span>
         <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_in_p'>in_p</span><span class='op'>|</span> <span class='ivar'>@triggers</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_in_p'>in_p</span><span class='rbrace'>}</span> 
@@ -536,7 +544,7 @@
 </span>        <span class='id identifier rubyid_trig_tree'>trig_tree</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
         <span class='id identifier rubyid_nb_gates'>nb_gates</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> 
             <span class='comment'># Instantiate the gate
-</span>            <span class='id identifier rubyid_trig_tree'>trig_tree</span><span class='lbracket'>[</span><span class='id identifier rubyid_layer'>layer</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">new</a></span></span>
+</span>            <span class='id identifier rubyid_trig_tree'>trig_tree</span><span class='lbracket'>[</span><span class='id identifier rubyid_layer'>layer</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/And2.html#initialize-instance_method" title="Netlist::And2#initialize (method)">new</a></span></span>
             <span class='ivar'>@components</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_trig_tree'>trig_tree</span><span class='lbracket'>[</span><span class='id identifier rubyid_layer'>layer</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
             <span class='comment'># Link the new gate to one previous layer gate
 </span>            <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_selector'>selector</span><span class='op'>|</span>
@@ -563,9 +571,9 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 17 16:20:28 2024 by
+  Generated on Tue Apr 29 10:04:26 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.2).
+  0.9.37 (ruby-3.3.1).
 </div>
 
     </div>

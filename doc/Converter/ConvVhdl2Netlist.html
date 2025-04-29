@@ -6,7 +6,7 @@
 <title>
   Class: Converter::ConvVhdl2Netlist
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -1093,17 +1093,17 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_convOperator'>convOperator</span> <span class='id identifier rubyid_op'>op</span> <span class='comment'># * : Retourne l&#39;opérateur instancié
 </span>    <span class='kw'>case</span> <span class='id identifier rubyid_op'>op</span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>and</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">new</a></span></span>
+        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/And2.html#initialize-instance_method" title="Netlist::And2#initialize (method)">new</a></span></span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>or</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">new</a></span></span>
+        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Or2.html#initialize-instance_method" title="Netlist::Or2#initialize (method)">new</a></span></span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>xor</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Xor2.html" title="Netlist::Xor2 (class)">Xor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">new</a></span></span>
+        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Xor2.html" title="Netlist::Xor2 (class)">Xor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Xor2.html#initialize-instance_method" title="Netlist::Xor2#initialize (method)">new</a></span></span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'>Not2</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html" title="Netlist::Not (class)">Not</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Not.html#initialize-instance_method" title="Netlist::Not#initialize (method)">new</a></span></span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nand</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nand2.html" title="Netlist::Nand2 (class)">Nand2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">new</a></span></span>
+        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nand2.html" title="Netlist::Nand2 (class)">Nand2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Nand2.html#initialize-instance_method" title="Netlist::Nand2#initialize (method)">new</a></span></span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nor</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Gate.html#initialize-instance_method" title="Netlist::Gate#initialize (method)">new</a></span></span>
+        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Nor2.html#initialize-instance_method" title="Netlist::Nor2#initialize (method)">new</a></span></span>
     <span class='kw'>else</span> 
         <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : unknown operator encountered : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_op'>op</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
@@ -1408,9 +1408,9 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 17 16:20:28 2024 by
+  Generated on Tue Apr 29 10:04:27 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.2).
+  0.9.37 (ruby-3.3.1).
 </div>
 
     </div>

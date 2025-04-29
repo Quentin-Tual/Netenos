@@ -56,7 +56,7 @@ begin
     <%=@netlist_init_data[:ports][:out].collect.with_index do |port_name,i|
         "tb_#{port_name} <= tb_out_diff(#{i});\n\t"
     end.join%>
-
+    
     process(obs_clk)
     begin
         if rising_edge(obs_clk) then

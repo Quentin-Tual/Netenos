@@ -5,9 +5,9 @@ require 'ruby-prof'
 
 # pp "Started"
 
-Dir.chdir("tmp") do 
+Dir.chdir("tests/tmp") do 
 
-    generator = Netlist::RandomGenComb.new 15, 4, 15 # Mini ---> 36 gates
+    generator = Netlist::RandomGenComb.new 8, 4, 10 # Mini ---> 36 gates
     rand_circ = generator.getRandomNetlist "test"
 
     # Converter::DotGen.new.dot generator.netlist, "./rand_circ2.dot"

@@ -10,12 +10,22 @@ class Test_convBlif2Netlist
     end
 
     def run
-        circ = @uut.convert "../C17.blif"
+        # nb_inputs = @uut.get_nb_inputs("/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/clip.blif")
+        circ = @uut.convert "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/lin.blif"
         # circ = @uut.convert "../xparc.blif"
         # circ = @uut.convert "../p82.blif"
+        # circ = @uut.convert("../test.blif", truth_table_format: false)
+
         grid = circ.get_netlist_precedence_grid
+        circ.get_exact_crit_path_length($DELAY_MODEL)
+        circ.get_slack_hash
+        
         Converter::DotGen.new.dot circ, "./test_convBlif2Netlist.dot"
         `xdot test_convBlif2Netlist.dot`
+
+        # ! TEST
+        vhdl_generator = Converter::ConvNetlist2Vhdl.new(circ)
+        vhdl_generator.generate(circ, $DELAY_MODEL)
     end
 end
 

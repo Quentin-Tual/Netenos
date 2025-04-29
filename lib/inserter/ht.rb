@@ -14,18 +14,28 @@ module Inserter
         end
 
         def is_inserted? 
-            # * : Returns a boolean value, being true if all ports of the HT are connected
+            # TODO : For each trigger port and payload port, check if links are valid (in both direction, so check if source has the port itself in fanout)
+
+            # * : Returns a boolean value, being true if all ports of the HT are correctly connected
             @triggers.each do |trig| 
-                if trig.is_free?
+                if !trig.check_link?
                     return false
                 end
             end
 
-            if @payload_in.is_free? or @payload_out.is_free?
+            if !@payload_in.check_link? or !@payload_out.check_link?
                 return false
             end
 
             return true
+        end
+
+        def get_exact_crit_path delay_model
+            @components.each{|comp| comp.cumulated_propag_time = 0.0}
+            trig_comps = @triggers.collect{|in_p| in_p.partof}.uniq
+            trig_comps.each{|comp| comp.update_path_delay 0, delay_model} 
+
+            @payload_out.partof.cumulated_propag_time
         end
 
         def get_triggers_nb
@@ -44,6 +54,12 @@ module Inserter
             return @triggers
         end
 
+        def get_trigger_transition_proba proba_input_sig = Array.new(@triggers.length, 0.5)
+            @trigger_sigs_proba = @triggers.each_with_object(Hash.new).with_index{|(trig,h),i| h[trig] = proba_input_sig[i]}
+
+            get_transition_probability(@payload_in.partof.get_inputs[1].get_source.partof)
+        end
+
         def get_transition_probability curr_gate = @payload_in.partof.get_inputs[1].get_source.partof  
 
             if @components.include? curr_gate
@@ -51,14 +67,14 @@ module Inserter
                     source0=curr_gate.get_inputs[0].get_source
                     source1=curr_gate.get_inputs[1].get_source
 
-                    if source0.nil?
-                        transi_proba0 = 0.5
+                    if source0.nil? # ! Utiliser @trigger_sigs_proba, retrouver l'objet qui représente le signal source en question dans le Hash 
+                        transi_proba0 = @trigger_sigs_proba[curr_gate.get_inputs[0]]
                     else 
                         transi_proba0 = get_transition_probability(source0.partof)
                     end
 
                     if source1.nil?
-                        transi_proba1 = 0.5
+                        transi_proba1 = @trigger_sigs_proba[curr_gate.get_inputs[1]]
                     else
                         transi_proba1 = get_transition_probability(source1.partof)
                     end
@@ -78,7 +94,6 @@ module Inserter
             else
                 return 0.5
             end
-            
         end
 
         def compute_transit_proba proba_ix, proba_iy, gate

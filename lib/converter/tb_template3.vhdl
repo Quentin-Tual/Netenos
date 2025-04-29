@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.std_logic_misc.all;
 -- use ieee.std_logic_textio.all;
 
 library std;
@@ -26,6 +27,10 @@ architecture netenos of <%="#{@netlist_data[:entity_name]}"%> is
     <%=@netlist_data[:ports][:out].collect do |port_name|
         "signal tb_#{port_name} : std_logic; \n\tsignal tb_#{port_name}_s : std_logic;\n\t"
     end.join%>
+    signal low_out : std_logic_vector(<%=@netlist_data[:ports][:out].length - 1%> downto 0) := (others => '0');
+    signal high_out : std_logic_vector(<%=@netlist_data[:ports][:out].length - 1%> downto 0) := (others => '0');
+    signal controllable_out : std_logic_vector(<%=@netlist_data[:ports][:out].length - 1%> downto 0) := (others => '0');
+    signal all_outputs_controllable : std_logic := '0';
 
     signal running : boolean := true;
     signal phase_shift : boolean := false;
@@ -92,6 +97,38 @@ begin
         running <= false;
         -- report "Stopping simulation";
         wait;
+    end process;
+
+    controllable : process(nom_clk)
+    begin
+        if rising_edge(nom_clk) then
+            for k in 0 to <%=@netlist_data[:ports][:out].length - 1%> loop 
+                if low_out(k) = '0' and tb_out(k) = '0' then -- if low_out = '1' do nothing, it stays at 1
+                    low_out(k) <= '1';
+                end if;
+                if high_out(k) = '0' and tb_out(k) = '1' then -- if low_out = '1' do nothing, it stays at 1
+                    high_out(k) <= '1';
+                end if;
+                if controllable_out(k) = '0' and low_out(k) = '1' and high_out(k) = '1' then
+                    controllable_out(k) <= '1';
+                end if;
+            end loop;
+            all_outputs_controllable <= and_reduce(controllable_out);
+        end if;
+    end process;
+
+    process(running)
+        file f                : text open write_mode is "validity";
+        variable row          : line;
+    begin
+        if falling_edge(running) then
+            if all_outputs_controllable = '1' then
+                write(row, 1);
+            else
+                write(row, 0);
+            end if;
+            writeline(f, row);
+        end if;
     end process;
 
 end architecture netenos;

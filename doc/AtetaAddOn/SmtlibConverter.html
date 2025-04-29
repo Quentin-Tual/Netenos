@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: AtetaAddOn::SmtlibConverter
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "AtetaAddOn::SmtlibConverter";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span>
+     &raquo; 
+    <span class="title">SmtlibConverter</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: AtetaAddOn::SmtlibConverter
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">AtetaAddOn::SmtlibConverter</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/atetaAddOn/smtlib_converter.rb<span class="defines">,<br />
+  lib/atetaAddOn/smtlib_converter2.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instants-instance_method" title="#instants (instance method)">#<strong>instants</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute instants.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#signals-instance_method" title="#signals (instance method)">#<strong>signals</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute signals.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_const_declarations-instance_method" title="#get_const_declarations (instance method)">#<strong>get_const_declarations</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_fun_definition-instance_method" title="#get_fun_definition (instance method)">#<strong>get_fun_definition</strong>(smtlib_expr, func_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_input_fun_definition-instance_method" title="#get_input_fun_definition (instance method)">#<strong>get_input_fun_definition</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_output_func_def-instance_method" title="#get_output_func_def (instance method)">#<strong>get_output_func_def</strong>(targetedOutput, func_name = &quot;y&quot;)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_smtlib_expr2-instance_method" title="#get_smtlib_expr2 (instance method)">#<strong>get_smtlib_expr2</strong>(sigName, t = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>! Not compatible with Netlist::Wire usage !.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_var_declarations-instance_method" title="#get_var_declarations (instance method)">#<strong>get_var_declarations</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(circ, delay_model = :one)  &#x21d2; SmtlibConverter </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of SmtlibConverter.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(circ, delay_model = :one)  &#x21d2; <tt><span class='object_link'><a href="" title="AtetaAddOn::SmtlibConverter (class)">SmtlibConverter</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of SmtlibConverter.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/atetaAddOn/smtlib_converter.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_circ'>circ</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_model'>delay_model</span> <span class='op'>=</span> <span class='symbol'>:one</span>
+    <span class='ivar'>@circ</span> <span class='op'>=</span> <span class='id identifier rubyid_circ'>circ</span>
+    <span class='ivar'>@signals</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@circ</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='ivar'>@instants</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='ivar'>@delay_model</span> <span class='op'>=</span> <span class='id identifier rubyid_delay_model'>delay_model</span>
+    <span class='ivar'>@gate_delays</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html" title="Netlist::Not (class)">Not</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html#PROPAG_TIME-constant" title="Netlist::Not::PROPAG_TIME (constant)">PROPAG_TIME</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_delay_model'>delay_model</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>and</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html" title="Netlist::Not (class)">Not</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html#PROPAG_TIME-constant" title="Netlist::Not::PROPAG_TIME (constant)">PROPAG_TIME</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_delay_model'>delay_model</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>or</span><span class='tstring_end'>&quot;</span></span>  <span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Or2.html#PROPAG_TIME-constant" title="Netlist::Or2::PROPAG_TIME (constant)">PROPAG_TIME</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_delay_model'>delay_model</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nand</span><span class='tstring_end'>&quot;</span></span><span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nand2.html" title="Netlist::Nand2 (class)">Nand2</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nand2.html#PROPAG_TIME-constant" title="Netlist::Nand2::PROPAG_TIME (constant)">PROPAG_TIME</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_delay_model'>delay_model</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nor</span><span class='tstring_end'>&quot;</span></span><span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nor2.html#PROPAG_TIME-constant" title="Netlist::Nor2::PROPAG_TIME (constant)">PROPAG_TIME</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_delay_model'>delay_model</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>xor</span><span class='tstring_end'>&quot;</span></span><span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Xor2.html" title="Netlist::Xor2 (class)">Xor2</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Xor2.html#PROPAG_TIME-constant" title="Netlist::Xor2::PROPAG_TIME (constant)">PROPAG_TIME</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_delay_model'>delay_model</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>buf</span><span class='tstring_end'>&quot;</span></span><span class='op'>=&gt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Buffer.html#PROPAG_TIME-constant" title="Netlist::Buffer::PROPAG_TIME (constant)">PROPAG_TIME</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_delay_model'>delay_model</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='comment'># ! Check exact keyword used, &quot;buffer&quot; or &quot;buf&quot;
+</span>    <span class='rbrace'>}</span>
+
+    <span class='kw'>unless</span> <span class='ivar'>@circ</span><span class='period'>.</span><span class='id identifier rubyid_wires'>wires</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : Current version is not compatible with Netlist::Wire usage !</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="instants-instance_method">
+  
+    #<strong>instants</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute instants.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/atetaAddOn/smtlib_converter.rb', line 4</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_instants'>instants</span>
+  <span class='ivar'>@instants</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="signals-instance_method">
+  
+    #<strong>signals</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute signals.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/atetaAddOn/smtlib_converter.rb', line 4</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_signals'>signals</span>
+  <span class='ivar'>@signals</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get_const_declarations-instance_method">
+  
+    #<strong>get_const_declarations</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/atetaAddOn/smtlib_converter2.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_const_declarations'>get_const_declarations</span> 
+    <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='ivar'>@signals</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(declare-const </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='embexpr_end'>}</span><span class='tstring_content'>_d Bool)</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>+=</span> <span class='ivar'>@signals</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(declare-const </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='embexpr_end'>}</span><span class='tstring_content'>_a Bool)</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(declare-const t_a Int)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_tmp'>tmp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_fun_definition-instance_method">
+  
+    #<strong>get_fun_definition</strong>(smtlib_expr, func_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/atetaAddOn/smtlib_converter.rb', line 96</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_fun_definition'>get_fun_definition</span> <span class='id identifier rubyid_smtlib_expr'>smtlib_expr</span><span class='op'>=</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_func_name'>func_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>y</span><span class='tstring_end'>&quot;</span></span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(define-fun </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_func_name'>func_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> () Bool </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_smtlib_expr'>smtlib_expr</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_input_fun_definition-instance_method">
+  
+    #<strong>get_input_fun_definition</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95
+96
+97</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/atetaAddOn/smtlib_converter2.rb', line 93</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_input_fun_definition'>get_input_fun_definition</span> 
+    <span class='ivar'>@signals</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sigName'>sigName</span><span class='op'>|</span>
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(define-fun </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sigName'>sigName</span><span class='embexpr_end'>}</span><span class='tstring_content'> ((t Int)) Bool\n\t(ite (&lt; t 0) </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sigName'>sigName</span><span class='embexpr_end'>}</span><span class='tstring_content'>_d </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sigName'>sigName</span><span class='embexpr_end'>}</span><span class='tstring_content'>_a))</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_output_func_def-instance_method">
+  
+    #<strong>get_output_func_def</strong>(targetedOutput, func_name = &quot;y&quot;)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/atetaAddOn/smtlib_converter.rb', line 26</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_output_func_def'>get_output_func_def</span> <span class='id identifier rubyid_targetedOutput'>targetedOutput</span><span class='comma'>,</span> <span class='id identifier rubyid_func_name'>func_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>y</span><span class='tstring_end'>&quot;</span></span> 
+    <span class='comment'># global_expr = @circ.get_global_expression(targetedOutput.get_full_name)
+</span>    <span class='comment'># ast_expr = @circ.expr_to_h(global_expr)
+</span>    <span class='id identifier rubyid_smtlib_expr'>smtlib_expr</span> <span class='op'>=</span> <span class='id identifier rubyid_get_smtlib_expr2'>get_smtlib_expr2</span><span class='lparen'>(</span><span class='id identifier rubyid_targetedOutput'>targetedOutput</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='comma'>,</span> <span class='ivar'>@circ</span><span class='period'>.</span><span class='id identifier rubyid_get_exact_crit_path_length'>get_exact_crit_path_length</span><span class='lparen'>(</span><span class='ivar'>@delay_model</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_get_fun_definition'>get_fun_definition</span><span class='lparen'>(</span><span class='id identifier rubyid_smtlib_expr'>smtlib_expr</span><span class='comma'>,</span> <span class='id identifier rubyid_func_name'>func_name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_smtlib_expr2-instance_method">
+  
+    #<strong>get_smtlib_expr2</strong>(sigName, t = 0)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>! Not compatible with Netlist::Wire usage !</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/atetaAddOn/smtlib_converter.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_smtlib_expr2'>get_smtlib_expr2</span> <span class='id identifier rubyid_sigName'>sigName</span><span class='comma'>,</span> <span class='id identifier rubyid_t'>t</span> <span class='comment'># ! Not compatible with Netlist::Wire usage !
+</span>    <span class='id identifier rubyid_expr'>expr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+
+    <span class='kw'>if</span> <span class='ivar'>@circ</span><span class='period'>.</span><span class='id identifier rubyid_is_primary_input_name?'>is_primary_input_name?</span><span class='lparen'>(</span><span class='id identifier rubyid_sigName'>sigName</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sigName'>sigName</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_t'>t</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_v'>v</span>
+        <span class='comment'># @signals &lt;&lt; sigName
+</span>        <span class='ivar'>@instants</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_t'>t</span>
+    <span class='kw'>elsif</span> <span class='ivar'>@circ</span><span class='period'>.</span><span class='id identifier rubyid_is_primary_output_name?'>is_primary_output_name?</span><span class='lparen'>(</span><span class='id identifier rubyid_sigName'>sigName</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_sourceSigName'>sourceSigName</span> <span class='op'>=</span> <span class='ivar'>@circ</span><span class='period'>.</span><span class='id identifier rubyid_get_port_named'>get_port_named</span><span class='lparen'>(</span><span class='id identifier rubyid_sigName'>sigName</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span>
+        <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_get_smtlib_expr2'>get_smtlib_expr2</span><span class='lparen'>(</span><span class='id identifier rubyid_sourceSigName'>sourceSigName</span><span class='comma'>,</span><span class='id identifier rubyid_t'>t</span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+        <span class='id identifier rubyid_comp'>comp</span> <span class='op'>=</span> <span class='ivar'>@circ</span><span class='period'>.</span><span class='id identifier rubyid_get_component_named'>get_component_named</span><span class='lparen'>(</span><span class='id identifier rubyid_sigName'>sigName</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_inPorts'>inPorts</span> <span class='op'>=</span> <span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span>
+
+        <span class='kw'>case</span> <span class='id identifier rubyid_comp'>comp</span>
+        <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nand2.html" title="Netlist::Nand2 (class)">Nand2</a></span></span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(not (and </span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_inPorts'>inPorts</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
+                <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_get_smtlib_expr2'>get_smtlib_expr2</span><span class='lparen'>(</span>
+                    <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='comma'>,</span> 
+                    <span class='id identifier rubyid_t'>t</span> <span class='op'>-</span> <span class='ivar'>@gate_delays</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nand</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+                <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+            <span class='kw'>end</span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>))</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span></span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(not (or </span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_inPorts'>inPorts</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
+                <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_get_smtlib_expr2'>get_smtlib_expr2</span><span class='lparen'>(</span>
+                    <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='comma'>,</span> 
+                    <span class='id identifier rubyid_t'>t</span> <span class='op'>-</span> <span class='ivar'>@gate_delays</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nor</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+                <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+            <span class='kw'>end</span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>))</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html" title="Netlist::Not (class)">Not</a></span></span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(not </span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_get_smtlib_expr2'>get_smtlib_expr2</span><span class='lparen'>(</span><span class='id identifier rubyid_inPorts'>inPorts</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='comma'>,</span> <span class='id identifier rubyid_t'>t</span> <span class='op'>-</span> <span class='ivar'>@gate_delays</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span></span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_get_smtlib_expr2'>get_smtlib_expr2</span><span class='lparen'>(</span><span class='id identifier rubyid_inPorts'>inPorts</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='comma'>,</span> <span class='id identifier rubyid_t'>t</span> <span class='op'>-</span> <span class='ivar'>@gate_delays</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>buf</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+        <span class='kw'>else</span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>SMT_NAME</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_inPorts'>inPorts</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
+                <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_get_smtlib_expr2'>get_smtlib_expr2</span><span class='lparen'>(</span>
+                    <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='comma'>,</span> 
+                    <span class='id identifier rubyid_t'>t</span> <span class='op'>-</span> <span class='ivar'>@gate_delays</span><span class='lbracket'>[</span><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>SMT_NAME</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+                <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+            <span class='kw'>end</span>
+            <span class='id identifier rubyid_expr'>expr</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='kw'>return</span> <span class='id identifier rubyid_expr'>expr</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_var_declarations-instance_method">
+  
+    #<strong>get_var_declarations</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90
+91
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/atetaAddOn/smtlib_converter.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_var_declarations'>get_var_declarations</span> 
+    <span class='id identifier rubyid_min_t'>min_t</span> <span class='op'>=</span> <span class='ivar'>@instants</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span>
+    <span class='id identifier rubyid_max_t'>max_t</span> <span class='op'>=</span> <span class='ivar'>@instants</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_min_t'>min_t</span><span class='op'>..</span><span class='id identifier rubyid_max_t'>max_t</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span>  
+        <span class='ivar'>@signals</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(declare-const </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_t'>t</span><span class='embexpr_end'>}</span><span class='tstring_content'> Bool)</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+    <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Apr 29 10:04:27 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.3.1).
+</div>
+
+    </div>
+  </body>
+</html>

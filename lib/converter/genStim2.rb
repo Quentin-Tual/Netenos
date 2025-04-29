@@ -44,7 +44,7 @@ module Converter
             vec_list = []
             max_value.times do |value|
                 bin_value = '%0*b' % [@inputs.length, value]
-                vec_list << bin_value.reverse # reverse the list to keep the LSB for i0 and the MSB for iN (N : number of inputs - 1)
+                vec_list << bin_value # reverse the list to keep the LSB for i0 and the MSB for iN (N : number of inputs - 1)
             end
 
             # Compute all possible transitions from one vector to another
@@ -78,8 +78,8 @@ module Converter
             # Generate all possible test vectors (incremental method)
             vec_list = []
             max_value.times do |value|
-                bin_value = '%0*b' % [@inputs.length, value]
-                vec_list << bin_value.reverse # reverse the list to keep the LSB for i0 and the MSB for iN (N : number of inputs - 1)
+                bin_value = '%0*b' % [@inputs.length, value] # value = 5, @inputs.length = 4 -> bin_value = "0101"
+                vec_list << bin_value # reverse the list to keep the LSB for i0 and the MSB for iN (N : number of inputs - 1)
             end
 
             # Conv from a list of vector to a dict of vector by signals
@@ -92,7 +92,7 @@ module Converter
             return @stim
         end
 
-        def extend_exh_trans_in_file vec_list, path, max_in_mem_elements: 10_000_000, binary_text: true
+        def extend_exh_trans_in_file vec_list, path, max_in_mem_elements: 100_000_000, binary_text: false
             # TODO : si le path existe le supprimer
             if File.exist? path
                 `rm #{path}`
@@ -100,17 +100,21 @@ module Converter
                 `touch #{path}`
             end
 
-            tmp = ["# Stimuli sequence"]
+            header = "# Stimuli sequence;#{binary_text ? "bin" : "dec"};#{@inputs.length}\n"
+            File.write(path, header, mode:"a")
+
+            tmp = []
             vec_list.each_with_index do |x,i|
                 vec_list[i+1..].each do |y|
-                    tmp << [x,y]
+                    tmp << x
+                    tmp << y
 
                     if tmp.length > max_in_mem_elements
-                        # `echo "#{v}" >> #{path}`
                         if binary_text
-                            File.write(path, tmp.flatten.join("\n"), mode:"a")
+                            File.write(path, tmp.join("\n") << "\n", mode:"a")
                         else
-                            File.write(path, tmp.flatten.collect{|v| v.to_i(2)}.join("\n"), mode:"a")
+                            dec_list = tmp.collect{|v| v.to_i(2)}
+                            File.write(path, dec_list.join("\n") << "\n", mode:"a")
                         end
                         tmp = []
                     end
@@ -119,9 +123,12 @@ module Converter
 
             tmp << vec_list[0]
             if binary_text
-                File.write(path, (tmp.flatten.join("\n") << "\n"), mode:"a")
+                File.write(path, (tmp.join("\n") + "\n"), mode:"a")
             else
-                File.write(path, (tmp.flatten.collect{|v| v.to_i(2)}.join("\n") << "\n") , mode:"a")
+                if tmp.flatten.include?(nil) 
+                    raise "Error: 'nil' encountered in vec_list."
+                end
+                File.write(path, (tmp.collect{|v| v.to_i(2)}.join("\n") + "\n") , mode:"a")
             end
 
             return nil
@@ -292,13 +299,24 @@ module Converter
             src.save_as path
         end
     
-        def save_as_txt path, bin_stim_vec: false
+        def save_as_txt path, bin_stim_vec: "dec"
             if path[-4..-1]!=".txt" and path[-5..-1]!=".stim"
                 path.concat ".txt"
             end
 
             src = Code.new
-            src << "# Stimuli sequence"
+            if bin_stim_vec.is_a? String
+                if !["bin","dec","hex"].include? bin_stim_vec
+                    raise "Error: Unknown stimuli format #{bin_stim_vec}."
+                end
+            else
+                if bin_stim_vec
+                    bin_stim_vec = "bin"
+                else
+                    bin_stim_vec = "dec"
+                end
+            end
+            src << "# Stimuli sequence;#{bin_stim_vec};#{@stim.keys.length}"
 
             if !@stim.nil? 
                 @stim.values[0].length.times do |cycle|
@@ -306,10 +324,13 @@ module Converter
                     @stim.keys.each do |pname|
                         line << @stim[pname][cycle]
                     end
-                    if bin_stim_vec 
+                    case bin_stim_vec
+                    when "bin"
                         src << line
-                    else
+                    when "dec"
                         src << line.to_i(2)
+                    when "hex"
+                        src << "%0*X" % [(@stim.keys.length/4.0).ceil, line.to_i(2)]
                     end
                 end
             end
@@ -322,7 +343,38 @@ module Converter
                 path.concat ".txt"
             end
 
-            vec_list = File.read(path).split("\n")[1..]
+            if !File.exist?(path)
+                raise "Error: File not found #{path}"
+            end
+
+            header = `head -n 1 #{path}`.split(';')
+            value_type = header[1]
+            nb_inputs = header[2].to_i
+
+            # if header.length > 3 and header[3] == "explicit"
+                # * Remove all comments
+            uncommented_stim_file = `sed '/#.*$/d' #{path}`
+                # path = "/tmp/#{File.basename(path)}"
+            # end
+            splitted_uncomm_stim_file = uncommented_stim_file.split("\n")
+
+            if splitted_uncomm_stim_file.include?("") #!DEBUG
+                raise "Error: \"\" (empty line) encountered in stimuli file."
+            end
+
+            if value_type == "bin"
+                vec_list = splitted_uncomm_stim_file
+            elsif value_type == "dec"
+                vec_list = splitted_uncomm_stim_file.map{ |v| "%0#{nb_inputs}b" % v}
+            elsif value_type == "hex"
+                vec_list = splitted_uncomm_stim_file.map{ |v| "%0#{nb_inputs}b" % v.to_i(16)}
+            else
+                raise "Error: Unknown value type #{value_type} in #{path}"
+            end
+
+            if vec_list.include?(nil)
+                raise "Error: 'nil' value encountered in loaded test vector sequence from #{path}."
+            end
 
             return vec_list
         end 
@@ -379,9 +431,9 @@ module Converter
             return vec_list
         end
 
-        def save_vec_list path, vec_list 
+        def save_vec_list path, vec_list, bin_stim_vec: false
             src = Code.new
-            src << "# Stimuli sequence"
+            src << "# Stimuli sequence,#{bin_stim_vec ? "bin" : "dec"},#{@inputs.length}"   
 
             vec_list.each do |vec|
                 if !vec.nil? # ! TEST DEBUG

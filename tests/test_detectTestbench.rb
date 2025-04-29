@@ -10,8 +10,9 @@ include Netlist
 $CIRC_CARAC = [8, 2, 10, [:even, 0.70]]
 $DELAY_MODEL = :int_multi
 $FREQ = "Infinity"
-$COMPILER = :nvc
+$COMPILER = :ghdl
 $OPT = [$COMPILER, :uut_sig]
+$HT_INPUT = 2
 
 class Test_detectTestbench < Test_compTestbench
     attr_accessor :circ_init, :circ_alt
@@ -31,11 +32,11 @@ class Test_detectTestbench < Test_compTestbench
         @circ_init = Marshal.load(IO.read("#{@circ_init.name}.enl"))
 
         @stim_generator = Converter::GenStim.new(@circ_init)
-        stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
-        @stim_generator.save_as_txt "stim.txt"
+        stim_seq = @stim_generator.gen_exhaustive_incr_stim#, trig_cond)
+        @stim_generator.save_as_txt "stim.txt", bin_stim_vec: "dec"
 
         @tb_gen = Converter::GenDetectTestbench.new(@circ_init, @circ_alt, $DELAY_MODEL)
-        @tb_gen.gen_testbench "stim.txt", $FREQ
+        @tb_gen.gen_testbench "stim.txt", $FREQ, bit_vec_stim: false
 
         @script_generator = Converter::VhdlCompiler.new 
         @script_generator.gtech_makefile ".", $COMPILER
@@ -47,7 +48,7 @@ class Test_detectTestbench < Test_compTestbench
 end
 
 if __FILE__ == $0
-    Dir.chdir("tmp") do
+    Dir.chdir("tests/tmp") do
         puts "Lancement #{__FILE__}" 
         env = Test_detectTestbench.new 
         `./compile.sh`

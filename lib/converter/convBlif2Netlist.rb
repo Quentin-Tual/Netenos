@@ -8,21 +8,62 @@ module Converter
             @nb_inputs = 0
             @nb_outputs = 0
             @token_list = []
-            @sym_tab = {}
+            @sym_tab = {:p_in => {}, :p_out => {}, :g_out => {}}
+
+            # TODO : check if yosys-abc is installed, raise exception if its not 
         end
 
         def get_nb_inputs path
+            count = 0
+
+            # multiline_declaration = false
             File.foreach(path) do |line|
-                if line.split[0] == ".inputs"
-                    return line.split.length - 1
+                line = line.split
+                if line[0] != ".model" and line[0] != "#" and !line.empty?
+                    if line[0] == ".inputs" 
+                        count += line.length - 1
+                    elsif line[0] == ".outputs"
+                        return count
+                    else
+                        count += line.length 
+                    end
+
+                    if line[-1] == "\\"
+                        count -= 1
+                    # else
+                    #     return count + line.length
+                    end
                 end
             end
         end
 
-        def convert path
-            file_path = truth_table_2_gates(path)
+        def get_nb_inputs2 path
+            @netlist = []
+            File.foreach(path) do |line|
+                splitted_line = line.split
+                if splitted_line[0] != ".model" and splitted_line[0] != "#" and !splitted_line.empty?
+                    if splitted_line[0] == ".inputs" 
+                        parse_inputs_line(line)
+                    elsif @continued_line == :inputs
+                        parse_inputs_line(line)
+                    elsif splitted_line[0] == ".outputs"
+                        return @nb_inputs
+                    else
+                        raise "Error: unknown state during parsing, verify format of the file #{path}.\nLine : #{line}"
+                    end
+                end
+            end
+            
+        end
+
+        def convert path, truth_table_format: true
+            if truth_table_format
+                file_path = truth_table_2_gates(path)
+            else
+                file_path = path
+            end
             parse(file_path)
-            delete_unlinked_outputs
+            # delete_unlinked_outputs
             # retrieve_wires
             return @netlist
         end
@@ -31,8 +72,11 @@ module Converter
             if !File.exist? "/tmp/netenos"
                 Dir.mkdir("/tmp/netenos")
             end
-            std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash -ac; amap; write_blif /tmp/netenos/~#{File.basename(path)}"`
+            std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; map; write_blif /tmp/netenos/~#{File.basename(path)}"`
             # strash; &get -n; &nf; &put
+            # if File.exist?("/tmp/netenos/~#{File.basename(path)}")
+            #     raise "Error: File #{path} not converted correctly. "
+            # end
             puts std_o if $VERBOSE
             return "/tmp/netenos/~#{File.basename(path)}"
         end
@@ -42,19 +86,19 @@ module Converter
                 input_names = line.split
                 @continued_line = nil
             else
-                input_names = line.split[1..]
+                input_names = line.split[1..] # Ignore ".inputs"
             end
             
-            if input_names.last == "\\"
+            if input_names.last == "\\" # Inputs declaration continues on the next line
                 @continued_line = :inputs
                 input_names.pop
             end
 
             input_names.each_with_index do |name, n| 
-                next if name == "\\"
+                next if name == "\\" # ! Should never be true cause it is popped just before
                 new_port = Netlist::Port.new("i#{n + @nb_inputs}", :in)
-                @netlist << new_port # ! BUG : @netlist is nil sometimes ?
-                @sym_tab[name] = new_port
+                @netlist << new_port
+                @sym_tab[:p_in][name] = new_port
             end
 
             @nb_inputs += input_names.length
@@ -77,7 +121,11 @@ module Converter
                 next if name == "\\"
                 new_port = Netlist::Port.new("o#{n + @nb_outputs}", :out)
                 @netlist << new_port
-                @sym_tab[name] = new_port
+                @sym_tab[:p_out][name] = new_port
+
+                if @sym_tab[:p_in].key?(name)
+                    @sym_tab[:p_out][name] <= @sym_tab[:p_in][name]
+                end
             end
 
             @nb_outputs += output_names.length
@@ -102,7 +150,7 @@ module Converter
 
         def parse path # lexer
             @continued_line = nil
-            File.foreach(path).with_index do |line,i|
+            File.foreach(path).with_index do |line, i|
                 case line
                 when /\A#/, /\A\n/
                     next
@@ -133,7 +181,8 @@ module Converter
                     when :outputs
                         parse_outputs_line(line)
                     else
-                        raise "Error : Unexpected keyword encountered #{line.split[0]} on line #{i} in file #{path}."
+                        puts "Warning : line #{i} in file #{path} not parsed and ignored."
+                        # raise "Error : Unexpected keyword encountered #{line.split[0]} on line #{i} in file #{path}."
                     end
                 end
             end
@@ -166,45 +215,44 @@ module Converter
 
         def process_source_sig source_list, gate
             source_list.each do |source_sig|
-                if !@sym_tab.key? source_sig
+                if @sym_tab[:p_in].key?(source_sig)
+                    gate.get_free_input <= @sym_tab[:p_in][source_sig]
+                elsif @sym_tab[:g_out].key?(source_sig)
                     # * Create a wire, add it to @sym_tab
                     # @sym_tab[source_sig] = Netlist::Wire.new(source_sig)
-                    @netlist.wires << @sym_tab[source_sig]
+                    # @netlist.wires << @sym_tab[:source][source_sig]
+
+                    gate.get_free_input <= @sym_tab[:g_out][source_sig] 
+                elsif @sym_tab[:p_out].key?(source_sig)
+                    gate.get_free_input <= @sym_tab[:p_out][source_sig].get_source
+                else
+                    raise "Error: Unknown signal #{source_sig} encountered during blif to netlist conversion."
                 end
                 # Relier au signal source
-                gate.get_free_input <= @sym_tab[source_sig]
             end
         end
 
         def process_sink_sig sink_list, gate
             sink_list.each do |sink_sig|
-                if !@sym_tab.key? sink_sig
-                    # @sym_tab[sink_sig] = Netlist::Wire.new(sink_sig)
-                    # @netlist.wires << @sym_tab[sink_sig]
-                    @sym_tab[sink_sig] = gate.get_output
+
+                if @sym_tab[:p_out].key?(sink_sig)
+                    # TODO : relier la sortie de gate à la sortie primaire
+                    @sym_tab[:p_out][sink_sig] <= gate.get_output
                 else
-                    @sym_tab[sink_sig] <= gate.get_output
+                    # TODO : Ajouter la sortie de la porte g_out
+                    @sym_tab[:g_out][sink_sig] = gate.get_output
                 end
+
+                # if !@sym_tab[:sink].key?(sink_sig) # si ce n'est pas une sortie primaire
+                #     if @sym_tab[:source].key?(sink_sig) # si c'est la sortie d'une porte 
+                #         @sym_tab[:sink][sink_sig] = gate.get_output
+                #     else
+                #     end
+                # else
+                #     @sym_tab[:sink][sink_sig] <= gate.get_output
+                # end
             end
         end
-
-        def delete_unlinked_outputs 
-            unlinked_outputs = @netlist.get_outputs.select{|o| o.fanin.nil?}
-            unlinked_outputs.each do |o|
-                @netlist.ports[:out].delete(o)
-            end
-        end
-
-        # def retrieve_wires
-        #     @netlist.wires.each do |w|
-        #         w.get_sinks.each do |sink|
-        #             sink.unplug2 w.get_full_name
-        #             sink <= w.get_source
-        #         end
-        #         w.unplug2 w.get_source.get_full_name
-        #     end
-        #     @netlist.wires = [] 
-        # end
 
     end
 end

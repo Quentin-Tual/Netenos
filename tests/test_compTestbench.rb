@@ -2,6 +2,7 @@
 #! /usr/env/bin ruby    
 require_relative "../lib/netenos.rb"
 require_relative "../lib/converter/genStim2.rb"
+require_relative "../lib/converter/computeStim14.rb"
 # require 'ruby-prof'
 
 # result = RubyProf.profile do
@@ -15,7 +16,7 @@ class Test_compTestbench
         puts "[+] Initial circuit generation" if $VERBOSE
         # gen_case 
 
-        load_blif "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/clpl.blif"
+        load_blif $CIRC_PATH
 
         if @circ_init.has_combinational_loop?
             raise "Error : Combinational loop detected in #{@circ_init}"
@@ -25,9 +26,7 @@ class Test_compTestbench
         # load_enl "../test_circ.enl"
         gen_circ_files @circ_init
 
-        # * : Alter the initial netlist
-        @modifier = Inserter::Tamperer.new(@circ_init.clone, @grid, @circ_init.get_timings_hash)
-        @modifier.select_ht("og_s38417", $HT_INPUT)
+  
 
         # stim_compute # ! Test stim computation
                 
@@ -53,15 +52,22 @@ class Test_compTestbench
     def stim_gen 
         @stim_generator = Converter::GenStim.new(@circ_init)
         # stim_seq = @stim_generator.gen_exhaustive_trans_stim#, trig_cond)
-        stim_seq = @stim_generator.gen_random_stim 100
+        stim_seq = @stim_generator.gen_exhaustive_incr_stim
+        # stim_seq = @stim_generator.gen_random_stim 100
         @stim_generator.save_as_txt "stim.txt", bin_stim_vec: false
     end
 
     def stim_compute
         @stim_computor = Converter::ComputeStim.new(@circ_init, $DELAY_MODEL)
-        @stim_computor.generate_stim(@circ_init, "og_s38417",save_explicit: "stim.txt", freq: $FREQ)
+        computed_vectors = @stim_computor.generate_stim(@circ_init, "og_s38417",save_explicit: "stim.txt", freq: $FREQ, compute_all_transitions: true, all_outputs: true, all_insert_points: true)
         # @stim_computor.save_as_txt("computed_stim.txt", @stim_computor.stim_vec)
         @tmp = @stim_computor.events_computed
+    end
+
+    def stim_solve ht_delay
+        @stim_computor = AtetaAddOn::Ateta.new(@circ_init, ht_delay,$DELAY_MODEL)
+        computed_vectors = @stim_computor.generate_stim
+        @stim_computor.save_explicit("solved_stim.txt")
     end
 
     def testbench_gen 
@@ -81,12 +87,11 @@ class Test_compTestbench
         @circ_init = Marshal.load(IO.read(path))
         @circ_init.getNetlistInformations $DELAY_MODEL
         @grid = @circ_init.get_netlist_precedence_grid
-
+ 
         @vhdl_converter = Converter::ConvNetlist2Vhdl.new
         @vhdl_converter.gen_gtech
 
-        @viewer = Converter::DotGen.new
-        @viewer.dot(@circ_init, @circ_init.name)
+        @circ_init.get_dot_graph $DELAY_MODEL
     end
 
     def load_blif path
@@ -98,8 +103,7 @@ class Test_compTestbench
         @vhdl_converter = Converter::ConvNetlist2Vhdl.new
         @vhdl_converter.gen_gtech
 
-        @viewer = Converter::DotGen.new
-        @viewer.dot(@circ_init, @circ_init.name)
+        @circ_init.get_dot_graph $DELAY_MODEL
     end 
 
     def gen_case
@@ -113,16 +117,20 @@ class Test_compTestbench
         @vhdl_converter.gen_gtech
         # * : Generate the VHD files of the generated circuits
         # * : Generate a .dot file
-        @viewer = Converter::DotGen.new
+        @circ_init.get_dot_graph $DELAY_MODEL
     end
 
     def gen_circ_files circ
         @vhdl_converter.generate circ
-        @viewer.dot circ, nil, $DELAY_MODEL
+        circ.get_dot_graph $DELAY_MODEL
         circ.save_as("./")
     end
 
     def gen_alt_circ
+        # * : Alter the initial netlist
+        @modifier = Inserter::Tamperer.new(@circ_init.clone, @grid, @circ_init.get_timings_hash($DELAY_MODEL), delay_model: $DELAY_MODEL)
+        @modifier.select_ht("og_s38417", $HT_INPUT)
+
         begin
             attempts ||= 0
             @circ_alt = @modifier.insert2 
@@ -150,11 +158,14 @@ class Test_compTestbench
 end
 
 if __FILE__ == $0
-    $CIRC_CARAC = [8, 4, 10, [:custom, 0.70]]
+    $CIRC_CARAC = [8, 6, 10, [:custom, 0.80]]
+    # $DELAY_MODEL = :one
     $DELAY_MODEL = :int_multi
     $HT_INPUT = 2
-    $FREQ = 1.1
+    $FREQ = "Infinity"
+    $COMPILER = :ghdl
     $OPT = [:ghdl, :all_sig]
+    $CIRC_PATH = "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/xor5.blif"
 
     Dir.chdir("tests/tmp") do
         puts "Lancement #{__FILE__}" 
@@ -164,64 +175,3 @@ if __FILE__ == $0
         puts "Fin #{__FILE__}"
     end
 end
-  
-
-# circ_init, circ_alt = env.gen_case 
-
-# circ_alt.name = "#{circ_alt.name}_altered"
-
-# env.circ_init = circ_init
-# env.circ_alt = circ_alt
-
-# pp env.circ_init.getNetlistInformations $DELAY_MODEL
-# pp env.circ_init.object_id
-# pp env.circ_alt.getNetlistInformations $DELAY_MODEL
-# pp env.circ_alt.object_id
-
-
-# pp env.circ_init.name
-# pp env.circ_alt.name
-
-# # * : (optionnal) Generate a .dot file
-# viewer = Converter::DotGen.new
-# viewer.dot env.circ_init, nil, $DELAY_MODEL
-# # * : (optionnal) Generate a .dot file
-# viewer.dot env.circ_alt, nil, $DELAY_MODEL
-
-# # TODO : Générer le vhdl, le testbench, les stim, le script de compil et vérifier les traces
-
-# # * : Generate GTECH  
-# vhdl_converter = Converter::ConvNetlist2Vhdl.new
-# vhdl_converter.gen_gtech
-# # * : Generate the VHD files of the generated circuits
-# vhdl_converter.generate env.circ_init
-# vhdl_converter.generate env.circ_alt
-
-# stim_generator = Converter::GenStim.new(env.circ_init)
-# stim_seq = stim_generator.gen_exhaustive_trans_stim#, trig_cond)
-# stim_generator.save_as_txt "stim.txt"
-
-# tb_gen = Converter::GenCompTestbench.new(env.circ_init, env.circ_alt, $DELAY_MODEL)
-# tb_gen.gen_testbench "stim.txt"
-
-# # tb_gen = Converter::GenTestbench.new(circ_test, margin_first_sim)
-# # tb_gen.stimuli = stim_seq
-# # tb_test = tb_gen.gen_testbench "stim.txt", test_frequencies.first, circ_test.name
-
-# # * : Generate the compile and simulate script (convNetlist2Vhdl copy)
-# vhdl_CS_script = Converter::VhdlCompiler.new 
-# vhdl_CS_script.gtech_makefile ".", :ghdl
-# `make`
-# # * : Only for nominal frequency at first
-# vhdl_CS_script.comp_tb_compile_script ".", env.circ_init.name, env.circ_alt.name, [1]
-# # vhdl_CS_script.circ_compile_script ".", @circ_alt.name, [1], [:ghdl, :minimal_sig], true
-
-# # * : Compile and simulate using the script
-# system("./compile.sh")
-
-
-# pp @circ_alt.getNetlistInformations $DELAY_MODEL
-# @viewer.dot(@circ_alt, 'rand_circ_mod.dot')
-# end
-# printer = RubyProf::FlatPrinter.new(result)
-# printer.print(STDOUT)

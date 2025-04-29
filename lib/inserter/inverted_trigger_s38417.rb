@@ -1,5 +1,4 @@
 require_relative "ht.rb"
-require_relative "../netlist.rb"
 
 module Inserter
 

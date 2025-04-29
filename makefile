@@ -1,9 +1,9 @@
-all: clean gem_update
-
 gem_update:
+	rm *.gem
 	gem build netenos.gemspec
 	gem install --local Netenos-*.gem
 	cp Netenos-*.gem /home/quentint/Workspace/Exp/
+	cp Netenos-*.gem /home/quentint/Workspace/citrix_teletravail
 
 push: clean gem_update
 	git add .
@@ -12,4 +12,5 @@ push: clean gem_update
 
 clean:
 	rm -f *.gem
-	rm -r tests/tmp/*
+	rm -rf exp*
+	rm -rf tests/tmp/*

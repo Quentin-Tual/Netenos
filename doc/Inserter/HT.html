@@ -6,7 +6,7 @@
 <title>
   Class: Inserter::HT
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -101,7 +101,7 @@
 
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Cotd_s38417.html" title="Inserter::Cotd_s38417 (class)">Cotd_s38417</a></span>, <span class='object_link'><a href="It_s38417.html" title="Inserter::It_s38417 (class)">It_s38417</a></span>, <span class='object_link'><a href="Og_s38417.html" title="Inserter::Og_s38417 (class)">Og_s38417</a></span>, <span class='object_link'><a href="Xor_And.html" title="Inserter::Xor_And (class)">Xor_And</a></span></p>
+  <p class="children"><span class='object_link'><a href="And_Not_And.html" title="Inserter::And_Not_And (class)">And_Not_And</a></span>, <span class='object_link'><a href="Buf.html" title="Inserter::Buf (class)">Buf</a></span>, <span class='object_link'><a href="Cotd_s38417.html" title="Inserter::Cotd_s38417 (class)">Cotd_s38417</a></span>, <span class='object_link'><a href="It_s38417.html" title="Inserter::It_s38417 (class)">It_s38417</a></span>, <span class='object_link'><a href="Og_s38417.html" title="Inserter::Og_s38417 (class)">Og_s38417</a></span>, <span class='object_link'><a href="Or_And.html" title="Inserter::Or_And (class)">Or_And</a></span>, <span class='object_link'><a href="Xor_And.html" title="Inserter::Xor_And (class)">Xor_And</a></span></p>
 </div>
 
 
@@ -286,6 +286,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#get_exact_crit_path-instance_method" title="#get_exact_crit_path (instance method)">#<strong>get_exact_crit_path</strong>(delay_model)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#get_payload_in-instance_method" title="#get_payload_in (instance method)">#<strong>get_payload_in</strong>  &#x21d2; Object </a>
     
 
@@ -331,6 +353,28 @@
   <span class="summary_signature">
     
       <a href="#get_transition_probability-instance_method" title="#get_transition_probability (instance method)">#<strong>get_transition_probability</strong>(curr_gate = @payload_in.partof.get_inputs[1].get_source.partof)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_trigger_transition_proba-instance_method" title="#get_trigger_transition_proba (instance method)">#<strong>get_trigger_transition_proba</strong>(proba_input_sig = Array.new(@triggers.length, 0.5))  &#x21d2; Object </a>
     
 
     
@@ -699,31 +743,31 @@
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
 99
 100
 101
 102
 103
 104
-105</pre>
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compute_transit_proba'>compute_transit_proba</span> <span class='id identifier rubyid_proba_ix'>proba_ix</span><span class='comma'>,</span> <span class='id identifier rubyid_proba_iy'>proba_iy</span><span class='comma'>,</span> <span class='id identifier rubyid_gate'>gate</span>
     <span class='id identifier rubyid_output_transit_proba'>output_transit_proba</span> <span class='op'>=</span> <span class='float'>0.0</span>
@@ -767,15 +811,53 @@
       <pre class="lines">
 
 
-107
-108
-109</pre>
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 122</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_components'>get_components</span>
     <span class='kw'>return</span> <span class='ivar'>@components</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_exact_crit_path-instance_method">
+  
+    #<strong>get_exact_crit_path</strong>(delay_model)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_exact_crit_path'>get_exact_crit_path</span> <span class='id identifier rubyid_delay_model'>delay_model</span>
+    <span class='ivar'>@components</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_comp'>comp</span><span class='op'>|</span> <span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_cumulated_propag_time'>cumulated_propag_time</span> <span class='op'>=</span> <span class='float'>0.0</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_trig_comps'>trig_comps</span> <span class='op'>=</span> <span class='ivar'>@triggers</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_in_p'>in_p</span><span class='op'>|</span> <span class='id identifier rubyid_in_p'>in_p</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span>
+    <span class='id identifier rubyid_trig_comps'>trig_comps</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_comp'>comp</span><span class='op'>|</span> <span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_update_path_delay'>update_path_delay</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_model'>delay_model</span><span class='rbrace'>}</span> 
+
+    <span class='ivar'>@payload_out</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_cumulated_propag_time'>cumulated_propag_time</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -797,12 +879,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_payload_in'>get_payload_in</span>
     <span class='kw'>return</span> <span class='ivar'>@payload_in</span>
@@ -827,12 +909,12 @@
       <pre class="lines">
 
 
-35
-36
-37</pre>
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_payload_out'>get_payload_out</span>
     <span class='kw'>return</span> <span class='ivar'>@payload_out</span>
@@ -857,22 +939,6 @@
       <pre class="lines">
 
 
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
 63
 64
 65
@@ -892,10 +958,25 @@
 79
 80
 81
-82</pre>
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_transition_probability'>get_transition_probability</span> <span class='id identifier rubyid_curr_gate'>curr_gate</span> <span class='op'>=</span> <span class='ivar'>@payload_in</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span>  
 
@@ -904,14 +985,14 @@
             <span class='id identifier rubyid_source0'>source0</span><span class='op'>=</span><span class='id identifier rubyid_curr_gate'>curr_gate</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span>
             <span class='id identifier rubyid_source1'>source1</span><span class='op'>=</span><span class='id identifier rubyid_curr_gate'>curr_gate</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span>
 
-            <span class='kw'>if</span> <span class='id identifier rubyid_source0'>source0</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-                <span class='id identifier rubyid_transi_proba0'>transi_proba0</span> <span class='op'>=</span> <span class='float'>0.5</span>
+            <span class='kw'>if</span> <span class='id identifier rubyid_source0'>source0</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='comment'># ! Utiliser @trigger_sigs_proba, retrouver l&#39;objet qui représente le signal source en question dans le Hash 
+</span>                <span class='id identifier rubyid_transi_proba0'>transi_proba0</span> <span class='op'>=</span> <span class='ivar'>@trigger_sigs_proba</span><span class='lbracket'>[</span><span class='id identifier rubyid_curr_gate'>curr_gate</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
             <span class='kw'>else</span> 
                 <span class='id identifier rubyid_transi_proba0'>transi_proba0</span> <span class='op'>=</span> <span class='id identifier rubyid_get_transition_probability'>get_transition_probability</span><span class='lparen'>(</span><span class='id identifier rubyid_source0'>source0</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='rparen'>)</span>
             <span class='kw'>end</span>
 
             <span class='kw'>if</span> <span class='id identifier rubyid_source1'>source1</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-                <span class='id identifier rubyid_transi_proba1'>transi_proba1</span> <span class='op'>=</span> <span class='float'>0.5</span>
+                <span class='id identifier rubyid_transi_proba1'>transi_proba1</span> <span class='op'>=</span> <span class='ivar'>@trigger_sigs_proba</span><span class='lbracket'>[</span><span class='id identifier rubyid_curr_gate'>curr_gate</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
             <span class='kw'>else</span>
                 <span class='id identifier rubyid_transi_proba1'>transi_proba1</span> <span class='op'>=</span> <span class='id identifier rubyid_get_transition_probability'>get_transition_probability</span><span class='lparen'>(</span><span class='id identifier rubyid_source1'>source1</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='rparen'>)</span>
             <span class='kw'>end</span>
@@ -931,7 +1012,40 @@
     <span class='kw'>else</span>
         <span class='kw'>return</span> <span class='float'>0.5</span>
     <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="get_trigger_transition_proba-instance_method">
+  
+    #<strong>get_trigger_transition_proba</strong>(proba_input_sig = Array.new(@triggers.length, 0.5))  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 57</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_trigger_transition_proba'>get_trigger_transition_proba</span> <span class='id identifier rubyid_proba_input_sig'>proba_input_sig</span> <span class='op'>=</span> <span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@triggers</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='comma'>,</span> <span class='float'>0.5</span><span class='rparen'>)</span>
+    <span class='ivar'>@trigger_sigs_proba</span> <span class='op'>=</span> <span class='ivar'>@triggers</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span><span class='lbrace'>{</span><span class='op'>|</span><span class='lparen'>(</span><span class='id identifier rubyid_trig'>trig</span><span class='comma'>,</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span><span class='comma'>,</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_trig'>trig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_proba_input_sig'>proba_input_sig</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_get_transition_probability'>get_transition_probability</span><span class='lparen'>(</span><span class='ivar'>@payload_in</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -953,12 +1067,12 @@
       <pre class="lines">
 
 
-43
-44
-45</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_triggers'>get_triggers</span>
     <span class='kw'>return</span> <span class='ivar'>@triggers</span>
@@ -983,12 +1097,12 @@
       <pre class="lines">
 
 
-31
-32
-33</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_triggers_nb'>get_triggers_nb</span>
     <span class='kw'>return</span> <span class='ivar'>@triggers</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
@@ -1048,20 +1162,24 @@
 26
 27
 28
-29</pre>
+29
+30
+31</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_inserted?'>is_inserted?</span> 
-    <span class='comment'># * : Returns a boolean value, being true if all ports of the HT are connected
+    <span class='comment'># TODO : For each trigger port and payload port, check if links are valid (in both direction, so check if source has the port itself in fanout)
+</span>
+    <span class='comment'># * : Returns a boolean value, being true if all ports of the HT are correctly connected
 </span>    <span class='ivar'>@triggers</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_trig'>trig</span><span class='op'>|</span> 
-        <span class='kw'>if</span> <span class='id identifier rubyid_trig'>trig</span><span class='period'>.</span><span class='id identifier rubyid_is_free?'>is_free?</span>
+        <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_trig'>trig</span><span class='period'>.</span><span class='id identifier rubyid_check_link?'>check_link?</span>
             <span class='kw'>return</span> <span class='kw'>false</span>
         <span class='kw'>end</span>
     <span class='kw'>end</span>
 
-    <span class='kw'>if</span> <span class='ivar'>@payload_in</span><span class='period'>.</span><span class='id identifier rubyid_is_free?'>is_free?</span> <span class='kw'>or</span> <span class='ivar'>@payload_out</span><span class='period'>.</span><span class='id identifier rubyid_is_free?'>is_free?</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@payload_in</span><span class='period'>.</span><span class='id identifier rubyid_check_link?'>check_link?</span> <span class='kw'>or</span> <span class='op'>!</span><span class='ivar'>@payload_out</span><span class='period'>.</span><span class='id identifier rubyid_check_link?'>check_link?</span>
         <span class='kw'>return</span> <span class='kw'>false</span>
     <span class='kw'>end</span>
 
@@ -1077,9 +1195,9 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 17 16:20:27 2024 by
+  Generated on Tue Apr 29 10:04:21 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.2).
+  0.9.37 (ruby-3.3.1).
 </div>
 
     </div>

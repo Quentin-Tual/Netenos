@@ -4,7 +4,7 @@ module VCD
         attr_reader :id_tab
 
         def initialize
-            @output_traces = {}
+            @output_traces = []
             @id_tab = {}
             @vcd = SizedQueue.new(250000)
             @current_timestamp = nil
@@ -44,7 +44,6 @@ module VCD
         end
 
         def selected_traces_extraction2
-            @output_traces = []
             # * Only keeps the output signals
             tmp = @vcd.pop # init
 
@@ -65,6 +64,10 @@ module VCD
                 end
             
                 tmp = @vcd.pop
+            end
+
+            if !@output_traces.empty?
+                @output_traces[-1] << :eof
             end
 
             @output_traces.each_with_index{|val, i| if val.length == 1 then @output_traces.delete_at(i) end}

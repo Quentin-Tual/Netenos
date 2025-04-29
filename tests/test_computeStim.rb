@@ -39,22 +39,16 @@ class Test_computeStim
         Converter::DotGen.new.dot @circ, "./processed.dot"
     end
     
-    def generate_stim_on_random_circuit
+    def generate_stim_on_random_circuit forbidden_vectors = []
         @circ = @generator.getValidRandomNetlist "test"
         @circ.getNetlistInformations $DELAY_MODEL
 
-        @compStim = Converter::ComputeStim.new(@circ, :int_multi)
+        @compStim = Converter::ComputeStim.new(@circ, :int_multi, forbidden_vectors)
 
         events_computed = nil
-        loop do 
-            events_computed = @compStim.generate_stim
-            break if !events_computed.empty?
-        end
-        # pp "here"
-        # if @compStim.generate_stim 
-        #     pp "Fail"
-        # else
-        #     pp "Success"
+        # loop do 
+        events_computed = @compStim.generate_stim
+            # break if !events_computed.empty?
         # end
     end
 
@@ -181,7 +175,8 @@ class Test_computeStim
         # get_resolvable_case
         # load_circuit
         # verif_compute
-        generate_stim_on_random_circuit
+        forbidden_vecs = Set.new((0...2**$CIRC_CARAC[0]).map{|i| i.to_s(2).rjust($CIRC_CARAC[0], "0")})
+        generate_stim_on_random_circuit(forbidden_vecs)
     end
 end
 

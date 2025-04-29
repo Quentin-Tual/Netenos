@@ -43,13 +43,18 @@ module VCD
                 sig_transition = events[1..]
                 obs_cycle = (t / obs_clk_period).to_i
                 nom_cycle = (t / nom_clk_period).to_i
-                
-                # sig_transition.each do |sig, arrival_state| #! DEBUG should fix synchronous mode, make troubles for asynchronous mode
-                #     sig_curr_state[sig] = arrival_state
-                # end
 
+                # Si c'est la fin de la trace
+                if sig_transition == [:eof]
+                    # Si un signal reste à 1 jusqu'à la fin
+                    if sig_curr_state.values.include?("1")
+                        # Rattraper les détection pas encore recensées en les ajoutant à cycle_diff 
+                        sig_curr_state.select{|sig, val| val == "1"}.each do |sig, val| 
+                            (cycle_diff[sig].last+1 ... nom_cycle).each{|cycle| cycle_diff[sig] << cycle}
+                        end
+                    end
                 # Si modification de cycle obs 
-                if last_obs_cycle != obs_cycle
+                elsif last_obs_cycle != obs_cycle
                     # Pour chaque signaux 
                     sig_transition.each do |sig_val|
                         sig = sig_val[0...-1]
@@ -58,11 +63,12 @@ module VCD
                         if state == '1'
                             # push du cycle nominal courant à cycle_diff
                             cycle_diff[sig] << nom_cycle
+                            sig_curr_state[sig] = '1'
                         elsif state == '0' # * Assuming transition is '1'->'0' 
                             unless cycle_diff[sig].empty? # * handling transitions 'U'->'0'
                                 (cycle_diff[sig].last+1 ... nom_cycle).each{|cycle| cycle_diff[sig] << cycle}
                             end
-                            # cycle_diff[sig] << nom_cycle
+                            sig_curr_state[sig] = '0'
                         end
                         # Fin Si
                     # Fin Pour
@@ -72,14 +78,6 @@ module VCD
 
                 last_obs_cycle = obs_cycle
             end
-
-            # monitored_signals.each do |sig|
-            #     trace.keys.each do |t|
-            #         if trace[t][sig] == '1'
-            #             cycle_diff[sig] << (t / (obs_clk_period)).to_i
-            #         end
-            #     end
-            # end
 
             cycle_diff.delete_if{|sig,list| list.empty?}
 
@@ -594,7 +592,10 @@ module VCD
                 warn "Warning: No cycles to delete, original file copied."
                 `cp #{path} #{new_path}`
             else
-                `sed '#{list.collect{|e| e+2}.join("d;") << "d;"}' #{path} > #{new_path}`
+                list.map!{|e| e+2} # * +1 for the non existing zero in sed, then +1 again for the header line
+                cycles_to_delete_str = list.join(',')
+                # `sed '#{cycles_to_delete_str}d' #{path} > #{new_path}`
+                `sed '#{list.collect{|e| e}.join("d;") << "d;"}' #{path} > #{new_path}`
             end
         end
 

@@ -265,8 +265,8 @@ def get_proc_from_exp(exp)
 end
 
 if __FILE__ == $0
-    Dir.chdir("tmp") do 
-        generator = Netlist::RandomGenComb.new(8, 4, 15, [:custom, 0.7])
+    Dir.chdir("tests/tmp") do 
+        generator = Netlist::RandomGenComb.new(8, 6, 10, [:custom, 0.7])
         # generator = Netlist::RandomGenComb.new 200, 10, 10
         rand_circ = generator.getRandomNetlist "test"
         timings_h = rand_circ.get_timings_hash
@@ -279,7 +279,7 @@ if __FILE__ == $0
 
         # Insert an HT using Tamperer
         modifier = Inserter::Tamperer.new(rand_circ, generator.grid, timings_h)
-        modifier.select_ht("xor_and",2)
+        modifier.select_ht("og_s38417",4)
         modified = modifier.insert2
         modified.name = "alt"
         modified.getNetlistInformations :one

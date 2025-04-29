@@ -5,7 +5,7 @@ module Netlist
     class RandomGenComb
         attr_accessor :netlist, :grid, :ng
 
-        def initialize nb_inputs = 10, nb_outputs = 5, height = 5, gate_distrib = [:even, 0.5]
+        def initialize nb_inputs = 10, nb_outputs = 5, height = 5, gate_distrib = [:even, 0.5], exclude_gate_type: []
             @netlist = nil
             if gate_distrib[0] == :even    
                 @ng = lambda {|l| nb_inputs*gate_distrib[1]} # Rectangle shape
@@ -27,7 +27,8 @@ module Netlist
             @already_used_sources = {} # Contains already used sources for each layer
             @sources_usage_count = {} # Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
             @available_primary_output_sources = {}
-            @gate_pool = $GTECH.select{|klass| klass != Buffer}
+            exclude_gate_type << "Buffer"
+            @gate_pool = $GTECH.select{|klass| !exclude_gate_type.include?(klass.name.split("::")[-1])}
         end
 
         def getValidRandomNetlist name = "rand_#{self.object_id}", delay_model = :int_multi, compiler = :ghdl
@@ -35,20 +36,22 @@ module Netlist
             loop do 
                 attempts += 1
                 # * Generate a random netlist
-                getRandomNetlist
+                getRandomNetlist(name)
                 @netlist.getNetlistInformations delay_model
 
                 # * Simulate with a transition exhaustive stimulation
                 simulate(delay_model, compiler)
 
                 # * Load VCD file resulting
-                vcd_loader = VCD::Vcd_Signal_Extractor.new
-                trace = vcd_loader.extract2 "#{@netlist.name}_#{1}_tb.vcd", compiler
+
+                # vcd_loader = VCD::Vcd_Signal_Extractor.new
+                # trace = vcd_loader.extract2 "#{@netlist.name}_#{1}_tb.vcd", compiler
 
                 # * If every output signal take both value 0 and 1 at least one time in the simulation -> end the loop
-                break if trace["id_tab"].values.all?{|output_name| trace["output_traces"].flatten.include? "#{output_name}0" and trace["output_traces"].flatten.include? "#{output_name}1"} and !@netlist.has_combinational_loop?
+                validity = File.read("validity").split[0].to_i.zero? ? false : true
+                break if validity and !@netlist.has_combinational_loop?
             end
-            puts "Found with #{attempts} attempts." #!DEBUG
+            puts "Found with #{attempts} attempts." if $VERBOSE #!DEBUG
             # * Return the found netlist
             return @netlist
         end
@@ -64,11 +67,12 @@ module Netlist
             # * Generate compile.sh and makefile
             vhdl_compiler = Converter::VhdlCompiler.new
             vhdl_compiler.gtech_makefile(".", compiler)
-            vhdl_compiler.circ_compile_script(".", @netlist.name, [1], [compiler, :minimal_sig], gtech_path: ".")
+            vhdl_compiler.circ_compile_script(".", @netlist.name, [1], [compiler, :minimal_sig], gtech_path: ".", vcd: false)
 
             # * Generate transition exhaustivity stimulation
             stim_generator = Converter::GenStim.new(@netlist)
-            stim_generator.gen_exhaustive_trans_stim
+            # stim_generator.gen_exhaustive_trans_stim
+            stim_generator.gen_exhaustive_incr_stim
             stim_generator.save_as_txt("stim.txt")
 
             # * Generate testbench file 
@@ -87,7 +91,7 @@ module Netlist
             # @sources_usage_count = {} # Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
             @available_primary_output_sources = {}
             
-            @netlist = Netlist::Circuit.new name
+            @netlist = Netlist::Circuit.new(name)
             @grid = Array.new(@caracs[:height])
 
             gen_profile @caracs[:nb_inputs], @caracs[:nb_outputs]

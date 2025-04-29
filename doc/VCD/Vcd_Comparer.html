@@ -6,7 +6,7 @@
 <title>
   Class: VCD::Vcd_Comparer
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -185,6 +185,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#compare_comparative_tb_traces2-instance_method" title="#compare_comparative_tb_traces2 (instance method)">#<strong>compare_comparative_tb_traces2</strong>(trace, monitored_signals, nom_clk_period, obs_clk_period)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>return cycle_diff end.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#compare_lists-instance_method" title="#compare_lists (instance method)">#<strong>compare_lists</strong>(list_a, list_b)  &#x21d2; Object </a>
     
 
@@ -251,7 +275,51 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#compare_traces_async2-instance_method" title="#compare_traces_async2 (instance method)">#<strong>compare_traces_async2</strong>(trace, monitored_signals, nom_clk_period, obs_clk_period)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#delete_cycle_list-instance_method" title="#delete_cycle_list (instance method)">#<strong>delete_cycle_list</strong>(vec_trace, list)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_cycle_list_in_file-instance_method" title="#delete_cycle_list_in_file (instance method)">#<strong>delete_cycle_list_in_file</strong>(path, list, new_path = &quot;#{path.split(&quot;.&quot;)[0]}_filtered.#{path.split(&quot;.&quot;)[1]}&quot;)  &#x21d2; Object </a>
     
 
     
@@ -701,18 +769,18 @@
       <pre class="lines">
 
 
-355
-356
-357
-358
-359
-360
-361
-362
-363</pre>
+410
+411
+412
+413
+414
+415
+416
+417
+418</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 355</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 410</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_closest'>closest</span> <span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span>
     <span class='comment'># * : Return the minimum value with the index associated
@@ -743,32 +811,32 @@
       <pre class="lines">
 
 
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108</pre>
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compare'>compare</span> 
     <span class='id identifier rubyid_differences'>differences</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -824,61 +892,61 @@
       <pre class="lines">
 
 
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84</pre>
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compare_comparative_tb_traces'>compare_comparative_tb_traces</span> <span class='id identifier rubyid_trace'>trace</span><span class='comma'>,</span> <span class='id identifier rubyid_monitored_signals'>monitored_signals</span><span class='comma'>,</span><span class='id identifier rubyid_nom_clk_period'>nom_clk_period</span><span class='comma'>,</span> <span class='id identifier rubyid_obs_clk_period'>obs_clk_period</span> 
     <span class='comment'># * Initialization of cycle_diff
@@ -938,6 +1006,149 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="compare_comparative_tb_traces2-instance_method">
+  
+    #<strong>compare_comparative_tb_traces2</strong>(trace, monitored_signals, nom_clk_period, obs_clk_period)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>return cycle_diff end</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 32</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_compare_comparative_tb_traces2'>compare_comparative_tb_traces2</span> <span class='id identifier rubyid_trace'>trace</span><span class='comma'>,</span> <span class='id identifier rubyid_monitored_signals'>monitored_signals</span><span class='comma'>,</span><span class='id identifier rubyid_nom_clk_period'>nom_clk_period</span><span class='comma'>,</span> <span class='id identifier rubyid_obs_clk_period'>obs_clk_period</span> 
+    <span class='comment'># * Initialization of cycle_diff
+</span>    <span class='id identifier rubyid_cycle_diff'>cycle_diff</span> <span class='op'>=</span> <span class='id identifier rubyid_monitored_signals'>monitored_signals</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_sig_curr_state'>sig_curr_state</span> <span class='op'>=</span> <span class='id identifier rubyid_monitored_signals'>monitored_signals</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>U</span><span class='tstring_end'>&#39;</span></span><span class='rbrace'>}</span>
+
+    <span class='comment'># * Filling cycle_diff, associating each sig to all timestamps when diff signal is raised (all timestamps of an anomaly)
+</span>
+    <span class='id identifier rubyid_last_obs_cycle'>last_obs_cycle</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_trace'>trace</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_events'>events</span><span class='op'>|</span>
+        <span class='id identifier rubyid_t'>t</span> <span class='op'>=</span> <span class='id identifier rubyid_events'>events</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_sig_transition'>sig_transition</span> <span class='op'>=</span> <span class='id identifier rubyid_events'>events</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_obs_cycle'>obs_cycle</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span> <span class='op'>/</span> <span class='id identifier rubyid_obs_clk_period'>obs_clk_period</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+        <span class='id identifier rubyid_nom_cycle'>nom_cycle</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span> <span class='op'>/</span> <span class='id identifier rubyid_nom_clk_period'>nom_clk_period</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+
+        <span class='comment'># Si c&#39;est la fin de la trace
+</span>        <span class='kw'>if</span> <span class='id identifier rubyid_sig_transition'>sig_transition</span> <span class='op'>==</span> <span class='lbracket'>[</span><span class='symbol'>:eof</span><span class='rbracket'>]</span>
+            <span class='comment'># Si un signal reste à 1 jusqu&#39;à la fin
+</span>            <span class='kw'>if</span> <span class='id identifier rubyid_sig_curr_state'>sig_curr_state</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+                <span class='comment'># Rattraper les détection pas encore recensées en les ajoutant à cycle_diff 
+</span>                <span class='id identifier rubyid_sig_curr_state'>sig_curr_state</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='op'>|</span> <span class='id identifier rubyid_val'>val</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='op'>|</span> 
+                    <span class='lparen'>(</span><span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='op'>+</span><span class='int'>1</span> <span class='op'>...</span> <span class='id identifier rubyid_nom_cycle'>nom_cycle</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_cycle'>cycle</span><span class='op'>|</span> <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_cycle'>cycle</span><span class='rbrace'>}</span>
+                <span class='kw'>end</span>
+            <span class='kw'>end</span>
+        <span class='comment'># Si modification de cycle obs 
+</span>        <span class='kw'>elsif</span> <span class='id identifier rubyid_last_obs_cycle'>last_obs_cycle</span> <span class='op'>!=</span> <span class='id identifier rubyid_obs_cycle'>obs_cycle</span>
+            <span class='comment'># Pour chaque signaux 
+</span>            <span class='id identifier rubyid_sig_transition'>sig_transition</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig_val'>sig_val</span><span class='op'>|</span>
+                <span class='id identifier rubyid_sig'>sig</span> <span class='op'>=</span> <span class='id identifier rubyid_sig_val'>sig_val</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+                <span class='id identifier rubyid_state'>state</span> <span class='op'>=</span> <span class='id identifier rubyid_sig_val'>sig_val</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+                <span class='comment'># Si l&#39;état du signal est à un
+</span>                <span class='kw'>if</span> <span class='id identifier rubyid_state'>state</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1</span><span class='tstring_end'>&#39;</span></span>
+                    <span class='comment'># push du cycle nominal courant à cycle_diff
+</span>                    <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_nom_cycle'>nom_cycle</span>
+                    <span class='id identifier rubyid_sig_curr_state'>sig_curr_state</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1</span><span class='tstring_end'>&#39;</span></span>
+                <span class='kw'>elsif</span> <span class='id identifier rubyid_state'>state</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># * Assuming transition is &#39;1&#39;-&gt;&#39;0&#39; 
+</span>                    <span class='kw'>unless</span> <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='comment'># * handling transitions &#39;U&#39;-&gt;&#39;0&#39;
+</span>                        <span class='lparen'>(</span><span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='op'>+</span><span class='int'>1</span> <span class='op'>...</span> <span class='id identifier rubyid_nom_cycle'>nom_cycle</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_cycle'>cycle</span><span class='op'>|</span> <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_cycle'>cycle</span><span class='rbrace'>}</span>
+                    <span class='kw'>end</span>
+                    <span class='id identifier rubyid_sig_curr_state'>sig_curr_state</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0</span><span class='tstring_end'>&#39;</span></span>
+                <span class='kw'>end</span>
+                <span class='comment'># Fin Si
+</span>            <span class='comment'># Fin Pour
+</span>            <span class='kw'>end</span>
+        <span class='comment'># Fin Si
+</span>        <span class='kw'>end</span>
+
+        <span class='id identifier rubyid_last_obs_cycle'>last_obs_cycle</span> <span class='op'>=</span> <span class='id identifier rubyid_obs_cycle'>obs_cycle</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span><span class='id identifier rubyid_list'>list</span><span class='op'>|</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='rbrace'>}</span>
+
+    <span class='kw'>return</span> <span class='id identifier rubyid_cycle_diff'>cycle_diff</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="compare_lists-instance_method">
   
     #<strong>compare_lists</strong>(list_a, list_b)  &#x21d2; <tt>Object</tt> 
@@ -952,38 +1163,38 @@
       <pre class="lines">
 
 
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159</pre>
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compare_lists'>compare_lists</span> <span class='id identifier rubyid_list_a'>list_a</span><span class='comma'>,</span> <span class='id identifier rubyid_list_b'>list_b</span>
     <span class='id identifier rubyid_differences'>differences</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1034,29 +1245,29 @@
       <pre class="lines">
 
 
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129</pre>
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compare_lists_detailed'>compare_lists_detailed</span> <span class='id identifier rubyid_list_a'>list_a</span><span class='comma'>,</span> <span class='id identifier rubyid_list_b'>list_b</span>
     <span class='id identifier rubyid_differences'>differences</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1098,51 +1309,36 @@
       <pre class="lines">
 
 
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424</pre>
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 383</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 471</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compare_traces_async'>compare_traces_async</span> <span class='id identifier rubyid_trace'>trace</span><span class='comma'>,</span> <span class='id identifier rubyid_monitored_signals'>monitored_signals</span><span class='comma'>,</span> <span class='id identifier rubyid_nom_clk_period'>nom_clk_period</span><span class='comma'>,</span> <span class='id identifier rubyid_obs_clk_period'>obs_clk_period</span>
     <span class='comment'># * Initialization of cycle_diff
@@ -1158,29 +1354,14 @@
         <span class='id identifier rubyid_nom_cycle'>nom_cycle</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span> <span class='op'>/</span> <span class='id identifier rubyid_nom_clk_period'>nom_clk_period</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
         
         <span class='id identifier rubyid_sig_transition'>sig_transition</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='op'>|</span>
-        
-        <span class='comment'># Si modification de cycle obs 
-</span>        <span class='comment'># if last_obs_cycle != obs_cycle
-</span>            <span class='comment'># Pour chaque signaux 
-</span>            
-                <span class='comment'># Si l&#39;état du signal est à un
-</span>                <span class='kw'>if</span> <span class='id identifier rubyid_state'>state</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1</span><span class='tstring_end'>&#39;</span></span>
-                    <span class='comment'># push du cycle nominal courant à cycle_diff
-</span>                    <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_nom_cycle'>nom_cycle</span>
-                    <span class='comment'># next
-</span>                <span class='comment'># elsif state == &#39;0&#39; # * Assuming transition is &#39;1&#39;-&gt;&#39;0&#39; 
-</span>                <span class='comment'>#     unless cycle_diff[sig].empty? # * handling transitions &#39;U&#39;-&gt;&#39;0&#39;
-</span>                <span class='comment'>#         (cycle_diff[sig].last+1 ... nom_cycle).each{|cycle| cycle_diff[sig] &lt;&lt; cycle}
-</span>                <span class='comment'>#     end
-</span>                    <span class='comment'># next
-</span>                    <span class='comment'># cycle_diff[sig] &lt;&lt; nom_cycle
-</span>                <span class='kw'>end</span>
-                <span class='comment'># Fin Si
-</span>            <span class='comment'># Fin Pour
-</span>        <span class='kw'>end</span>
-        <span class='comment'># Fin Si
-</span>        <span class='comment'># 
-</span>
+        <span class='comment'># Pour chaque signaux 
+</span>            <span class='comment'># Si l&#39;état du signal est à un
+</span>            <span class='kw'>if</span> <span class='id identifier rubyid_state'>state</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1</span><span class='tstring_end'>&#39;</span></span>
+                <span class='comment'># push du cycle nominal courant à cycle_diff
+</span>                <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_nom_cycle'>nom_cycle</span>
+            <span class='kw'>end</span>
+        <span class='kw'>end</span>
+
         <span class='id identifier rubyid_last_obs_cycle'>last_obs_cycle</span> <span class='op'>=</span> <span class='id identifier rubyid_obs_cycle'>obs_cycle</span>
     <span class='kw'>end</span>
     
@@ -1192,63 +1373,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="delete_cycle_list-instance_method">
+  <h3 class="signature " id="compare_traces_async2-instance_method">
   
-    #<strong>delete_cycle_list</strong>(vec_trace, list)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-517
-518
-519
-520
-521
-522
-523
-524
-525
-526
-527
-528
-529
-530
-531</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 517</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_delete_cycle_list'>delete_cycle_list</span> <span class='id identifier rubyid_vec_trace'>vec_trace</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span>
-    <span class='id identifier rubyid_ret_trace'>ret_trace</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-
-    <span class='id identifier rubyid_vec_trace'>vec_trace</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
-        <span class='id identifier rubyid_ret_trace'>ret_trace</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
-
-        <span class='id identifier rubyid_vec_trace'>vec_trace</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_chars'>chars</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_j'>j</span><span class='op'>|</span>
-            <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_j'>j</span>
-                <span class='id identifier rubyid_ret_trace'>ret_trace</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_val'>val</span>
-            <span class='kw'>end</span>
-        <span class='kw'>end</span>
-    <span class='kw'>end</span>
-
-    <span class='kw'>return</span> <span class='id identifier rubyid_ret_trace'>ret_trace</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="get_anomaly_details-instance_method">
-  
-    #<strong>get_anomaly_details</strong>(vcd_path, monitored_signals)  &#x21d2; <tt>Object</tt> 
+    #<strong>compare_traces_async2</strong>(trace, monitored_signals, nom_clk_period, obs_clk_period)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1260,18 +1387,6 @@
       <pre class="lines">
 
 
-426
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436
-437
 438
 439
 440
@@ -1303,36 +1418,236 @@
 466
 467
 468
-469
-470
-471
-472
-473
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485
-486
-487
-488
-489
-490
-491
-492
-493
-494
-495</pre>
+469</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 426</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 438</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_compare_traces_async2'>compare_traces_async2</span> <span class='id identifier rubyid_trace'>trace</span><span class='comma'>,</span> <span class='id identifier rubyid_monitored_signals'>monitored_signals</span><span class='comma'>,</span> <span class='id identifier rubyid_nom_clk_period'>nom_clk_period</span><span class='comma'>,</span> <span class='id identifier rubyid_obs_clk_period'>obs_clk_period</span>   
+    <span class='comment'># * Initialization of cycle_diff
+</span>    <span class='id identifier rubyid_cycle_diff'>cycle_diff</span> <span class='op'>=</span> <span class='id identifier rubyid_monitored_signals'>monitored_signals</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+            
+    <span class='id identifier rubyid_sig_curr_state'>sig_curr_state</span> <span class='op'>=</span> <span class='id identifier rubyid_monitored_signals'>monitored_signals</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>U</span><span class='tstring_end'>&#39;</span></span><span class='rbrace'>}</span>
+
+    <span class='comment'># * Filling cycle_diff, associating each sig to all timestamps when diff signal is raised (all timestamps of an anomaly)
+</span>
+    <span class='id identifier rubyid_last_obs_cycle'>last_obs_cycle</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_trace'>trace</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_events'>events</span><span class='op'>|</span>
+        <span class='id identifier rubyid_t'>t</span> <span class='op'>=</span> <span class='id identifier rubyid_events'>events</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_sig_transition'>sig_transition</span> <span class='op'>=</span> <span class='id identifier rubyid_events'>events</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span>
+
+        <span class='id identifier rubyid_obs_cycle'>obs_cycle</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span> <span class='op'>/</span> <span class='id identifier rubyid_obs_clk_period'>obs_clk_period</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+        <span class='id identifier rubyid_nom_cycle'>nom_cycle</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span> <span class='op'>/</span> <span class='id identifier rubyid_nom_clk_period'>nom_clk_period</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+        
+        <span class='id identifier rubyid_sig_transition'>sig_transition</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig_val'>sig_val</span><span class='op'>|</span>
+            <span class='id identifier rubyid_sig'>sig</span> <span class='op'>=</span> <span class='id identifier rubyid_sig_val'>sig_val</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+            <span class='id identifier rubyid_state'>state</span> <span class='op'>=</span> <span class='id identifier rubyid_sig_val'>sig_val</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+        <span class='comment'># Pour chaque signaux 
+</span>            <span class='comment'># Si l&#39;état du signal est à un
+</span>            <span class='kw'>if</span> <span class='id identifier rubyid_state'>state</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1</span><span class='tstring_end'>&#39;</span></span>
+                <span class='comment'># push du cycle nominal courant à cycle_diff
+</span>                <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_nom_cycle'>nom_cycle</span>
+            <span class='kw'>end</span>
+        <span class='kw'>end</span>
+
+        <span class='id identifier rubyid_last_obs_cycle'>last_obs_cycle</span> <span class='op'>=</span> <span class='id identifier rubyid_obs_cycle'>obs_cycle</span>
+    <span class='kw'>end</span>
+
+    <span class='kw'>return</span> <span class='id identifier rubyid_cycle_diff'>cycle_diff</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_cycle_list-instance_method">
+  
+    #<strong>delete_cycle_list</strong>(vec_trace, list)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 602</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_cycle_list'>delete_cycle_list</span> <span class='id identifier rubyid_vec_trace'>vec_trace</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span>
+    <span class='id identifier rubyid_ret_trace'>ret_trace</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_vec_trace'>vec_trace</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+        <span class='id identifier rubyid_ret_trace'>ret_trace</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+
+        <span class='id identifier rubyid_vec_trace'>vec_trace</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_chars'>chars</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_j'>j</span><span class='op'>|</span>
+            <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_j'>j</span>
+                <span class='id identifier rubyid_ret_trace'>ret_trace</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_val'>val</span>
+            <span class='kw'>end</span>
+        <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='kw'>return</span> <span class='id identifier rubyid_ret_trace'>ret_trace</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_cycle_list_in_file-instance_method">
+  
+    #<strong>delete_cycle_list_in_file</strong>(path, list, new_path = &quot;#{path.split(&quot;.&quot;)[0]}_filtered.#{path.split(&quot;.&quot;)[1]}&quot;)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 590</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_cycle_list_in_file'>delete_cycle_list_in_file</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span><span class='comma'>,</span> <span class='id identifier rubyid_new_path'>new_path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>_filtered.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+        <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Warning: No cycles to delete, original file copied.</span><span class='tstring_end'>&quot;</span></span>
+        <span class='backtick'>`</span><span class='tstring_content'>cp </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_new_path'>new_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>`</span></span>
+    <span class='kw'>else</span>
+        <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='op'>+</span><span class='int'>2</span><span class='rbrace'>}</span> <span class='comment'># * +1 for the non existing zero in sed, then +1 again for the header line
+</span>        <span class='id identifier rubyid_cycles_to_delete_str'>cycles_to_delete_str</span> <span class='op'>=</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>,</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+        <span class='comment'># `sed &#39;#{cycles_to_delete_str}d&#39; #{path} &gt; #{new_path}`
+</span>        <span class='backtick'>`</span><span class='tstring_content'>sed &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>d;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>d;</span><span class='tstring_end'>&quot;</span></span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'> &gt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_new_path'>new_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>`</span></span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_anomaly_details-instance_method">
+  
+    #<strong>get_anomaly_details</strong>(vcd_path, monitored_signals)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 499</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_anomaly_details'>get_anomaly_details</span> <span class='id identifier rubyid_vcd_path'>vcd_path</span><span class='comma'>,</span> <span class='id identifier rubyid_monitored_signals'>monitored_signals</span>
 
@@ -1424,26 +1739,26 @@
       <pre class="lines">
 
 
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381</pre>
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 365</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 420</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_diff_cycle_num'>get_diff_cycle_num</span> <span class='id identifier rubyid_trace_a'>trace_a</span><span class='comma'>,</span> <span class='id identifier rubyid_trace_b'>trace_b</span>
     <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1482,15 +1797,15 @@
       <pre class="lines">
 
 
-510
-511
-512
-513
-514
-515</pre>
+583
+584
+585
+586
+587
+588</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 510</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 583</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_mean_anomaly_amount'>get_mean_anomaly_amount</span> <span class='id identifier rubyid_anomaly_details'>anomaly_details</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span>
     <span class='id identifier rubyid_anomaly_details'>anomaly_details</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='lparen'>(</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_mean_anomaly_amount'>mean_anomaly_amount</span><span class='op'>|</span>
@@ -1518,15 +1833,15 @@
       <pre class="lines">
 
 
-497
-498
-499
-500
-501
-502</pre>
+570
+571
+572
+573
+574
+575</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 497</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 570</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_mean_anomaly_duration'>get_mean_anomaly_duration</span> <span class='id identifier rubyid_anomaly_details'>anomaly_details</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_cycle'>nb_cycle</span>
     <span class='id identifier rubyid_anomaly_details'>anomaly_details</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='lparen'>(</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_cycle_diff'>cycle_diff</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_mean_anomaly_duration'>mean_anomaly_duration</span><span class='op'>|</span>
@@ -1554,12 +1869,12 @@
       <pre class="lines">
 
 
-260
-261
-262</pre>
+315
+316
+317</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 315</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hamming_distance'>hamming_distance</span> <span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span>
     <span class='lparen'>(</span><span class='id identifier rubyid_a'>a</span><span class='op'>^</span><span class='id identifier rubyid_b'>b</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1584,61 +1899,6 @@
       <pre class="lines">
 
 
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
 319
 320
 321
@@ -1673,10 +1933,65 @@
 350
 351
 352
-353</pre>
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 319</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_intercorrelation'>intercorrelation</span> <span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span><span class='comma'>,</span> <span class='id identifier rubyid_max_tau'>max_tau</span> <span class='op'>=</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
     <span class='id identifier rubyid_corr_by_sig'>corr_by_sig</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1788,29 +2103,29 @@
       <pre class="lines">
 
 
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180</pre>
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_jaccard_similarity'>jaccard_similarity</span> <span class='id identifier rubyid_list_a'>list_a</span><span class='comma'>,</span> <span class='id identifier rubyid_list_b'>list_b</span>
     <span class='id identifier rubyid_simi_by_sig'>simi_by_sig</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1852,38 +2167,38 @@
       <pre class="lines">
 
 
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258</pre>
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 285</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_levenshtein_distance'>levenshtein_distance</span><span class='lparen'>(</span><span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_t'>t</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_dist_by_sig'>dist_by_sig</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1934,19 +2249,19 @@
       <pre class="lines">
 
 
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632</pre>
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 623</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 708</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_traces'>load_traces</span> <span class='id identifier rubyid_path_a'>path_a</span><span class='comma'>,</span> <span class='id identifier rubyid_path_b'>path_b</span>
     
@@ -1978,32 +2293,32 @@
       <pre class="lines">
 
 
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204</pre>
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 237</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_modified_jaccard'>modified_jaccard</span> <span class='id identifier rubyid_list_a'>list_a</span><span class='comma'>,</span> <span class='id identifier rubyid_list_b'>list_b</span>
     <span class='id identifier rubyid_simi_by_sig'>simi_by_sig</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -2048,14 +2363,14 @@
       <pre class="lines">
 
 
-504
-505
-506
-507
-508</pre>
+577
+578
+579
+580
+581</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 504</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 577</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_normalize_anomaly_durations'>normalize_anomaly_durations</span> <span class='id identifier rubyid_mean_duration'>mean_duration</span><span class='comma'>,</span> <span class='id identifier rubyid_crit_path_duration'>crit_path_duration</span>
     <span class='id identifier rubyid_mean_duration'>mean_duration</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='lparen'>(</span><span class='id identifier rubyid_sig'>sig</span><span class='comma'>,</span> <span class='id identifier rubyid_duration'>duration</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_norm_mean_duration'>norm_mean_duration</span><span class='op'>|</span>
@@ -2082,22 +2397,22 @@
       <pre class="lines">
 
 
-533
-534
-535
-536
-537
-538
-539
-540
-541
-542
-543
-544
-545</pre>
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 533</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 618</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_replace_cycle_list'>replace_cycle_list</span> <span class='id identifier rubyid_trace_a'>trace_a</span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span>
     <span class='id identifier rubyid_trace_a'>trace_a</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='op'>|</span>
@@ -2132,15 +2447,15 @@
       <pre class="lines">
 
 
-616
-617
-618
-619
-620
-621</pre>
+701
+702
+703
+704
+705
+706</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 616</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 701</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_traces'>set_traces</span> <span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span>
     <span class='ivar'>@output_traces_a</span> <span class='op'>=</span> <span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>output_traces</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
@@ -2168,32 +2483,32 @@
       <pre class="lines">
 
 
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228</pre>
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 261</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tanimoto_coefficient'>tanimoto_coefficient</span> <span class='id identifier rubyid_list_a'>list_a</span><span class='comma'>,</span> <span class='id identifier rubyid_list_b'>list_b</span>
     <span class='id identifier rubyid_simi_by_sig'>simi_by_sig</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -2238,77 +2553,77 @@
       <pre class="lines">
 
 
-547
-548
-549
-550
-551
-552
-553
-554
-555
-556
-557
-558
-559
-560
-561
-562
-563
-564
-565
-566
-567
-568
-569
-570
-571
-572
-573
-574
-575
-576
-577
-578
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589
-590
-591
-592
-593
-594
-595
-596
-597
-598
-599
-600
-601
-602
-603
-604
-605
-606
-607
-608
-609
-610
-611
-612
-613
-614</pre>
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 547</span>
+      <pre class="code"><span class="info file"># File 'lib/vcd_tools/vcd_comparer.rb', line 632</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_trace_to_list'>trace_to_list</span> <span class='id identifier rubyid_trace'>trace</span><span class='comma'>,</span> <span class='id identifier rubyid_clk_period'>clk_period</span><span class='comma'>,</span> <span class='id identifier rubyid_trace_end'>trace_end</span>
     <span class='comment'># * : Return a list of values for each cycle in the trace and for each signal observed (outputs)
@@ -2388,9 +2703,9 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 17 16:20:28 2024 by
+  Generated on Tue Apr 29 10:04:26 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.2).
+  0.9.37 (ruby-3.3.1).
 </div>
 
     </div>

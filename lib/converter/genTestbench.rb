@@ -6,13 +6,13 @@ module Converter
     class GenTestbench
         attr_accessor :stimuli, :netlist_data
 
-        def initialize netlist, margin=0, crit_path_length=nil
+        def initialize netlist, margin=2, crit_path_length=nil
             @netlist_data = data_extraction(netlist, margin, crit_path_length)
             @tb_src = Code.new
             @portmap = ""
         end
 
-        def data_extraction netlist, margin=0, crit_path_length=nil
+        def data_extraction netlist, margin=2, crit_path_length=nil
             # * : Extracts data used in testbench ERB template 
             ret = {}
             ret[:entity_name] = netlist.name

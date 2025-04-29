@@ -1,5 +1,5 @@
 require_relative "../lib/netenos.rb"
-require_relative "../lib/converter/computeStim8.rb"
+require_relative "../lib/converter/computeStim14.rb"
 require 'ruby-prof'
 require 'logger'
 
@@ -21,6 +21,7 @@ class Test_computeStim
     def load_blif path
         @circ = Converter::ConvBlif2Netlist.new.convert(path)
         @circ.getNetlistInformations($DELAY_MODEL)
+        Converter::DotGen.new.dot @circ, "./#{@circ.name}.dot"
         # @compStim = Converter::ComputeStim.new(@circ, :int_multi)
         # @insert_points = @compStim.get_insertion_points 1.5
 
@@ -44,7 +45,7 @@ class Test_computeStim
     def load_circuit
         @circ = Marshal.load(IO.read("test.enl"))
 
-        @compStim = Converter::ComputeStim.new(@circ, :int_multi)
+        @compStim = Converter::ComputeStim.new(@circ, $DELAY_MODEL)
         @insert_points = @compStim.get_insertion_points 2.5
 
         @circ.components.each{|comp| comp.tag = nil} # Reset tags to avoid trouble in 'get_cone_outputs'
@@ -71,7 +72,7 @@ class Test_computeStim
 
         events_computed = nil
         # loop do 
-            events_computed = @compStim.generate_stim(@circ, "og_s38417")
+            events_computed = @compStim.generate_stim(@circ, "og_s38417", compute_all_transitions: true, all_outputs: true, all_insert_points: true)
             # break if !events_computed.empty?
         # end
         Converter::DotGen.new.dot @circ, "./processed.dot"
@@ -91,7 +92,7 @@ class Test_computeStim
             @circ = @generator.getRandomNetlist "test"
             @circ.getNetlistInformations $DELAY_MODEL
 
-            @compStim = Converter::ComputeStim.new(@circ, :int_multi)
+            @compStim = Converter::ComputeStim.new(@circ, $DELAY_MODEL)
             @insert_points = @compStim.get_insertion_points 2.5
 
             if @insert_points.empty?
@@ -241,26 +242,42 @@ class Test_computeStim
     end
 
     def one_insert_point
-        load_blif("../xor5.blif")
-        @compStim = Converter::ComputeStim.new(@circ, :int_multi)
-        Converter::DotGen.new.dot @circ, "./test.dot"
-        insert_point = @circ.get_port_named("i3")#.get_inputs[1]
-        targeted_output = @compStim.get_cone_outputs(insert_point)[0]
-        expected_event =  Converter::Event.new(targeted_output, @circ.crit_path_length,"F")
+        load_blif("/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/sqr6.blif")
+        @compStim = Converter::ComputeStim.new(@circ, $DELAY_MODEL)
+
+        insert_point = @circ.get_port_named("o10")#.get_inputs[1]
+        # insert_point = @circ.get_component_named("And2960").get_inputs[1]
+        control_path = @circ.get_output_path(insert_point)[0]
+        @compStim.tag_control_path(control_path, :target_path)
+        # targeted_output = @compStim.get_cone_outputs(insert_point)[0]
+        Converter::DotGen.new.dot @circ, "./#{@circ.name}.dot", $DELAY_MODEL
+        expected_event =  Converter::Event.new(control_path[-1], @circ.crit_path_length,:R,nil)
         computed_events = @compStim.compute(expected_event, insert_point)
+        if computed_events == :impossible
+            puts "Impossible to compute insertion point, no verification possible"
+        else
+            verif_all_computed_events({insert_point => {expected_event => @compStim.get_inputs_events}})
+        end
     end
 
     def verif_all_computed_events events
+        invalid_count = 0
         events.each do |insert_point, ins_points_events|
             ins_points_events.each do |output_transition, e_list|
                 # output_events.each do |transition, e_list|
                     if !verif_compute(e_list, output_transition)
                         puts "Invalid computation for : insertion_point -> #{insert_point.get_full_name}, output -> #{output_transition.signal.name}, transition -> #{output_transition.value}"
+                        invalid_count += 1
                     else
                         puts "Valid computation for : insertion_point -> #{insert_point.get_full_name}, output -> #{output_transition.signal.name}, transition -> #{output_transition.value}"
                     end
                 # end
             end
+        end
+        if invalid_count > 0
+            puts " /!\ Encountered #{invalid_count} invalid computations !"
+        else
+            puts "All computations are valid !"
         end
     end
 
@@ -281,23 +298,26 @@ class Test_computeStim
         # @circ = @generator.getValidRandomNetlist "test"
         # load_blif "../C17.blif"
         # load_blif "../xor5.blif"
-        load_blif "../p82.blif"
+        # load_blif "../p82.blif"
         # load_blif "../f51m.blif"
-        RubyProf.start
+        load_blif "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/sqr6.blif"
+        # RubyProf.start
         # get_resolvable_case
         # load_circuit
-            generate_stim_on_random_circuit
-        # one_insert_point
-        result = RubyProf.stop
-        printer = RubyProf::FlatPrinter.new(result)
-        printer.print(STDOUT)
-        File.write("profile_#{@circ.name}", Marshal.dump(result))
-
+            # generate_stim_on_random_circuit
+        one_insert_point
+        # result = RubyProf.stop
+        # printer = RubyProf::FlatPrinter.new(result)
+        # printer.print(STDOUT)
+        # File.write("profile_#{@circ.name}", Marshal.dump(result))
+        # if @compStim.events_computed.empty?
+        #     raise "No events computed !"
+        # end
         # verif_all_computed_events(@compStim.events_computed)
         # @compStim.save_as_txt("computed_stim.txt",@compStim.stim_vec,)
         puts "Unobservables : #{@compStim.unobservables.length}/#{@compStim.insert_points.length}"
-        pp @circ_carac
-        pp @compStim.test
+        # pp @circ_carac
+        # pp @compStim.test
         # simulate_exh
     end
 end
@@ -315,7 +335,7 @@ if __FILE__ == $0
     # $CIRC_CARAC = [10, 5, 10, [:custom, 0.75]] # 60 gates short crit_path
     # $CIRC_CARAC = [11, 7, 8, [:custom, 0.8]] # 60 gates very short crit_path
     # $CIRC_CARAC = [8, 8, 15, [:custom, 0.7]] # 93 gates
-    $DELAY_MODEL = :int_multi
+    $DELAY_MODEL = :one
     $COMPILER = :ghdl3
     $FREQ = 1
 

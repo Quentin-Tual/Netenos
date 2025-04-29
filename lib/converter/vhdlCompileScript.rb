@@ -104,7 +104,7 @@ module Converter
             code.save_as("#{path}/makefile")
         end
 
-        def comp_tb_compile_script path, circ_init_name, circ_alt_name, freq_list, compiler=[:ghdl, :minimal_sig], append = false, gtech_path: "../../gtech"
+        def comp_tb_compile_script path, circ_init_name, circ_alt_name, freq_list, compiler=[:ghdl, :minimal_sig], append = false, gtech_path: "../../gtech", vcd: true
             code = Code.new
             if compiler.is_a? Array
                opt =  compiler[1]
@@ -200,15 +200,22 @@ module Converter
                         code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     end 
                     # code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    
+                    opt_args = ""
+
                     if opt == :minimal_sig
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        opt_args += "--read-wave-opt=#{circ_init_name}_#{freq}_tb.opt "
                         generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
                     elsif opt == :uut_sig
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        opt_args += "--read-wave-opt=#{circ_init_name}_#{freq}_tb.opt "
                         generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path, ["uut/*"]
-                    else
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     end
+
+                    if vcd
+                        opt_args += "--vcd=#{circ_init_name}_#{freq}_tb.vcd "
+                    end
+
+                    code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb #{opt_args}"
 
                     code.newline
                 end 
@@ -218,7 +225,7 @@ module Converter
             system("chmod +x #{path}/compile.sh")
         end
 
-        def circ_compile_script path, circ_init_name, freq_list, compiler=[:ghdl, :minimal_sig], append = false, gtech_path: "../../gtech"
+        def circ_compile_script path, circ_init_name, freq_list, compiler=[:ghdl, :minimal_sig], append = false, gtech_path: "../../gtech", vcd: true
             code = Code.new
             if compiler.is_a? Array
                opt =  compiler[1]
@@ -284,11 +291,8 @@ module Converter
                     else
                         code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     end
-
-                    code.newline
-                    
+                    code.newline 
                 end
-                
             else # :ghdl3 as default option
                 if $VERBOSE
                     code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
@@ -310,15 +314,22 @@ module Converter
                         code << "echo \" |--[+] simulating #{circ_init_name}_#{freq}_tb\""
                     end 
                     # code << "ghdl -r #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    
+                    opt_args = ""
+
                     if opt == :minimal_sig
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        opt_args += "--read-wave-opt=#{circ_init_name}_#{freq}_tb.opt"
                         generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path
                     elsif opt == :uut_sig
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --read-wave-opt=#{circ_init_name}_#{freq}_tb.opt --vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        opt_args += "--read-wave-opt=#{circ_init_name}_#{freq}_tb.opt"
                         generate_wave_opt_file "#{circ_init_name}_#{freq}_tb", path, ["uut/*"]
-                    else
-                        code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     end
+
+                    if vcd
+                        opt_args += "--vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                    end
+
+                    code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb #{opt_args}"
 
                     code.newline
                 end 

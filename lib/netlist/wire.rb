@@ -32,9 +32,9 @@ module Netlist
 
             if source.is_a? Port or source.is_a? Wire
                 source.fanout << self
-            elsif source.is_a? Reverse::InvertedGate
-                source.source << self
-                @fanin = source
+            # elsif source.is_a? Reverse::InvertedGate
+            #     source.source << self
+            #     @fanin = source
             else
                 # pp source.class #!DEBUG
                 source.get_free_input << self
@@ -43,7 +43,9 @@ module Netlist
             if @fanin.nil?
                 @fanin = source
             else
-                raise "Error : Interface #{self.get_full_name} of #{self.partof.name} already has a source, please verify."
+                unless @fanin == source 
+                    raise "Error : Interface #{self.get_full_name} of #{self.partof.name} already has a source, please verify."
+                end
             end
         end
 
@@ -149,7 +151,7 @@ module Netlist
             end
         end
 
-        def update_path_slack slack, delay_model 
+        def update_path_slack slack
 
             # @slack = [slack, @slack].min
 
@@ -165,11 +167,11 @@ module Netlist
             source = get_source
             input_slack = slack
             if source.class.name == "Netlist::Wire"
-                source.update_path_slack(@slack, delay_model)
+                source.update_path_slack(@slack)
             elsif source.is_global?
                 source.slack = @slack
             elsif !source.is_global?
-                get_source_comp.update_path_slack(@slack, delay_model)
+                get_source_comp.update_path_slack(@slack)
             end
             # end
 

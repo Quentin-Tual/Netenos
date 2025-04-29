@@ -16,6 +16,30 @@ module Netlist
             @tag = nil
         end
 
+        def check_link_fanout?
+            !@fanout.empty? and @fanout.collect{|sink| sink.get_source}.all?{|sink_source| sink_source == self}
+        end
+
+        def check_link_fanin?
+            !@fanin.nil? and @fanin.get_sinks.include?(self)
+        end
+
+        def check_link?
+            if @direction == :in 
+                if is_global? 
+                    check_link_fanout?
+                else 
+                    check_link_fanin?
+                end
+            else # direction is :out
+                if is_global?
+                    check_link_fanin?
+                else
+                    check_link_fanout?
+                end
+            end
+        end
+
         def is_free?
             if is_global? # true
                 if @direction == :in 
@@ -97,7 +121,13 @@ module Netlist
         end
 
         def get_source_comp
-            return (is_global? and is_input?) ? self : @fanin.partof
+            if (is_global? and is_input?) 
+                return self
+            elsif @fanin.is_global? 
+                @fanin
+            else 
+                @fanin.partof
+            end
         end
 
         # def get_sinks_comp
