@@ -116,7 +116,7 @@ module Netlist
             # Initialize slack for all input ports
             (get_inputs + @components.flat_map(&:get_inputs)).each { |port| port.slack = @crit_path_length }
         
-            # Calculate slack for each output
+            # Calculate slack for each signal from the output
             get_outputs.each do |primary_output|
                 primary_output.slack = @crit_path_length - primary_output.cumulated_propag_time
                 source_node = primary_output.get_source_gates
@@ -139,6 +139,7 @@ module Netlist
                 tmp[in_p.slack] += [in_p]
             end
 
+            # Add primary outputs to the slack hash
             get_outputs.each do |out_p|
                 tmp[out_p.slack] += [out_p]
             end
@@ -372,189 +373,69 @@ module Netlist
             return nil
         end
 
-        # TODO : Voir si possible d'optimiser la mémoire utilisée par cette fonction (voire pour toutes les autres fonctions du même style récursivité et tout), peut-être une Queue pour limiter la taille de "layer" ? peut aussi devenir complexe avec des threads.
         def get_netlist_precedence_grid
-            if @precedence_grid.nil?
-                id = 0
-                grid = {}
-                layer = get_inputs.collect{|i| i.get_sink_gates}.flatten
-                layer.each{|g| grid[g] = id}
-                
-                loop do 
-                    id += 1
-                    new_layer = layer.collect{|g| g.get_sink_gates}.flatten
-                    
-                    if new_layer.empty?
-                        break 
-                    else
-                        new_layer.each do |g| 
-                            grid[g] = id unless g.instance_of? Netlist::Port
-                        end
-                        layer = new_layer
-                    end
-                end
-
-                reversed_grid = {}
-                (0..grid.values.max).each do |stage|
-                    reversed_grid[stage] = grid.keys.select{|g| grid[g] == stage}
-                end
-
-                @precedence_grid = reversed_grid
-            else
-                @precedence_grid
-            end
-        end
-
-        def get_netlist_precedence_grid_old 
-            grid = []
-
-            grid << get_outputs.collect do |o| 
-                o.get_source_gates
-            end
-            grid[0].select!{|g| g.is_a? Netlist::Gate}
-            
-            id = 0
-
-            loop do 
-                new_layer = grid[id].collect{|g| g.get_source_gates}.flatten.uniq
-                new_layer.select!{|g| g.is_a? Netlist::Gate}
-
-                if !new_layer.empty?
-                    grid << new_layer
-                    id += 1
-                else
-                    break
-                end
-            end
-        
-            return grid.reverse
-        end
-
-        # def to_global_exp local_exp
-        #     local_exp.length.times do |i|
-        #         case local_exp[i]
-        #         when Array
-        #             to_global_exp local_exp[i]
-        #         when "and"
-        #             next
-        #         else # "and"
-        #             local_exp[i] = get_global_expression local_exp[i]
-        #         end
-        #     end
-
-        #     return local_exp
-        # end
-
-        # def get_global_expression sig_full_name # ! Optimizable by memorizing an reusing logical cone expressions (for a minimum of more than N gates of depths in the cone possibily) 
-        #     global_exp = []
-
-        #     if is_primary_input_name? sig_full_name
-        #         return sig_full_name
-        #     elsif is_primary_output_name? sig_full_name
-        #         global_exp << get_global_expression(get_port_named(sig_full_name).get_source.get_full_name)
-        #     else
-        #         comp = get_component_named(sig_full_name.split('_')[0])
-        #         in_ports = comp.get_inputs
-        #         # global_exp = []
+            return @precedence_grid if @precedence_grid
           
-        #         if comp.class == Netlist::Not
-        #             global_exp << "not"
-        #             next_full_name = in_ports[0].get_source.get_full_name
-        #             if next_full_name[0] == 'w' 
-        #                 # Bypass the wire, transparent in a boolean expression
-        #                 global_exp << get_global_expression(in_ports[0].get_source.get_source.get_full_name)
+            current_level = 0
+            grid = {}
+            # Use a Set for current layer to avoid duplicates
+            layer = Set.new(get_inputs.flat_map(&:get_sink_gates))
+            
+            # Process while we have gates in the layer
+            until layer.empty?
+              next_layer = Set.new
+              
+              layer.each do |gate|
+                next if gate.instance_of?(Netlist::Port)
+                grid[gate] = current_level
+                next_layer.merge(gate.get_sink_gates)
+              end
+              
+              current_level += 1
+              layer = next_layer
+            end
+          
+            # Build the reversed grid
+            reversed_grid = {}
+            grid.each do |gate, level|
+              reversed_grid[level] ||= []
+              reversed_grid[level] << gate
+            end
+          
+            @precedence_grid = reversed_grid
+        end
+
+        # OLD VERSION, SEE THE PREVIOUS METHOD FOR THE NEW ONE
+        # def get_netlist_precedence_grid
+        #     if @precedence_grid.nil?
+        #         id = 0
+        #         grid = {}
+        #         layer = get_inputs.collect{|i| i.get_sink_gates}.flatten
+        #         layer.each{|g| grid[g] = id}
+                
+        #         loop do 
+        #             id += 1
+        #             new_layer = layer.collect{|g| g.get_sink_gates}.flatten
+                    
+        #             if new_layer.empty?
+        #                 break 
         #             else
-        #                 global_exp << get_global_expression(next_full_name)
-        #             end
-        #         elsif comp.class == Netlist::Buffer
-        #             global_exp << "buf"
-        #             next_full_name = in_ports[0].get_source.get_full_name
-        #             if next_full_name[0] == 'w' 
-        #                 # Bypass the wire, transparent in a boolean expression
-        #                 global_exp << get_global_expression(in_ports[0].get_source.get_source.get_full_name)
-        #             else
-        #                 global_exp << get_global_expression(next_full_name)
-        #             end
-        #         else
-        #             in_ports.each do |p|
-        #                 next_full_name = p.get_source.get_full_name
-        #                 if next_full_name[0] == 'w' 
-        #                     # Bypass the wire, transparent in a boolean expression
-        #                     global_exp << get_global_expression(p.get_source.get_source.get_full_name)
-        #                 else
-        #                     global_exp << get_global_expression(next_full_name)
+        #                 new_layer.each do |g| 
+        #                     grid[g] = id unless g.instance_of? Netlist::Port
         #                 end
-        #                 global_exp << comp.class.to_s.split('::')[1].delete_suffix('2').downcase
+        #                 layer = new_layer
         #             end
-        #             global_exp.pop
         #         end
-        #     end 
 
-        #     # pp global_exp  #!DEBUG
-        #     if global_exp.length == 1
-        #         global_exp.flatten!(1)
-        #     end
-        #     return global_exp
-        # end 
-
-        # def expr_to_h expr # returns an AST like object
-        #     if expr.instance_of? Array
-        #         if expr[0] == "not" or expr[0] == "buf" # length is 2
-        #             return {expr[0] => expr_to_h(expr[1])}
-        #         else # length is 3
-        #             return {expr[1] => expr_to_h(expr[0]).merge(expr_to_h(expr[2]))}
+        #         reversed_grid = {}
+        #         (0..grid.values.max).each do |stage|
+        #             reversed_grid[stage] = grid.keys.select{|g| grid[g] == stage}
         #         end
+
+        #         @precedence_grid = reversed_grid
         #     else
-        #         return {expr => nil}
+        #         @precedence_grid
         #     end
-        # end
-
-        # def get_str_exp exp_h, previous_op = nil 
-        #     str = ""
-        
-        #     # if exp_h.values == [nil]
-        #     #     return exp_h.keys[0]
-        #     # end
-        #     op = exp_h.keys[0]
-        #     # if exp_h.keys.length == 1
-        #     if op[0] == "i"
-        #         str << op
-        #     # elsif op == false
-        #     #     str << op
-        #     elsif op == "not"
-        #         str << "(! "
-        #         str << get_str_exp(exp_h[op])
-        #         str << ")"
-        #     else # donc== 2 
-        #         str << "("
-        #         str << get_str_exp({exp_h[op].keys[0]=> exp_h[op].values[0]})
-        #         str << " "
-        #         suffix = ""
-        #         case op
-        #         when "and"
-        #             str << "&"
-        #         when "or"
-        #             str << "|"
-        #         when "xor"
-        #             str << "^"
-        #         when "nand"
-        #             str.insert(1,"!(")
-        #             str << "&"
-        #             suffix = ")"
-        #         when "nor"
-        #             str.insert(1,"!(")
-        #             str << "|"
-        #             suffix = ")"
-        #         else
-        #             raise "Error : Unexpected situation encountered (contained #{op})"
-        #         end
-        #         str << " "
-        #         str << get_str_exp({exp_h[op].keys[1]=> exp_h[op].values[1]})
-        #         str << suffix
-        #         str << ")"
-        #     end
-        
-        #     return str
         # end
 
         def cache_inputs_in_name2obj

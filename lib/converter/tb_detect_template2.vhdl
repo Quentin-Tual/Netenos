@@ -1,6 +1,6 @@
 -------------------------------------------------------------------
 -- 
---      /!\ Stops whenever an anomaly exists at the outputs (asynchronously /!\
+--      /!\ Stops whenever an anomaly exists at the outputs (asynchronously) /!\
 -- 
 -------------------------------------------------------------------
 library ieee;
