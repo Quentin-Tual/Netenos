@@ -1,5 +1,4 @@
 gem_update:
-	rm *.gem
 	gem build netenos.gemspec
 	gem install --local Netenos-*.gem
 	cp Netenos-*.gem /home/quentint/Workspace/Exp/
