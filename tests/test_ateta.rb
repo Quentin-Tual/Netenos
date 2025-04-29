@@ -1,5 +1,7 @@
 #! /usr/env/bin ruby    
+require 'benchmark'
 require_relative "../lib/netenos.rb"
+# require 'netenos'
 # require_relative "../lib/converter/genStim2.rb"
 # require_relative "./test_compTestbench.rb"
 
@@ -16,7 +18,7 @@ class Test_ateta
     def initialize 
 
         # * Clean 'tmp' directory just in case
-        `rm *`
+        # `rm *`
 
         blifPath = "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/f51m.blif"
         circ = Converter::ConvBlif2Netlist.new.convert(blifPath, truth_table_format: true)
@@ -29,8 +31,11 @@ class Test_ateta
     end
 
     def run
-        vec_list = @uut.generate_stim([("%0#{@nbInputs}b" % 184).reverse])#, ("%0#{@nbInputs}b" % 41).reverse])#,("%0#{@nbInputs}b" % 2).reverse])#, "%0#{@nbInputs}b" % 6])
-        
+        timings = Benchmark.measure{
+            vec_list = @uut.generate_stim([])#, ("%0#{@nbInputs}b" % 41).reverse])#,("%0#{@nbInputs}b" % 2).reverse])#, "%0#{@nbInputs}b" % 6])
+        }
+        puts timings.format
+
         @uut.save_explicit "test.stim"
     end
 

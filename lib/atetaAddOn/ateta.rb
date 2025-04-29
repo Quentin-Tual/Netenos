@@ -48,24 +48,24 @@ module AtetaAddOn
                     raise "Error: 'nil' insert point name encountered."
                 end
                 puts " |-- #{count += 1}/#{@insertionPoints.length} insert point." if $VERBOSE
-                insertPoint = nil
-                if insertPointName.include? "_" 
-                    compName, portName = insertPointName.split("_")
-                    if compName.nil? or portName.nil?
-                        raise "Error: 'nil' value encountered for insert point #{insertPointName}."
-                    end
-                    insertPoint = @initCirc.get_component_named(compName).get_port_named(portName)
-                else
-                    insertPoint = @initCirc.get_port_named(insertPointName)
-                end
+                # insertPoint = nil
+                # if insertPointName.include? "_" 
+                #     compName, portName = insertPointName.split("_")
+                #     if compName.nil? or portName.nil?
+                #         raise "Error: 'nil' value encountered for insert point #{insertPointName}."
+                #     end
+                #     insertPoint = @initCirc.get_component_named(compName).get_port_named(portName)
+                # else
+                #     insertPoint = @initCirc.get_port_named(insertPointName)
+                # end
                 # Créer une version altérée du circuit initial
-                downstreamOuputs = get_cone_outputs(insertPoint)
-                getAlteredCircuit(insertPoint)
+                downstreamOuputs = get_cone_outputs(insertPointName)
+                getAlteredCircuit(insertPointName)
                 solution_found = false
                 # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
-                downstreamOuputs.each do |targetedOutput|
+                downstreamOuputs.each do |targetedOutputName|
                     # Appliquer Ateta_sat
-                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPoint, targetedOutput, @delayModel, forbiddenVectors)
+                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors)
                     result = solver.run
                     # Stocker les couples de test générés dans un tableau
                     if result.nil? 
@@ -73,7 +73,7 @@ module AtetaAddOn
                     else
                         solution_found = true
                         # ! Stocker le nom et non l'objet (insertPoint ET targetedOutput)
-                        @solutions[insertPointName][targetedOutput.name] = result
+                        @solutions[insertPointName][targetedOutputName] = result
                         @observables << insertPointName # ! Stocker le nom et non l'objet
                         break
                     end
@@ -98,7 +98,7 @@ module AtetaAddOn
             return res
         end
 
-        def getAlteredCircuit insertPoint
+        def getAlteredCircuit_old insertPoint
             precedenceGrid = @initCirc.get_netlist_precedence_grid
             timings_h = @initCirc.get_timings_hash(@delayModel)
             tamperer = Inserter::Tamperer.new(@initCirc,precedenceGrid, timings_h)
@@ -112,8 +112,38 @@ module AtetaAddOn
             end
         end
 
-        def get_cone_outputs insertPoint
+        def getAlteredCircuit insertPointName
+            @altCirc = @initCirc.deep_copy
+
+            if insertPointName.include? "_" 
+                compName, portName = insertPointName.split("_")
+                if compName.nil? or portName.nil?
+                    raise "Error: 'nil' value encountered for insert point #{insertPointName}."
+                end
+                insertPoint = @altCirc.get_component_named(compName).get_port_named(portName)
+            else
+                insertPoint = @altCirc.get_port_named(insertPointName)
+            end
+
+            precedenceGrid = @altCirc.get_netlist_precedence_grid
+            timings_h = @altCirc.get_timings_hash(@delayModel)
+            tamperer = Inserter::Tamperer.new(@altCirc, precedenceGrid, timings_h)
+            tamperer.insert_buffer_at(insertPoint, @payloadDelay)
+        end
+
+        def get_cone_outputs insertPointName
             # * search the output from the given insertPoint (last gate of the path) 
+
+            if insertPointName.include? "_" 
+                compName, portName = insertPointName.split("_")
+                if compName.nil? or portName.nil?
+                    raise "Error: 'nil' value encountered for insert point #{insertPointName}."
+                end
+                insertPoint = @initCirc.get_component_named(compName).get_port_named(portName)
+            else
+                insertPoint = @initCirc.get_port_named(insertPointName)
+            end
+            
             next_gates = nil
 
             if insertPoint.instance_of? Netlist::Port and insertPoint.is_global?
@@ -140,6 +170,7 @@ module AtetaAddOn
 
             # * Filter primary outputs plugged to a constant
             cone_outputs = cone_outputs.to_a.flatten.select{|g| !g.get_source.instance_of?(Netlist::Constant)}
+            cone_outputs.map!(&:get_full_name)
 
             return cone_outputs 
         end

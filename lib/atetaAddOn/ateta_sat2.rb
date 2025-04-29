@@ -10,11 +10,11 @@ module AtetaAddOn
         # !     - parsing des résultats de script smtlib
         # !     - conversion des résultats de script en couple de vecteurs de test
 
-        def initialize initCirc, altCirc, insertionPoint, targetedOutput, delayModel, forbiddenVectors
+        def initialize initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors
             @initCirc = initCirc
             @altCirc = altCirc
-            @insertionPoint = insertionPoint
-            @targetedOutput = targetedOutput
+            @insertPointName = insertPointName
+            @targetedOutputName = targetedOutputName
             @delayModel = delayModel
             @forbiddenVectors = forbiddenVectors
 
@@ -25,11 +25,11 @@ module AtetaAddOn
         end
 
         def genSmtlibExprInit
-            @initExprExtractor.get_output_func_def(@targetedOutput)
+            @initExprExtractor.get_output_func_def(@targetedOutputName)
         end
         
         def genSmtlibExprAlt
-            @altExprExtractor.get_output_func_def(@targetedOutput, "yp")    
+            @altExprExtractor.get_output_func_def(@targetedOutputName, "yp")    
         end
 
         def genVariablesDeclaration
@@ -245,7 +245,7 @@ module AtetaAddOn
 
             src = Code.new
 
-            src << "; #{@initCirc.name}, #{@insertionPoint.get_full_name}, #{@targetedOutput.get_full_name}"
+            src << "; #{@initCirc.name}, #{@insertPointName}, #{@targetedOutputName}"
             src << "; Variable Declarations"
             src << genVariablesDeclaration.join("\n")
             src.newline

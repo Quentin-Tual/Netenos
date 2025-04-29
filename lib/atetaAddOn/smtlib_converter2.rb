@@ -23,10 +23,10 @@ module AtetaAddOn
             end
         end
 
-        def get_output_func_def targetedOutput, func_name = "y" 
+        def get_output_func_def targetedOutputName, func_name = "y" 
             # global_expr = @circ.get_global_expression(targetedOutput.get_full_name)
             # ast_expr = @circ.expr_to_h(global_expr)
-            smtlib_expr = get_smtlib_expr2(targetedOutput.get_full_name)
+            smtlib_expr = get_smtlib_expr2(targetedOutputName)
             get_fun_definition(smtlib_expr, func_name)
         end
 

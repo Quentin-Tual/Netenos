@@ -1,6 +1,5 @@
 require 'test/unit'
-require_relative '../lib/netlist.rb'  # Assuming your files are in the same directory
-require_relative '../lib/netlist/addon_deep_copy.rb'
+require_relative '../lib/netlist.rb'
 
 class TestCircuitDeepCopy < Test::Unit::TestCase
   def setup
@@ -85,20 +84,20 @@ class TestCircuitDeepCopy < Test::Unit::TestCase
     copy << buffer
     
     # Connect: and1 -> buf1 -> or1
-    and_gate = copy.get_component_named("and1")
-    or_gate = copy.get_component_named("or1")
+    copy_and_gate = copy.get_component_named("and1")
+    copy_or_gate = copy.get_component_named("or1")
     
     # Disconnect original and1->or1 connection
     
     # source = and_gate.get_output
     # sink = and_gate.get_output.fanout.find { |s| s == or_gate.get_inputs[0] }
 
-    or_gate.get_inputs[0].unplug2(and_gate.get_output.get_full_name)
+    copy_or_gate.get_inputs[0].unplug2(copy_and_gate.get_output.get_full_name)
     # sink.unplug2(source)
     
     # Make new connections
-    buffer.get_inputs[0] <= and_gate.get_output
-    or_gate.get_inputs[0] <= buffer.get_output
+    buffer.get_inputs[0] <= copy_and_gate.get_output
+    copy_or_gate.get_inputs[0] <= buffer.get_output
     
     # Verify original unchanged
     assert_equal 3, @original.components.size
@@ -107,8 +106,20 @@ class TestCircuitDeepCopy < Test::Unit::TestCase
     # Verify copy modified correctly
     assert_equal 4, copy.components.size
     copy_buffer = copy.get_component_named("buf1")
-    assert_equal copy_buffer.get_inputs[0].get_source, and_gate.get_output
-    assert_equal or_gate.get_inputs[0].get_source, copy_buffer.get_output
+    assert_equal copy_buffer.get_inputs[0].get_source, copy_and_gate.get_output
+    assert_equal copy_or_gate.get_inputs[0].get_source, copy_buffer.get_output
+    copy.components.each do |comp|
+      assert_equal comp.partof, copy
+      comp.ports.values.flatten.each do |p|
+        assert_equal p.partof.partof, copy
+      end
+    end
+    @original.components.each do |comp|
+      assert_equal comp.partof, @original
+      comp.ports.values.flatten.each do |p|
+        assert_equal p.partof.partof, @original
+      end
+    end
   end
 
   def test_deep_copy_preserves_properties
