@@ -5,7 +5,9 @@ require_relative '../lib/netenos.rb'
 class TestSerializationVsDeepCopy < Test::Unit::TestCase
   def setup
     # Create a moderately complex test circuit
-    @circuit = create_test_circuit(10000)  # 100 gates
+    # @circuit = create_test_circuit(1000)  # 100 gates
+    blifPath = "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/clip.blif"
+    @circuit = Converter::ConvBlif2Netlist.new.convert(blifPath, truth_table_format: true)
     @serializer = Serializer.new
     @deserializer = Deserializer.new
     @tempfile = "test_circuit.sexp"

@@ -1,4 +1,4 @@
-require_relative "./gate.rb"
+# require_relative "./gate2.rb"
 
 module Netlist
 

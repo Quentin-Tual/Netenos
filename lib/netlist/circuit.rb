@@ -260,35 +260,20 @@ module Netlist
                 while !next_gates.empty?
                     curr_gate = next_gates.pop
 
-                    if curr_gate.is_a? Netlist::Not
-                        source_gate = curr_gate.get_source_gates[0]
-                        
-                        if computed_gates.include?(source_gate)
-                            source0_proba = h[source_gate]
-                            h[curr_gate] = curr_gate.compute_transit_proba(h[source_gate], rounding)
-                            computed_gates << curr_gate
-                        else
-                            next_gates << curr_gate 
+                    source_gates = curr_gate.get_source_gates
+                    sources_proba = []
+                    if source_gates.all?{|source_gate|computed_gates.include?(source_gate)}
+                        source_gates.each do |source_gate|
+                            sources_proba << h[source_gate]
                         end
-                    elsif curr_gate.is_a? Netlist::Gate
-                        source_gate0, source_gate1 = curr_gate.get_source_gates
-                        
-                        if computed_gates.include?(source_gate0) and computed_gates.include?(source_gate1)
-                            source0_proba = h[source_gate0]
-                            source1_proba = h[source_gate1]
-                            h[curr_gate] = curr_gate.compute_transit_proba(source0_proba, source1_proba, rounding)
-                            computed_gates << curr_gate
-                        else
-                            next_gates << curr_gate 
-                        end
+                        h[curr_gate] = curr_gate.compute_transit_proba(sources_proba, rounding)
+                        computed_gates << curr_gate
+                    else
+                        next_gates << curr_gate
                     end
 
                     sink_gates = curr_gate.get_sink_gates.select{|g| g.is_a? Netlist::Gate}
                     sink_gates.each{|sink_gate| next_gates << sink_gate}
-                    # prioritized, delayed = sink_gates.partition{|g| g.get_source_gates.any?{|source| h[source].nil?}}
-                    
-                    # prioritized.each{|g| next_gates.unshift(g)}
-                    # delayed.each{|g| next_gates.push(g)} 
                 end
 
                 @transition_probability_h = h
@@ -482,21 +467,32 @@ module Netlist
                     raise "Error: node is a port but not a primary one."
                 end 
             when Netlist::Gate
+                # TODO : Si possible de génériciser la fonciton (associer un symbole à chaque porte en attribut constant) 
                 case node
                 when Netlist::Not
                     "(!(#{get_ruby_expr_util(node.get_source_gates[0])}))"
                 when Netlist::Buffer
                     "(#{get_ruby_expr_util(node.get_source_gates[0])})"
-                when Netlist::Nand2
-                    "(!( #{get_ruby_expr_util(node.get_source_gates[0])} & #{get_ruby_expr_util(node.get_source_gates[1])} ))"
-                when Netlist::Nor2
-                    "(!( #{get_ruby_expr_util(node.get_source_gates[0])} | #{get_ruby_expr_util(node.get_source_gates[1])} ))"
-                when Netlist::And2
-                    "(#{get_ruby_expr_util(node.get_source_gates[0])} & #{get_ruby_expr_util(node.get_source_gates[1])})"
-                when Netlist::Or2
-                    "(#{get_ruby_expr_util(node.get_source_gates[0])} | #{get_ruby_expr_util(node.get_source_gates[1])})"
-                when Netlist::Xor2
-                    "(#{get_ruby_expr_util(node.get_source_gates[0])} ^ #{get_ruby_expr_util(node.get_source_gates[1])})"
+                when Netlist::Nand
+                    operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
+                    str_ops = operands.join(" & ") 
+                    "(!( #{str_ops} ))"
+                when Netlist::Nor
+                    operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
+                    str_ops = operands.join(" | ") 
+                    "(!( #{str_ops} ))"
+                when Netlist::And
+                    operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
+                    str_ops = operands.join(" & ") 
+                    "( #{str_ops} )"
+                when Netlist::Or
+                    operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
+                    str_ops = operands.join(" | ") 
+                    "( #{str_ops} )"
+                when Netlist::Xor
+                    operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
+                    str_ops = operands.join(" ^ ") 
+                    "( #{str_ops} )"
                 else
                     raise "Error: unexpected node Class #{node.class}."
                 end
@@ -592,7 +588,7 @@ module Netlist
             false
         end
 
-        def get_dot_graph delay_model = :int_multi
+    def get_dot_graph delay_model = :int_multi
             Converter::DotGen.new.dot(self, "#{@name}.dot", delay_model)
         end
 

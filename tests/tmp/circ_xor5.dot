@@ -1,0 +1,51 @@
+digraph circ_xor5 {
+		graph [rankdir = LR];
+		Xor2140[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2140|{5|1}}|{<o0>o0}}"]
+		Not160[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0}|{Not160|{2|1}}|{<o0>o0}}"]
+		Xor2180[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2180|{5|1}}|{<o0>o0}}"]
+		Nor2200[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2200|{4|2}}|{<o0>o0}}"]
+		Xor2220[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2220|{5|1}}|{<o0>o0}}"]
+		And2240[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2240|{3|2}}|{<o0>o0}}"]
+		Nor2260[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2260|{4|3}}|{<o0>o0}}"]
+		Nor2280[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2280|{4|4}}|{<o0>o0}}"]
+		Xor2300[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Xor2300|{5|1}}|{<o0>o0}}"]
+		And2320[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2320|{3|2}}|{<o0>o0}}"]
+		Nor2340[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Nor2340|{4|2}}|{<o0>o0}}"]
+		Or2360[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2360|{3|3}}|{<o0>o0}}"]
+		And2380[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{And2380|{3|4}}|{<o0>o0}}"]
+		Or2400[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{Or2400|{3|5}}|{<o0>o0}}"]
+		i0[shape=cds,xlabel="i0"]
+		i1[shape=cds,xlabel="i1"]
+		i2[shape=cds,xlabel="i2"]
+		i3[shape=cds,xlabel="i3"]
+		i4[shape=cds,xlabel="i4"]
+		o0[shape=cds,xlabel="o0"]
+		i0 -> Not160:i0;
+		i0 -> And2320:i1;
+		i0 -> Nor2340:i1;
+		i1 -> Xor2180:i1;
+		i1 -> Xor2220:i1;
+		i2 -> Xor2180:i0;
+		i2 -> Xor2220:i0;
+		i3 -> Xor2140:i1;
+		i3 -> Xor2300:i1;
+		i4 -> Xor2140:i0;
+		i4 -> Xor2300:i0;
+		Xor2140:o0 -> Nor2280:i1;
+		Not160:o0 -> Nor2200:i1;
+		Not160:o0 -> And2240:i1;
+		Xor2180:o0 -> Nor2200:i0;
+		Xor2180:o0 -> Nor2340:i0;
+		Nor2200:o0 -> Nor2260:i1;
+		Xor2220:o0 -> And2240:i0;
+		Xor2220:o0 -> And2320:i0;
+		And2240:o0 -> Nor2260:i0;
+		Nor2260:o0 -> Nor2280:i0;
+		Nor2280:o0 -> Or2400:i1;
+		Xor2300:o0 -> And2380:i1;
+		And2320:o0 -> Or2360:i1;
+		Nor2340:o0 -> Or2360:i0;
+		Or2360:o0 -> And2380:i0;
+		And2380:o0 -> Or2400:i0;
+		Or2400:o0 -> o0;
+}

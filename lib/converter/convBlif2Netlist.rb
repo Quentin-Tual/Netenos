@@ -73,7 +73,8 @@ module Converter
                 Dir.mkdir("/tmp/netenos")
             end
             std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; map; write_blif /tmp/netenos/~#{File.basename(path)}"`
-            # strash; &get -n; &nf; &put
+            # std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; dretime; map {D}; write_blif /tmp/netenos/~#{File.basename(path)}"`
+            # std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; &get -n; &fraig -x; &put; scorr; dc2; dretime; strash; &get -n; &dch -f; &nf {D}; &put; write_blif /tmp/netenos/~#{File.basename(path)}"`
             # if File.exist?("/tmp/netenos/~#{File.basename(path)}")
             #     raise "Error: File #{path} not converted correctly. "
             # end
@@ -189,27 +190,31 @@ module Converter
         end
 
         def instantiateGate gate_type
+            # TODO : Refactor cette fonction en utilisant un traitement générique (gate_type.capitalize et Object.const_get ou alors create_gate du module Netlist)
             case gate_type
-            when "AND2"
-                return Netlist::And2.new
-            when "OR2"
-                return Netlist::Or2.new
-            when "NAND2"
-                return Netlist::Nand2.new
-            when "NOR2"
-                return Netlist::Nor2.new
-            when "XOR2"
-                return Netlist::Xor2.new
+            # when "AND2"
+            #     return Netlist::And2.new
+            # when "OR2"
+            #     return Netlist::Or2.new
+            # when "NAND2"
+            #     return Netlist::Nand2.new
+            # when "NOR2"
+            #     return Netlist::Nor2.new
+            # when "XOR2"
+            #     return Netlist::Xor2.new
             when "INV1"
                 return Netlist::Not.new
             when "BUF1"
-                return Netlist::Buffer.new 0.0
+                return Netlist::Buffer.new
             when "ZERO0"
                 return Netlist::Zero.new # ! Prendre en charge les constantes dans le circuit
             when "ONE0"
                 return Netlist::One.new # ! Idem
             else
-                raise "Error : Unknown operator #{gate_type} encountered."
+                type = gate_type.downcase[...-1].to_sym
+                nb_inputs = gate_type[-1].to_i
+                return Netlist::create_gate(type,nb_inputs)
+                # raise "Error : Unknown operator #{gate_type} encountered."
             end
         end
 
@@ -242,15 +247,6 @@ module Converter
                     # TODO : Ajouter la sortie de la porte g_out
                     @sym_tab[:g_out][sink_sig] = gate.get_output
                 end
-
-                # if !@sym_tab[:sink].key?(sink_sig) # si ce n'est pas une sortie primaire
-                #     if @sym_tab[:source].key?(sink_sig) # si c'est la sortie d'une porte 
-                #         @sym_tab[:sink][sink_sig] = gate.get_output
-                #     else
-                #     end
-                # else
-                #     @sym_tab[:sink][sink_sig] <= gate.get_output
-                # end
             end
         end
 

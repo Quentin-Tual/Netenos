@@ -23,7 +23,7 @@ class Test_ateta
         blifPath = "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/f51m.blif"
         circ = Converter::ConvBlif2Netlist.new.convert(blifPath, truth_table_format: true)
         # circ = Marshal.load(File.read("../../rand_3.enl"))
-        circ.getNetlistInformations($DELAY_MODEL)
+        pp circ.getNetlistInformations($DELAY_MODEL)
         # circ.get_slack_hash
         circ.get_dot_graph
         @nbInputs = circ.get_inputs.length

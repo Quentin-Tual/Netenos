@@ -9,6 +9,7 @@ Dir.chdir("tests/tmp") do
     # generator = Netlist::RandomGenComb.new 200, 10, 10
     rand_circ = generator.getValidRandomNetlist("test")
     # puts "Gates amount : #{rand_circ.components.length}"
+    puts rand_circ.getNetlistInformations(:int_multi)
     puts
 
     rand_circ.save_as "."

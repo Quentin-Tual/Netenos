@@ -10,30 +10,35 @@ module AtetaAddOn
         # !     - parsing des résultats de script smtlib
         # !     - conversion des résultats de script en couple de vecteurs de test
 
-        def initialize initCirc, altCirc, insertionPoint, targetedOutput, delayModel, forbiddenVectors
+        def initialize initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer
             @initCirc = initCirc
             @altCirc = altCirc
-            @insertionPoint = insertionPoint
-            @targetedOutput = targetedOutput
+            @insertPointName = insertPointName
+            @targetedOutputName = targetedOutputName
             @delayModel = delayModel
             @forbiddenVectors = forbiddenVectors
 
-            @initExprExtractor = SmtlibConverter.new(initCirc, @delayModel)
+            if memoizer.exists?(targetedOutputName)
+                @initExprExtractor = memoizer.get_back(targetedOutputName)
+            else
+                @initExprExtractor = SmtlibConverter.new(initCirc, @delayModel)
+                memoizer.memoize(targetedOutputName, @initExprExtractor)
+            end
             @altExprExtractor = SmtlibConverter.new(altCirc, @delayModel)
 
             # TODO : Check if z3 is installed and accessible (in the path)
         end
 
         def genSmtlibExprInit
-            @initExprExtractor.get_output_func_def(@targetedOutput)
+            @initExprExtractor.get_output_func_def(@targetedOutputName)
         end
         
         def genSmtlibExprAlt
-            @altExprExtractor.get_output_func_def(@targetedOutput, "yp")    
+            @altExprExtractor.get_output_func_def(@targetedOutputName, "yp")    
         end
 
         def genVariablesDeclaration
-            (@initExprExtractor.get_var_declarations + @altExprExtractor.get_var_declarations).uniq
+            (@initExprExtractor.get_const_declarations + @altExprExtractor.get_const_declarations).uniq
         end  
 
         def genVariablesConstraints
@@ -160,33 +165,84 @@ module AtetaAddOn
             return constraints
         end
 
+        def genForbiddenVecConstraints2
+            constraints = []
+
+            unless @forbiddenVectors.empty? 
+                @forbiddenVectors.each_with_index do |fv, vecId|
+                    if fv.length > @signals.length
+                        raise "Error : Invalid vector size for the given circuit, #{fv.length} bits for #{@signals.length} inputs."
+                    end
+
+                    line = "(define-fun fv_#{vecId}_d () Bool (and"
+                    # line << "(and "
+                    # @signals.each do |sigName|
+                        @signals.each_with_index do |s, i|
+                            line << " "
+                            line << "(= #{s}_d #{fv[s[1..].to_i] == "0" ? "false" : "true"})"
+                        end
+                    # end
+                    # line << ")"
+                    line << "))"
+                    constraints << line
+                    
+                    line = "(define-fun fv_#{vecId}_a () Bool (and"
+                    # line << "(and "
+                    # @signals.each do |sigName|
+                        @signals.each_with_index do |s, i|
+                            line << " "
+                            line << "(= #{s}_a #{fv[s[1..].to_i] == "0" ? "false" : "true"})"
+                        end
+                    # end
+                    # line << ")"
+                    line << "))"
+                    constraints << line
+                end
+            end
+
+            return constraints
+        end
+
         def genForbiddenVecAssertion 
             if @forbiddenVectors.empty?
                 line = ""
-            elsif @forbiddenVectors.length > 1
+            else# @forbiddenVectors.length > 1
                 line = "(assert (not (or"
                 @forbiddenVectors.each_with_index do |fv, vecId|
                     line << " "
-                    line << "fv_#{vecId}"
+                    line << "fv_#{vecId}_d"
+                    line << " "
+                    line << "fv_#{vecId}_a"
                 end
                 line << ")))"
-            else
-                line = "(assert (not"
-                @forbiddenVectors.each_with_index do |fv, vecId|
-                    line << " "
-                    line << "fv_#{vecId}"
-                end
-                line << "))"
+            # else
+            #     line = "(assert (not"
+            #     @forbiddenVectors.each_with_index do |fv, vecId|
+            #         line << " "
+            #         line << "fv_#{vecId}_d"
+            #         line << " "
+            #         line << "fv_#{vecId}_a"
+            #     end
+            #     line << "))"
             end 
             return line
         end
 
+        def genConstDeclarations 
+            @initExprExtractor.get_const_declarations
+        end
+
+        def genInputFunDefinition
+            @initExprExtractor.get_input_fun_definition
+        end
+
         def genSolvingScript saveAs = nil
 
-            initExpr = genSmtlibExprInit # ! Should not be computed again each time, see how to optimize it properly by reloading it or passing it 
+            initExpr = genSmtlibExprInit # ! Should not be computed again each time, see how to optimize it properly by passing it 
             altExpr = genSmtlibExprAlt
 
-            @signals, @instants = getAllSigAndInstants
+            # @signals, @instants = getAllSigAndInstants
+            @signals = (@initExprExtractor.signals).uniq.sort_by{|s| s[1..].to_i}
 
             if initExpr == altExpr 
                 raise "Error : Initial and Altered circuit gave the same expression for targeted output."
@@ -194,28 +250,30 @@ module AtetaAddOn
 
             src = Code.new
 
-            src << "; #{@initCirc.name}, #{@insertionPoint.get_full_name}, #{@targetedOutput.get_full_name}"
+            src << "; #{@initCirc.name}, #{@insertPointName}, #{@targetedOutputName}"
             src << "; Variable Declarations"
             src << genVariablesDeclaration.join("\n")
             src.newline
 
             src << "; Function Definitions"
+            src << genInputFunDefinition.join("\n")
             src << initExpr
             src << altExpr
             src.newline
 
-            src << "; Synchronous Stimulation Constraints"
-            src << genVariablesConstraints2.join("\n")
-            src.newline
+            # src << "; Synchronous Stimulation Constraints"
+            # src << genVariablesConstraints2.join("\n")
+            # src.newline
             
-            src << "; Fobidden Vectors Constraints"
-            src << genForbiddenVecConstraints.join("\n")
+            src << "; Forbidden Vectors Constraints"
+            src << genForbiddenVecConstraints2.join("\n")
             src.newline
 
             src << "; Assertions"
-            src << genVariablesAssertion
+            # src << genVariablesAssertion
             src << genForbiddenVecAssertion
-            src << "(assert (= y (not yp)))"
+            src << "(assert (> t_a 0))"
+            src << "(assert (= (y t_a) (not (yp t_a))))"
             src.newline
 
             src << "; Solve"
@@ -231,6 +289,31 @@ module AtetaAddOn
 
         def runSolvingScript scriptName
             `z3 -smt2 #{scriptName}`
+        end 
+
+        def parse_results2 results
+            res_h = Hash.new { |h, k| h[k] = Hash.new}
+            if results[0] == "sat"
+                state = :init
+                last_id = nil
+                results[1..].each_cons(2) do |prev_line,line|
+                    splitted_prev_line = prev_line.split
+                    if splitted_prev_line[0] == "(define-fun"
+                        if splitted_prev_line[1].match?(/i[0-9]+_[a,d]/)
+                            input_name, cycle = splitted_prev_line[1].split("_")
+                            res_h[input_name][cycle] = line.split[0][...-1]
+                        end
+                        if splitted_prev_line[1] == "t_a"
+                            @transition_instant = line.split[0][...-1]
+                        end 
+                    else
+                        next
+                    end
+                end
+                return res_h.sort_by{|k,v| k[1..].to_i}.to_h
+            else
+                return nil
+            end
         end 
 
         def parse_results results
@@ -251,18 +334,45 @@ module AtetaAddOn
                             raise "z3 err output : " + line
                         else
                             var = splitted_line[1]
-                            if var == "y" or var == "yp" # ignore cone expressions
-                                break # end the search, usually they are the last variables defined in the returned prompt
+                            if var == "y" or var == "yp" or var == "t_a"# ignore cone expressions
+                                next # end the search, usually they are the last variables defined in the returned prompt
                             else 
                                 last_id = var
                             end
                         end
                     end
                 end
-                return res_h
+                return res_h.sort_by{|k,v| k[1..].to_i}.to_h
             else
                 return nil
             end
+        end
+
+        def results2vec2 results 
+            
+            raise "Error: z3 returns empty string." if results.empty?
+
+            results = results.split("\n")
+            
+            res_h = parse_results2(results)
+
+            if res_h.nil?
+                return nil
+            end
+
+            tmp = res_h.each_with_object(Hash.new {|h,k| h[k] = Array.new}) do |(var, sub_h), h|
+                sub_h.each do |k,val|
+                    h[k] << val
+                end
+            end
+
+            vd = tmp["d"]
+            va = tmp["a"]
+
+            vd.map!{|val| (val == "true" ? "1" : "0")}
+            va.map!{|val| (val == "true" ? "1" : "0")}
+
+            return vd.join, va.join
         end
 
         def results2vec results
@@ -298,49 +408,13 @@ module AtetaAddOn
             vo.map!{|val| (val == "true" ? "1" : "0")}
             va.map!{|val| (val == "true" ? "1" : "0")}
 
-            # # TODO : Recover the transition instant 
-            # oldestInstant = res_h.values.collect{|e| e.keys}.flatten.sort_by{|e| e.to_i}.uniq[0]
-            # transitionInstant = nil
-
-            # # Récupérer les valeurs sur chaque port à chaque instant
-            # res_h.each do |var, sub_h|
-            #     sub_h.sort_by{|k,v| k.to_i}.each do |instant, val|
-            #         binVal = (val == "true" ? "1" : "0")
-            #         inputID = var[1..].to_i
-            #         # Les stocker dans deux vecteurs de la taille du nombre d'entrées aux endroits correspondant
-            #         if instant == oldestInstant
-            #             vo[inputID] = binVal
-            #         else
-            #             if binVal != vo[inputID]
-            #                 transitionInstant = instant
-            #                 if va[inputID].nil?
-            #                     va[inputID] = binVal
-            #                 elsif va[inputID] != binVal
-            #                     raise "Error : Conflict encountered."
-            #                 end
-            #             end
-            #         end
-            #     end
-            # end
-
-            # # TODO : Remplir les valeurs nil de vo et va par des 1 (par défaut, possible de tenter d'autres approches par la suite)
-            # vo.map!{|e| e.nil? ? "1" : e}
-            # va.map!.with_index{|e,i| e.nil? ? vo[i] : e}
-            # # va.map!.with_index do |e,i| 
-            # #     if e.nil? 
-            # #         vo[i] 
-            # #     else
-            # #         e
-            # #     end
-            # # end
-
             return vo.join , va.join
         end
 
         def run 
             genSolvingScript "tmp.smt"
             res = runSolvingScript "tmp.smt"
-            results2vec res
+            results2vec2 res
         end
     end
 end

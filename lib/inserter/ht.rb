@@ -63,41 +63,27 @@ module Inserter
         def get_transition_probability curr_gate = @payload_in.partof.get_inputs[1].get_source.partof  
 
             if @components.include? curr_gate
-                if !curr_gate.is_a? Netlist::Not
-                    source0=curr_gate.get_inputs[0].get_source
-                    source1=curr_gate.get_inputs[1].get_source
-
-                    if source0.nil? # ! Utiliser @trigger_sigs_proba, retrouver l'objet qui représente le signal source en question dans le Hash 
-                        transi_proba0 = @trigger_sigs_proba[curr_gate.get_inputs[0]]
-                    else 
-                        transi_proba0 = get_transition_probability(source0.partof)
-                    end
-
-                    if source1.nil?
-                        transi_proba1 = @trigger_sigs_proba[curr_gate.get_inputs[1]]
+                sources = []
+                transi_proba = []
+                curr_gate.get_inputs.each{|ip| sources << ip.get_source}
+                sources.each_with_index do |source, i|
+                    if source.nil? 
+                        transi_proba << @trigger_sigs_proba[curr_gate.get_inputs[i]]
                     else
-                        transi_proba1 = get_transition_probability(source1.partof)
+                        transi_proba << get_transition_probability(source.partof)
                     end
-
-                    return compute_transit_proba(
-                        transi_proba0,
-                        transi_proba1,
-                        curr_gate
-                    )
-                else
-                    return compute_transit_proba(
-                        get_transition_probability(curr_gate.get_inputs[0].get_source.partof),
-                        nil,
-                        curr_gate
-                    )
                 end
+
+                compute_transit_proba(transi_proba,curr_gate)
             else
                 return 0.5
             end
         end
 
-        def compute_transit_proba proba_ix, proba_iy, gate
+        def compute_transit_proba transi_proba, gate
             output_transit_proba = 0.0
+            proba_ix = transi_proba[0]
+            proba_iy = transi_proba[1]
 
             case gate
             when Netlist::And2
@@ -113,7 +99,7 @@ module Inserter
             when Netlist::Xor2
                 output_transit_proba = (1.0 - (proba_ix + proba_iy - 2.0 * proba_ix * proba_iy)) * (proba_ix + proba_iy - 2.0 * proba_ix * proba_iy)
             else
-                puts "Error : Unknown gate #{gate.name} encountered. Please verify."
+                puts "Error : Gate type #{gate.class} encountered not handled for transition probability computing."
             end
 
             return output_transit_proba

@@ -7,37 +7,32 @@ module AtetaAddOn
             @circ = circ
             @signals = Set.new(@circ.get_inputs.collect(&:name))
             @instants = Set.new
+            @output_func = nil
+            @const_declarations = nil
             @delay_model = delay_model
-            @gate_delays = {
-                "not" => Netlist::Not::PROPAG_TIME[delay_model],
-                "and" => Netlist::Not::PROPAG_TIME[delay_model],
-                "or"  => Netlist::Or2::PROPAG_TIME[delay_model],
-                "nand"=> Netlist::Nand2::PROPAG_TIME[delay_model],
-                "nor"=> Netlist::Nor2::PROPAG_TIME[delay_model],
-                "xor"=> Netlist::Xor2::PROPAG_TIME[delay_model],
-                "buf"=> Netlist::Buffer::PROPAG_TIME[delay_model], # ! Check exact keyword used, "buffer" or "buf"
-            }
 
             unless @circ.wires.empty?
                 raise "Error : Current version is not compatible with Netlist::Wire usage !"
             end
         end
 
-        def get_output_func_def targetedOutput, func_name = "y" 
+        def get_output_func_def targetedOutputName, func_name = "y" 
             # global_expr = @circ.get_global_expression(targetedOutput.get_full_name)
             # ast_expr = @circ.expr_to_h(global_expr)
-            smtlib_expr = get_smtlib_expr2(targetedOutput.get_full_name, @circ.get_exact_crit_path_length(@delay_model))
-            get_fun_definition(smtlib_expr, func_name)
+            if @output_func.nil?
+                smtlib_expr = get_smtlib_expr2(targetedOutputName)
+                @output_func = get_fun_definition(smtlib_expr, func_name)
+            else
+                @output_func
+            end
         end
 
-        def get_smtlib_expr2 sigName, t # ! Not compatible with Netlist::Wire usage !
+        def get_smtlib_expr2 sigName, t=0 # ! Not compatible with Netlist::Wire usage !
             expr = ""
 
             if @circ.is_primary_input_name?(sigName)
-                v = "#{sigName}_#{t}"
+                v = "(#{sigName} (- t #{t}))"
                 expr << v
-                # @signals << sigName
-                @instants << t
             elsif @circ.is_primary_output_name?(sigName)
                 sourceSigName = @circ.get_port_named(sigName).get_source.get_full_name
                 expr << get_smtlib_expr2(sourceSigName,t)
@@ -45,56 +40,38 @@ module AtetaAddOn
                 comp = @circ.get_component_named(sigName.split('_')[0])
                 inPorts = comp.get_inputs
 
-                case comp
-                when Netlist::Nand2
-                    expr << "(not (and "
-                    inPorts.each do |p|
-                        expr << get_smtlib_expr2(
-                            p.get_source.get_full_name, 
-                            t - @gate_delays["nand"])
-                        expr << " "
-                    end
-                    expr << "))"
-                when Netlist::Nor2
-                    expr << "(not (or "
-                    inPorts.each do |p|
-                        expr << get_smtlib_expr2(
-                            p.get_source.get_full_name, 
-                            t - @gate_delays["nor"])
-                        expr << " "
-                    end
-                    expr << "))"
-                when Netlist::Not
-                    expr << "(not "
-                    expr << get_smtlib_expr2(inPorts[0].get_source.get_full_name, t - @gate_delays["not"])
-                    expr << ")"
-                when Netlist::Buffer
-                    expr << get_smtlib_expr2(inPorts[0].get_source.get_full_name, t - @gate_delays["buf"])
-                else
-                    expr << "(#{comp.class::SMT_NAME} "
-                    inPorts.each do |p|
-                        expr << get_smtlib_expr2(
-                            p.get_source.get_full_name, 
-                            t - @gate_delays[comp.class::SMT_NAME])
-                        expr << " "
-                    end
-                    expr << ")"
+                expr << comp.class::SMT_EXPR[0]
+                inPorts.each do |p|
+                    expr << get_smtlib_expr2(
+                        p.get_source.get_full_name, 
+                        t + comp.propag_time[@delay_model])
+                    expr << " "
                 end
+                expr << comp.class::SMT_EXPR[1]
             end
 
             return expr
         end
 
-        def get_var_declarations 
-            min_t = @instants.min
-            max_t = @instants.max
-            (min_t..max_t).collect do |t|  
-                @signals.collect{|s| "(declare-const #{s}_#{t} Bool)"}
-            end.flatten
+        def get_const_declarations 
+            if @const_declarations.nil?
+                tmp = @signals.collect{|s| "(declare-const #{s}_d Bool)"}
+                tmp += @signals.collect{|s| "(declare-const #{s}_a Bool)"}
+                tmp << "(declare-const t_a Int)"
+                @const_declarations = tmp
+            else
+                @const_declarations
+            end
         end
 
-        def get_fun_definition smtlib_expr=nil, func_name = "y"
-            "(define-fun #{func_name} () Bool #{smtlib_expr})"
+        def get_input_fun_definition 
+            @signals.collect do |sigName|
+                "(define-fun #{sigName} ((t Int)) Bool\n\t(ite (< t 0) #{sigName}_d #{sigName}_a))"
+            end
+        end
+
+        def get_fun_definition smtlib_expr, func_name 
+            "(define-fun #{func_name} ((t Int)) Bool #{smtlib_expr})"
         end
 
     end

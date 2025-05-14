@@ -34,6 +34,7 @@ module AtetaAddOn
             @unobservables = []
             @observables = []
             @netlist_format = netlist_format
+            @memoizer = AtetaAddOn::AtetaMemoizer.new
         end
 
         def generate_stim forbiddenVectors = []
@@ -65,7 +66,7 @@ module AtetaAddOn
                 # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
                 downstreamOuputs.each do |targetedOutputName|
                     # Appliquer Ateta_sat
-                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors)
+                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors, @memoizer)
                     result = solver.run
                     # Stocker les couples de test générés dans un tableau
                     if result.nil? 

@@ -13,7 +13,8 @@ module Converter
             @tb = false
         end
 
-        def gen_gtech gtech_type = "classic"
+        def gen_gtech gtech_type = nil
+            gtech_type = "classic" if gtech_type.nil?
             gen_gtech_method = "gen_gtech_#{gtech_type}".to_sym 
             self.send(gen_gtech_method)
         end

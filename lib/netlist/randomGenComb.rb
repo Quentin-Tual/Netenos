@@ -52,6 +52,7 @@ module Netlist
                 break if validity and !@netlist.has_combinational_loop?
             end
             puts "Found with #{attempts} attempts." if $VERBOSE #!DEBUG
+            clean_simulation
             # * Return the found netlist
             return @netlist
         end
@@ -82,6 +83,14 @@ module Netlist
             # * Run simulation
             `make`
             `./compile.sh` 
+        end
+
+        def clean_simulation 
+            `rm *.o`
+            `rm *_tb`
+            `rm *_d.vhd`
+            `rm *.cf`
+            `rm makefile`
         end
 
         def getRandomNetlist name = "rand_#{self.object_id}"
