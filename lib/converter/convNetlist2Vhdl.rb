@@ -11,6 +11,7 @@ module Converter
             @sig_tab = {}
             @timed = false
             @tb = false
+            @gtech = Netlist::get_gtech
         end
 
         def gen_gtech gtech_type = nil
@@ -35,7 +36,7 @@ module Converter
             #     rejection = "reject delay inertial"
             # end
 
-            $GTECH.each do |circuit_klass|
+            @gtech.each do |circuit_klass|
                 circuit_name= circuit_klass.to_s.split('::').last.downcase.concat("_d")
                 case circuit_name
                 when "not_d"
@@ -50,11 +51,13 @@ module Converter
                     mdata=circuit_name.match(/\A(\D+)(\d*)/)
                     op=mdata[1]
                     card=(mdata[2] || "0").to_i
-                    circuit_instance=circuit_klass.new
+                    circuit_instance = circuit_klass.new
+                    gate_type_class = circuit_klass.superclass
+                    vhdl_op = gate_type_class::VHDL_OP
+                    vhdl_prefix = gate_type_class::VHDL_PREFIX
                     assign_lhs=circuit_instance.get_outputs.first.name
-                    assign_rhs=circuit_instance.get_inputs.map{|input| input.name}.join(" #{op} ")
-                    assign_rhs="not #{assign_rhs}" if op=="not"
-                    # assign="#{assign_lhs} <= #{rejection} #{assign_rhs} after delay;"
+                    assign_rhs=circuit_instance.get_inputs.map{|input| input.name}.join(" #{vhdl_op} ")
+                    assign_rhs="#{vhdl_prefix} #{assign_rhs}" if vhdl_prefix!=""
                     assign="#{assign_lhs} <= #{assign_rhs} after delay;"
                     func_code=assign
                 end

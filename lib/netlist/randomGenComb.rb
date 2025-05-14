@@ -28,7 +28,21 @@ module Netlist
             @sources_usage_count = {} # Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
             @available_primary_output_sources = {}
             exclude_gate_type << "Buffer"
-            @gate_pool = $GTECH.select{|klass| !exclude_gate_type.include?(klass.name.split("::")[-1])}
+            # @gate_pool = $GTECH.select{|klass| !exclude_gate_type.include?(klass.name.split("::")[-1])}
+            @gate_pool = []
+            generate_gate_pool
+        end
+
+        def generate_gate_pool(max_nb_inputs = 5, excluded_gate_types = ["Buffer","Not"])
+            types_list = Netlist::DEF_GATE_TYPES.collect{|klass| klass.name.split("::")[1]}
+            types_list -= excluded_gate_types 
+            (3..max_nb_inputs).each do |nb_inputs|
+                types_list.each do |gate_type|
+                    class_name = gate_type + nb_inputs.to_s
+                    @gate_pool << Netlist::create_class(class_name, gate_type)
+                end
+            end
+            # @gate_pool << Netlist::create_class("Not", "Gate")
         end
 
         def getValidRandomNetlist name = "rand_#{self.object_id}", delay_model = :int_multi, compiler = :ghdl
@@ -52,7 +66,7 @@ module Netlist
                 break if validity and !@netlist.has_combinational_loop?
             end
             puts "Found with #{attempts} attempts." if $VERBOSE #!DEBUG
-            clean_simulation
+            # clean_simulation
             # * Return the found netlist
             return @netlist
         end
@@ -113,12 +127,10 @@ module Netlist
         def gen_profile nb_inputs, nb_outputs
             # **** Misc instantiation for later ****
 
-            inputs = [] 
             nb_inputs.times{|nth| 
                 @netlist << Netlist::Port.new("i#{nth}", :in)
             } 
 
-            outputs = []
             nb_outputs.times{|nth| 
                 @netlist << Netlist::Port.new("o#{nth}", :out)
             }
@@ -157,7 +169,6 @@ module Netlist
                     raise "Error : Internal error encountered. Situation not yet handled, you can try changing netlist generation parameters."
                 end
             # * : If none available then delete the output (at first sight, the best option)
-                sink <= selected_source
 
                 # * : Update variables
                 # @available_primary_output_sources[selected_layer].delete(selected_source)
@@ -177,9 +188,7 @@ module Netlist
                 min_pairs = @sources_usage_count[selected_layer].each_with_object([]) { |(key, value), arr| arr << [key, value] if value == min_value }
 
                 selected_source = (min_pairs.sample)[0]
-                
-                sink <= selected_source
-
+            
                 @sources_usage_count[selected_layer][selected_source] += 1
 
                 # * : Update variables 
@@ -206,10 +215,11 @@ module Netlist
 
                 selected_source = (min_pairs.sample)[0]
 
-                sink <= selected_source
                 # * : Update the variables
                 @sources_usage_count[selected_layer][selected_source] += 1
             end
+
+            sink <= selected_source 
         end
 
         # * : Fill the @available_sources variable

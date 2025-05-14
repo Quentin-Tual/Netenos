@@ -14,7 +14,8 @@ module Converter
             if $VERBOSE
                 code << "echo \"[+] compiling gtech\""
             end
-            $GTECH.each do |klass|
+            gtech = Netlist::get_gtech
+            gtech.each do |klass|
                 entity=klass.to_s.downcase.split('::').last.concat("_d")
                 if $VERBOSE
                     code << "echo \" |--[+] compiling #{entity}.vhd\""
@@ -380,7 +381,7 @@ module Converter
             if $VERBOSE
                 code << "echo \"[+] compiling gtech\""
             end
-            $GTECH.each do |klass|
+            Netlist::Gate.subclasses.each do |klass|
                 entity=klass.to_s.downcase.split('::').last.concat("_d")
                 if $VERBOSE
                     code << "echo \" |--[+] compiling #{entity}.vhd\""

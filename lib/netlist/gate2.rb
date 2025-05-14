@@ -2,11 +2,32 @@ require_relative 'port.rb'
 
 module Netlist
 
+    def self.get_gtech
+        gtech = Netlist::Gate.subclasses.select{|klass| klass.subclasses.empty?}
+        Netlist::Gate.subclasses.each do |subklass|
+            subklass.subclasses.each do |subsubklass|
+                gtech << subsubklass if subsubklass.subclasses.empty?
+            end
+        end
+        gtech
+    end
+
     def self.class_exists?(class_name)
         klass = Module.const_get(class_name)
         return klass.is_a?(Class)
       rescue NameError
         return false
+    end
+
+    def self.create_class(class_name, inherit_name)
+        klass = Class.new(Object.const_get("Netlist::" + inherit_name)) do
+            def initialize(*args)
+                super(*args)
+            end
+        end
+        Netlist.const_set(class_name, klass)
+        
+        klass
     end
 
     def self.create_gate(type, nb_inputs, partof = nil)
@@ -16,12 +37,7 @@ module Netlist
 
             # Si la classe n'existe pas encore, la déclarer  
             if !class_exists?("Netlist::" + specific_classname)
-                klass = Class.new(Object.const_get("Netlist::" + type_classname)) do
-                    def initialize(*args)
-                        super(*args)
-                    end
-                end
-                Netlist.const_set(specific_classname, klass)
+                create_class(specific_classname, type_classname)
             end
             Netlist.const_get(specific_classname).new
         else 
@@ -207,6 +223,9 @@ module Netlist
 
     class And < Gate 
         SMT_EXPR  = ["(and",")"]
+        VHDL_OP = "and"
+        VHDL_PREFIX = ""
+        
         def initialize *args
             super *args
             # TODO : set propag_time in function of the number of inputs
@@ -216,6 +235,8 @@ module Netlist
 
     class Or < Gate
         SMT_EXPR  = ["(or",")"]
+        VHDL_OP = "or"
+        VHDL_PREFIX = ""
         def initialize *args 
           super *args
           @propag_time[:int_multi] = 1 + get_nb_inputs
@@ -224,6 +245,8 @@ module Netlist
     
     class Nand < Gate 
         SMT_EXPR  = ["(not (and","))"]
+        VHDL_OP = "and"
+        VHDL_PREFIX = "not"
         def initialize *args
           super *args 
           @propag_time[:int_multi] = 2 + get_nb_inputs
@@ -232,6 +255,8 @@ module Netlist
     
     class Nor < Gate 
         SMT_EXPR  = ["(not (or","))"]
+        VHDL_OP = "or"
+        VHDL_PREFIX = "not"
         def initialize *args
             super *args
             @propag_time[:int_multi] = 2 + get_nb_inputs
@@ -240,9 +265,11 @@ module Netlist
 
     class Xor < Gate
         SMT_EXPR  = ["(xor",")"]
+        VHDL_OP = "xor"
+        VHDL_PREFIX = ""
         def initialize *args
-        super *args
-        @propag_time[:int_multi] = 3 + get_nb_inputs
+            super *args
+            @propag_time[:int_multi] = 3 + get_nb_inputs
         end
     end
 
@@ -309,6 +336,8 @@ module Netlist
 
     class Not < Gate
         SMT_EXPR  = ["(not",")"]
+        VHDL_OP = "not"
+        VHDL_PREFIX = ""
 
         def initialize name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs=1, nb_outputs=1
             super
@@ -372,6 +401,6 @@ module Netlist
     class Zero < Constant; end
     class One < Constant; end
 
-    $DEF_GATE_TYPES = [And2, Or2, Xor2, Not, Nand2, Nor2, Buffer] # TODO : Legacy, verify where it is needed and rename to GTECH only
-    $GTECH = $DEF_GATE_TYPES
+    DEF_GATE_TYPES = Netlist::Gate.subclasses # TODO : Legacy, verify where it is needed and rename to GTECH only
+    GTECH = [And2, Or2, Xor2, Not, Nand2, Nor2, Buffer]
 end

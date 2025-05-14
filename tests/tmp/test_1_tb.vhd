@@ -16,8 +16,8 @@ architecture netenos of test_1_tb is
     constant unit_delay : time := 1 ps; -- default already is 1, thus this line is not mandatory
     -- With a 1-unit model, the maximum path length is equivalent to the minimal period for nominal behavior 
     -- Which means minimum period is 4 for a unit_delay value of 1 (default value) 
-    constant nom_period : time := (unit_delay * 61);
-    constant obs_period : time := (unit_delay * 61);
+    constant nom_period : time := (unit_delay * 45);
+    constant obs_period : time := (unit_delay * 45);
     constant phase : time := 0 ps;
     signal nom_clk : std_logic := '1';
     signal obs_clk : std_logic := '1';

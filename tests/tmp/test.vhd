@@ -22,536 +22,292 @@ entity test is
 end test;
  
 architecture netenos of test is
-	signal Nor260_o0 : std_logic;
-	signal Xor280_o0 : std_logic;
-	signal Nand2100_o0 : std_logic;
-	signal Xor2120_o0 : std_logic;
-	signal Nor2140_o0 : std_logic;
-	signal Not160_o0 : std_logic;
-	signal Xor2180_o0 : std_logic;
-	signal Nor2200_o0 : std_logic;
-	signal Not220_o0 : std_logic;
-	signal Nand2240_o0 : std_logic;
-	signal Nand2260_o0 : std_logic;
-	signal Nand2280_o0 : std_logic;
-	signal Nor2300_o0 : std_logic;
-	signal Xor2320_o0 : std_logic;
-	signal Or2340_o0 : std_logic;
-	signal Or2360_o0 : std_logic;
-	signal Xor2380_o0 : std_logic;
-	signal Xor2400_o0 : std_logic;
-	signal And2420_o0 : std_logic;
-	signal Nor2440_o0 : std_logic;
-	signal Or2460_o0 : std_logic;
-	signal Not480_o0 : std_logic;
-	signal And2500_o0 : std_logic;
-	signal Xor2520_o0 : std_logic;
-	signal Or2540_o0 : std_logic;
-	signal Xor2560_o0 : std_logic;
-	signal Or2580_o0 : std_logic;
-	signal Or2600_o0 : std_logic;
-	signal Nand2620_o0 : std_logic;
-	signal Nor2640_o0 : std_logic;
-	signal Nor2660_o0 : std_logic;
-	signal Nor2680_o0 : std_logic;
-	signal And2700_o0 : std_logic;
-	signal Xor2720_o0 : std_logic;
-	signal Nand2740_o0 : std_logic;
-	signal And2760_o0 : std_logic;
-	signal Nand2780_o0 : std_logic;
-	signal Not800_o0 : std_logic;
-	signal And2820_o0 : std_logic;
-	signal Not840_o0 : std_logic;
-	signal Nand2860_o0 : std_logic;
-	signal And2880_o0 : std_logic;
-	signal Xor2900_o0 : std_logic;
-	signal Not920_o0 : std_logic;
-	signal Or2940_o0 : std_logic;
-	signal And2960_o0 : std_logic;
-	signal Xor2980_o0 : std_logic;
-	signal Or21000_o0 : std_logic;
-	signal Nor21020_o0 : std_logic;
-	signal And21040_o0 : std_logic;
-	signal Or21060_o0 : std_logic;
-	signal Xor21080_o0 : std_logic;
-	signal Or21100_o0 : std_logic;
-	signal Nand21120_o0 : std_logic;
-	signal Or21140_o0 : std_logic;
-	signal Or21160_o0 : std_logic;
-	signal Nand21180_o0 : std_logic;
-	signal And21200_o0 : std_logic;
-	signal Xor21220_o0 : std_logic;
-	signal Or21240_o0 : std_logic;
-	signal Nand21260_o0 : std_logic;
-	signal Not1280_o0 : std_logic;
-	signal And21300_o0 : std_logic;
-	signal Nand21320_o0 : std_logic;
-	signal Nand21340_o0 : std_logic;
-	signal Xor21360_o0 : std_logic;
+	signal Xor46860_o0 : std_logic;
+	signal Nor56880_o0 : std_logic;
+	signal Nand56900_o0 : std_logic;
+	signal Or56920_o0 : std_logic;
+	signal Xor36940_o0 : std_logic;
+	signal Or36960_o0 : std_logic;
+	signal Xor36980_o0 : std_logic;
+	signal Or47000_o0 : std_logic;
+	signal Or57020_o0 : std_logic;
+	signal Nand47040_o0 : std_logic;
+	signal Nor57060_o0 : std_logic;
+	signal Xor57080_o0 : std_logic;
+	signal Xor57100_o0 : std_logic;
+	signal Nor37120_o0 : std_logic;
+	signal Nand57140_o0 : std_logic;
+	signal Nor37160_o0 : std_logic;
+	signal Nand37180_o0 : std_logic;
+	signal Nand57200_o0 : std_logic;
+	signal And57220_o0 : std_logic;
+	signal And47240_o0 : std_logic;
+	signal Or47260_o0 : std_logic;
+	signal Xor57280_o0 : std_logic;
+	signal Xor37300_o0 : std_logic;
+	signal Xor57320_o0 : std_logic;
+	signal And47340_o0 : std_logic;
+	signal Nor57360_o0 : std_logic;
+	signal Or57380_o0 : std_logic;
 begin
 	----------------------------------
 	-- Components interconnect 
 	----------------------------------
-	Nor260 : entity gtech_lib.nor2_d
+	Xor46860 : entity gtech_lib.xor4_d
+		generic map(7000 fs)
+		port map(
+			i0 => i2,
+			i1 => i4,
+			i2 => i5,
+			i3 => i7,
+			o0 => Xor46860_o0
+		);
+		Nor56880 : entity gtech_lib.nor5_d
+		generic map(7000 fs)
+		port map(
+			i0 => i0,
+			i1 => i6,
+			i2 => i3,
+			i3 => i1,
+			i4 => i0,
+			o0 => Nor56880_o0
+		);
+		Nand56900 : entity gtech_lib.nand5_d
+		generic map(7000 fs)
+		port map(
+			i0 => i7,
+			i1 => i5,
+			i2 => i1,
+			i3 => i2,
+			i4 => i3,
+			o0 => Nand56900_o0
+		);
+		Or56920 : entity gtech_lib.or5_d
+		generic map(6000 fs)
+		port map(
+			i0 => i6,
+			i1 => i4,
+			i2 => i7,
+			i3 => i2,
+			i4 => i4,
+			o0 => Or56920_o0
+		);
+		Xor36940 : entity gtech_lib.xor3_d
+		generic map(6000 fs)
+		port map(
+			i0 => i6,
+			i1 => i1,
+			i2 => i0,
+			o0 => Xor36940_o0
+		);
+		Or36960 : entity gtech_lib.or3_d
 		generic map(4000 fs)
+		port map(
+			i0 => Nor56880_o0,
+			i1 => Or56920_o0,
+			i2 => Nand56900_o0,
+			o0 => Or36960_o0
+		);
+		Xor36980 : entity gtech_lib.xor3_d
+		generic map(6000 fs)
+		port map(
+			i0 => Xor36940_o0,
+			i1 => Xor46860_o0,
+			i2 => Nor56880_o0,
+			o0 => Xor36980_o0
+		);
+		Or47000 : entity gtech_lib.or4_d
+		generic map(5000 fs)
+		port map(
+			i0 => Nand56900_o0,
+			i1 => Or56920_o0,
+			i2 => i5,
+			i3 => i3,
+			o0 => Or47000_o0
+		);
+		Or57020 : entity gtech_lib.or5_d
+		generic map(6000 fs)
+		port map(
+			i0 => Xor46860_o0,
+			i1 => Xor36940_o0,
+			i2 => Nand56900_o0,
+			i3 => Xor46860_o0,
+			i4 => i4,
+			o0 => Or57020_o0
+		);
+		Nand47040 : entity gtech_lib.nand4_d
+		generic map(6000 fs)
+		port map(
+			i0 => Or56920_o0,
+			i1 => Nor56880_o0,
+			i2 => i5,
+			i3 => i6,
+			o0 => Nand47040_o0
+		);
+		Nor57060 : entity gtech_lib.nor5_d
+		generic map(7000 fs)
+		port map(
+			i0 => Or47000_o0,
+			i1 => Or57020_o0,
+			i2 => Nand47040_o0,
+			i3 => Xor36980_o0,
+			i4 => Or36960_o0,
+			o0 => Nor57060_o0
+		);
+		Xor57080 : entity gtech_lib.xor5_d
+		generic map(8000 fs)
+		port map(
+			i0 => Xor36940_o0,
+			i1 => Nor56880_o0,
+			i2 => i0,
+			i3 => i1,
+			i4 => Or36960_o0,
+			o0 => Xor57080_o0
+		);
+		Xor57100 : entity gtech_lib.xor5_d
+		generic map(8000 fs)
+		port map(
+			i0 => i7,
+			i1 => Nand56900_o0,
+			i2 => i2,
+			i3 => Or47000_o0,
+			i4 => i3,
+			o0 => Xor57100_o0
+		);
+		Nor37120 : entity gtech_lib.nor3_d
+		generic map(5000 fs)
 		port map(
 			i0 => i4,
 			i1 => i7,
-			o0 => Nor260_o0
+			i2 => i5,
+			o0 => Nor37120_o0
 		);
-		Xor280 : entity gtech_lib.xor2_d
+		Nand57140 : entity gtech_lib.nand5_d
+		generic map(7000 fs)
+		port map(
+			i0 => Or56920_o0,
+			i1 => Xor46860_o0,
+			i2 => Nand47040_o0,
+			i3 => Or57020_o0,
+			i4 => Xor36980_o0,
+			o0 => Nand57140_o0
+		);
+		Nor37160 : entity gtech_lib.nor3_d
 		generic map(5000 fs)
+		port map(
+			i0 => Xor57100_o0,
+			i1 => Xor57080_o0,
+			i2 => Nand57140_o0,
+			o0 => Nor37160_o0
+		);
+		Nand37180 : entity gtech_lib.nand3_d
+		generic map(5000 fs)
+		port map(
+			i0 => Nor37120_o0,
+			i1 => Nor57060_o0,
+			i2 => Or36960_o0,
+			o0 => Nand37180_o0
+		);
+		Nand57200 : entity gtech_lib.nand5_d
+		generic map(7000 fs)
+		port map(
+			i0 => Xor36940_o0,
+			i1 => Xor46860_o0,
+			i2 => Nor57060_o0,
+			i3 => Or47000_o0,
+			i4 => Nand57140_o0,
+			o0 => Nand57200_o0
+		);
+		And57220 : entity gtech_lib.and5_d
+		generic map(6000 fs)
 		port map(
 			i0 => i3,
-			i1 => i6,
-			o0 => Xor280_o0
+			i1 => Xor36940_o0,
+			i2 => i1,
+			i3 => Nand56900_o0,
+			i4 => Nand47040_o0,
+			o0 => And57220_o0
 		);
-		Nand2100 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => i0,
-			i1 => i5,
-			o0 => Nand2100_o0
-		);
-		Xor2120 : entity gtech_lib.xor2_d
+		And47240 : entity gtech_lib.and4_d
 		generic map(5000 fs)
 		port map(
-			i0 => i1,
-			i1 => i2,
-			o0 => Xor2120_o0
+			i0 => Nand57200_o0,
+			i1 => Nor37160_o0,
+			i2 => And57220_o0,
+			i3 => Nand37180_o0,
+			o0 => And47240_o0
 		);
-		Nor2140 : entity gtech_lib.nor2_d
-		generic map(4000 fs)
-		port map(
-			i0 => i3,
-			i1 => i7,
-			o0 => Nor2140_o0
-		);
-		Not160 : entity gtech_lib.not_d
-		generic map(2000 fs)
-		port map(
-			i0 => Nor260_o0,
-			o0 => Not160_o0
-		);
-		Xor2180 : entity gtech_lib.xor2_d
+		Or47260 : entity gtech_lib.or4_d
 		generic map(5000 fs)
-		port map(
-			i0 => Xor280_o0,
-			i1 => Nand2100_o0,
-			o0 => Xor2180_o0
-		);
-		Nor2200 : entity gtech_lib.nor2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Nor2140_o0,
-			i1 => Xor2120_o0,
-			o0 => Nor2200_o0
-		);
-		Not220 : entity gtech_lib.not_d
-		generic map(2000 fs)
-		port map(
-			i0 => Nand2100_o0,
-			o0 => Not220_o0
-		);
-		Nand2240 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => i5,
-			i1 => i2,
-			o0 => Nand2240_o0
-		);
-		Nand2260 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Nor2200_o0,
-			i1 => Not160_o0,
-			o0 => Nand2260_o0
-		);
-		Nand2280 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Not220_o0,
-			i1 => Xor2180_o0,
-			o0 => Nand2280_o0
-		);
-		Nor2300 : entity gtech_lib.nor2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Nand2240_o0,
-			i1 => i4,
-			o0 => Nor2300_o0
-		);
-		Xor2320 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
-		port map(
-			i0 => Nor2200_o0,
-			i1 => i1,
-			o0 => Xor2320_o0
-		);
-		Or2340 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => i0,
-			i1 => Not160_o0,
-			o0 => Or2340_o0
-		);
-		Or2360 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Nand2280_o0,
-			i1 => Nor2300_o0,
-			o0 => Or2360_o0
-		);
-		Xor2380 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
-		port map(
-			i0 => Xor2320_o0,
-			i1 => Or2340_o0,
-			o0 => Xor2380_o0
-		);
-		Xor2400 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
-		port map(
-			i0 => Nand2260_o0,
-			i1 => Xor2320_o0,
-			o0 => Xor2400_o0
-		);
-		And2420 : entity gtech_lib.and2_d
-		generic map(3000 fs)
 		port map(
 			i0 => i6,
-			i1 => Nor2140_o0,
-			o0 => And2420_o0
+			i1 => Nor37120_o0,
+			i2 => i2,
+			i3 => Nand37180_o0,
+			o0 => Or47260_o0
 		);
-		Nor2440 : entity gtech_lib.nor2_d
-		generic map(4000 fs)
+		Xor57280 : entity gtech_lib.xor5_d
+		generic map(8000 fs)
 		port map(
-			i0 => Nor2300_o0,
-			i1 => Nand2260_o0,
-			o0 => Nor2440_o0
+			i0 => Xor36980_o0,
+			i1 => Nand57200_o0,
+			i2 => Or56920_o0,
+			i3 => Nor56880_o0,
+			i4 => And57220_o0,
+			o0 => Xor57280_o0
 		);
-		Or2460 : entity gtech_lib.or2_d
-		generic map(3000 fs)
+		Xor37300 : entity gtech_lib.xor3_d
+		generic map(6000 fs)
 		port map(
-			i0 => Xor2380_o0,
-			i1 => Nor2440_o0,
-			o0 => Or2460_o0
+			i0 => Nor37160_o0,
+			i1 => And57220_o0,
+			i2 => Xor57100_o0,
+			o0 => Xor37300_o0
 		);
-		Not480 : entity gtech_lib.not_d
-		generic map(2000 fs)
+		Xor57320 : entity gtech_lib.xor5_d
+		generic map(8000 fs)
 		port map(
-			i0 => Xor2400_o0,
-			o0 => Not480_o0
+			i0 => Xor37300_o0,
+			i1 => Xor57280_o0,
+			i2 => And47240_o0,
+			i3 => Or47260_o0,
+			i4 => Or57020_o0,
+			o0 => Xor57320_o0
 		);
-		And2500 : entity gtech_lib.and2_d
-		generic map(3000 fs)
-		port map(
-			i0 => And2420_o0,
-			i1 => Or2360_o0,
-			o0 => And2500_o0
-		);
-		Xor2520 : entity gtech_lib.xor2_d
+		And47340 : entity gtech_lib.and4_d
 		generic map(5000 fs)
 		port map(
-			i0 => Xor2180_o0,
-			i1 => Not220_o0,
-			o0 => Xor2520_o0
+			i0 => Xor57080_o0,
+			i1 => Nand37180_o0,
+			i2 => i0,
+			i3 => Or36960_o0,
+			o0 => And47340_o0
 		);
-		Or2540 : entity gtech_lib.or2_d
-		generic map(3000 fs)
+		Nor57360 : entity gtech_lib.nor5_d
+		generic map(7000 fs)
 		port map(
-			i0 => i3,
-			i1 => Xor2120_o0,
-			o0 => Or2540_o0
+			i0 => Or57020_o0,
+			i1 => Nor37120_o0,
+			i2 => Nor37160_o0,
+			i3 => Xor57280_o0,
+			i4 => Xor46860_o0,
+			o0 => Nor57360_o0
 		);
-		Xor2560 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
+		Or57380 : entity gtech_lib.or5_d
+		generic map(6000 fs)
 		port map(
-			i0 => And2500_o0,
-			i1 => Xor2520_o0,
-			o0 => Xor2560_o0
-		);
-		Or2580 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Or2460_o0,
-			i1 => Not480_o0,
-			o0 => Or2580_o0
-		);
-		Or2600 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Or2540_o0,
-			i1 => Or2540_o0,
-			o0 => Or2600_o0
-		);
-		Nand2620 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Nor260_o0,
-			i1 => And2500_o0,
-			o0 => Nand2620_o0
-		);
-		Nor2640 : entity gtech_lib.nor2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Or2360_o0,
-			i1 => Nand2240_o0,
-			o0 => Nor2640_o0
-		);
-		Nor2660 : entity gtech_lib.nor2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Nand2620_o0,
-			i1 => Xor2560_o0,
-			o0 => Nor2660_o0
-		);
-		Nor2680 : entity gtech_lib.nor2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Or2580_o0,
-			i1 => Or2600_o0,
-			o0 => Nor2680_o0
-		);
-		And2700 : entity gtech_lib.and2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Nor2640_o0,
-			i1 => Xor2560_o0,
-			o0 => And2700_o0
-		);
-		Xor2720 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
-		port map(
-			i0 => Nand2620_o0,
-			i1 => Nor2640_o0,
-			o0 => Xor2720_o0
-		);
-		Nand2740 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Nor2680_o0,
-			i1 => Xor2720_o0,
-			o0 => Nand2740_o0
-		);
-		And2760 : entity gtech_lib.and2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Nor2660_o0,
-			i1 => And2700_o0,
-			o0 => And2760_o0
-		);
-		Nand2780 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Or2340_o0,
-			i1 => Nand2280_o0,
-			o0 => Nand2780_o0
-		);
-		Not800 : entity gtech_lib.not_d
-		generic map(2000 fs)
-		port map(
-			i0 => Or2600_o0,
-			o0 => Not800_o0
-		);
-		And2820 : entity gtech_lib.and2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Nand2780_o0,
-			i1 => Nand2740_o0,
-			o0 => And2820_o0
-		);
-		Not840 : entity gtech_lib.not_d
-		generic map(2000 fs)
-		port map(
-			i0 => And2760_o0,
-			o0 => Not840_o0
-		);
-		Nand2860 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Not800_o0,
-			i1 => Not800_o0,
-			o0 => Nand2860_o0
-		);
-		And2880 : entity gtech_lib.and2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Xor280_o0,
-			i1 => Nor2140_o0,
-			o0 => And2880_o0
-		);
-		Xor2900 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
-		port map(
-			i0 => And2880_o0,
-			i1 => And2820_o0,
-			o0 => Xor2900_o0
-		);
-		Not920 : entity gtech_lib.not_d
-		generic map(2000 fs)
-		port map(
-			i0 => Nand2860_o0,
-			o0 => Not920_o0
-		);
-		Or2940 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Not840_o0,
-			i1 => Nand2740_o0,
-			o0 => Or2940_o0
-		);
-		And2960 : entity gtech_lib.and2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Xor2120_o0,
-			i1 => Nand2100_o0,
-			o0 => And2960_o0
-		);
-		Xor2980 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
-		port map(
-			i0 => Not920_o0,
-			i1 => Or2940_o0,
-			o0 => Xor2980_o0
-		);
-		Or21000 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Xor2900_o0,
-			i1 => And2960_o0,
-			o0 => Or21000_o0
-		);
-		Nor21020 : entity gtech_lib.nor2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Not160_o0,
-			i1 => Xor2320_o0,
-			o0 => Nor21020_o0
-		);
-		And21040 : entity gtech_lib.and2_d
-		generic map(3000 fs)
-		port map(
-			i0 => i2,
-			i1 => Nor2200_o0,
-			o0 => And21040_o0
-		);
-		Or21060 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => And21040_o0,
-			i1 => Xor2980_o0,
-			o0 => Or21060_o0
-		);
-		Xor21080 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
-		port map(
-			i0 => Nor21020_o0,
-			i1 => Or21000_o0,
-			o0 => Xor21080_o0
-		);
-		Or21100 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Not480_o0,
-			i1 => And21040_o0,
-			o0 => Or21100_o0
-		);
-		Nand21120 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Nand2780_o0,
-			i1 => Not920_o0,
-			o0 => Nand21120_o0
-		);
-		Or21140 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Nand21120_o0,
-			i1 => Or21100_o0,
-			o0 => Or21140_o0
-		);
-		Or21160 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Xor21080_o0,
-			i1 => Or21060_o0,
-			o0 => Or21160_o0
-		);
-		Nand21180 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Or2460_o0,
-			i1 => Xor2980_o0,
-			o0 => Nand21180_o0
-		);
-		And21200 : entity gtech_lib.and2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Nor2660_o0,
-			i1 => Nor21020_o0,
-			o0 => And21200_o0
-		);
-		Xor21220 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
-		port map(
-			i0 => And21200_o0,
-			i1 => Nand21180_o0,
-			o0 => Xor21220_o0
-		);
-		Or21240 : entity gtech_lib.or2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Or21160_o0,
-			i1 => Or21140_o0,
-			o0 => Or21240_o0
-		);
-		Nand21260 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Or2940_o0,
-			i1 => i6,
-			o0 => Nand21260_o0
-		);
-		Not1280 : entity gtech_lib.not_d
-		generic map(2000 fs)
-		port map(
-			i0 => Xor2900_o0,
-			o0 => Not1280_o0
-		);
-		And21300 : entity gtech_lib.and2_d
-		generic map(3000 fs)
-		port map(
-			i0 => Nand21260_o0,
-			i1 => Not1280_o0,
-			o0 => And21300_o0
-		);
-		Nand21320 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Xor21220_o0,
-			i1 => Or21240_o0,
-			o0 => Nand21320_o0
-		);
-		Nand21340 : entity gtech_lib.nand2_d
-		generic map(4000 fs)
-		port map(
-			i0 => Not840_o0,
-			i1 => And2960_o0,
-			o0 => Nand21340_o0
-		);
-		Xor21360 : entity gtech_lib.xor2_d
-		generic map(5000 fs)
-		port map(
-			i0 => And2760_o0,
-			i1 => And2880_o0,
-			o0 => Xor21360_o0
+			i0 => Xor57100_o0,
+			i1 => Nand57200_o0,
+			i2 => i1,
+			i3 => Or47000_o0,
+			i4 => i2,
+			o0 => Or57380_o0
 		);
 	----------------------------------
 	-- Wiring primary ouputs 
 	----------------------------------
-	o0 <= Xor21360_o0;
-	o1 <= Nand21340_o0;
-	o2 <= Nand21320_o0;
-	o3 <= And21300_o0;
+	o0 <= Nor57360_o0;
+	o1 <= And47340_o0;
+	o2 <= Xor57320_o0;
+	o3 <= Or57380_o0;
 end netenos;
