@@ -16,7 +16,6 @@ $OPT = [$COMPILER, :minimal_sig]
 class Test_ateta
 
     def initialize 
-
         # * Clean 'tmp' directory just in case
         # `rm *`
 

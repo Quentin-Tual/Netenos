@@ -206,6 +206,7 @@ module Netlist
     end
 
     class And < Gate 
+        SMT_EXPR  = ["(and",")"]
         def initialize *args
             super *args
             # TODO : set propag_time in function of the number of inputs
@@ -214,6 +215,7 @@ module Netlist
     end
 
     class Or < Gate
+        SMT_EXPR  = ["(or",")"]
         def initialize *args 
           super *args
           @propag_time[:int_multi] = 1 + get_nb_inputs
@@ -221,6 +223,7 @@ module Netlist
     end
     
     class Nand < Gate 
+        SMT_EXPR  = ["(not (and","))"]
         def initialize *args
           super *args 
           @propag_time[:int_multi] = 2 + get_nb_inputs
@@ -228,6 +231,7 @@ module Netlist
     end    
     
     class Nor < Gate 
+        SMT_EXPR  = ["(not (or","))"]
         def initialize *args
             super *args
             @propag_time[:int_multi] = 2 + get_nb_inputs
@@ -235,6 +239,7 @@ module Netlist
     end
 
     class Xor < Gate
+        SMT_EXPR  = ["(xor",")"]
         def initialize *args
         super *args
         @propag_time[:int_multi] = 3 + get_nb_inputs
@@ -263,7 +268,7 @@ module Netlist
         end
     end
     
-    class Xor2 < Gate
+    class Xor2 < Xor
         def initialize *args
             super *args
         end
@@ -274,7 +279,7 @@ module Netlist
         end
     end
 
-    class Nor2 < Gate
+    class Nor2 < Nor
         def initialize *args
             super *args
         end
@@ -285,7 +290,7 @@ module Netlist
         end
     end
 
-    class Nand2 < Gate
+    class Nand2 < Nand
         def initialize *args
             super *args
         end
@@ -303,6 +308,7 @@ module Netlist
     # class Nor3 < Gate; end
 
     class Not < Gate
+        SMT_EXPR  = ["(not",")"]
 
         def initialize name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs=1, nb_outputs=1
             super
@@ -320,6 +326,8 @@ module Netlist
     end
 
     class Buffer < Gate
+        SMT_EXPR  = ["",""]
+        
         def initialize name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs=1, nb_outputs=1, propag_time=1
             args = [name, partof, nb_inputs, nb_outputs]
             #!DEBUG

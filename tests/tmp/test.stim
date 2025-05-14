@@ -1,377 +1,626 @@
-# Stimuli sequence;dec;5;explicit
+# Stimuli sequence;dec;8;explicit
 # Unobservables : 0
-# s=Not280_i0, o=o10; s=And21820_i1, o=o10
-16
-17
-# s=Not400_i0, o=o5; s=And21900_i0, o=o11; s=Or21920_i0, o=o11; s=And2820_i1, o=o5
-1
-2
-# s=And2500_i1, o=o7; s=And21880_i1, o=o11
-3
-0
-# s=And2520_i1, o=o7; s=Or22560_i0, o=o13; s=And22540_i1, o=o13
-2
-3
-# s=Nor2580_i0, o=o4
-14
-26
-# s=Nor2580_i1, o=o4; s=Xor2940_i1, o=o6
-14
-10
-# s=And2840_i1, o=o5; s=And2860_i0, o=o5; s=And21940_i1, o=o11
-10
-2
-# s=Or2980_i0, o=o6; s=And21000_i0, o=o6; s=And21780_i1, o=o10
-16
-20
-# s=Or2980_i1, o=o6; s=And21800_i1, o=o10
-16
-18
-# s=And21020_i0, o=o6; s=Or22360_i1, o=o13; s=And2240_i0, o=o0
-4
-0
-# s=And21020_i1, o=o6; s=Or21040_i0, o=o6; s=Or22260_i0, o=o12; s=Xor21440_i0, o=o8; s=And21460_i0, o=o8; s=And2220_i0, o=o0; s=And2260_i0, o=o0
-2
-0
-# s=Or21040_i1, o=o6
-2
-20
-# s=And21060_i0, o=o6; s=Or21080_i0, o=o6; s=Or22140_i0, o=o12; s=And22160_i0, o=o12; s=And22240_i0, o=o12; s=Nor22120_i1, o=o12; s=And2220_i1, o=o0
-0
-4
-# s=And21100_i0, o=o6
-14
-16
-# s=Or21180_i1, o=o6; s=And2600_i1, o=o4
-14
+# s=Not140_i0, o=o1; s=Nor21680_i1, o=o1
 8
-# s=Or21200_i1, o=o7; s=Or21840_i1, o=o11; s=And21860_i0, o=o11; s=Or21500_i1, o=o8; s=And22400_i1, o=o13; s=Nor2200_i1, o=o0
 0
-1
-# s=And21220_i0, o=o7; s=Or21200_i0, o=o7; s=And21520_i1, o=o8
-5
-0
-# s=Or21240_i0, o=o7; s=And2780_i0, o=o5; s=Or2800_i0, o=o5; s=Or21180_i0, o=o6; s=Or21920_i1, o=o11; s=And21940_i0, o=o11; s=And2420_i1, o=o4; s=And2760_i1, o=o5; s=And21160_i1, o=o6
-1
-0
-# s=Or21240_i1, o=o7
-3
-22
-# s=Or21300_i1, o=o7
-2
-22
-# s=And21320_i0, o=o7; s=And21280_i0, o=o7; s=Or21300_i0, o=o7; s=And21260_i1, o=o7
-6
-18
-# s=And21340_i0, o=o7; s=Or21380_i0, o=o7
-16
-25
-# s=And21360_i0, o=o7
-21
+# s=Not400_i0, o=o2
+212
+244
+# s=And2580_i1, o=o0
+32
+140
+# s=Nand2620_i0, o=o2
+128
+224
+# s=Nand2620_i1, o=o2
+224
+220
+# s=And2640_i0, o=o0
+198
+14
+# s=Nand2960_i0, o=o1
 24
-# s=And21400_i0, o=o7; s=And2300_i1, o=o5
-2
-11
-# s=Or21420_i0, o=o7; s=And2300_i0, o=o5; s=And2880_i1, o=o5; s=And21820_i0, o=o10
-10
-0
-# s=Or21420_i1, o=o7
-29
-0
-# s=And21600_i0, o=o9; s=Xor2940_i0, o=o6
-18
-10
-# s=And21620_i0, o=o9
-0
-18
-# s=And21640_i0, o=o9; s=And2240_i1, o=o0
-0
-8
-# s=Or21660_i0, o=o9; s=And2380_i0, o=o2
-10
-8
-# s=Or21660_i1, o=o9; s=And21620_i1, o=o9; s=And21860_i1, o=o11
-16
-2
-# s=And21680_i0, o=o9; s=And21740_i0, o=o9; s=And21480_i0, o=o8
-0
+90
+# s=Nand2960_i1, o=o1; s=Nand21520_i0, o=o1
+44
 26
-# s=Or21720_i1, o=o9
-9
-0
-# s=Xor22100_i0, o=o12; s=Nor22120_i0, o=o12; s=Or22140_i1, o=o12; s=And2960_i1, o=o6
-16
-0
-# s=Xor22100_i1, o=o12
-18
-0
-# s=Or22220_i1, o=o12; s=And21220_i1, o=o7
-4
-2
-# s=And22280_i1, o=o13; s=And2820_i0, o=o5
-5
+# s=Nand2980_i0, o=o0; s=Nand21000_i0, o=o0
+56
 25
-# s=And22380_i0, o=o13; s=Or22420_i0, o=o13
-12
-0
-# s=And22400_i0, o=o13
-12
-16
-# s=And2420_i0, o=o4; s=Xor21440_i1, o=o8; s=And22440_i1, o=o13
-0
-3
-# s=Or2540_i1, o=o4; s=And21680_i1, o=o9
+# s=Nand21020_i0, o=o2
+136
+48
+# s=Nand21020_i1, o=o2
+32
+112
+# s=Nand21040_i0, o=o2; s=Nand22600_i0, o=o4
+96
+48
+# s=Nand21060_i0, o=o0; s=And31080_i0, o=o0
+114
 19
-24
-# s=Or2620_i0, o=o4; s=And21640_i1, o=o9
-2
-8
-# s=Nor2660_i0, o=o4; s=And2700_i0, o=o4
-2
-17
-# s=Nor2660_i1, o=o4; s=And21460_i1, o=o8
-0
-9
-# s=And2680_i0, o=o4
-0
-17
-# s=And2680_i1, o=o4
-0
-5
-# s=And2760_i0, o=o5
-4
+# s=And31080_i1, o=o0
+153
+59
+# s=Or21100_i0, o=o0; s=And21120_i0, o=o0
+106
 1
-# s=Or2900_i1, o=o5; s=Or21500_i0, o=o8; s=And21400_i1, o=o7
-24
-0
-# s=Xor2920_i0, o=o8; s=And21540_i0, o=o8
-29
-12
-# s=Xor2920_i1, o=o8; s=And22000_i0, o=o12; s=Or22060_i1, o=o12
-14
-12
-# s=And2960_i0, o=o6
-16
-10
-# s=And21000_i1, o=o6; s=And21560_i0, o=o8
-20
-0
-# s=Or21080_i1, o=o6; s=And21960_i1, o=o11
+# s=Or21140_i0, o=o0; s=Nand31160_i0, o=o0; s=Nand2800_i0, o=o0
 6
-2
-# s=Or21120_i0, o=o6; s=And21140_i0, o=o6; s=And22160_i1, o=o12
-2
-5
-# s=And21160_i0, o=o6
-20
-1
-# s=And21260_i0, o=o7
-6
-22
-# s=And21280_i1, o=o7
-7
-6
-# s=Or21380_i1, o=o7
-1
-10
-# s=And21880_i0, o=o11
-3
-18
-# s=And21960_i0, o=o11; s=And21060_i1, o=o6
-8
-0
-# s=And22200_i1, o=o12; s=Or22220_i0, o=o12
-16
 23
-# s=And22300_i1, o=o13
-13
-17
-# s=Or22360_i0, o=o13
-4
+# s=Nand21180_i0, o=o1
+60
+204
+# s=Nand21180_i1, o=o1
+196
+134
+# s=Nor21200_i0, o=o3
+120
+232
+# s=Nor21200_i1, o=o3; s=Or32280_i2, o=o3
 8
-# s=And22380_i1, o=o13; s=And21780_i0, o=o10; s=And2260_i1, o=o0
+232
+# s=Nor21220_i0, o=o1
+100
+228
+# s=Nor21240_i0, o=o1; s=Or21280_i1, o=o1
+100
+20
+# s=Nor21260_i0, o=o1; s=Or21280_i0, o=o1; s=Nand22060_i0, o=o2; s=Nand42160_i1, o=o2
+112
+48
+# s=And21300_i0, o=o1
+20
+0
+# s=Or21460_i1, o=o1
+224
+48
+# s=And21480_i0, o=o1
+52
+128
+# s=Nand21580_i0, o=o1
+40
+24
+# s=And21620_i1, o=o1
+40
+92
+# s=Or21640_i0, o=o1
+12
+44
+# s=And21660_i0, o=o1; s=Nand2360_i1, o=o0
+24
+10
+# s=Nor21680_i0, o=o1
+8
+204
+# s=Or31720_i1, o=o1
+152
+0
+# s=Or31720_i2, o=o1; s=Nor21220_i1, o=o1
+52
+164
+# s=Nand3320_i0, o=o0
+112
+178
+# s=Nand3320_i1, o=o0
+240
+146
+# s=Nand3320_i2, o=o0; s=Nand2340_i0, o=o0
+202
+178
+# s=Nand2340_i1, o=o0
+226
+42
+# s=Nand2360_i0, o=o0; s=Nand2460_i1, o=o0
+226
+178
+# s=Not380_i0, o=o4
 0
 16
-# s=Xor22460_i0, o=o13
-22
-6
-# s=Xor22460_i1, o=o13
-6
-30
-# s=Nor22480_i0, o=o13; s=Or22500_i0, o=o13
-22
-30
-# s=Nor22480_i1, o=o13
-6
-26
-# s=Or22500_i1, o=o13
-2
-18
-# s=And22520_i0, o=o13
-18
-30
-# s=And22540_i0, o=o13; s=And2880_i0, o=o5
-2
-10
-# s=And2320_i0, o=o1; s=And21360_i1, o=o7
-24
-26
-# s=And2340_i0, o=o1
-26
-24
-# s=And2360_i0, o=o1
-26
-16
-# s=And2440_i0, o=o3
-28
-29
-# s=And2460_i0, o=o3
-25
-28
-# s=And2480_i0, o=o3
-29
-16
-# s=And2600_i0, o=o4
-10
-14
-# s=And2740_i0, o=o5; s=And2740_i1, o=o5; s=Or2800_i1, o=o5
-0
-24
-# s=And2780_i1, o=o5
-16
-1
-# s=Or2900_i0, o=o5
-1
-26
-# s=And21340_i1, o=o7
-16
+# s=Nor2420_i0, o=o0
+82
+56
+# s=Nor2420_i1, o=o0; s=Nand2440_i0, o=o0; s=Nand2460_i0, o=o0
+232
+56
+# s=Nand2480_i0, o=o0
+240
 8
-# s=And21480_i1, o=o8
-8
-25
-# s=And21520_i0, o=o8
-24
-10
-# s=Or21580_i1, o=o8
-2
-25
-# s=And21700_i0, o=o9; s=Or21720_i0, o=o9
-1
-9
-# s=And21700_i1, o=o9
-1
-8
-# s=Or21840_i0, o=o11; s=And22340_i1, o=o13
-17
-0
-# s=And21900_i1, o=o11
-3
-2
-# s=And21980_i0, o=o12
-12
-10
-# s=And21980_i1, o=o12
-30
-12
-# s=And22000_i1, o=o12
-12
+# s=And2760_i1, o=o0
+194
+178
+# s=Nand2800_i1, o=o0
+23
 15
-# s=Nor22020_i0, o=o12
-27
-13
-# s=Nor22020_i1, o=o12
-13
-11
-# s=And22040_i0, o=o12
-25
-11
-# s=Or22060_i0, o=o12; s=And22040_i1, o=o12
-25
-8
-# s=And22080_i0, o=o12
-17
-16
-# s=And22180_i0, o=o12; s=And22200_i0, o=o12
-4
-21
-# s=And22180_i1, o=o12
-4
-19
-# s=Or22260_i1, o=o12
-9
-8
-# s=Nor2200_i0, o=o0
-0
-2
-# s=And2320_i1, o=o1
-30
-26
-# s=And2560_i1, o=o4
-8
-24
-# s=And2700_i1, o=o4; s=And21100_i1, o=o6
-2
-1
-# s=Or2720_i0, o=o4
-9
-1
-# s=And2860_i1, o=o5
-6
-10
-# s=Or21120_i1, o=o6
-25
-1
-# s=And21140_i1, o=o6
-28
-19
-# s=Or21580_i0, o=o8
-3
-4
-# s=Xor21760_i0, o=o12; s=And21740_i1, o=o9
-22
-0
-# s=Xor21760_i1, o=o12
-25
-0
-# s=And21800_i0, o=o10
-20
-16
-# s=And2440_i1, o=o3
-25
-29
-# s=And21320_i1, o=o7
-18
-8
-# s=And21540_i1, o=o8
-25
-12
-# s=And21560_i1, o=o8
-20
-5
-# s=And22080_i1, o=o12
+# s=Nand2820_i0, o=o0; s=Nand2880_i1, o=o0
+38
+15
+# s=Nand2840_i0, o=o0
+77
+45
+# s=Nand2840_i1, o=o0
 14
-25
-# s=And22240_i1, o=o12
-0
-10
-# s=And22520_i1, o=o13
-6
-0
-# s=And2340_i1, o=o1
+29
+# s=Nand2860_i0, o=o0; s=Nand2880_i0, o=o0
+142
+45
+# s=Nand2900_i0, o=o0
+46
+37
+# s=And21120_i1, o=o0
+232
+5
+# s=Nor21320_i0, o=o1; s=Nor21360_i0, o=o1; s=Or31420_i2, o=o1
+48
+178
+# s=Nor21320_i1, o=o1
+84
+50
+# s=Nor21340_i0, o=o1
+20
+50
+# s=Nor21340_i1, o=o1
+70
+54
+# s=Nor21380_i0, o=o1
+162
+242
+# s=Or31420_i1, o=o1
+148
 18
-26
-# s=And2380_i1, o=o2
-26
-10
-# s=And2460_i1, o=o3
-21
-29
-# s=And2640_i1, o=o4
-26
+# s=And21440_i0, o=o1
+230
+70
+# s=Or21460_i0, o=o1
+102
 0
-# s=And2360_i1, o=o1
-10
+# s=Nand21500_i0, o=o1; s=Nand21540_i1, o=o1
+238
+142
+# s=Nand21540_i0, o=o1
+88
 26
-# s=And2480_i1, o=o3
+# s=Nand21560_i0, o=o1
+170
+238
+# s=And21660_i1, o=o1
+24
+14
+# s=Nor21840_i0, o=o5
+0
+128
+# s=Nand21860_i0, o=o2
+0
+180
+# s=Nand21880_i0, o=o2
+0
+164
+# s=Nand21900_i0, o=o2
+4
+164
+# s=Nand21940_i1, o=o2
+4
+60
+# s=Nand21960_i0, o=o2; s=Nand42160_i2, o=o2
+0
+44
+# s=Not220_i0, o=o1
+196
+194
+# s=Not680_i0, o=o1
+14
+204
+# s=Nand2700_i0, o=o0
+180
+28
+# s=Nand2700_i1, o=o0
+6
+20
+# s=And2720_i0, o=o0
+252
+4
+# s=Nand2920_i0, o=o0
+171
+35
+# s=Nand2920_i1, o=o0
+74
+41
+# s=Nand2940_i0, o=o0; s=And31080_i2, o=o0
+42
+9
+# s=Nand2940_i1, o=o0
+80
+41
+# s=Nand2980_i1, o=o0
+217
+49
+# s=Nand21000_i1, o=o0
+19
+25
+# s=Nand21040_i1, o=o2; s=Nand22400_i0, o=o3
+96
+80
+# s=Nand21060_i1, o=o0
+18
+11
+# s=Nor21240_i1, o=o1
+52
+16
+# s=Nor21260_i1, o=o1
+116
+164
+# s=Nand21520_i1, o=o1
+56
+10
+# s=Nand21580_i1, o=o1
+56
+44
+# s=Nand31600_i0, o=o1
+216
+140
+# s=Nand31600_i1, o=o1
+8
+44
+# s=Nand31600_i2, o=o1
+232
+24
+# s=And21620_i0, o=o1
+74
+124
+# s=Nor21840_i1, o=o5
+192
+128
+# s=Nand21860_i1, o=o2
+136
+164
+# s=Nand32020_i0, o=o2; s=Nand22040_i0, o=o2
+160
+208
+# s=Nor22180_i0, o=o3
+96
+56
+# s=Nor22180_i1, o=o3
+96
+88
+# s=Or22200_i0, o=o3
+120
+56
+# s=Or22200_i1, o=o3
+0
+184
+# s=And22220_i0, o=o3
+152
+120
+# s=Or32280_i1, o=o3
+160
+184
+# s=Nand22300_i0, o=o3; s=Nand22440_i1, o=o3
+16
+232
+# s=Nand22320_i0, o=o3; s=Nand22340_i0, o=o3
+224
+96
+# s=Nand22320_i1, o=o3
+16
+160
+# s=Nand22340_i1, o=o3; s=Or22580_i1, o=o4
+128
+48
+# s=Nand22360_i0, o=o3; s=Nand22400_i1, o=o3
+192
+160
+# s=Nand22420_i0, o=o3
+224
+0
+# s=Nand22440_i0, o=o3
+224
+64
+# s=Nand2440_i1, o=o0
+50
+10
+# s=Or2660_i1, o=o0
+22
+4
+# s=Nand2820_i1, o=o0
+12
+7
+# s=Nand2860_i1, o=o0
+36
 13
-29
+# s=Nor21360_i1, o=o1
+0
+86
+# s=Nor21380_i1, o=o1
+208
+22
+# s=Nor21400_i0, o=o1
+48
+194
+# s=Nor21400_i1, o=o1
+52
+2
+# s=Or31420_i0, o=o1
+64
+230
+# s=Nand21500_i1, o=o1
+44
+138
+# s=Nand21820_i0, o=o2; s=Nand21880_i1, o=o2
+24
+44
+# s=Nand21820_i1, o=o2
+16
+60
+# s=Nor22240_i0, o=o3
+64
+80
+# s=Nor22240_i1, o=o3
+232
+136
+# s=Nor22260_i0, o=o3; s=Or32280_i0, o=o3
+88
+72
+# s=Nand22380_i0, o=o3
+0
+80
+# s=Nand22460_i0, o=o4
+192
+32
+# s=Nand22500_i1, o=o4
+128
+160
+# s=Nand22520_i0, o=o4
+0
+64
+# s=Nand22600_i1, o=o4
+0
+160
+# s=Not200_i0, o=o0
+72
+39
+# s=Nand3240_i1, o=o0
+52
+114
+# s=Nand3240_i2, o=o0
+115
+88
+# s=Nand2280_i1, o=o0
+2
+118
+# s=Nand3300_i0, o=o0
+183
+220
+# s=Nand2480_i1, o=o0
+206
+0
+# s=Or2740_i1, o=o0
+0
+4
+# s=Nand31160_i2, o=o0
+200
+119
+# s=And21300_i1, o=o1
+112
+2
+# s=Nand31760_i1, o=o2
+80
+200
+# s=Nand31760_i2, o=o2
+132
+224
+# s=Nand21780_i0, o=o2
+8
+200
+# s=Nand31800_i0, o=o2
+240
+244
+# s=Nand31920_i0, o=o2
+80
+40
+# s=Nand31920_i2, o=o2
+4
+40
+# s=Nand21940_i0, o=o2; s=Nand31920_i1, o=o2
+0
+40
+# s=Nand21980_i0, o=o2
+224
+36
+# s=Nand21980_i1, o=o2
+32
+196
+# s=Nand32000_i0, o=o2; s=Nand22040_i1, o=o2
+224
+196
+# s=Nand32000_i1, o=o2
+220
+196
+# s=Nand32020_i2, o=o2
+4
+80
+# s=Nand32080_i0, o=o2; s=Nand22120_i1, o=o2
+192
+140
+# s=Nand32080_i1, o=o2
+28
+12
+# s=Nand32100_i0, o=o2
+64
+24
+# s=Nand32100_i2, o=o2
+4
+24
+# s=Nand22120_i0, o=o2
+0
+152
+# s=Nand22140_i0, o=o2
+192
+152
+# s=Nand42160_i0, o=o2
+128
+140
+# s=Nand42160_i3, o=o2
+160
+64
+# s=Nand22380_i1, o=o3
+80
+224
+# s=Nand22480_i0, o=o4
+0
+192
+# s=Nand22500_i0, o=o4; s=Nand22480_i1, o=o4
+64
+0
+# s=And22540_i0, o=o4; s=Nor22560_i0, o=o4; s=Or22580_i0, o=o4
+176
+16
+# s=And22540_i1, o=o4
+80
+16
+# s=Nor22560_i1, o=o4
+16
+208
+# s=Nand2160_i0, o=o0
+16
+247
+# s=Nand2160_i1, o=o0; s=Nand3300_i1, o=o0
+0
+247
+# s=Nand2180_i0, o=o0
+18
+246
+# s=Nand2180_i1, o=o0
+18
+88
+# s=Nand3240_i0, o=o0
+32
+118
+# s=Nand3260_i0, o=o0
+16
+231
+# s=Nand3260_i1, o=o0
+119
+227
+# s=Nand3260_i2, o=o0
+127
+204
+# s=Nand2280_i0, o=o0
+0
+205
+# s=Nand2900_i1, o=o0
+171
+5
+# s=Or21100_i1, o=o0
+173
+1
+# s=And21440_i1, o=o1
+2
+0
+# s=Nand21560_i1, o=o1
+46
+12
+# s=Or21640_i1, o=o1
+12
+10
+# s=Nand21740_i0, o=o2
+4
+124
+# s=Nand21740_i1, o=o2
+16
+124
+# s=Nand31760_i0, o=o2
+0
+200
+# s=Nand21780_i1, o=o2
+76
+124
+# s=Nand31800_i1, o=o2
+192
+220
+# s=Nand21900_i1, o=o2
+164
+160
+# s=Nand32000_i2, o=o2
+200
+36
+# s=Nand32020_i1, o=o2
+192
+176
+# s=Nand32080_i2, o=o2
+72
+156
+# s=Nand32100_i1, o=o2
+0
+24
+# s=And22220_i1, o=o3
+144
+40
+# s=Nor22260_i1, o=o3
+24
+40
+# s=Nand22360_i1, o=o3; s=Nand22460_i1, o=o4
+160
+0
+# s=Or21140_i1, o=o0
+0
+1
+# s=And21480_i1, o=o1
+116
+8
+# s=Nor51700_i0, o=o1
+74
+206
+# s=Nor51700_i3, o=o1
+36
+194
+# s=Nor51700_i4, o=o1
+10
+204
+# s=Or31720_i0, o=o1
+246
+0
+# s=Nand22060_i1, o=o2
+12
+32
+# s=Nand22140_i1, o=o2
+36
+136
+# s=Nand22420_i1, o=o3
+88
+0
+# s=Nand22520_i1, o=o4
+176
+0
+# s=Xor22620_i0, o=o5
+32
+160
+# s=Nand3300_i2, o=o0
+152
+247
+# s=Or2780_i1, o=o0
+5
+0
+# s=Nor51700_i1, o=o1
+198
+228
+# s=Nor51700_i2, o=o1
+198
+212
+# s=Nand31800_i2, o=o2
+136
+64
+# s=Nand21960_i1, o=o2
+8
+40
+# s=Nand22300_i1, o=o3
+120
+0
+# s=Xor22620_i1, o=o5
+32
+0
+# s=Xor22640_i0, o=o6
+128
+0
+# s=Xor22640_i1, o=o6
+128
+192
