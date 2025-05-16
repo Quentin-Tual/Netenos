@@ -11,7 +11,7 @@ class Test_convBlif2Netlist
 
     def run
         # nb_inputs = @uut.get_nb_inputs("/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/clip.blif")
-        circ = @uut.convert "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/lin.blif"
+        circ = @uut.convert "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/f51m.blif"
         # circ = @uut.convert "../xparc.blif"
         # circ = @uut.convert "../p82.blif"
         # circ = @uut.convert("../test.blif", truth_table_format: false)

@@ -41,7 +41,7 @@ module Converter
             case stim_type
             when String 
                 @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template3.vhdl"))
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_template3.vhdl"))
             when :passed
                 # gen_arch_body_filebased_stim(@stimuli, circ_name)
                 if circ_name.include?("_altered")
@@ -52,16 +52,16 @@ module Converter
                     circ_init_name = circ_name
                 end
                 @stim_file_path = "#{circ_init_name}.txt"
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template3.vhdl")) 
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_template3.vhdl")) 
             when :random
                 @stimuli = gen_arch_body_stim_assign(gen_stimuli(stim_type, nb_cycle))
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) 
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_template2.vhdl")) 
             when :asynch
                 @stimuli = asynch_stim.sort_by{|e| e.timestamp}
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_asynch_template.vhdl"))
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_asynch_template.vhdl"))
             else
                 @stimuli = ""
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_template2.vhdl")) 
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_template2.vhdl")) 
                 warn "Warning: No stimuli in testbench for #{circ_name}."
             end
             # * : Load the template and bind computed values to it

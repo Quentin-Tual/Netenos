@@ -10,19 +10,7 @@ module AtetaAddOn
         attr_reader :unobservables, :observables
 
         def initialize initCirc, payloadDelay, delayModel, netlist_format: "sexp"
-            @initCirc = initCirc.dup
-            # @initCirc.get_exact_crit_path_length(delayModel)
-            # @initCirc.get_slack_hashi
-            # if netlist_format == "sexp"
-                if !File.exist?("#{@initCirc.name}.sexp") and !File.exist?("#{@initCirc.name}.enl")
-                    @initCirc.save_as(".", netlist_format)
-                end
-            # else
-                # if !File.exist?("#{@initCirc.name}.enl")
-                #     @initCirc.save_as("."n)
-                # end
-            # end
-
+            @initCirc = initCirc
             @payloadDelay = payloadDelay
             @delayModel = delayModel
 
@@ -97,20 +85,6 @@ module AtetaAddOn
             end
 
             return res
-        end
-
-        def getAlteredCircuit_old insertPoint
-            precedenceGrid = @initCirc.get_netlist_precedence_grid
-            timings_h = @initCirc.get_timings_hash(@delayModel)
-            tamperer = Inserter::Tamperer.new(@initCirc,precedenceGrid, timings_h)
-            @altCirc = tamperer.insert_buffer_at(insertPoint, @payloadDelay)
-
-            if @netlist_format == "sexp"
-                @initCirc = Deserializer.new.deserialize("./#{@initCirc.name}.sexp")
-                @altCirc.name = "#{@altCirc.name}_altered"
-            else
-                @initCirc = Marshal.load(File.read("./#{@initCirc.name}.enl"))
-            end
         end
 
         def getAlteredCircuit insertPointName

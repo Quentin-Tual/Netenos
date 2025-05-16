@@ -1,0 +1,28 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+library gtech_lib;
+
+entity <%=@src_parts[:entity_name]%> is
+port(
+<%=@src_parts[:inputs_decl]%>
+<%=@src_parts[:outputs_decl].delete_suffix(';')%>
+);
+end <%=@src_parts[:entity_name]%>;
+
+architecture bhv of <%=@src_parts[:entity_name]%> is
+<%=@src_parts[:signals_decl]%>
+begin 
+  
+  ----------------------------------
+  -- Components interconnect
+  ----------------------------------
+  <%=@src_parts[:comp_interconnect]%>
+
+  ----------------------------------
+  -- Wiring primary ouputs 
+  ----------------------------------
+  <%=@src_parts[:outputs_wiring]%>
+
+end architecture;

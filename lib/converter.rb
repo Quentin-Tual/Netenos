@@ -1,3 +1,5 @@
+require 'erb'
+
 require_relative "./converter/code.rb"
 require_relative "./converter/dotgen.rb"
 require_relative "./converter/netson.rb"
@@ -9,9 +11,4 @@ require_relative "./converter/genTestbench.rb"
 require_relative "./converter/vhdlCompileScript.rb"
 require_relative "./converter/genCompTestbench.rb"
 require_relative "./converter/convBlif2Netlist.rb"
-# require_relative "./converter/computeStim9.rb"
-# require_relative "./converter/computeStim10.rb"
-# require_relative "./converter/computeStim11.rb"
-# require_relative "./converter/computeStim12.rb"
-# require_relative "./converter/computeStim13.rb"
-require_relative "./converter/computeStim14.rb"
+# ajouter les gtechGenerators et circDescriptors quand validés

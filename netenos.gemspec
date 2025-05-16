@@ -11,7 +11,8 @@ Gem::Specification.new do |spec|
   spec.bindir = 'bin'
   spec.files = Dir['**/*.rb'] #Dir['lib/**/*.rb'] + Dir['bin/*'] + Dir['doc/*'] + Dir['lib/*.rb'] + Dir['Hyle/**/*.rb'] + Dir['Hyle/*.rb']
   spec.files += Dir['[A-Z]*']
-  spec.files += Dir['lib/converter/*.vhdl']
+  spec.files += Dir['lib/converter/**/*.vhdl']
+  spec.files += Dir['lib/converter/**/*.erb']
   # spec.files += Dir['lib/converter/tb_template3.vhdl']
   # spec.files += Dir['lib/converter/tb_comp_template.vhdl']
   # spec.files += Dir['lib/converter/tb_detect_template.vhdl']

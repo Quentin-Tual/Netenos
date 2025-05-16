@@ -1,0 +1,18 @@
+-- generated automatically
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity <%=@src_parts[:entity_name]%> is
+  generic(delay : time := 1000 fs);
+  port (
+<%=@src_parts[:inputs_decl]%>
+<%=@src_parts[:outputs_decl].delete_suffix(';')%>
+  );
+end <%=@src_parts[:entity_name]%>;
+
+architecture bhv of <%=@src_parts[:entity_name]%> is
+begin
+  <%=@src_parts[:func_code]%>
+end architecture;

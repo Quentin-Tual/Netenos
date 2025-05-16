@@ -10,6 +10,7 @@ module Converter
             @token_list = []
             @sym_tab = {:p_in => {}, :p_out => {}, :g_out => {}}
 
+            Netlist::generate_gtech
             # TODO : check if yosys-abc is installed, raise exception if its not 
         end
 
@@ -190,18 +191,7 @@ module Converter
         end
 
         def instantiateGate gate_type
-            # TODO : Refactor cette fonction en utilisant un traitement générique (gate_type.capitalize et Object.const_get ou alors create_gate du module Netlist)
             case gate_type
-            # when "AND2"
-            #     return Netlist::And2.new
-            # when "OR2"
-            #     return Netlist::Or2.new
-            # when "NAND2"
-            #     return Netlist::Nand2.new
-            # when "NOR2"
-            #     return Netlist::Nor2.new
-            # when "XOR2"
-            #     return Netlist::Xor2.new
             when "INV1"
                 return Netlist::Not.new
             when "BUF1"

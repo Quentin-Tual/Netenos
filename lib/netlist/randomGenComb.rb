@@ -33,16 +33,9 @@ module Netlist
             generate_gate_pool
         end
 
-        def generate_gate_pool(max_nb_inputs = 5, excluded_gate_types = ["Buffer","Not"])
-            types_list = Netlist::DEF_GATE_TYPES.collect{|klass| klass.name.split("::")[1]}
-            types_list -= excluded_gate_types 
-            (3..max_nb_inputs).each do |nb_inputs|
-                types_list.each do |gate_type|
-                    class_name = gate_type + nb_inputs.to_s
-                    @gate_pool << Netlist::create_class(class_name, gate_type)
-                end
-            end
-            # @gate_pool << Netlist::create_class("Not", "Gate")
+        def generate_gate_pool
+            Netlist::generate_gtech
+            @gate_pool = Netlist::get_gtech
         end
 
         def getValidRandomNetlist name = "rand_#{self.object_id}", delay_model = :int_multi, compiler = :ghdl

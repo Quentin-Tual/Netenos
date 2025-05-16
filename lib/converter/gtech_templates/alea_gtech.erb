@@ -1,0 +1,33 @@
+-- generated automatically
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.math_real.uniform;
+use ieee.math_real.floor;
+
+entity <%=@src_parts[:entity_name]%> is
+  generic(delay_min, delay_max : time := 1000 fs);
+  port (
+<%=@src_parts[:inputs_decl]%>
+<%=@src_parts[:outputs_decl].delete_suffix(';')%>
+  );
+end <%=@src_parts[:entity_name]%>;
+
+architecture bhv of <%=@src_parts[:entity_name]%> is
+   
+  impure function rand_time(min_val, max_val : time; unit : time)
+    return time is
+    variable r, r_scaled, min_real, max_real : real;
+    variable seed1, seed2 : integer := 999;
+  begin
+    uniform(seed1, seed2, r);
+    min_real := real(min_val / unit);
+    max_real := real(max_val / unit);
+    r_scaled := r * (max_real - min_real) + min_real;
+    return real(r_scaled) * unit;
+  end function;
+
+begin
+  <%=@src_parts[:func_code]%>
+end architecture;

@@ -2,6 +2,19 @@ require_relative 'port.rb'
 
 module Netlist
 
+    def self.generate_gtech(max_nb_inputs = 5, excluded_gate_types = ["Buffer","Not"])
+        types_list = Netlist::DEF_GATE_TYPES.collect{|klass| klass.name.split("::")[1]}
+        types_list -= excluded_gate_types 
+        (3..max_nb_inputs).each do |nb_inputs|
+            types_list.each do |gate_type|
+                class_name = gate_type + nb_inputs.to_s
+                if !class_exists?("Netlist::" + class_name)
+                    create_class(class_name, gate_type)
+                end
+            end
+        end
+    end
+
     def self.get_gtech
         gtech = Netlist::Gate.subclasses.select{|klass| klass.subclasses.empty?}
         Netlist::Gate.subclasses.each do |subklass|
