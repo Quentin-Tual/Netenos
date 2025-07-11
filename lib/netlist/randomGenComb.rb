@@ -34,7 +34,6 @@ module Netlist
         end
 
         def generate_gate_pool
-            Netlist::generate_gtech
             @gate_pool = Netlist::get_gtech
         end
 

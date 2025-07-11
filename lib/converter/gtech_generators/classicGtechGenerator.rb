@@ -31,6 +31,4 @@ module Converter
       "#{assign_lhs} <= #{assign_rhs} after delay;"
     end
   end
-
-
 end

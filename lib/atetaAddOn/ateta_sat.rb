@@ -94,7 +94,7 @@ module AtetaAddOn
             if c_list.length < 2
                 return ""
             else            
-                return "(assert (or #{c_list.join(" ")}))" 
+                return "(assert (or #{c_list.join(" ")}))"
             end
         end
 

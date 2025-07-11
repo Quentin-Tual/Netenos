@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   # spec.require_paths = ['Hyle']
   # spec.add_runtime_dependency 'Hyle', '~> 0.1.0'
   spec.add_runtime_dependency 'oj', '>= 3.0.0'
+  spec.add_runtime_dependency 'sxp'
 
   # spec.add_development_dependency 'Hyle'
 end

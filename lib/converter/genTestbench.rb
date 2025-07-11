@@ -30,7 +30,7 @@ module Converter
             return ret
         end
 
-        def gen_testbench stim_type = :random, freq = 1, circ_name = "circ", nb_cycle = 20, phase: 0, asynch_stim: nil, bit_vec_stim: false
+        def gen_testbench stim_type = :random, freq = 1, circ_name = "circ", nb_cycle = 20, phase: 0, asynch_stim: nil, bit_vec_stim: false, transact: false, opts: {}
             # * : Generates a VHDL testbench in text format based on a ERB template stored in the project. The option stim is used to indicates if we want stimuli in it or not, the type of stimuli are indicated (random). Frequency at which the circuit will be stimulated can also be specified in args as a multipler of the critical path length.  
             @freq = freq
             @instance_name = circ_name
@@ -41,7 +41,11 @@ module Converter
             case stim_type
             when String 
                 @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_template3.vhdl"))
+                if transact
+                    @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_transient_activity.vhdl"))
+                else
+                    @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_template3.vhdl"))
+                end
             when :passed
                 # gen_arch_body_filebased_stim(@stimuli, circ_name)
                 if circ_name.include?("_altered")
@@ -76,7 +80,6 @@ module Converter
             
             src = @engine.result(binding)
 
-            
             File.write(filename, src)
 
             return netlist_data[:ports][:out].collect{|out_name| "tb_#{out_name.downcase}_s"}  

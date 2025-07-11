@@ -327,7 +327,7 @@ module Converter
                     end
 
                     if vcd
-                        opt_args += "--vcd=#{circ_init_name}_#{freq}_tb.vcd"
+                        opt_args += " --vcd=#{circ_init_name}_#{freq}_tb.vcd"
                     end
 
                     code << "ghdl --elab-run --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}_#{freq}_tb #{opt_args}"

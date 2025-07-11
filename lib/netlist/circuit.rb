@@ -227,7 +227,7 @@ module Netlist
             if @timings_h.nil?
 
                 # Update timings with given delay_model  
-                crit_path = get_exact_crit_path_length delay_model
+                get_exact_crit_path_length delay_model
 
                 timing_h = @components.each_with_object({}) do |comp,h|
                     if h[comp.cumulated_propag_time]
@@ -588,7 +588,7 @@ module Netlist
             false
         end
 
-    def get_dot_graph delay_model = :int_multi
+        def get_dot_graph delay_model = :int_multi
             Converter::DotGen.new.dot(self, "#{@name}.dot", delay_model)
         end
 

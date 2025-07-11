@@ -4,7 +4,6 @@ module AtetaAddOn
     # !     - Identify all insertion points for a given payload delay
     # !     - Insert a Buffer on an insertion point, returning a netlist
     # !     - Apply Ateta_sat on each insertion point, aggregating test vector couples
-    # !     - 
 
     class Ateta 
         attr_reader :unobservables, :observables
@@ -150,6 +149,34 @@ module AtetaAddOn
             return cone_outputs 
         end
 
+        def save_explicit_add_headers(src, binStimVec)
+            src << "# Stimuli sequence;#{binStimVec ? "bin" : "dec"};#{@initCirc.get_inputs.length};explicit"
+            src << "# Unobservables : #{@unobservables.length}" 
+        end
+
+        def save_explicit_util(binStimVec, s, path, repetition)
+            src = Code.new
+            save_explicit_add_headers(src, binStimVec)
+            # src << "# Stimuli sequence;#{binStimVec ? "bin" : "dec"};#{@initCirc.get_inputs.length};explicit"
+            # src << "# Unobservables : #{@unobservables.length}" 
+
+            s.each do |vecCouple, target|
+                src << "# " + (target.collect{|insert_point, output| "s=#{insert_point}, o=#{output}"}.join("; "))
+                
+                repetition.times do |i|
+                    vecCouple.each do |v|
+                        if binStimVec
+                            src << v
+                        else
+                            src << v.reverse.to_i(2)
+                        end
+                    end
+                end
+            end
+
+            src.save_as path
+        end
+
         def save_explicit path, binStimVec: false, repetition: 1
             if path[-4..-1]!=".txt" and path[-5..-1]!=".stim"
                 path.concat ".txt"
@@ -161,25 +188,7 @@ module AtetaAddOn
                 end
             end
 
-            src = Code.new
-            src << "# Stimuli sequence;#{binStimVec ? "bin" : "dec"};#{@initCirc.get_inputs.length};explicit"
-            src << "# Unobservables : #{@unobservables.length}" 
-
-            s.each do |vecCouple, target|
-                src << "# " + (target.collect{|insert_point, output| "s=#{insert_point}, o=#{output}"}.join("; "))
-                
-                repetition.times do |i|
-                    vecCouple.each do |v|
-                        if binStimVec
-                            src << v.reverse
-                        else
-                            src << v.reverse.to_i(2)
-                        end
-                    end
-                end
-            end
-
-            src.save_as path
+            save_explicit_util(binStimVec, s, path, repetition)
         end
 
     end

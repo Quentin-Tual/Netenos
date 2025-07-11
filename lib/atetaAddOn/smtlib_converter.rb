@@ -20,14 +20,14 @@ module AtetaAddOn
             # global_expr = @circ.get_global_expression(targetedOutput.get_full_name)
             # ast_expr = @circ.expr_to_h(global_expr)
             if @output_func.nil?
-                smtlib_expr = get_smtlib_expr2(targetedOutputName)
+                smtlib_expr = get_smtlib_expr(targetedOutputName)
                 @output_func = get_fun_definition(smtlib_expr, func_name)
             else
                 @output_func
             end
         end
 
-        def get_smtlib_expr2 sigName, t=0 # ! Not compatible with Netlist::Wire usage !
+        def get_smtlib_expr sigName, t=0 # ! Not compatible with Netlist::Wire usage !
             expr = ""
 
             if @circ.is_primary_input_name?(sigName)
@@ -35,14 +35,14 @@ module AtetaAddOn
                 expr << v
             elsif @circ.is_primary_output_name?(sigName)
                 sourceSigName = @circ.get_port_named(sigName).get_source.get_full_name
-                expr << get_smtlib_expr2(sourceSigName,t)
+                expr << get_smtlib_expr(sourceSigName,t)
             else
                 comp = @circ.get_component_named(sigName.split('_')[0])
                 inPorts = comp.get_inputs
 
                 expr << comp.class::SMT_EXPR[0]
                 inPorts.each do |p|
-                    expr << get_smtlib_expr2(
+                    expr << get_smtlib_expr(
                         p.get_source.get_full_name, 
                         t + comp.propag_time[@delay_model])
                     expr << " "

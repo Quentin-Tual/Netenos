@@ -1,6 +1,14 @@
 # require_relative '../vhdl.rb'
 require_relative '../netlist.rb'
 
+require_relative 'gtechGenerator'
+require_relative 'gtech_generators/classicGtechGenerator'
+require_relative 'gtech_generators/aleaGtechGenerator'
+
+require_relative 'circDescriptor'
+require_relative 'circ_descriptors/classicCircDescriptor'
+require_relative 'circ_descriptors/aleaCircDescriptor'
+
 module Converter
 
     class ConvNetlist2Vhdl
@@ -12,13 +20,16 @@ module Converter
 
         def gen_gtech gtech_type = "classic"
             class_name = gtech_type.capitalize + 'GtechGenerator'
-            gtech_generator_class = Module.const_get(class_name)
+            gtech_generator_class = Module.const_get("Converter::"+class_name)
             gtech_generator_class.new.gen_gtech
         end
 
-        def generate circ, delay_model = :one, gtech_type = "classic",
-            generate_method = "generate_#{gtech_type}".to_sym
-            self.send(generate_method, circ, delay_model)
+        def generate circ, delay_model = :one, gtech_type = "classic"
+            class_name = gtech_type.capitalize + 'CircDescriptor'
+            # generate_method = "generate_#{gtech_type}".to_sym
+            circ_descriptor_class = Module.const_get("Converter::"+class_name)
+            circ_descriptor_class.new(circ, delay_model).gen_description
+            # self.send(generate_method, circ, delay_model)
         end
 
         def generate_risefall circuit, delay_model = :int_multi

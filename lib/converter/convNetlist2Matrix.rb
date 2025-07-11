@@ -26,6 +26,13 @@ module Converter
             end
         end
 
+        def scanConstants
+            @netlist.constants.each do |const|
+              @id_tab[const.name] = @index
+              @index += 1
+            end
+        end
+
         def scanComponents
             @netlist.components.each do |comp|
                 @id_tab[comp.name] = @index
@@ -48,6 +55,7 @@ module Converter
 
         def scanNetlist
             scanGlobalInputs
+            scanConstants
             scanComponents
             scanGlobalOutputs
             scanWires
@@ -69,32 +77,44 @@ module Converter
             end
         end
 
+        # def getGateType sink_full_name
+        #     if sink_full_name.split('_').length == 1
+        #         # * : It is a primary input/output name
+        #         return 1
+        #     else
+        #         # * : It is a component port name
+        #         case @netlist.get_component_named(sink_full_name.split('_')[0])
+        #         when And2
+        #             return 2
+        #         when Or2
+        #             return 3
+        #         when Nand2
+        #             return 4
+        #         when Nor2
+        #             return 5
+        #         when Xor2
+        #             return 6
+        #         when Not
+        #             return 7
+        #         when Wire
+        #             raise "Error : Impossible state reached. Internal Error."
+        #         else
+        #             raise "Error : Unknown gate type uncountered during netlist conversion to a matrix."
+        #         end
+        #     end
+        # end
+
         def getGateType sink_full_name
             if sink_full_name.split('_').length == 1
                 # * : It is a primary input/output name
                 return 1
             else
                 # * : It is a component port name
-                case @netlist.get_component_named(sink_full_name.split('_')[0])
-                when And2
-                    return 2
-                when Or2
-                    return 3
-                when Nand2
-                    return 4
-                when Nor2
-                    return 5
-                when Xor2
-                    return 6
-                when Not
-                    return 7
-                when Wire
-                    raise "Error : Impossible state reached. Internal Error."
-                else
-                    raise "Error : Unknown gate type uncountered during netlist conversion to a matrix."
-                end
+                comp = @netlist.get_component_named(sink_full_name.split('_')[0])
+                return comp.class.to_s.split('::').last
             end
         end
+
 
         def convGlobalInputs
             @netlist.get_inputs.each do |ginp|

@@ -16,6 +16,13 @@ module Netlist
         end
       end
 
+      new_circuit.constants = @constants.map do |const|
+        new_const = const.dup
+        new_const.partof = new_circuit
+        cache_port_and_connections(const, new_const)
+        new_const
+      end
+
       # Copy components and their ports
       new_circuit.components = @components.map do |comp|
         new_comp = comp.is_a?(Gate) ? comp.dup : comp.deep_copy
@@ -64,7 +71,7 @@ module Netlist
 
     def reconnect_all(new_circuit)
       # Reconnect using cache
-      (@ports.values.flatten + @components.flat_map { |c| c.get_inputs + c.get_outputs } + @wires).each do |obj|
+      (@constants + @ports.values.flatten + @components.flat_map { |c| c.get_inputs + c.get_outputs } + @wires).each do |obj|
         new_obj = @deep_copy_cache[obj.object_id]
         next unless new_obj
 

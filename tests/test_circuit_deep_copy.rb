@@ -83,18 +83,13 @@ class TestCircuitDeepCopy < Test::Unit::TestCase
     buffer = Netlist::Buffer.new(1.0, "buf1")
     copy << buffer
     
-    # Connect: and1 -> buf1 -> or1
-    copy_and_gate = copy.get_component_named("and1")
-    copy_or_gate = copy.get_component_named("or1")
     
     # Disconnect original and1->or1 connection
-    
-    # source = and_gate.get_output
-    # sink = and_gate.get_output.fanout.find { |s| s == or_gate.get_inputs[0] }
-
+    copy_and_gate = copy.get_component_named("and1")
+    copy_or_gate = copy.get_component_named("or1")
     copy_or_gate.get_inputs[0].unplug2(copy_and_gate.get_output.get_full_name)
-    # sink.unplug2(source)
     
+    # Connect: and1 -> buf1 -> or1
     # Make new connections
     buffer.get_inputs[0] <= copy_and_gate.get_output
     copy_or_gate.get_inputs[0] <= buffer.get_output
@@ -105,9 +100,8 @@ class TestCircuitDeepCopy < Test::Unit::TestCase
     
     # Verify copy modified correctly
     assert_equal 4, copy.components.size
-    copy_buffer = copy.get_component_named("buf1")
-    assert_equal copy_buffer.get_inputs[0].get_source, copy_and_gate.get_output
-    assert_equal copy_or_gate.get_inputs[0].get_source, copy_buffer.get_output
+    assert_equal buffer.get_inputs[0].get_source, copy_and_gate.get_output
+    assert_equal copy_or_gate.get_inputs[0].get_source, buffer.get_output
     copy.components.each do |comp|
       assert_equal comp.partof, copy
       comp.ports.values.flatten.each do |p|

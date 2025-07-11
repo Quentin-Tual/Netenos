@@ -20,13 +20,15 @@ class Test_convBlif2Netlist
         grid = circ.get_netlist_precedence_grid
         circ.get_exact_crit_path_length($DELAY_MODEL)
         circ.get_slack_hash
+        Converter::DotGen.new.dot circ, "./test_loadBlifSerDes.dot"
         
-        Converter::DotGen.new.dot circ, "./test_convBlif2Netlist.dot"
-        `xdot test_convBlif2Netlist.dot`
-
-        # ! TEST
-        vhdl_generator = Converter::ConvNetlist2Vhdl.new(circ)
-        vhdl_generator.generate(circ, $DELAY_MODEL)
+        Serializer.new.serialize(circ)
+        circ.save_as("#{circ.name}.sexp","sexp")
+        circ2 = Deserializer.new.deserialize("#{circ.name}.sexp")
+        grid = circ2.get_netlist_precedence_grid
+        circ2.get_exact_crit_path_length($DELAY_MODEL)
+        circ2.get_slack_hash
+        Converter::DotGen.new.dot circ2, "./test_loadBlifSerDes2.dot"
     end
 end
 

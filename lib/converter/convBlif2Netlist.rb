@@ -1,17 +1,31 @@
 module Converter
-    Token = Struct.new(:line_type, :data)
 
     class ConvBlif2Netlist # ! Legacy / associated to Hyle parser, not used and not maintained 
 
-        def initialize
+        def initialize(genlib_path=".")
             @netlist = nil
             @nb_inputs = 0
             @nb_outputs = 0
-            @token_list = []
             @sym_tab = {:p_in => {}, :p_out => {}, :g_out => {}}
-
-            Netlist::generate_gtech
+            @genlib_path = genlib_path
+            gen_genlib
             # TODO : check if yosys-abc is installed, raise exception if its not 
+        end
+
+        def gen_genlib
+            txt = [ "GATE ZERO0\t0  Y=CONST0;",
+                    "GATE ONE0\t0  Y=CONST1;",
+                    "GATE INV1\t2  Y=!A;\tPIN * INV 1 999 2 0 2 0",
+                    "GATE BUF1\t4  Y=A;\tPIN * NONINV 1 999 1 0 1 0"]
+
+            Netlist::get_gtech.each do |klass|
+                class_shortname = klass.name.split('::')[1]
+                unless ["Buffer","Not"].include? class_shortname
+                    txt << `grep \" #{class_shortname.upcase}\" #{File.dirname(__FILE__)}/gtech.genlib`
+                end
+            end
+
+            File.write("#{@genlib_path}/gtech.genlib",txt.join("\n"))
         end
 
         def get_nb_inputs path
@@ -69,11 +83,11 @@ module Converter
             return @netlist
         end
 
-        def truth_table_2_gates path
+        def truth_table_2_gates(path)
             if !File.exist? "/tmp/netenos"
                 Dir.mkdir("/tmp/netenos")
             end
-            std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; map; write_blif /tmp/netenos/~#{File.basename(path)}"`
+            std_o = `yosys-abc -c "read_blif #{path}; read_library #{@genlib_path}/gtech.genlib; strash; map; write_blif /tmp/netenos/~#{File.basename(path)}"`
             # std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; dretime; map {D}; write_blif /tmp/netenos/~#{File.basename(path)}"`
             # std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; &get -n; &fraig -x; &put; scorr; dc2; dretime; strash; &get -n; &dch -f; &nf {D}; &put; write_blif /tmp/netenos/~#{File.basename(path)}"`
             # if File.exist?("/tmp/netenos/~#{File.basename(path)}")

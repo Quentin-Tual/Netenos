@@ -687,18 +687,18 @@ module Inserter
             ht_type = @ht.class.name.split("::")[1].downcase
             ht_delay = Inserter::getPayloadDelay(ht_type, @delay_model)
             
-            insert_points = slack_h.collect{|slack, insPointList| slack > ht_delay ? insPointList : []}.flatten
+            insert_points = slack_h.collect{|slack, insPointList| slack >= ht_delay ? insPointList : []}.flatten
             insert_points.reject!{|insPoint| insPoint.is_global? and insPoint.is_input?}
 
             # Uncomment to avoid critical path modification
-            ht_cumuluted_delay = @ht.get_exact_crit_path(@delay_model)
-            insert_points.reject!{|insPoint| insPoint.cumulated_propag_time >= ht_cumuluted_delay}
+            ht_cumulated_delay = @ht.get_exact_crit_path(@delay_model)
+            insert_points.reject!{|insPoint| insPoint.cumulated_propag_time < ht_cumulated_delay}
 
             if insert_points.empty?                 
                 raise ImpossibleInsertion.new("Error: No insertion location found for ht '#{@ht.class.name}' in circuit '#{@netlist.name}'.")
             else
                 attacked_sig = insert_points.sample
-                @insertPoint = attacked_sig
+                # @insertPoint = attacked_sig
             end
 
             @ht.triggers.each_with_index do |trig, i|
