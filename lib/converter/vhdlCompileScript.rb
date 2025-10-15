@@ -298,6 +298,12 @@ module Converter
                 if $VERBOSE
                     code << "echo \"[+] compiling $(basename $(cd .. && pwd))/$(basename $(pwd))/#{circ_init_name}\"  at  $(date +%FT%T)"
                 end
+
+                if File.exist?("event_monitor_pkg.vhdl")
+                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} event_monitor_pkg.vhdl" 
+                    code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} event_monitor.vhdl" 
+                end
+
                 code << "ghdl -a --std=08 --work=#{circ_init_name}_lib -P=#{gtech_path} #{circ_init_name}.vhd"
                 freq_list = freq_list.collect do |freq|
                     freq.to_s.split('.').join
@@ -374,6 +380,7 @@ module Converter
             File.open("#{path}/#{testbench_name}.opt",'w'){|f| f.puts(str)}
         end
 
+        # ! LEGACY
         def generate_compile_script circuit, test_frequencies = nil
             code=Code.new
             
@@ -381,6 +388,7 @@ module Converter
             if $VERBOSE
                 code << "echo \"[+] compiling gtech\""
             end
+
             Netlist::Gate.subclasses.each do |klass|
                 entity=klass.to_s.downcase.split('::').last.concat("_d")
                 if $VERBOSE

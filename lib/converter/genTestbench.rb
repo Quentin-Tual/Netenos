@@ -42,7 +42,9 @@ module Converter
             when String 
                 @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
                 if transact
-                    @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_transient_activity.vhdl"))
+                    @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_transient_activity2.vhdl"))
+                    `cp #{File.dirname(__FILE__)}/tb_templates/event_monitor_pkg.vhdl .`
+                    `cp #{File.dirname(__FILE__)}/tb_templates/event_monitor.vhdl .`
                 else
                     @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_template3.vhdl"))
                 end

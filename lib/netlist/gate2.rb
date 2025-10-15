@@ -370,12 +370,8 @@ module Netlist
     class Buffer < Gate
         SMT_EXPR  = ["",""]
         
-        def initialize name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs=1, nb_outputs=1, propag_time=1
+        def initialize name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs=1, nb_outputs=1, propag_time: 1
             args = [name, partof, nb_inputs, nb_outputs]
-            #!DEBUG
-            if !name.is_a? String
-                puts "HERE"
-            end
             super(*args)
 
             @propag_time = {

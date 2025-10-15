@@ -177,7 +177,7 @@ class Deserializer
     clazz = Object.const_get(type)
     if clazz == Netlist::Buffer
       propag_time = parse_propag_time(sexp)
-      comp=clazz.new(name, nil, 1, 1, propag_time)
+      comp=clazz.new(name, nil, 1, 1, propag_time: propag_time)
     else
       comp=clazz.new(name)
     end

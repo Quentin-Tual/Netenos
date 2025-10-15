@@ -18,7 +18,8 @@ module Converter
         if comp.is_a? Netlist::Gate
           delay = comp.propag_time[@delay_model]*1000
           delay_min = (delay * (1 - @opts[:noise_rate])).to_i
-          delay_max = (delay * (1 + @opts[:noise_rate])).to_i
+          # delay_max = (delay * (1 + @opts[:noise_rate])).to_i
+          delay_max = delay
           code << "generic map(#{delay_min} fs, #{delay_max} fs)"
         end
         code << "port map("

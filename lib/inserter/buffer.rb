@@ -7,7 +7,7 @@ module Inserter
 
         def initialize ht_delay = 2
             super
-            payload = Netlist::Buffer.new
+            payload = Netlist::Buffer.new(propag_time: ht_delay)
             @netlist = payload
             @components = [payload]
             @payload_in = payload.get_inputs[0]

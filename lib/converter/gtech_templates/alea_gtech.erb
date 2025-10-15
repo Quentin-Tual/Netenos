@@ -7,7 +7,7 @@ use ieee.math_real.uniform;
 use ieee.math_real.floor;
 
 entity <%=@src_parts[:entity_name]%> is
-  generic(delay_min, delay_max : time := 1000 fs);
+  generic(delay_min, delay_max : time);
   port (
 <%=@src_parts[:inputs_decl]%>
 <%=@src_parts[:outputs_decl].delete_suffix(';')%>

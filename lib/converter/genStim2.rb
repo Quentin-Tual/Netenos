@@ -192,6 +192,54 @@ module Converter
             return @stim
         end
 
+        def gen_atpg(circ, forbidden_vectors=[])
+            gen_atpg_tests(circ)
+            vectors = gen_atpg_recover_vectors(forbidden_vectors)
+            gen_atpg_write_all_permutations(vectors)
+        end
+
+        def gen_atpg_tests circ
+            Converter::ConvNetlist2Bench.new.print(circ, "tmp.bench")
+            `atalanta tmp.bench 2>&1 >/dev/null` # output file named "tmp.test" by default 
+        end
+
+        def gen_atpg_recover_vectors(forbidden_vectors)
+            state = :seek_patterns
+            vectors = []
+            File.foreach("tmp.test") do |line|
+                if line.include? '* Test patterns'
+                    state = :convert_patterns
+                    next
+                elsif line.empty? or line == "\n"
+                    next
+                end
+
+                case state
+                when :seek_patterns
+                    next
+                when :convert_patterns
+                    vectors << line.split(' ')[1]
+                else
+                    raise "Error: unknown state encountered \"#{state}\" !"
+                end
+            end
+            vectors.reject{|v| forbidden_vectors.include? v}
+        end
+
+        def gen_atpg_write_all_permutations(vectors)
+           tests = [] 
+            vectors.each_with_index do |vd, i|
+                (i+1..vectors.length-1).each do |j|
+                    tests << vd
+                    tests << vectors[j]
+                end
+            end
+            tests << vectors.first
+
+            convert_vec_list_2_stim(tests)
+            # save_vec_list("stim.txt", tests, bin_stim_vec: true)
+        end
+
         def verify_ht_activation trig_cond
             acc_trig_value = nil
             last_word = nil
@@ -433,7 +481,7 @@ module Converter
 
         def save_vec_list path, vec_list, bin_stim_vec: false
             src = Code.new
-            src << "# Stimuli sequence,#{bin_stim_vec ? "bin" : "dec"},#{@inputs.length}"   
+            src << "# Stimuli sequence;#{bin_stim_vec ? "bin" : "dec"};#{@inputs.length}"   
 
             vec_list.each do |vec|
                 if !vec.nil? # ! TEST DEBUG

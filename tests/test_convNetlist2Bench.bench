@@ -1,0 +1,9 @@
+# circ_circ
+INPUT(i0)
+INPUT(i1)
+INPUT(i2)
+OUTPUT(o0)
+OUTPUT(o1)
+Nand260_o0 = NAND(i0,i1)
+o0 = AND(Nand260_o0,i2)
+o1 = NOT(Nand260_o0)

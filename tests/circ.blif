@@ -1,0 +1,7 @@
+.model example.pla
+.inputs a b c
+.outputs y z
+.gate NAND2 A=a B=b Y=w
+.gate AND2 A=w B=c Y=y
+.gate INV1 A=w Y=z
+.end

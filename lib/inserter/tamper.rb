@@ -661,8 +661,9 @@ module Inserter
         end
 
         def insert_buffer_at loc, delay = 1
-            @ht = Inserter::Buf.new
-            @ht.propag_time[@delay_model] = delay
+            @ht = Inserter::Buf.new(delay)
+            # @ht.propag_time[@delay_model] = delay
+            
 
             # source_node = loc.get_source  #!DEBUG
             # if source_node.instance_of? Netlist::Port and source_node.is_global?

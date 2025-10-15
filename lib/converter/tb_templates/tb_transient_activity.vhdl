@@ -155,27 +155,24 @@ begin
             end loop;
             writeline(activity_file, activity_row);
             reset_n_array(nb_transi);
-        else 
-            -- for k in 0 to 0 loop
-             
-                if tb_o0'event then
-                    nb_transi(0) <= nb_transi(0) + 1;
-                    write(timing_row, nb_cycle);
-                    write(timing_row, string'(",o0,"));
-                    write(timing_row, integer((Real((now/unit_delay) mod (nom_period/unit_delay)) / Real(nom_period/unit_delay)) * <%=opts[:precision]%>) );
-                    writeline(timing_file, timing_row);
-                <%=
-                  @netlist_data[:ports][:out][1..].collect.with_index do |port_name, i|
-                "elsif tb_#{port_name}'event then
-                    nb_transi(#{i+1}) <= nb_transi(#{i+1}) + 1;
-                    write(timing_row, nb_cycle);
-                    write(timing_row, string'(\",#{port_name},\"));
-                    write(timing_row, integer((Real((now/unit_delay) mod (nom_period/unit_delay)) / Real(nom_period/unit_delay)) * 100.0) );
-                    writeline(timing_file, timing_row);"
-                  end.join("\n\t\t\t")
-                %>
-                end if;
-            -- end loop;
+        else
+            if tb_o0'event then
+                nb_transi(0) <= nb_transi(0) + 1;
+                write(timing_row, nb_cycle);
+                write(timing_row, string'(",o0,"));
+                write(timing_row, integer((Real((now/unit_delay) mod (nom_period/unit_delay)) / Real(nom_period/unit_delay)) * <%=opts[:precision]%>) );
+                writeline(timing_file, timing_row);
+            <%=
+                @netlist_data[:ports][:out][1..].collect.with_index do |port_name, i|
+            "elsif tb_#{port_name}'event then
+                nb_transi(#{i+1}) <= nb_transi(#{i+1}) + 1;
+                write(timing_row, nb_cycle);
+                write(timing_row, string'(\",#{port_name},\"));
+                write(timing_row, integer((Real((now/unit_delay) mod (nom_period/unit_delay)) / Real(nom_period/unit_delay)) * 100.0) );
+                writeline(timing_file, timing_row);"
+                end.join("\n\t\t\t")
+            %>
+            end if;
         end if;
     end process;
 

@@ -28,9 +28,9 @@ module Netlist
             @sources_usage_count = {} # Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
             @available_primary_output_sources = {}
             exclude_gate_type << "Buffer"
-            # @gate_pool = $GTECH.select{|klass| !exclude_gate_type.include?(klass.name.split("::")[-1])}
             @gate_pool = []
             generate_gate_pool
+            @gate_pool = @gate_pool.select{|klass| !exclude_gate_type.include?(klass.name.split("::")[-1])}
         end
 
         def generate_gate_pool

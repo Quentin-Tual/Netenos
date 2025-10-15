@@ -1,4 +1,4 @@
-#! usr/bin/ruby
+https://github.com/YosysHQ/yosys#! usr/bin/ruby
 
 require 'optparse'
 require_relative "../lib/netenos.rb"

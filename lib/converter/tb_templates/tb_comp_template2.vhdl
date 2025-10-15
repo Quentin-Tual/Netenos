@@ -128,7 +128,7 @@ begin
             -- ! Eviter is_X, utiliser un reset pour intialiser et ne pas faire le test tant que reset = 1
                 -- write(row, cycle_nb);
                 -- write(row, string'(","));
-                write(row, to_integer(unsigned(tb_in)));
+                write(row, tb_in);
                 writeline(detections, row);
             end if;
         <%= if @freq != "Infinity" 

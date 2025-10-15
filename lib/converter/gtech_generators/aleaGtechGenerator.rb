@@ -29,7 +29,7 @@ module Converter
       vhdl_prefix = gate_type_class::VHDL_PREFIX
       assign_lhs = klass_instance.get_outputs.first.name
       assign_rhs = klass_instance.get_inputs.map(&:name).join(" #{vhdl_op} ")
-      assign_rhs = "#{vhdl_prefix} #{assign_rhs}" if vhdl_prefix != ''
+      assign_rhs = "#{vhdl_prefix}(#{assign_rhs})" if vhdl_prefix != ''
       "#{assign_lhs} <= #{assign_rhs} after rand_time(delay_min, delay_max, 1000 fs);"
     end
   end

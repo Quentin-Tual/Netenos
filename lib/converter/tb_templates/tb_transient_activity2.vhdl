@@ -7,46 +7,43 @@ use ieee.std_logic_misc.all;
 library std;
 use std.textio.all;
 
+use work.event_monitor_pkg.all;
+
 entity <%="#{@netlist_data[:entity_name]}"%> is
 end entity <%="#{@netlist_data[:entity_name]}"%>;
 
 architecture netenos of <%="#{@netlist_data[:entity_name]}"%> is
 
-    constant unit_delay : time := 1 ps; -- default already is 1, thus this line is not mandatory
-    -- With a 1-unit model, the maximum path length is equivalent to the minimal period for nominal behavior 
-    -- Which means minimum period is 4 for a unit_delay value of 1 (default value) 
+    constant unit_delay : time := 1 ps;
     constant nom_period : time := (unit_delay * <%=@netlist_data[:crit_path_length]%>);
     constant obs_period : time := (unit_delay * <%=@netlist_data[:crit_path_length]%>);
+    constant nat_nom_period : natural := nom_period/unit_delay;
     constant phase : time := 0 ps;
     signal nom_clk : std_logic := '1';
     signal obs_clk : std_logic := '1';
     signal nb_cycle : natural := 0;
-    type n_array is array (natural range <>) of natural;
-    signal nb_transi : n_array(<%=opts[:observed_sig].length - 1%> downto 0);
-
-    procedure reset_n_array(signal a : inout n_array) is
-    begin
-        for k in 0 to <%=@netlist_data[:ports][:out].length - 1%> loop
-            a(k) <= 0;
-        end loop;
-    end procedure;
-
+    signal time_clk : std_logic := '1';
+    signal instant_counter : natural := 0;
 
     signal tb_in : std_logic_vector(<%=@netlist_data[:ports][:in].length - 1%> downto 0);
     signal tb_out : std_logic_vector(<%=@netlist_data[:ports][:out].length - 1%> downto 0);
     <%=@netlist_data[:ports][:out].collect do |port_name|
     "signal tb_#{port_name} : std_logic; \n\tsignal tb_#{port_name}_s : std_logic;"
     end.join("\n\t")%>
-    <%=opts[:observed_sig].collect do |sig_name|
-        comp_name, port_name = sig_name.split('_')
-        unless port_name.nil?
-            "alias tb_#{sig_name} is <<signal uut.#{comp_name}.#{port_name} : std_logic>>;"
-        end
-    end.join("\n\t")%>
     signal low_out : std_logic_vector(<%=@netlist_data[:ports][:out].length - 1%> downto 0) := (others => '0');
     signal high_out : std_logic_vector(<%=@netlist_data[:ports][:out].length - 1%> downto 0) := (others => '0');
     signal controllable_out : std_logic_vector(<%=@netlist_data[:ports][:out].length - 1%> downto 0) := (others => '0');
     signal all_outputs_controllable : std_logic := '0';
+
+    signal nb_transi : n_array_t(<%=@netlist_data[:ports][:out].length - 1%> downto 0);
+    signal tb_transi_distrib2 : n_matrix_t(tb_out'length-1 downto 0)((nat_nom_period)-1 downto 0);
+
+    procedure reset_n_array(signal a : inout n_array_t) is
+    begin
+        for k in 0 to <%=@netlist_data[:ports][:out].length - 1%> loop
+            a(k) <= 0;
+        end loop;
+    end procedure;
 
     signal running : boolean := true;
     signal phase_shift : boolean := false;
@@ -57,15 +54,33 @@ begin
     port map (
 <%=@portmap%>
     );
+
+    event_monitoring_GEN : for i in 0 to tb_out'length-1 generate
+    begin 
+        event_monitor_inst : entity work.event_monitor(netenos)
+        generic map (nat_nom_period)
+        port map (
+        instant_counter,
+        tb_out(i),
+        tb_transi_distrib2(i)
+        );
+    end generate;
     
     phase_shift <= true after phase;
     nom_clk <= not(nom_clk) after (nom_period/2) when running else nom_clk;
     obs_clk <= not(obs_clk) after (obs_period/2) when running and phase_shift else obs_clk;
+    time_clk <= not(time_clk) after (unit_delay/2) when running else time_clk;
         
     <%=@netlist_data[:ports][:out].collect.with_index do |port_name,i|
     "tb_#{port_name} <= tb_out(#{i});"
     end.join("\n\t")%>
 	
+    process(time_clk)
+    begin
+        if time_clk'event and time_clk = '1' then
+            instant_counter <= instant_counter + 1;
+        end if;
+    end process;
 
     process(obs_clk)
     begin
@@ -112,6 +127,7 @@ begin
 
         wait for nom_period;
         running <= false;
+        wait for nom_period*10;
         -- report "Stopping simulation";
         wait;
     end process;
@@ -149,41 +165,56 @@ begin
     end process;
 
     
-    process(<%=opts[:observed_sig].collect{|sig| "tb_#{sig}"}.join(',')%>, nb_cycle)
+    process(<%=@netlist_data[:ports][:out].collect{|port_name| "tb_#{port_name}"}.join(',')%>, nb_cycle, running)
         file activity_file          : text open write_mode is "activity";
-        file timing_file            : text open write_mode is "timing";
+        -- file timing_file            : text open write_mode is "timing";
         variable activity_row       : line;
-        variable timing_row         :line;
+        -- variable timing_row         :line;
     begin
-        if nb_cycle'event then 
+        if running'event and running = true then
+            reset_n_array(nb_transi);
+        end if;
+
+        if nb_cycle'event then
             write(activity_row, nb_cycle);
-            for k in 0 to <%=opts[:observed_sig].length - 1%> loop
+            for k in 0 to <%=@netlist_data[:ports][:out].length - 1%> loop
                 write(activity_row, string'(","));
                 write(activity_row, nb_transi(k));
             end loop;
             writeline(activity_file, activity_row);
             reset_n_array(nb_transi);
-        else 
-            -- for k in 0 to 0 loop
+        end if;
 
-                -- if tb_o0'event then
-                --     nb_transi(0) <= nb_transi(0) + 1;
-                --     write(timing_row, nb_cycle);
-                --     write(timing_row, string'(",o0,"));
-                --     write(timing_row, integer((Real((now/unit_delay) mod (nom_period/unit_delay)) / Real(nom_period/unit_delay)) * <%=opts[:precision]%>) );
-                --     writeline(timing_file, timing_row);
-                <%=opts[:observed_sig].collect.with_index do |sig_name, i|
-                "if tb_#{sig_name}'event then
-                    nb_transi(#{i}) <= nb_transi(#{i}) + 1;
-                    write(timing_row, nb_cycle);
-                    write(timing_row, string'(\",#{sig_name},\"));
-                    write(timing_row, integer((Real((now/unit_delay) mod (nom_period/unit_delay)) / Real(nom_period/unit_delay)) * #{opts[:precision]}) );
-                    writeline(timing_file, timing_row);
-                end if;"
-                end.join("\n\t\t\t")
-                %>
-                -- end if;
-            -- end loop;
+        <%=@netlist_data[:ports][:out].collect.with_index do |port_name, i|
+            "if tb_#{port_name}'event then
+            nb_transi(#{i}) <= nb_transi(#{i}) + 1;
+        end if;"
+            end.join("\n\t\t")%>
+    end process;
+
+    process(running)
+        file t_file            : text open write_mode is "timing";
+        variable row           : line;
+        variable total         : n_array_t(nat_nom_period-1 downto 0);
+    begin
+        if running'event and running = false then
+        -- SUM UP THE MULTIPLE tb_transi_distrib (from each outputs)
+        -- for j in 0 to tb_out'length-1 loop
+        --     for k in 0 to nat_nom_period-1 loop
+        --     total(k) := total(k) + tb_transi_distrib2(j)(k);
+        --     end loop; 
+        -- end loop;
+
+        for j in 0 to tb_out'length-1 loop
+            for k in 0 to nat_nom_period-1 loop
+                write(row, j);
+                write(row, string'(","));
+                write(row, k);
+                write(row, string'(","));
+                write(row, tb_transi_distrib2(j)(k));
+                writeline(t_file, row);
+            end loop;
+        end loop;
         end if;
     end process;
 

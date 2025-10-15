@@ -1,0 +1,6 @@
+.model circ_circ
+.inputs i0 i1 i2
+.outputs o0 o1
+.gate NAND2 A=i0 B=i1 Y=Nand260_o0
+.gate AND2 A=Nand260_o0 B=i2 Y=o0
+.gate INV1 A=Nand260_o0 Y=o1

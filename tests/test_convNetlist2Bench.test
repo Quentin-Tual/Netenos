@@ -1,0 +1,13 @@
+* Name of circuit:  test_convNetlist2Bench.bench
+* Primary inputs :
+  i0 i1 i2 
+  
+* Primary outputs:
+  o0 o1 
+
+* Test patterns and fault free responses:
+
+   1: 100 00
+   2: 111 01
+   3: 001 10
+   4: 010 00

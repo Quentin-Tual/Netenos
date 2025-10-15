@@ -24,11 +24,11 @@ module Converter
             gtech_generator_class.new.gen_gtech
         end
 
-        def generate circ, delay_model = :one, gtech_type = "classic"
+        def generate circ, delay_model = :int_multi, gtech_type = "classic", opts: {}
             class_name = gtech_type.capitalize + 'CircDescriptor'
             # generate_method = "generate_#{gtech_type}".to_sym
             circ_descriptor_class = Module.const_get("Converter::"+class_name)
-            circ_descriptor_class.new(circ, delay_model).gen_description
+            circ_descriptor_class.new(circ, delay_model, opts).gen_description
             # self.send(generate_method, circ, delay_model)
         end
 

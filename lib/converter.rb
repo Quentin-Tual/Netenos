@@ -11,4 +11,5 @@ require_relative "./converter/genTestbench.rb"
 require_relative "./converter/vhdlCompileScript.rb"
 require_relative "./converter/genCompTestbench.rb"
 require_relative "./converter/convBlif2Netlist.rb"
-# ajouter les gtechGenerators et circDescriptors quand validés
+require_relative "./converter/convNetlist2Blif.rb"
+require_relative "./converter/convNetlist2Bench.rb"
