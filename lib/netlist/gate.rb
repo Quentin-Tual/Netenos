@@ -2,6 +2,62 @@ require_relative 'port.rb'
 
 module Netlist
 
+    def self.generate_gtech(max_nb_inputs = 5, excluded_gate_types = ["Buffer","Not"])
+        types_list = Netlist::DEF_GATE_TYPES.collect{|klass| klass.name.split("::")[1]}
+        types_list -= excluded_gate_types 
+        (3..max_nb_inputs).each do |nb_inputs|
+            types_list.each do |gate_type|
+                class_name = gate_type + nb_inputs.to_s
+                if !class_exists?("Netlist::" + class_name)
+                    create_class(class_name, gate_type)
+                end
+            end
+        end
+    end
+
+    def self.get_gtech
+        gtech = Netlist::Gate.subclasses.select{|klass| klass.subclasses.empty?}
+        Netlist::Gate.subclasses.each do |subklass|
+            subklass.subclasses.each do |subsubklass|
+                gtech << subsubklass if subsubklass.subclasses.empty?
+            end
+        end
+        gtech
+    end
+
+    def self.class_exists?(class_name)
+        klass = Module.const_get(class_name)
+        return klass.is_a?(Class)
+      rescue NameError
+        return false
+    end
+
+    def self.create_class(class_name, inherit_name)
+        klass = Class.new(Object.const_get("Netlist::" + inherit_name)) do
+            def initialize(*args)
+                super(*args)
+            end
+        end
+        Netlist.const_set(class_name, klass)
+        
+        klass
+    end
+
+    def self.create_gate(type, nb_inputs, partof = nil)
+        if [:and,:or,:not,:nand,:nor,:xor,:buf].include? type
+            type_classname = type.to_s.capitalize
+            specific_classname = type_classname + nb_inputs.to_s
+
+            # Si la classe n'existe pas encore, la déclarer  
+            if !class_exists?("Netlist::" + specific_classname)
+                create_class(specific_classname, type_classname)
+            end
+            Netlist.const_get(specific_classname).new
+        else 
+            raise "Error: Unknown gate type #{type} encountered."
+        end
+    end 
+
     class Gate < Circuit
         attr_accessor :name, :ports, :partof, :propag_time, :cumulated_propag_time, :tag, :decisions, :forbidden_transitions
         attr_reader :slack
@@ -20,14 +76,13 @@ module Netlist
             @ports.each_value{|io| io.each{|p| p.partof = self}}
             @partof = partof
             @components = [] 
-            @name2obj = {}
             @propag_time = {    :one => 1, 
-                                :int => (((nb_inputs+1.0)/2.0)).round(3), 
-                                :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3),
+            :int => (((nb_inputs+1.0)/2.0)).round(3), 
+            :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3),
                                 :fract => (0.3 + ((((nb_inputs+1.0)/2.0)*rand(0.9..1.1))/2.2)).round(3)
                             } # Supposedly in nanoseconds, 2.2 is the max value , 0.3 is the offset to center the distribution at 1.(normalization to fit in the other model)
-
-            klass = self.class.name.split("::")[1]
+                            
+            klass = self.class.name.split("::")[1] 
             if klass == "Xor2"
                 @propag_time[:int_multi] = 5
             elsif klass == "Nand2" or klass == "Nor2" 
@@ -35,9 +90,10 @@ module Netlist
             else
                 @propag_time[:int_multi] = 3
             end
-
+            
             @cumulated_propag_time = 0
-            # @slack = nil
+            @slack = 0
+            @name2obj = {}
             @tag = nil
         end
 
@@ -47,13 +103,13 @@ module Netlist
             when Port
                 case e.direction
                 when :in
-                    if @ports[:in].length < 2
+                    if @ports[:in].length < get_max_input_port
                         @ports[:in] << e
                     else
-                        raise "Error : Trying to add a second port to a NOT gate inputs (only 1 input port available)."        
+                        raise "Error : Trying to add a second port to a #{self.class} gate inputs (only 1 input port available)."        
                     end
                 when :out
-                    if @ports[:out].length < 1 
+                    if @ports[:out].length < 1
                     @ports[:out] << e
                     else
                         raise "Error : Trying to add a second output port to a logical gate (2 ports available)." 
@@ -66,6 +122,10 @@ module Netlist
             if !@source_gates.nil?
                 @source_gates = nil
             end
+        end
+
+        def get_max_input_port
+            self.class.name[-1].to_i
         end
 
         def get_inputs 
@@ -174,359 +234,146 @@ module Netlist
         end
     end
 
-    class And3 < Gate; end
-    class Or3 < Gate; end
-    class Xor3 < Gate; end
-    class Nand3 < Gate; end
-    class Nor3 < Gate; end
-
-    class And2 < Gate
-        attr_reader :same_transition_detectable, :opposite_transition_detectable, :controlling_value, :side_input_value
-
+    class And < Gate 
+        SMT_EXPR  = ["(and",")"]
+        VHDL_OP = "and"
+        VHDL_PREFIX = ""
+        
         def initialize *args
             super *args
-            @same_transition_detectable = :R
-            @opposite_transition_detectable = :F
-            @side_input_value = :S1
-            @controlling_value = :S0
+            # TODO : set propag_time in function of the number of inputs
+            @propag_time[:int_multi] = 1 + get_nb_inputs
+        end
+    end
+
+    class Or < Gate
+        SMT_EXPR  = ["(or",")"]
+        VHDL_OP = "or"
+        VHDL_PREFIX = ""
+        def initialize *args 
+          super *args
+          @propag_time[:int_multi] = 1 + get_nb_inputs
+        end
+    end
+    
+    class Nand < Gate 
+        SMT_EXPR  = ["(not (and","))"]
+        VHDL_OP = "and"
+        VHDL_PREFIX = "not"
+        def initialize *args
+          super *args 
+          @propag_time[:int_multi] = 2 + get_nb_inputs
+        end
+    end    
+    
+    class Nor < Gate 
+        SMT_EXPR  = ["(not (or","))"]
+        VHDL_OP = "or"
+        VHDL_PREFIX = "not"
+        def initialize *args
+            super *args
+            @propag_time[:int_multi] = 2 + get_nb_inputs
+        end 
+    end
+
+    class Xor < Gate
+        SMT_EXPR  = ["(xor",")"]
+        VHDL_OP = "xor"
+        VHDL_PREFIX = ""
+        def initialize *args
+            super *args
+            @propag_time[:int_multi] = 3 + get_nb_inputs
+        end
+    end
+
+    class And2 < And
+        def initialize *args
+            super *args
         end
 
-        def get_input_transition output_transition
-            case output_transition
-            when :S0 
-                return [[:S0,:S0],[:S0,:S1],[:S1,:S0],[:S0,:R],[:R,:S0],[:S0,:F],[:F,:S0],[:R,:F],[:F,:R]]
-            when :S1 
-                return [[:S1,:S1]]
-            when :R
-                return [[:S1,:R],[:R,:S1],[:R,:R]]
-            when :F
-                return [[:S1,:F],[:F,:S1],[:F,:F]]
-            else
-                raise "Error: Unexpected transition value encountered."
-            end
-        end
-
-        def get_output_transition input_transitions
-            case input_transitions
-            when [:S0,:S0], [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R],[:R,:S0], [:S0,:R], [:F,:S0], [:S0,:F]
-                return :S0
-            when [:S1,:S1]
-                return :S1
-            when [:R,:R], [:S1,:R], [:R,:S1]
-                return :R
-            when [:F,:F], [:S1, :F], [:F, :S1]
-                return :F
-            else
-                raise "Error: Unexpected output transitions values encountered."
-            end
-        end
-
-        def who_controls input_transitions
-            case input_transitions
-            when [:S0, :S1], [:S0, :R], [:S0, :F]
-                return 0 # i0
-            when [:S1, :S0], [:R, :S0],  [:F, :S0]
-                return 1 # i1
-            when [:S0, :S0], [:F, :F]
-                return 2 # both
-            else 
-                nil # none
-            end
-        end
-
-        def compute_transit_proba proba_i0, proba_i1, rounding = 5
+        def compute_transit_proba transi_proba, rounding = 5
+            proba_i0, proba_i1 = transi_proba
             ((1.0 - proba_i0 * proba_i1) * (proba_i0 * proba_i1)).round(rounding)
         end
     end
 
-    class Or2 < Gate
-        attr_reader :same_transition_detectable, :opposite_transition_detectable, :controlling_value, :side_input_value
-
+    class Or2 < Or
         def initialize *args
             super *args
-            @same_transition_detectable = :F
-            @opposite_transition_detectable = :R
-            @side_input_value = :S0
-            @controlling_value = :S1
         end
 
-        def get_input_transition output_transition
-            case output_transition
-            when :S0 
-                return [[:S0,:S0]]
-            when :S1 
-                return [[:S0,:S1],[:S1,:S0],[:S1,:S1],[:S1,:F],[:F,:S1],[:S1,:R],[:R,:S1],[:R,:F],[:F,:R]]
-            when :R
-                return [[:S0,:R],[:R,:S0],[:R,:R]]
-            when :F
-                return [[:S0,:F],[:F,:S0],[:F,:F]]
-            else
-                raise "Error: Unexpected output transition value encountered."
-            end
-        end
-
-        def get_output_transition input_transitions
-            case input_transitions
-            when [:S0,:S0]
-                return :S0
-            when [:S1,:S1], [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R], [:S1,:R], [:R,:S1], [:S1, :F], [:F, :S1]
-                return :S1
-            when [:R,:R], [:R,:S0], [:S0,:R]
-                return :R
-            when [:F,:F], [:F,:S0], [:S0,:F]
-                return :F
-            else
-                raise "Error: Unexpected output transitions values encountered."
-            end
-        end
-
-        def compute_transit_proba proba_i0, proba_i1, rounding = 5
+        def compute_transit_proba transi_proba, rounding = 5
+            proba_i0, proba_i1 = transi_proba
             ((1.0 - proba_i0) * (1.0 - proba_i1) * (1.0 -((1.0 - proba_i0) * (1.0 - proba_i1)))).round(rounding)
         end
     end
     
-    class Xor2 < Gate
-
+    class Xor2 < Xor
         def initialize *args
             super *args
         end
 
-        def get_input_transition output_transition
-            case output_transition
-            when :S0 
-                return [[:S0,:S0],[:S1,:S1],[:R,:R],[:F,:F]]
-            when :S1 
-                return [[:S0,:S1],[:S1,:S0],[:R,:F],[:F,:R]]
-            when :R
-                return [[:S0,:R],[:R,:S0],[:S1,:F],[:F,:S1]]
-            when :F
-                return [[:S0,:F],[:F,:S0],[:S1,:R],[:R,:S1]]
-            else
-                raise "Error: Unexpected transition value encountered."
-            end
-        end
-        
-        def get_output_transition input_transitions
-            case input_transitions
-            when [:S0,:S0], [:S1,:S1], [:F,:F], [:R,:R]
-                return :S0
-            when [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R]
-                return :S1
-            when [:R,:S0], [:S0,:R], [:S1, :F], [:F, :S1]
-                return :R
-                return :F
-            else
-                raise "Error: Unexpected output transitions values encountered."
-            end
-        end
-
-        def compute_transit_proba proba_i0, proba_i1, rounding = 5
+        def compute_transit_proba transi_proba, rounding = 5
+            proba_i0, proba_i1 = transi_proba
             ((1.0 - (proba_i0 + proba_i1 - 2.0 * proba_i0 * proba_i1)) * (proba_i0 + proba_i1 - 2.0 * proba_i0 * proba_i1)).round(rounding)
         end
     end
 
-    class Nor2 < Gate
-        attr_reader :same_transition_detectable, :opposite_transition_detectable, :controlling_value, :side_input_value
-
+    class Nor2 < Nor
         def initialize *args
             super *args
-            @same_transition_detectable = :F
-            @opposite_transition_detectable = :R
-            @side_input_value = :S0
-            @controlling_value = :S1
         end
 
-        def get_input_transition output_transition
-            case output_transition
-            when :S0 
-                return [[:S0,:S1],[:S1,:S0],[:S1,:S1],[:S1,:R],[:R,:S1],[:S1,:F],[:F,:S1]]
-            when :S1 
-                return [[:S0,:S0]]
-            when :R
-                return [[:S0,:F],[:F,:S0],[:F,:F]]
-            when :F
-                return [[:S0,:R],[:R,:S0],[:R,:R]]
-            else
-                raise "Error: Unexpected transition value encountered."
-            end
-        end
-
-        def get_output_transition input_transitions
-            case input_transitions
-            when [:S1,:S1], [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R], [:S1,:R], [:R,:S1], [:S1, :F], [:F, :S1]
-                return :S0
-            when [:S0,:S0]
-                return :S1
-            when [:F,:F], [:F,:S0], [:S0,:F]
-                return :R
-            when [:R,:R], [:R,:S0], [:S0,:R]
-                return :F
-            else
-                raise "Error: Unexpected output transitions values encountered."
-            end
-        end
-
-        def compute_transit_proba proba_i0, proba_i1, rounding = 5
+        def compute_transit_proba transi_proba, rounding = 5
+            proba_i0, proba_i1 = transi_proba
             ((1.0 - (1.0 - proba_i0) * (1.0 - proba_i1)) * (1.0 - proba_i0) * (1.0 - proba_i1)).round(rounding)
         end
     end
 
-    class Nand2 < Gate
-        attr_reader :same_transition_detectable, :opposite_transition_detectable, :controlling_value, :side_input_value
-
+    class Nand2 < Nand
         def initialize *args
             super *args
-            @same_transition_detectable = :R
-            @opposite_transition_detectable = :F
-            @side_input_values = :S1
-            @controlling_value = :S0
         end
 
-        def get_input_transition output_transition
-            case output_transition
-            when :S0 
-                return [[:S1,:S1]]
-            when :S1 
-                return [[:S0,:S0],[:S1,:S0],[:S0,:S1],[:S0,:R],[:R,:S0],[:S0,:F],[:F,:S0]]
-            when :R
-                return [[:S1,:F],[:F,:S1],[:F,:F]]
-            when :F
-                return [[:S1,:R],[:R,:S1],[:R,:R]]
-            else
-                raise "Error: Unexpected transition value encountered."
-            end
-        end
-
-        def get_output_transition input_transitions
-            case input_transitions
-            when [:S1,:S1]
-                return :S0
-            when [:S0,:S0], [:S0,:S1], [:S1,:S0], [:R,:F], [:F,:R],[:R,:S0], [:S0,:R], [:F,:S0], [:S0,:F]
-                return :S1
-            when [:F,:F], [:S1, :F], [:F, :S1]
-                return :R
-            when [:R,:R], [:S1,:R], [:R,:S1]
-                return :F
-            else
-                raise "Error: Unexpected output transitions values encountered."
-            end
-        end
-
-        def compute_transit_proba proba_i0, proba_i1, rounding = 5
+        def compute_transit_proba transi_proba, rounding = 5
+            proba_i0, proba_i1 = transi_proba
             ((proba_i0 * proba_i1) * (1.0 - (proba_i0 * proba_i1))).round(rounding)
         end
     end
 
+    # class And3 < Gate; end
+    # class Or3 < Gate; end
+    # class Xor3 < Gate; end
+    # class Nand3 < Gate; end
+    # class Nor3 < Gate; end
+
     class Not < Gate
+        SMT_EXPR  = ["(not",")"]
+        VHDL_OP = "not"
+        VHDL_PREFIX = ""
 
         def initialize name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs=1, nb_outputs=1
-            @name = name
-            inputs = []
-            outputs = []
-            # if nb_inputs > 0
-            nb_inputs.times{|i|
-                inputs << Netlist::Port.new("i#{i}",:in)
-            }
-            # end
-            if nb_outputs > 0
-                outputs << Netlist::Port.new("o0",:out)
-            end
-            @ports = {:in => inputs, :out => outputs}
-            @ports.each_value{|p| 
-                unless p.empty? 
-                    p[0].partof = self
-                end
-            }
-            @partof = partof
-            @components = []
+            super
             @propag_time = {:one => 1, :int => 1.0, :int_multi => 2, :int_rand => 1.0*rand(0.9..1.1).round(3), :fract => (1.0*rand(0.9..1.1) + 0.3).round(3)}
-            @cumulated_propag_time = 0
-            @slack = 0
-            @name2obj = {}
-
-            @decisions = []
-            @forbidden_transitions = []
         end
 
-        def <<(e)
-            e.partof = self
-            case e 
-            when Port
-                case e.direction
-                when :in
-                    if @ports[:in].length < 1
-                        @ports[:in] << e
-                    else
-                        raise "Error : Trying to add a second port to a NOT gate inputs (only 1 input port available)."        
-                    end
-                when :out
-                    if @ports[:out].length < 1 
-                        @ports[:out] << e
-                    else
-                        raise "Error : Trying to add a second output port to a logical gate (2 ports available)." 
-                    end
-                end
-            else 
-                raise "Error : Unexpected or unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
-            end
+        def get_max_input_port
+          1
         end
 
-        def get_input_transition output_transition
-            case output_transition
-            when :S0 
-                return [[:S1]]
-            when :S1 
-                return [[:S0]]
-            when :R
-                return [[:F]]
-            when :F
-                return [[:R]]
-            else
-                raise "Error: Unexpected transition value encountered."
-            end
-        end
-
-        def get_output_transition input_transitions
-            case input_transitions
-            when :S1
-                return :S0
-            when :S0
-                return :S1
-            when :F
-                return :R
-            when :R
-                return :F
-            else
-                raise "Error: Unexpected output transitions values encountered."
-            end
-        end
-
-        def compute_transit_proba proba_i0, rounding = 5
+        def compute_transit_proba transi_proba, rounding = 5
+            proba_i0 = transi_proba.first
             ((1.0 - proba_i0) * proba_i0).round(rounding)
         end
     end
 
     class Buffer < Gate
-        def initialize propag_time=1, name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs=1, nb_outputs=1
-            @name = name
-            inputs = []
-            outputs = []
-            # if nb_inputs > 0
-            nb_inputs.times{|i|
-                inputs << Netlist::Port.new("i#{i}",:in)
-            }
-            # end
-            if nb_outputs > 0
-                outputs << Netlist::Port.new("o0",:out)
-            end
-            @ports = {:in => inputs, :out => outputs}
-            @ports.each_value{|p| 
-                unless p.empty? 
-                    p[0].partof = self
-                end
-            }
-            @partof = partof
-            @components = []
+        SMT_EXPR  = ["",""]
+        
+        def initialize name="#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs=1, nb_outputs=1, propag_time: 1
+            args = [name, partof, nb_inputs, nb_outputs]
+            super(*args)
+
             @propag_time = {
                 :one => propag_time, 
                 :int => propag_time.to_f, 
@@ -534,65 +381,14 @@ module Netlist
                 :int_rand => propag_time*rand(0.9..1.1).round(3), 
                 :fract => (propag_time*rand(0.9..1.1) + 0.3).round(3)
             }
-            @cumulated_propag_time = 0
-            @slack = 0
-            @name2obj = {}
         end
 
-        def <<(e)
-            e.partof = self
-            case e 
-            when Port
-                case e.direction
-                when :in
-                    if @ports[:in].length < 1
-                        @ports[:in] << e
-                    else
-                        raise "Error : Trying to add a second port to a NOT gate inputs (only 1 input port available)."        
-                    end
-                when :out
-                    if @ports[:out < 1] 
-                    @ports[:out] << e
-                    else
-                        raise "Error : Trying to add a second output port to a logical gate (2 ports available)." 
-                    end
-                end
-            else 
-                raise "Error : Unexpected or unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
-            end
+        def get_max_input_port
+          1
         end
 
-        def get_input_transition output_transition
-            case output_transition
-            when :S0 
-                return [[:S0]]
-            when :S1 
-                return [[:S1]]
-            when :R
-                return [[:R]]
-            when :F
-                return [[:F]]
-            else
-                raise "Error: Unexpected transition value encountered."
-            end
-        end
-
-        def get_output_transition *input_transitions
-            case input_transitions
-            when :S0
-                return :S0
-            when :S1
-                return :S1
-            when :R
-                return :R
-            when :F
-                return :F
-            else
-                raise "Error: Unexpected output transitions values encountered."
-            end
-        end
-
-        def compute_transit_proba proba_i0, rounding = 5
+        def compute_transit_proba transi_proba, rounding = 5
+            proba_i0 = transi_proba.first
             ((1.0 - proba_i0) * proba_i0).round(rounding)
         end
     end
@@ -614,6 +410,6 @@ module Netlist
     class Zero < Constant; end
     class One < Constant; end
 
-    $DEF_GATE_TYPES = [And2, Or2, Xor2, Not, Nand2, Nor2, Buffer] # TODO : Legacy, verify where it is needed and rename to GTECH only
-    $GTECH = $DEF_GATE_TYPES
+    DEF_GATE_TYPES = Netlist::Gate.subclasses # TODO : Legacy, verify where it is needed and rename to GTECH only
+    GTECH = [And2, Or2, Xor2, Not, Nand2, Nor2, Buffer]
 end
