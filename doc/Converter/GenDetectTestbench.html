@@ -295,7 +295,7 @@
     <span class='kw'>case</span> <span class='id identifier rubyid_stim_type'>stim_type</span>
     <span class='kw'>when</span> <span class='const'>String</span> 
         <span class='ivar'>@stim_file_path</span> <span class='op'>=</span> <span class='id identifier rubyid_stim_type'>stim_type</span> <span class='comment'># stim_type is the path to the stim sequence (test vector) file
-</span>        <span class='ivar'>@engine</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/tb_detect_template2.vhdl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+</span>        <span class='ivar'>@engine</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/tb_templates/tb_detect_template2.vhdl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: stimulus type not available for comparer testbench.</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
@@ -325,9 +325,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 29 10:04:27 2025 by
+  Generated on Fri Oct 17 18:01:27 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.1).
+  0.9.37 (ruby-3.3.4).
 </div>
 
     </div>

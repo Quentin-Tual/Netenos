@@ -78,24 +78,66 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/netlist/gate.rb<span class="defines">,<br />
-  lib/netlist/port.rb,<br /> lib/netlist/wire.rb,<br /> lib/netlist/circuit.rb,<br /> lib/netlist/register.rb,<br /> lib/netlist/randomGenSeq.rb,<br /> lib/netlist/randomGenComb.rb,<br /> lib/atetaAddOn/addon_gates.rb</span>
+    <dd>lib/netlist/randomGenSeq.rb<span class="defines">,<br />
+  lib/netlist/gate.rb,<br /> lib/netlist/port.rb,<br /> lib/netlist/wire.rb,<br /> lib/netlist/circuit.rb,<br /> lib/netlist/register.rb,<br /> lib/netlist/randomGenComb.rb,<br /> lib/netlist/addon_deep_copy.rb</span>
 </dd>
   </dl>
   
 </div>
 
-<h2>Defined Under Namespace</h2>
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>require_relative “./gate2.rb”</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
 <p class="children">
   
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span>, <span class='object_link'><a href="Netlist/And3.html" title="Netlist::And3 (class)">And3</a></span>, <span class='object_link'><a href="Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span>, <span class='object_link'><a href="Netlist/Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span>, <span class='object_link'><a href="Netlist/Constant.html" title="Netlist::Constant (class)">Constant</a></span>, <span class='object_link'><a href="Netlist/Gate.html" title="Netlist::Gate (class)">Gate</a></span>, <span class='object_link'><a href="Netlist/ImpossibleResolutionException.html" title="Netlist::ImpossibleResolutionException (class)">ImpossibleResolutionException</a></span>, <span class='object_link'><a href="Netlist/Nand2.html" title="Netlist::Nand2 (class)">Nand2</a></span>, <span class='object_link'><a href="Netlist/Nand3.html" title="Netlist::Nand3 (class)">Nand3</a></span>, <span class='object_link'><a href="Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span>, <span class='object_link'><a href="Netlist/Nor3.html" title="Netlist::Nor3 (class)">Nor3</a></span>, <span class='object_link'><a href="Netlist/Not.html" title="Netlist::Not (class)">Not</a></span>, <span class='object_link'><a href="Netlist/One.html" title="Netlist::One (class)">One</a></span>, <span class='object_link'><a href="Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span>, <span class='object_link'><a href="Netlist/Or3.html" title="Netlist::Or3 (class)">Or3</a></span>, <span class='object_link'><a href="Netlist/Port.html" title="Netlist::Port (class)">Port</a></span>, <span class='object_link'><a href="Netlist/RandomGenComb.html" title="Netlist::RandomGenComb (class)">RandomGenComb</a></span>, <span class='object_link'><a href="Netlist/RandomGenSeq.html" title="Netlist::RandomGenSeq (class)">RandomGenSeq</a></span>, <span class='object_link'><a href="Netlist/Register.html" title="Netlist::Register (class)">Register</a></span>, <span class='object_link'><a href="Netlist/Wire.html" title="Netlist::Wire (class)">Wire</a></span>, <span class='object_link'><a href="Netlist/Xor2.html" title="Netlist::Xor2 (class)">Xor2</a></span>, <span class='object_link'><a href="Netlist/Xor3.html" title="Netlist::Xor3 (class)">Xor3</a></span>, <span class='object_link'><a href="Netlist/Zero.html" title="Netlist::Zero (class)">Zero</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Netlist/And.html" title="Netlist::And (class)">And</a></span>, <span class='object_link'><a href="Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span>, <span class='object_link'><a href="Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span>, <span class='object_link'><a href="Netlist/Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span>, <span class='object_link'><a href="Netlist/Constant.html" title="Netlist::Constant (class)">Constant</a></span>, <span class='object_link'><a href="Netlist/Gate.html" title="Netlist::Gate (class)">Gate</a></span>, <span class='object_link'><a href="Netlist/ImpossibleResolutionException.html" title="Netlist::ImpossibleResolutionException (class)">ImpossibleResolutionException</a></span>, <span class='object_link'><a href="Netlist/Nand.html" title="Netlist::Nand (class)">Nand</a></span>, <span class='object_link'><a href="Netlist/Nand2.html" title="Netlist::Nand2 (class)">Nand2</a></span>, <span class='object_link'><a href="Netlist/Nor.html" title="Netlist::Nor (class)">Nor</a></span>, <span class='object_link'><a href="Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span>, <span class='object_link'><a href="Netlist/Not.html" title="Netlist::Not (class)">Not</a></span>, <span class='object_link'><a href="Netlist/One.html" title="Netlist::One (class)">One</a></span>, <span class='object_link'><a href="Netlist/Or.html" title="Netlist::Or (class)">Or</a></span>, <span class='object_link'><a href="Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span>, <span class='object_link'><a href="Netlist/Port.html" title="Netlist::Port (class)">Port</a></span>, <span class='object_link'><a href="Netlist/RandomGenComb.html" title="Netlist::RandomGenComb (class)">RandomGenComb</a></span>, <span class='object_link'><a href="Netlist/RandomGenSeq.html" title="Netlist::RandomGenSeq (class)">RandomGenSeq</a></span>, <span class='object_link'><a href="Netlist/Register.html" title="Netlist::Register (class)">Register</a></span>, <span class='object_link'><a href="Netlist/Wire.html" title="Netlist::Wire (class)">Wire</a></span>, <span class='object_link'><a href="Netlist/Xor.html" title="Netlist::Xor (class)">Xor</a></span>, <span class='object_link'><a href="Netlist/Xor2.html" title="Netlist::Xor2 (class)">Xor2</a></span>, <span class='object_link'><a href="Netlist/Zero.html" title="Netlist::Zero (class)">Zero</a></span>
     
   
 </p>
 
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="DEF_GATE_TYPES-constant" class="">DEF_GATE_TYPES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>TODO : Legacy, verify where it is needed and rename to GTECH only</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>Netlist</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Netlist/Gate.html" title="Netlist::Gate (class)">Gate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_subclasses'>subclasses</span></pre></dd>
+      
+        <dt id="GTECH-constant" class="">GTECH =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Netlist/Xor2.html" title="Netlist::Xor2 (class)">Xor2</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Netlist/Not.html" title="Netlist::Not (class)">Not</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Netlist/Nand2.html" title="Netlist::Nand2 (class)">Nand2</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span></span><span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
+  
 
 
 
@@ -103,13 +145,389 @@
 
 
 
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#class_exists%3F-class_method" title="class_exists? (class method)">.<strong>class_exists?</strong>(class_name)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_class-class_method" title="create_class (class method)">.<strong>create_class</strong>(class_name, inherit_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_gate-class_method" title="create_gate (class method)">.<strong>create_gate</strong>(type, nb_inputs, partof = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_gtech-class_method" title="generate_gtech (class method)">.<strong>generate_gtech</strong>(max_nb_inputs = 5, excluded_gate_types = [&quot;Buffer&quot;,&quot;Not&quot;])  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_gtech-class_method" title="get_gtech (class method)">.<strong>get_gtech</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="class_exists?-class_method">
+  
+    .<strong>class_exists?</strong>(class_name)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 28</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class_exists?'>class_exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+    <span class='kw'>begin</span>
+        <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+        <span class='kw'>return</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Class</span><span class='rparen'>)</span>
+    <span class='kw'>rescue</span> <span class='const'>NameError</span>
+        <span class='kw'>return</span> <span class='kw'>false</span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_class-class_method">
+  
+    .<strong>create_class</strong>(class_name, inherit_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 37</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_class'>create_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_inherit_name'>inherit_name</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>Object</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Netlist::</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_inherit_name'>inherit_name</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span>
+        <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+            <span class='kw'>super</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+    <span class='kw'>end</span>
+    <span class='const'><span class='object_link'><a href="" title="Netlist (module)">Netlist</a></span></span><span class='period'>.</span><span class='id identifier rubyid_const_set'>const_set</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
+    
+    <span class='id identifier rubyid_klass'>klass</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_gate-class_method">
+  
+    .<strong>create_gate</strong>(type, nb_inputs, partof = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 48</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create_gate'>create_gate</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='comma'>,</span> <span class='id identifier rubyid_partof'>partof</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='lbracket'>[</span><span class='symbol'>:and</span><span class='comma'>,</span><span class='symbol'>:or</span><span class='comma'>,</span><span class='symbol'>:not</span><span class='comma'>,</span><span class='symbol'>:nand</span><span class='comma'>,</span><span class='symbol'>:nor</span><span class='comma'>,</span><span class='symbol'>:xor</span><span class='comma'>,</span><span class='symbol'>:buf</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_type'>type</span>
+        <span class='id identifier rubyid_type_classname'>type_classname</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_capitalize'>capitalize</span>
+        <span class='id identifier rubyid_specific_classname'>specific_classname</span> <span class='op'>=</span> <span class='id identifier rubyid_type_classname'>type_classname</span> <span class='op'>+</span> <span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+
+        <span class='comment'># Si la classe n&#39;existe pas encore, la déclarer  
+</span>        <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_class_exists?'>class_exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Netlist::</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_specific_classname'>specific_classname</span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_create_class'>create_class</span><span class='lparen'>(</span><span class='id identifier rubyid_specific_classname'>specific_classname</span><span class='comma'>,</span> <span class='id identifier rubyid_type_classname'>type_classname</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+        <span class='const'><span class='object_link'><a href="" title="Netlist (module)">Netlist</a></span></span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_specific_classname'>specific_classname</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='kw'>else</span> 
+        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Unknown gate type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'> encountered.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_gtech-class_method">
+  
+    .<strong>generate_gtech</strong>(max_nb_inputs = 5, excluded_gate_types = [&quot;Buffer&quot;,&quot;Not&quot;])  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 5</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_generate_gtech'>generate_gtech</span><span class='lparen'>(</span><span class='id identifier rubyid_max_nb_inputs'>max_nb_inputs</span> <span class='op'>=</span> <span class='int'>5</span><span class='comma'>,</span> <span class='id identifier rubyid_excluded_gate_types'>excluded_gate_types</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Buffer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_types_list'>types_list</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="#DEF_GATE_TYPES-constant" title="Netlist::DEF_GATE_TYPES (constant)">DEF_GATE_TYPES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='op'>|</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>::</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_types_list'>types_list</span> <span class='op'>-=</span> <span class='id identifier rubyid_excluded_gate_types'>excluded_gate_types</span> 
+    <span class='lparen'>(</span><span class='int'>3</span><span class='op'>..</span><span class='id identifier rubyid_max_nb_inputs'>max_nb_inputs</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='op'>|</span>
+        <span class='id identifier rubyid_types_list'>types_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_gate_type'>gate_type</span><span class='op'>|</span>
+            <span class='id identifier rubyid_class_name'>class_name</span> <span class='op'>=</span> <span class='id identifier rubyid_gate_type'>gate_type</span> <span class='op'>+</span> <span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+            <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_class_exists?'>class_exists?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Netlist::</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_class_name'>class_name</span><span class='rparen'>)</span>
+                <span class='id identifier rubyid_create_class'>create_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_name'>class_name</span><span class='comma'>,</span> <span class='id identifier rubyid_gate_type'>gate_type</span><span class='rparen'>)</span>
+            <span class='kw'>end</span>
+        <span class='kw'>end</span>
+    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_gtech-class_method">
+  
+    .<strong>get_gtech</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_gtech'>get_gtech</span>
+    <span class='id identifier rubyid_gtech'>gtech</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Netlist/Gate.html" title="Netlist::Gate (class)">Gate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_subclasses'>subclasses</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='op'>|</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_subclasses'>subclasses</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='rbrace'>}</span>
+    <span class='const'><span class='object_link'><a href="" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Netlist/Gate.html" title="Netlist::Gate (class)">Gate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_subclasses'>subclasses</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_subklass'>subklass</span><span class='op'>|</span>
+        <span class='id identifier rubyid_subklass'>subklass</span><span class='period'>.</span><span class='id identifier rubyid_subclasses'>subclasses</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_subsubklass'>subsubklass</span><span class='op'>|</span>
+            <span class='id identifier rubyid_gtech'>gtech</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_subsubklass'>subsubklass</span> <span class='kw'>if</span> <span class='id identifier rubyid_subsubklass'>subsubklass</span><span class='period'>.</span><span class='id identifier rubyid_subclasses'>subclasses</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+        <span class='kw'>end</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_gtech'>gtech</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 29 10:04:21 2025 by
+  Generated on Fri Oct 17 18:01:19 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.1).
+  0.9.37 (ruby-3.3.4).
 </div>
 
     </div>

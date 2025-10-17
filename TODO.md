@@ -1,6 +1,6 @@
 # TODO List
 
-- [ ] Add Verilog parser to Netenos
+- [ ] Update BLIF parser to accept PDK cells like the Verilog parser and add a rspec test for Verilog writing of a blif loaded netlist
 - [ ] Add SDF parser to Netenos
 - [ ] Add SDF visitor to annotate netlist with delays
 - [ ] Harmonize and simplify the `get_source[...]` functions, only one should be needed, or explicitly name it after what it is used for.

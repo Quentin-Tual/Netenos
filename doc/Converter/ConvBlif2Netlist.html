@@ -150,6 +150,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#gen_genlib-instance_method" title="#gen_genlib (instance method)">#<strong>gen_genlib</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#get_nb_inputs-instance_method" title="#get_nb_inputs (instance method)">#<strong>get_nb_inputs</strong>(path)  &#x21d2; Object </a>
     
 
@@ -194,7 +216,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; ConvBlif2Netlist </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(genlib_path = &quot;.&quot;)  &#x21d2; ConvBlif2Netlist </a>
     
 
     
@@ -404,7 +426,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Converter::ConvBlif2Netlist (class)">ConvBlif2Netlist</a></span></tt> 
+    #<strong>initialize</strong>(genlib_path = &quot;.&quot;)  &#x21d2; <tt><span class='object_link'><a href="" title="Converter::ConvBlif2Netlist (class)">ConvBlif2Netlist</a></span></tt> 
   
 
   
@@ -427,6 +449,7 @@
       <pre class="lines">
 
 
+5
 6
 7
 8
@@ -434,19 +457,18 @@
 10
 11
 12
-13
-14</pre>
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 5</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_genlib_path'>genlib_path</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='kw'>nil</span>
     <span class='ivar'>@nb_inputs</span> <span class='op'>=</span> <span class='int'>0</span>
     <span class='ivar'>@nb_outputs</span> <span class='op'>=</span> <span class='int'>0</span>
-    <span class='ivar'>@token_list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     <span class='ivar'>@sym_tab</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:p_in</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='symbol'>:p_out</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='symbol'>:g_out</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rbrace'>}</span>
-
+    <span class='ivar'>@genlib_path</span> <span class='op'>=</span> <span class='id identifier rubyid_genlib_path'>genlib_path</span>
+    <span class='id identifier rubyid_gen_genlib'>gen_genlib</span>
     <span class='comment'># TODO : check if yosys-abc is installed, raise exception if its not 
 </span><span class='kw'>end</span></pre>
     </td>
@@ -476,20 +498,20 @@
       <pre class="lines">
 
 
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69</pre>
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 74</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_convert'>convert</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>truth_table_format:</span> <span class='kw'>true</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_truth_table_format'>truth_table_format</span>
@@ -501,6 +523,60 @@
     <span class='comment'># delete_unlinked_outputs
 </span>    <span class='comment'># retrieve_wires
 </span>    <span class='kw'>return</span> <span class='ivar'>@netlist</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_genlib-instance_method">
+  
+    #<strong>gen_genlib</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 15</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_genlib'>gen_genlib</span>
+    <span class='id identifier rubyid_txt'>txt</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE ZERO0\t0  Y=CONST0;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE ONE0\t0  Y=CONST1;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE INV1\t2  Y=!A;\tPIN * INV 1 999 2 0 2 0</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE BUF1\t4  Y=A;\tPIN * NONINV 1 999 1 0 1 0</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+
+    <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='id identifier rubyid_get_gtech'><span class='object_link'><a href="../Netlist.html#get_gtech-class_method" title="Netlist.get_gtech (method)">get_gtech</a></span></span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='op'>|</span>
+        <span class='id identifier rubyid_class_shortname'>class_shortname</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>::</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+        <span class='kw'>unless</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Buffer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_class_shortname'>class_shortname</span>
+            <span class='id identifier rubyid_txt'>txt</span> <span class='op'>&lt;&lt;</span> <span class='backtick'>`</span><span class='tstring_content'>grep \&quot; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_class_shortname'>class_shortname</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; </span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib</span><span class='tstring_end'>`</span></span>
+        <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@genlib_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='id identifier rubyid_txt'>txt</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -522,21 +598,6 @@
       <pre class="lines">
 
 
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
 31
 32
 33
@@ -544,10 +605,25 @@
 35
 36
 37
-38</pre>
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_nb_inputs'>get_nb_inputs</span> <span class='id identifier rubyid_path'>path</span>
     <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -592,27 +668,27 @@
       <pre class="lines">
 
 
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
 55
 56
-57</pre>
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_nb_inputs2'>get_nb_inputs2</span> <span class='id identifier rubyid_path'>path</span>
     <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -652,22 +728,6 @@
       <pre class="lines">
 
 
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
 207
 208
 209
@@ -675,34 +735,36 @@
 211
 212
 213
-214</pre>
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 207</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_instantiateGate'>instantiateGate</span> <span class='id identifier rubyid_gate_type'>gate_type</span>
     <span class='kw'>case</span> <span class='id identifier rubyid_gate_type'>gate_type</span>
-    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>AND2</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/And2.html#initialize-instance_method" title="Netlist::And2#initialize (method)">new</a></span></span>
-    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>OR2</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Or2.html" title="Netlist::Or2 (class)">Or2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Or2.html#initialize-instance_method" title="Netlist::Or2#initialize (method)">new</a></span></span>
-    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>NAND2</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nand2.html" title="Netlist::Nand2 (class)">Nand2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Nand2.html#initialize-instance_method" title="Netlist::Nand2#initialize (method)">new</a></span></span>
-    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>NOR2</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Nor2.html#initialize-instance_method" title="Netlist::Nor2#initialize (method)">new</a></span></span>
-    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>XOR2</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Xor2.html" title="Netlist::Xor2 (class)">Xor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Xor2.html#initialize-instance_method" title="Netlist::Xor2#initialize (method)">new</a></span></span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>INV1</span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html" title="Netlist::Not (class)">Not</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Not.html#initialize-instance_method" title="Netlist::Not#initialize (method)">new</a></span></span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>BUF1</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Buffer.html#initialize-instance_method" title="Netlist::Buffer#initialize (method)">new</a></span></span> <span class='float'>0.0</span>
+        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Buffer.html#initialize-instance_method" title="Netlist::Buffer#initialize (method)">new</a></span></span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ZERO0</span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Zero.html" title="Netlist::Zero (class)">Zero</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Constant.html#initialize-instance_method" title="Netlist::Constant#initialize (method)">new</a></span></span> <span class='comment'># ! Prendre en charge les constantes dans le circuit
 </span>    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ONE0</span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/One.html" title="Netlist::One (class)">One</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Constant.html#initialize-instance_method" title="Netlist::Constant#initialize (method)">new</a></span></span> <span class='comment'># ! Idem
 </span>    <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : Unknown operator </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_gate_type'>gate_type</span><span class='embexpr_end'>}</span><span class='tstring_content'> encountered.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
+        <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_gate_type'>gate_type</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='lbracket'>[</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+        <span class='id identifier rubyid_nb_inputs'>nb_inputs</span> <span class='op'>=</span> <span class='id identifier rubyid_gate_type'>gate_type</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='id identifier rubyid_create_gate'><span class='object_link'><a href="../Netlist.html#create_gate-class_method" title="Netlist.create_gate (method)">create_gate</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span><span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='rparen'>)</span>
+        <span class='comment'># raise &quot;Error : Unknown operator #{gate_type} encountered.&quot;
+</span>    <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -735,22 +797,6 @@
       <pre class="lines">
 
 
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
 167
 168
 169
@@ -773,10 +819,26 @@
 186
 187
 188
-189</pre>
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 167</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_path'>path</span> <span class='comment'># lexer
 </span>    <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -837,25 +899,25 @@
       <pre class="lines">
 
 
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149</pre>
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_gate_line'>parse_gate_line</span> <span class='id identifier rubyid_line'>line</span>
     <span class='id identifier rubyid_splitted'>splitted</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
@@ -893,31 +955,31 @@
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
 100
 101
 102
 103
 104
-105</pre>
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span> <span class='id identifier rubyid_line'>line</span>
     <span class='kw'>if</span> <span class='ivar'>@continued_line</span> <span class='op'>==</span> <span class='symbol'>:inputs</span> 
@@ -961,22 +1023,6 @@
       <pre class="lines">
 
 
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
 123
 124
 125
@@ -986,10 +1032,26 @@
 129
 130
 131
-132</pre>
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_outputs_line'>parse_outputs_line</span> <span class='id identifier rubyid_line'>line</span> 
     <span class='kw'>if</span> <span class='ivar'>@continued_line</span> <span class='op'>==</span> <span class='symbol'>:outputs</span> 
@@ -1037,15 +1099,6 @@
       <pre class="lines">
 
 
-235
-236
-237
-238
-239
-240
-241
-242
-243
 244
 245
 246
@@ -1060,7 +1113,7 @@
 255</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 244</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process_sink_sig'>process_sink_sig</span> <span class='id identifier rubyid_sink_list'>sink_list</span><span class='comma'>,</span> <span class='id identifier rubyid_gate'>gate</span>
     <span class='id identifier rubyid_sink_list'>sink_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='op'>|</span>
@@ -1072,16 +1125,7 @@
             <span class='comment'># TODO : Ajouter la sortie de la porte g_out
 </span>            <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:g_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_output'>get_output</span>
         <span class='kw'>end</span>
-
-        <span class='comment'># if !@sym_tab[:sink].key?(sink_sig) # si ce n&#39;est pas une sortie primaire
-</span>        <span class='comment'>#     if @sym_tab[:source].key?(sink_sig) # si c&#39;est la sortie d&#39;une porte 
-</span>        <span class='comment'>#         @sym_tab[:sink][sink_sig] = gate.get_output
-</span>        <span class='comment'>#     else
-</span>        <span class='comment'>#     end
-</span>        <span class='comment'># else
-</span>        <span class='comment'>#     @sym_tab[:sink][sink_sig] &lt;= gate.get_output
-</span>        <span class='comment'># end
-</span>    <span class='kw'>end</span>
+    <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1103,15 +1147,6 @@
       <pre class="lines">
 
 
-216
-217
-218
-219
-220
-221
-222
-223
-224
 225
 226
 227
@@ -1120,10 +1155,19 @@
 230
 231
 232
-233</pre>
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 225</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process_source_sig'>process_source_sig</span> <span class='id identifier rubyid_source_list'>source_list</span><span class='comma'>,</span> <span class='id identifier rubyid_gate'>gate</span>
     <span class='id identifier rubyid_source_list'>source_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='op'>|</span>
@@ -1163,28 +1207,30 @@
       <pre class="lines">
 
 
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82</pre>
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 86</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_truth_table_2_gates'>truth_table_2_gates</span> <span class='id identifier rubyid_path'>path</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_truth_table_2_gates'>truth_table_2_gates</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
     <span class='kw'>if</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/tmp/netenos</span><span class='tstring_end'>&quot;</span></span>
         <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mkdir'>mkdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/tmp/netenos</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='kw'>end</span>
-    <span class='id identifier rubyid_std_o'>std_o</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>yosys-abc -c &quot;read_blif </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>; read_library </span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib; strash; map; write_blif /tmp/netenos/~</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>&quot;</span><span class='tstring_end'>`</span></span>
-    <span class='comment'># strash; &amp;get -n; &amp;nf; &amp;put
+    <span class='id identifier rubyid_std_o'>std_o</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>yosys-abc -c &quot;read_blif </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>; read_library </span><span class='embexpr_beg'>#{</span><span class='ivar'>@genlib_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib; strash; map; write_blif /tmp/netenos/~</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>&quot;</span><span class='tstring_end'>`</span></span>
+    <span class='comment'># std_o = `yosys-abc -c &quot;read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; dretime; map {D}; write_blif /tmp/netenos/~#{File.basename(path)}&quot;`
+</span>    <span class='comment'># std_o = `yosys-abc -c &quot;read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; &amp;get -n; &amp;fraig -x; &amp;put; scorr; dc2; dretime; strash; &amp;get -n; &amp;dch -f; &amp;nf {D}; &amp;put; write_blif /tmp/netenos/~#{File.basename(path)}&quot;`
 </span>    <span class='comment'># if File.exist?(&quot;/tmp/netenos/~#{File.basename(path)}&quot;)
 </span>    <span class='comment'>#     raise &quot;Error: File #{path} not converted correctly. &quot;
 </span>    <span class='comment'># end
@@ -1201,9 +1247,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 29 10:04:26 2025 by
+  Generated on Fri Oct 17 18:01:27 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.1).
+  0.9.37 (ruby-3.3.4).
 </div>
 
     </div>

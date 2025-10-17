@@ -1,0 +1,45 @@
+GATE ZERO0	0  Y=CONST0;
+GATE ONE0	0  Y=CONST1;
+GATE INV1	2  Y=!A;	PIN * INV 1 999 2 0 2 0
+GATE BUF1	4  Y=A;	PIN * NONINV 1 999 1 0 1 0
+
+
+GATE XOR5    24  Y=(A*!B*!C*!D*!E) + (!A*B*!C*!D*!E) + (!A*!B*C*!D*!E) + (!A*!B*!C*D*!E) + (!A*!B*!C*!D*E) + (A*B*C*!D*!E) + (A*B*!C*D*!E) + (A*B*!C*!D*E) + (A*!B*C*D*!E) + (A*!B*C*!D*E) + (A*!B*!C*D*E) + (!A*B*C*D*!E) + (!A*B*C*!D*E) + (!A*B*!C*D*E) + (!A*!B*C*D*E) + (A*B*C*D*E);             PIN * NONINV 1 999 8 0 8 0
+
+GATE XOR4    18  Y=(A*!B*!C*!D)+(!A*B*!C*!D)+(!A*!B*C*!D)+(!A*!B*!C*D)+(A*B*C*!D)+(A*B*!C*D)+(A*!B*C*D)+(!A*B*C*D);             PIN * NONINV 1 999 7 0 7 0
+
+GATE XOR3    12  Y=(A*!B*!C)+(!A*B*!C)+(!A*!B*C)+(A*B*C);             PIN * NONINV 1 999 6 0 6 0
+
+GATE XOR2    6  Y=(A*!B)+(!A*B);             PIN * NONINV 1 999 5 0 5 0
+
+GATE NOR5    10  Y=!(A+B+C+D+E);                    PIN * INV 1 999 7 0 7 0
+
+GATE NOR4    8  Y=!(A+B+C+D);                    PIN * INV 1 999 6 0 6 0
+
+GATE NOR3    6  Y=!(A+B);                    PIN * INV 1 999 5 0 5 0
+
+GATE NOR2    4  Y=!(A+B);                    PIN * INV 1 999 4 0 4 0
+
+GATE NAND5   10  Y=!(A*B*C*D*E);                    PIN * INV 1 999 7 0 7 0
+
+GATE NAND4   8  Y=!(A*B*C*D);                    PIN * INV 1 999 6 0 6 0
+
+GATE NAND3   6  Y=!(A*B*C);                    PIN * INV 1 999 5 0 5 0
+
+GATE NAND2   4  Y=!(A*B);                    PIN * INV 1 999 4 0 4 0
+
+GATE OR5     12  Y=A+B+C+D+E;                       PIN * NONINV 1 999 6 0 6 0
+
+GATE OR4     10  Y=A+B+C=D;                       PIN * NONINV 1 999 5 0 5 0
+
+GATE OR3     8  Y=A+B+C;                       PIN * NONINV 1 999 4 0 4 0
+
+GATE OR2     6  Y=A+B;                       PIN * NONINV 1 999 3 0 3 0
+
+GATE AND5    12  Y=A*B*C*D*E;                       PIN * NONINV 1 999 6 0 6 0
+
+GATE AND4    10  Y=A*B*C*D;                       PIN * NONINV 1 999 5 0 5 0
+
+GATE AND3    8  Y=A*B*C;                       PIN * NONINV 1 999 4 0 4 0
+
+GATE AND2    6  Y=A*B;                       PIN * NONINV 1 999 3 0 3 0

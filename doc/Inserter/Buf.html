@@ -229,16 +229,14 @@
 12
 13
 14
-15
-16</pre>
+15</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/inserter/buffer.rb', line 8</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_ht_delay'>ht_delay</span> <span class='op'>=</span> <span class='int'>2</span>
-    <span class='comment'># * : For the moment the only parameters allowed are power of 2 numbers. This is faster to develop and easier for a start. It may evolve later to allow more possibilities.
-</span>    <span class='kw'>super</span>
-    <span class='id identifier rubyid_payload'>payload</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Buffer.html#initialize-instance_method" title="Netlist::Buffer#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_ht_delay'>ht_delay</span><span class='rparen'>)</span>
+    <span class='kw'>super</span>
+    <span class='id identifier rubyid_payload'>payload</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Buffer.html#initialize-instance_method" title="Netlist::Buffer#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>propag_time:</span> <span class='id identifier rubyid_ht_delay'>ht_delay</span><span class='rparen'>)</span>
     <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_payload'>payload</span>
     <span class='ivar'>@components</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_payload'>payload</span><span class='rbracket'>]</span>
     <span class='ivar'>@payload_in</span> <span class='op'>=</span> <span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -303,9 +301,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 29 10:04:23 2025 by
+  Generated on Fri Oct 17 18:01:22 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.1).
+  0.9.37 (ruby-3.3.4).
 </div>
 
     </div>

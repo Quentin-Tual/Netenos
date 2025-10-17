@@ -245,6 +245,60 @@
 </li>
 
     
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#propag_time-instance_method" title="#propag_time (instance method)">#<strong>propag_time</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute propag_time.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#slack-instance_method" title="#slack (instance method)">#<strong>slack</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute slack.</p>
+</div></span>
+  
+</li>
+
+    
   </ul>
 
 
@@ -962,6 +1016,92 @@
 </table>
 </div>
     
+      
+      <span id="propag_time=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="propag_time-instance_method">
+  
+    #<strong>propag_time</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute propag_time.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/wire.rb', line 3</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_propag_time'>propag_time</span>
+  <span class='ivar'>@propag_time</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="slack=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="slack-instance_method">
+  
+    #<strong>slack</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute slack.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/wire.rb', line 3</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_slack'>slack</span>
+  <span class='ivar'>@slack</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 
@@ -1056,7 +1196,7 @@
         <span class='ivar'>@fanin</span> <span class='op'>=</span> <span class='id identifier rubyid_source'>source</span>
     <span class='kw'>else</span>
         <span class='kw'>unless</span> <span class='ivar'>@fanin</span> <span class='op'>==</span> <span class='id identifier rubyid_source'>source</span> 
-            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : Interface </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> of </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> already has a source, please verify.</span><span class='tstring_end'>&quot;</span></span>
+            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : Interface </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> of </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> already has </span><span class='embexpr_beg'>#{</span><span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> as a source, please verify.</span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -1526,18 +1666,18 @@
       <pre class="lines">
 
 
+181
+182
+183
 184
 185
 186
 187
 188
-189
-190
-191
-192</pre>
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/wire.rb', line 184</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/wire.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_hash'>to_hash</span>
     <span class='kw'>return</span> <span class='lbrace'>{</span>
@@ -1660,7 +1800,7 @@
         <span class='comment'># In case we still need it later, return a reference
 </span>        <span class='kw'>return</span> <span class='id identifier rubyid_source'>source</span>
     <span class='kw'>else</span> <span class='comment'># then self is a source
-</span>        <span class='id identifier rubyid_sink'>sink</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_sink_named'>get_sink_named</span><span class='lparen'>(</span><span class='id identifier rubyid_interface_full_name'>interface_full_name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</span>        <span class='id identifier rubyid_sink'>sink</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_sink_named'>get_sink_named</span><span class='lparen'>(</span><span class='id identifier rubyid_interface_full_name'>interface_full_name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='gvar'>$FULL_PORT_NAME_SEP</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
         <span class='kw'>if</span> <span class='id identifier rubyid_sink'>sink</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
             <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : Impossible to unplug sink </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_interface_full_name'>interface_full_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> from source </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> because they does not seem connected.</span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>end</span>
@@ -1759,10 +1899,7 @@
 176
 177
 178
-179
-180
-181
-182</pre>
+179</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/netlist/wire.rb', line 154</span>
@@ -1774,15 +1911,12 @@
     <span class='comment'># * Only one &quot;input&quot; for a Wire 
 </span>    <span class='comment'># crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
 </span>
-    <span class='kw'>if</span> <span class='ivar'>@slack</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>if</span> <span class='ivar'>@slack</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_slack'>slack</span> <span class='op'>&lt;</span> <span class='ivar'>@slack</span>
         <span class='ivar'>@slack</span> <span class='op'>=</span> <span class='id identifier rubyid_slack'>slack</span>  
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_slack'>slack</span> <span class='op'>&lt;</span> <span class='ivar'>@slack</span>
-        <span class='ivar'>@slack</span> <span class='op'>=</span> <span class='id identifier rubyid_slack'>slack</span>
     <span class='kw'>end</span>
 
     <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='id identifier rubyid_get_source'>get_source</span>
-    <span class='id identifier rubyid_input_slack'>input_slack</span> <span class='op'>=</span> <span class='id identifier rubyid_slack'>slack</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Netlist::Wire</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Netlist::Wire (class)">Wire</a></span></span>
         <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_update_path_slack'>update_path_slack</span><span class='lparen'>(</span><span class='ivar'>@slack</span><span class='rparen'>)</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
         <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_slack'>slack</span> <span class='op'>=</span> <span class='ivar'>@slack</span>
@@ -1806,9 +1940,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 29 10:04:23 2025 by
+  Generated on Fri Oct 17 18:01:22 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.1).
+  0.9.37 (ruby-3.3.4).
 </div>
 
     </div>

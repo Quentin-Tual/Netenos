@@ -767,9 +767,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>! : Legacy / Not working def visit_netlist sink_comp, curr_stage # * : Recursive function used to fill the @stages attribute, going through the paths from inputs to outputs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -1364,19 +1362,19 @@
       <pre class="lines">
 
 
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485</pre>
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 476</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 364</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_combination_length'>combination_length</span> <span class='id identifier rubyid_nb_elem'>nb_elem</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_values'>nb_values</span>
     <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='int'>1</span>
@@ -1408,18 +1406,18 @@
       <pre class="lines">
 
 
-505
-506
-507
-508
-509
-510
-511
-512
-513</pre>
+393
+394
+395
+396
+397
+398
+399
+400
+401</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 505</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 393</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_limited_sig_pool'>gen_limited_sig_pool</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span>
     <span class='id identifier rubyid_pool'>pool</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_sig_pool'>gen_sig_pool</span><span class='lparen'>(</span><span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='rparen'>)</span>
@@ -1450,28 +1448,28 @@
       <pre class="lines">
 
 
-515
-516
-517
-518
-519
-520
-521
-522
-523
-524
-525
-526
-527
-528
-529
-530
-531
-532
-533</pre>
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 515</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 403</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_limited_trigger_pool'>gen_limited_trigger_pool</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span>
     <span class='id identifier rubyid_pool'>pool</span> <span class='op'>=</span> <span class='ivar'>@trigger_pool</span>
@@ -1512,25 +1510,25 @@
       <pre class="lines">
 
 
-459
-460
-461
-462
-463
-464
-465
-466
-467
-468
-469
-470
-471
-472
-473
-474</pre>
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 347</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_sig_pool'>gen_sig_pool</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span>
     <span class='id identifier rubyid_pool'>pool</span> <span class='op'>=</span> <span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
@@ -1568,19 +1566,19 @@
       <pre class="lines">
 
 
-824
-825
-826
-827
-828
-829
-830
-831
-832
-833</pre>
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 824</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 714</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_ht_delay'>get_ht_delay</span>
     <span class='kw'>if</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_triggers'>triggers</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1612,12 +1610,12 @@
       <pre class="lines">
 
 
-847
-848
-849</pre>
+737
+738
+739</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 847</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 737</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_ht_size'>get_ht_size</span> 
     <span class='kw'>return</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_components'>get_components</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
@@ -1642,12 +1640,12 @@
       <pre class="lines">
 
 
-843
-844
-845</pre>
+733
+734
+735</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 843</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 733</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_ht_stage'>get_ht_stage</span> 
     <span class='kw'>return</span> <span class='ivar'>@location</span> 
@@ -1672,19 +1670,19 @@
       <pre class="lines">
 
 
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395</pre>
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 386</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 274</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_min_stage'>get_min_stage</span> <span class='id identifier rubyid_min_stage'>min_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_trigger_sig'>nb_trigger_sig</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_available_sig'>nb_available_sig</span> <span class='op'>=</span> <span class='int'>0</span>
     <span class='ivar'>@stages</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='lbracket'>[</span><span class='id identifier rubyid_min_stage'>min_stage</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_stage'>stage</span><span class='op'>|</span>
@@ -1716,12 +1714,12 @@
       <pre class="lines">
 
 
-839
-840
-841</pre>
+729
+730
+731</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 839</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 729</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_payload_cumulated_delay'>get_payload_cumulated_delay</span>
     <span class='kw'>return</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_netlist'>netlist</span><span class='period'>.</span><span class='id identifier rubyid_cumulated_propag_time'>cumulated_propag_time</span>
@@ -1746,12 +1744,12 @@
       <pre class="lines">
 
 
-835
-836
-837</pre>
+725
+726
+727</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 835</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 725</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_payload_delay'>get_payload_delay</span> 
     <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_payload_in'>get_payload_in</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_propag_time'>propag_time</span><span class='lbracket'>[</span><span class='ivar'>@delay_model</span><span class='rbracket'>]</span>
@@ -1776,36 +1774,36 @@
       <pre class="lines">
 
 
-487
-488
-489
-490
-491
-492
-493
-494
-495
-496
-497
-498
-499
-500
-501
-502
-503</pre>
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 487</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 375</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_possible_values_for_limited_combination'>get_possible_values_for_limited_combination</span> <span class='id identifier rubyid_nb_elem'>nb_elem</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span>
     <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='id identifier rubyid_nb_elem'>nb_elem</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span>
-    <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='kw'>nil</span>
-
+    <span class='comment'># res = nil
+</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='symbol'>:*</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_max_combination'>max_combination</span>
         <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: too much elements, max_combination always exceeded.</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
 
-    <span class='kw'>while</span> <span class='int'>1</span> <span class='kw'>do</span> 
+    <span class='id identifier rubyid_loop'>loop</span> <span class='kw'>do</span> 
         <span class='id identifier rubyid_tmp'>tmp</span> <span class='op'>=</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='op'>+</span><span class='int'>1</span><span class='rbrace'>}</span>
         <span class='id identifier rubyid_combination'>combination</span> <span class='op'>=</span> <span class='id identifier rubyid_tmp'>tmp</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='symbol'>:*</span><span class='rparen'>)</span>
         <span class='kw'>break</span> <span class='kw'>if</span> <span class='id identifier rubyid_combination'>combination</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_max_combination'>max_combination</span>
@@ -1834,14 +1832,14 @@
       <pre class="lines">
 
 
-445
-446
-447
-448
-449</pre>
+333
+334
+335
+336
+337</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 445</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 333</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_transi_poba'>get_transi_poba</span> <span class='id identifier rubyid_trig_list'>trig_list</span>
     <span class='id identifier rubyid_trig_list'>trig_list</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='op'>|</span>
@@ -1868,16 +1866,16 @@
       <pre class="lines">
 
 
-451
-452
-453
-454
-455
-456
-457</pre>
+339
+340
+341
+342
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 451</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 339</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_transi_proba_sig'>get_transi_proba_sig</span> <span class='id identifier rubyid_sig'>sig</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_sig'>sig</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Gate.html" title="Netlist::Gate (class)">Gate</a></span></span>
@@ -2000,12 +1998,12 @@
       <pre class="lines">
 
 
-785
-786
-787</pre>
+675
+676
+677</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 785</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 675</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ht_is_inserted?'>ht_is_inserted?</span>
     <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_is_inserted?'>is_inserted?</span>
@@ -2030,43 +2028,43 @@
       <pre class="lines">
 
 
-789
-790
-791
-792
-793
-794
-795
-796
-797
-798
-799
-800
-801
-802
-803
-804
-805
-806
-807
-808
-809
-810
-811
-812
-813
-814
-815
-816
-817
-818
-819
-820
-821
-822</pre>
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 789</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 679</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert'>insert</span> <span class='id identifier rubyid_zone'>zone</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>random</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_loc'>loc</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span> <span class='op'>=</span> <span class='id identifier rubyid_select_location'>select_location</span><span class='lparen'>(</span><span class='id identifier rubyid_zone'>zone</span><span class='comma'>,</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_triggers_nb'>get_triggers_nb</span><span class='rparen'>)</span>
@@ -2122,67 +2120,67 @@
       <pre class="lines">
 
 
-726
-727
-728
-729
-730
-731
-732
-733
-734
-735
-736
-737
-738
-739
-740
-741
-742
-743
-744
-745
-746
-747
-748
-749
-750
-751
-752
-753
-754
-755
-756
-757
-758
-759
-760
-761
-762
-763
-764
-765
-766
-767
-768
-769
-770
-771
-772
-773
-774
-775
-776
-777
-778
-779
-780
-781
-782
-783</pre>
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 726</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 616</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert2'>insert2</span> <span class='id identifier rubyid_zone'>zone</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>random</span><span class='tstring_end'>&quot;</span></span>
 
@@ -2262,32 +2260,36 @@
       <pre class="lines">
 
 
-663
-664
-665
-666
-667
-668
-669
-670
-671
-672
-673
-674
-675
-676
-677
-678
-679
-680
-681
-682</pre>
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 663</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 551</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert_buffer_at'>insert_buffer_at</span> <span class='id identifier rubyid_loc'>loc</span><span class='comma'>,</span> <span class='id identifier rubyid_delay'>delay</span> <span class='op'>=</span> <span class='int'>1</span>
     <span class='ivar'>@ht</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Inserter.html" title="Inserter (module)">Inserter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Buf.html" title="Inserter::Buf (class)">Buf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Buf.html#initialize-instance_method" title="Inserter::Buf#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_delay'>delay</span><span class='rparen'>)</span>
+    <span class='comment'># @ht.propag_time[@delay_model] = delay
+</span>    
 
     <span class='comment'># source_node = loc.get_source  #!DEBUG
 </span>    <span class='comment'># if source_node.instance_of? Netlist::Port and source_node.is_global?
@@ -2356,72 +2358,45 @@
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>! : Legacy / Not working def visit_netlist sink_comp, curr_stage # * : Recursive function used to fill the @stages attribute, going through the paths from inputs to outputs.</p>
-
-<pre class="code ruby"><code class="ruby"><span class='kw'>if</span> <span class='id identifier rubyid_sink_comp'>sink_comp</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> 
-    <span class='kw'>return</span> <span class='kw'>nil</span>
-<span class='kw'>elsif</span> <span class='ivar'>@stages</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_sink_comp'>sink_comp</span><span class='rparen'>)</span>
-    <span class='kw'>if</span> <span class='ivar'>@stages</span><span class='lbracket'>[</span><span class='id identifier rubyid_sink_comp'>sink_comp</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_curr_stage'>curr_stage</span>
-        <span class='ivar'>@stages</span><span class='lbracket'>[</span><span class='id identifier rubyid_sink_comp'>sink_comp</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_curr_stage'>curr_stage</span>
-        <span class='id identifier rubyid_propag_visit'>propag_visit</span> <span class='id identifier rubyid_sink_comp'>sink_comp</span><span class='comma'>,</span> <span class='id identifier rubyid_curr_stage'>curr_stage</span>
-    <span class='kw'>end</span>
-    <span class='kw'>return</span> <span class='kw'>nil</span>
-<span class='kw'>else</span>
-    <span class='ivar'>@stages</span><span class='lbracket'>[</span><span class='id identifier rubyid_sink_comp'>sink_comp</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_curr_stage'>curr_stage</span>
-    <span class='id identifier rubyid_propag_visit'>propag_visit</span> <span class='id identifier rubyid_sink_comp'>sink_comp</span><span class='comma'>,</span> <span class='id identifier rubyid_curr_stage'>curr_stage</span>
-<span class='kw'>end</span>
-</code></pre>
-
-<p>end</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322</pre>
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_ht'>select_ht</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_trigger_sig'>nb_trigger_sig</span> <span class='op'>=</span> <span class='int'>4</span>
     <span class='comment'># * Instantiate and load a HT, method insert allows to inject it into the loaded netlist
@@ -2473,56 +2448,56 @@
       <pre class="lines">
 
 
-397
-398
-399
-400
-401
-402
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436
-437
-438
-439
-440
-441
-442
-443</pre>
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 397</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 285</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_location'>select_location</span> <span class='id identifier rubyid_zone'>zone</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_trigger_sig'>nb_trigger_sig</span>
     <span class='kw'>case</span> <span class='id identifier rubyid_zone'>zone</span>
@@ -2591,70 +2566,70 @@
       <pre class="lines">
 
 
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383
-384</pre>
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 324</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 212</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_location2'>select_location2</span> <span class='id identifier rubyid_zone'>zone</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_trigger_sig'>nb_trigger_sig</span>
     <span class='kw'>case</span> <span class='id identifier rubyid_zone'>zone</span>
@@ -2737,25 +2712,25 @@
       <pre class="lines">
 
 
-535
-536
-537
-538
-539
-540
-541
-542
-543
-544
-545
-546
-547
-548
-549
-550</pre>
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 535</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 423</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_triggers_limited'>select_triggers_limited</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span> <span class='op'>=</span> <span class='int'>1000000</span>
     <span class='id identifier rubyid_pool'>pool</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_limited_trigger_pool'>gen_limited_trigger_pool</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span><span class='rparen'>)</span>
@@ -2793,43 +2768,43 @@
       <pre class="lines">
 
 
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
-651
-652
-653
-654
-655
-656
-657
-658
-659
-660
-661</pre>
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 628</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 516</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_triggers_sig'>select_triggers_sig</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span>
     <span class='comment'># * : Constituting a pool of components sources in which we can pick.  
@@ -2885,84 +2860,84 @@
       <pre class="lines">
 
 
-552
-553
-554
-555
-556
-557
-558
-559
-560
-561
-562
-563
-564
-565
-566
-567
-568
-569
-570
-571
-572
-573
-574
-575
-576
-577
-578
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589
-590
-591
-592
-593
-594
-595
-596
-597
-598
-599
-600
-601
-602
-603
-604
-605
-606
-607
-608
-609
-610
-611
-612
-613
-614
-615
-616
-617
-618
-619
-620
-621
-622
-623
-624
-625
-626</pre>
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 552</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 440</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_triggers_sig2'>select_triggers_sig2</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span>
     <span class='comment'># * : Constituting a pool of components sources in which we can pick.  
@@ -3059,69 +3034,69 @@
       <pre class="lines">
 
 
-684
-685
-686
-687
-688
-689
-690
-691
-692
-693
-694
-695
-696
-697
-698
-699
-700
-701
-702
-703
-704
-705
-706
-707
-708
-709
-710
-711
-712
-713
-714
-715
-716
-717
-718
-719
-720
-721
-722
-723
-724</pre>
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 684</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 574</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_simple_insert'>simple_insert</span>
     <span class='id identifier rubyid_slack_h'>slack_h</span> <span class='op'>=</span> <span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_get_slack_hash'>get_slack_hash</span>
     <span class='id identifier rubyid_ht_type'>ht_type</span> <span class='op'>=</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>::</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
     <span class='id identifier rubyid_ht_delay'>ht_delay</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Inserter.html" title="Inserter (module)">Inserter</a></span></span><span class='op'>::</span><span class='id identifier rubyid_getPayloadDelay'><span class='object_link'><a href="../Inserter.html#getPayloadDelay-class_method" title="Inserter.getPayloadDelay (method)">getPayloadDelay</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_ht_type'>ht_type</span><span class='comma'>,</span> <span class='ivar'>@delay_model</span><span class='rparen'>)</span>
     
-    <span class='id identifier rubyid_insert_points'>insert_points</span> <span class='op'>=</span> <span class='id identifier rubyid_slack_h'>slack_h</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_slack'>slack</span><span class='comma'>,</span> <span class='id identifier rubyid_insPointList'>insPointList</span><span class='op'>|</span> <span class='id identifier rubyid_slack'>slack</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_ht_delay'>ht_delay</span> <span class='op'>?</span> <span class='id identifier rubyid_insPointList'>insPointList</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+    <span class='id identifier rubyid_insert_points'>insert_points</span> <span class='op'>=</span> <span class='id identifier rubyid_slack_h'>slack_h</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_slack'>slack</span><span class='comma'>,</span> <span class='id identifier rubyid_insPointList'>insPointList</span><span class='op'>|</span> <span class='id identifier rubyid_slack'>slack</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_ht_delay'>ht_delay</span> <span class='op'>?</span> <span class='id identifier rubyid_insPointList'>insPointList</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
     <span class='id identifier rubyid_insert_points'>insert_points</span><span class='period'>.</span><span class='id identifier rubyid_reject!'>reject!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_insPoint'>insPoint</span><span class='op'>|</span> <span class='id identifier rubyid_insPoint'>insPoint</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span> <span class='kw'>and</span> <span class='id identifier rubyid_insPoint'>insPoint</span><span class='period'>.</span><span class='id identifier rubyid_is_input?'>is_input?</span><span class='rbrace'>}</span>
 
     <span class='comment'># Uncomment to avoid critical path modification
-</span>    <span class='id identifier rubyid_ht_cumuluted_delay'>ht_cumuluted_delay</span> <span class='op'>=</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_exact_crit_path'>get_exact_crit_path</span><span class='lparen'>(</span><span class='ivar'>@delay_model</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_insert_points'>insert_points</span><span class='period'>.</span><span class='id identifier rubyid_reject!'>reject!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_insPoint'>insPoint</span><span class='op'>|</span> <span class='id identifier rubyid_insPoint'>insPoint</span><span class='period'>.</span><span class='id identifier rubyid_cumulated_propag_time'>cumulated_propag_time</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_ht_cumuluted_delay'>ht_cumuluted_delay</span><span class='rbrace'>}</span>
+</span>    <span class='id identifier rubyid_ht_cumulated_delay'>ht_cumulated_delay</span> <span class='op'>=</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_exact_crit_path'>get_exact_crit_path</span><span class='lparen'>(</span><span class='ivar'>@delay_model</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_insert_points'>insert_points</span><span class='period'>.</span><span class='id identifier rubyid_reject!'>reject!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_insPoint'>insPoint</span><span class='op'>|</span> <span class='id identifier rubyid_insPoint'>insPoint</span><span class='period'>.</span><span class='id identifier rubyid_cumulated_propag_time'>cumulated_propag_time</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_ht_cumulated_delay'>ht_cumulated_delay</span><span class='rbrace'>}</span>
 
     <span class='kw'>if</span> <span class='id identifier rubyid_insert_points'>insert_points</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>                 
         <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="ImpossibleInsertion.html" title="Inserter::ImpossibleInsertion (class)">ImpossibleInsertion</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ImpossibleInsertion.html#initialize-instance_method" title="Inserter::ImpossibleInsertion#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: No insertion location found for ht &#39;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; in circuit &#39;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='kw'>else</span>
         <span class='id identifier rubyid_attacked_sig'>attacked_sig</span> <span class='op'>=</span> <span class='id identifier rubyid_insert_points'>insert_points</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span>
-        <span class='ivar'>@insertPoint</span> <span class='op'>=</span> <span class='id identifier rubyid_attacked_sig'>attacked_sig</span>
-    <span class='kw'>end</span>
+        <span class='comment'># @insertPoint = attacked_sig
+</span>    <span class='kw'>end</span>
 
     <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_triggers'>triggers</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_trig'>trig</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
         <span class='id identifier rubyid_trig'>trig</span> <span class='op'>&lt;=</span> <span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span> <span class='op'>%</span> <span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_get_nb_inputs'>get_nb_inputs</span><span class='rbracket'>]</span>
@@ -3241,9 +3216,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 29 10:04:23 2025 by
+  Generated on Fri Oct 17 18:01:23 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.1).
+  0.9.37 (ruby-3.3.4).
 </div>
 
     </div>

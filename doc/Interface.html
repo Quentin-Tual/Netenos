@@ -78,7 +78,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/interface/wrapper.rb</dd>
+    <dd>lib/interface/wrapper.rb<span class="defines">,<br />
+  lib/interface/primitives.rb</span>
+</dd>
   </dl>
   
 </div>
@@ -100,14 +102,607 @@
 
 
 
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
 
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_gtech-instance_method" title="#gen_gtech (instance method)">#<strong>gen_gtech</strong>(gtech_type)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generate gtech repertory.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_netlist-instance_method" title="#gen_netlist (instance method)">#<strong>gen_netlist</strong>(name, *params)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generate a netlist.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_simfiles-instance_method" title="#gen_simfiles (instance method)">#<strong>gen_simfiles</strong>(init_filename, alt_filename, stim_file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generate comparative simulation files for given init and altered .enl files and a given stimfile (assuming respective .vhd files and gtech repertory  are already created)   - testbenchs   - compile.sh.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_stimfile-instance_method" title="#gen_stimfile (instance method)">#<strong>gen_stimfile</strong>(filename, stim_type)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generate a test sequence with the given method for a given .enl file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_vhdl-instance_method" title="#gen_vhdl (instance method)">#<strong>gen_vhdl</strong>(filename)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generate .vhd file for a given .enl file.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#import_blif-instance_method" title="#import_blif (instance method)">#<strong>import_blif</strong>(filename)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Import a .blif netlist.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#insert_ht-instance_method" title="#insert_ht (instance method)">#<strong>insert_ht</strong>(filename, ht_type)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Insert a HT in a given netlist.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_sim-instance_method" title="#run_sim (instance method)">#<strong>run_sim</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Run a generated simulation.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#work_in_progress-instance_method" title="#work_in_progress (instance method)">#<strong>work_in_progress</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="gen_gtech-instance_method">
+  
+    #<strong>gen_gtech</strong>(gtech_type)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate gtech repertory</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/interface/primitives.rb', line 28</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_gtech'>gen_gtech</span><span class='lparen'>(</span><span class='id identifier rubyid_gtech_type'>gtech_type</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_work_in_progress'>work_in_progress</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_netlist-instance_method">
+  
+    #<strong>gen_netlist</strong>(name, *params)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate a netlist</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/interface/primitives.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_netlist'>gen_netlist</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_work_in_progress'>work_in_progress</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_simfiles-instance_method">
+  
+    #<strong>gen_simfiles</strong>(init_filename, alt_filename, stim_file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate comparative simulation files for given init and altered .enl files and a given stimfile (assuming respective .vhd files and gtech repertory  are already created)</p>
+
+<pre class="code ruby"><code class="ruby"><span class='op'>-</span> <span class='id identifier rubyid_testbenchs'>testbenchs</span>
+<span class='op'>-</span> <span class='id identifier rubyid_compile'>compile</span><span class='period'>.</span><span class='id identifier rubyid_sh'>sh</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/interface/primitives.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_simfiles'>gen_simfiles</span><span class='lparen'>(</span><span class='id identifier rubyid_init_filename'>init_filename</span><span class='comma'>,</span> <span class='id identifier rubyid_alt_filename'>alt_filename</span><span class='comma'>,</span> <span class='id identifier rubyid_stim_file'>stim_file</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_work_in_progress'>work_in_progress</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_stimfile-instance_method">
+  
+    #<strong>gen_stimfile</strong>(filename, stim_type)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate a test sequence with the given method for a given .enl file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/interface/primitives.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_stimfile'>gen_stimfile</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_stim_type'>stim_type</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_work_in_progress'>work_in_progress</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_vhdl-instance_method">
+  
+    #<strong>gen_vhdl</strong>(filename)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generate .vhd file for a given .enl file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/interface/primitives.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_vhdl'>gen_vhdl</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_work_in_progress'>work_in_progress</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="import_blif-instance_method">
+  
+    #<strong>import_blif</strong>(filename)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Import a .blif netlist</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/interface/primitives.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_import_blif'>import_blif</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_work_in_progress'>work_in_progress</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="insert_ht-instance_method">
+  
+    #<strong>insert_ht</strong>(filename, ht_type)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Insert a HT in a given netlist</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/interface/primitives.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_insert_ht'>insert_ht</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_ht_type'>ht_type</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_work_in_progress'>work_in_progress</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_sim-instance_method">
+  
+    #<strong>run_sim</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Run a generated simulation</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/interface/primitives.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_run_sim'>run_sim</span>
+    <span class='id identifier rubyid_work_in_progress'>work_in_progress</span> 
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="work_in_progress-instance_method">
+  
+    #<strong>work_in_progress</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/interface/primitives.rb', line 3</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_work_in_progress'>work_in_progress</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>WIP</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 29 10:04:21 2025 by
+  Generated on Fri Oct 17 18:01:19 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.1).
+  0.9.37 (ruby-3.3.4).
 </div>
 
     </div>

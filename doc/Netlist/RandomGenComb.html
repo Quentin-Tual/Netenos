@@ -203,6 +203,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#clean_simulation-instance_method" title="#clean_simulation (instance method)">#<strong>clean_simulation</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#fill_state_variables-instance_method" title="#fill_state_variables (instance method)">#<strong>fill_state_variables</strong>  &#x21d2; Object </a>
     
 
@@ -229,6 +251,28 @@
   <span class="summary_signature">
     
       <a href="#gen_profile-instance_method" title="#gen_profile (instance method)">#<strong>gen_profile</strong>(nb_inputs, nb_outputs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_gate_pool-instance_method" title="#generate_gate_pool (instance method)">#<strong>generate_gate_pool</strong>  &#x21d2; Object </a>
     
 
     
@@ -611,7 +655,9 @@
 29
 30
 31
-32</pre>
+32
+33
+34</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 8</span>
@@ -639,7 +685,9 @@
 </span>    <span class='ivar'>@sources_usage_count</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='comment'># Associates each source to its current fanout load (useful to control fan out charge in circuit generated)
 </span>    <span class='ivar'>@available_primary_output_sources</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
     <span class='id identifier rubyid_exclude_gate_type'>exclude_gate_type</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Buffer</span><span class='tstring_end'>&quot;</span></span>
-    <span class='ivar'>@gate_pool</span> <span class='op'>=</span> <span class='gvar'>$GTECH</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='op'>|</span> <span class='op'>!</span><span class='id identifier rubyid_exclude_gate_type'>exclude_gate_type</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>::</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+    <span class='ivar'>@gate_pool</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_generate_gate_pool'>generate_gate_pool</span>
+    <span class='ivar'>@gate_pool</span> <span class='op'>=</span> <span class='ivar'>@gate_pool</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='op'>|</span> <span class='op'>!</span><span class='id identifier rubyid_exclude_gate_type'>exclude_gate_type</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>::</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -788,7 +836,45 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="fill_state_variables-instance_method">
+  <h3 class="signature first" id="clean_simulation-instance_method">
+  
+    #<strong>clean_simulation</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96
+97
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 94</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clean_simulation'>clean_simulation</span> 
+    <span class='backtick'>`</span><span class='tstring_content'>rm *.o</span><span class='tstring_end'>`</span></span>
+    <span class='backtick'>`</span><span class='tstring_content'>rm *_tb</span><span class='tstring_end'>`</span></span>
+    <span class='backtick'>`</span><span class='tstring_content'>rm *_d.vhd</span><span class='tstring_end'>`</span></span>
+    <span class='backtick'>`</span><span class='tstring_content'>rm *.cf</span><span class='tstring_end'>`</span></span>
+    <span class='backtick'>`</span><span class='tstring_content'>rm makefile</span><span class='tstring_end'>`</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fill_state_variables-instance_method">
   
     #<strong>fill_state_variables</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -814,17 +900,6 @@
       <pre class="lines">
 
 
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
 218
 219
 220
@@ -841,10 +916,21 @@
 231
 232
 233
-234</pre>
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 218</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fill_state_variables'>fill_state_variables</span>
     <span class='id identifier rubyid_curr_layer'>curr_layer</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -894,21 +980,6 @@
       <pre class="lines">
 
 
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
 119
 120
 121
@@ -917,20 +988,31 @@
 124
 125
 126
-127</pre>
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_profile'>gen_profile</span> <span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_outputs'>nb_outputs</span>
     <span class='comment'># **** Misc instantiation for later ****
 </span>
-    <span class='id identifier rubyid_inputs'>inputs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> 
     <span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_nth'>nth</span><span class='op'>|</span> 
         <span class='ivar'>@netlist</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Port.html" title="Netlist::Port (class)">Port</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Port.html#initialize-instance_method" title="Netlist::Port#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nth'>nth</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:in</span><span class='rparen'>)</span>
     <span class='rbrace'>}</span> 
 
-    <span class='id identifier rubyid_outputs'>outputs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_nb_outputs'>nb_outputs</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_nth'>nth</span><span class='op'>|</span> 
         <span class='ivar'>@netlist</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Port.html" title="Netlist::Port (class)">Port</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Port.html#initialize-instance_method" title="Netlist::Port#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>o</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nth'>nth</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:out</span><span class='rparen'>)</span>
     <span class='rbrace'>}</span>
@@ -945,6 +1027,36 @@
 </span>        <span class='kw'>end</span> 
     <span class='kw'>end</span>
 
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_gate_pool-instance_method">
+  
+    #<strong>generate_gate_pool</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_gate_pool'>generate_gate_pool</span>
+    <span class='ivar'>@gate_pool</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='id identifier rubyid_get_gtech'><span class='object_link'><a href="../Netlist.html#get_gtech-class_method" title="Netlist.get_gtech (method)">get_gtech</a></span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -977,17 +1089,6 @@
       <pre class="lines">
 
 
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
 309
 310
 311
@@ -1012,10 +1113,21 @@
 330
 331
 332
-333</pre>
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 309</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_back'>get_back</span>
     <span class='comment'># puts(&quot;Entered get_back&quot;) # DEBUG
@@ -1084,17 +1196,6 @@
       <pre class="lines">
 
 
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
 348
 349
 350
@@ -1108,10 +1209,21 @@
 358
 359
 360
-361</pre>
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 337</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 348</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_forward'>get_forward</span> <span class='id identifier rubyid_curr_comp'>curr_comp</span><span class='comma'>,</span> <span class='id identifier rubyid_curr_stage'>curr_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_curr_port'>curr_port</span>
     <span class='comment'># puts(&quot;Entered get_forward&quot;) # DEBUG
@@ -1158,12 +1270,12 @@
       <pre class="lines">
 
 
-268
-269
-270</pre>
+279
+280
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 279</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_getNetlistInformations'>getNetlistInformations</span> <span class='id identifier rubyid_delay_model'>delay_model</span>
     <span class='kw'>return</span> <span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_getNetlistInformations'>getNetlistInformations</span> <span class='id identifier rubyid_delay_model'>delay_model</span>
@@ -1188,25 +1300,25 @@
       <pre class="lines">
 
 
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102</pre>
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_getRandomNetlist'>getRandomNetlist</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_object_id'>object_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
     <span class='comment'># Initialize variables to fill the sources pool later
@@ -1244,12 +1356,6 @@
       <pre class="lines">
 
 
-34
-35
-36
-37
-38
-39
 40
 41
 42
@@ -1267,10 +1373,17 @@
 54
 55
 56
-57</pre>
+57
+58
+59
+60
+61
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_getValidRandomNetlist'>getValidRandomNetlist</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rand_</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_object_id'>object_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_delay_model'>delay_model</span> <span class='op'>=</span> <span class='symbol'>:int_multi</span><span class='comma'>,</span> <span class='id identifier rubyid_compiler'>compiler</span> <span class='op'>=</span> <span class='symbol'>:ghdl</span>
     <span class='id identifier rubyid_attempts'>attempts</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -1293,6 +1406,7 @@
         <span class='kw'>break</span> <span class='kw'>if</span> <span class='id identifier rubyid_validity'>validity</span> <span class='kw'>and</span> <span class='op'>!</span><span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_has_combinational_loop?'>has_combinational_loop?</span>
     <span class='kw'>end</span>
     <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Found with </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attempts'>attempts</span><span class='embexpr_end'>}</span><span class='tstring_content'> attempts.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span> <span class='comment'>#!DEBUG
+</span>    <span class='comment'># clean_simulation
 </span>    <span class='comment'># * Return the found netlist
 </span>    <span class='kw'>return</span> <span class='ivar'>@netlist</span>
 <span class='kw'>end</span></pre>
@@ -1327,21 +1441,21 @@
       <pre class="lines">
 
 
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402</pre>
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 391</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 402</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_propag_visit'>propag_visit</span> <span class='id identifier rubyid_sink_comp'>sink_comp</span><span class='comma'>,</span> <span class='id identifier rubyid_curr_stage'>curr_stage</span>
 <span class='comment'># * : Allows to propagate the visit along the path, taking in account every object types possibly encountered.
@@ -1386,17 +1500,6 @@
       <pre class="lines">
 
 
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
 284
 285
 286
@@ -1407,10 +1510,21 @@
 291
 292
 293
-294</pre>
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 284</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scan_netlist'>scan_netlist</span>
     <span class='comment'># * : Inputs scanned first 
@@ -1454,13 +1568,6 @@
       <pre class="lines">
 
 
-59
-60
-61
-62
-63
-64
-65
 66
 67
 68
@@ -1480,10 +1587,17 @@
 82
 83
 84
-85</pre>
+85
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_simulate'>simulate</span> <span class='id identifier rubyid_delay_model'>delay_model</span><span class='comma'>,</span> <span class='id identifier rubyid_compiler'>compiler</span>
     <span class='comment'># * Generate gtech
@@ -1543,24 +1657,24 @@
       <pre class="lines">
 
 
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
 416
 417
 418
-419</pre>
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 405</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 416</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_netlist'>visit_netlist</span> <span class='id identifier rubyid_sink_comp'>sink_comp</span><span class='comma'>,</span> <span class='id identifier rubyid_curr_stage'>curr_stage</span>
 <span class='comment'># * : Recursive function used to fill the @stages attribute, going through the paths from inputs to outputs.
@@ -1608,17 +1722,6 @@
       <pre class="lines">
 
 
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
 375
 376
 377
@@ -1632,10 +1735,21 @@
 385
 386
 387
-388</pre>
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 364</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 375</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_netlist2'>visit_netlist2</span> <span class='id identifier rubyid_curr_comp'>curr_comp</span><span class='comma'>,</span> <span class='id identifier rubyid_curr_stage'>curr_stage</span>
     <span class='comment'># @branch_points = {curr_comp =&gt; curr_stage} # ! déterminer le cas initial permettant de rentrer dans la boucle
@@ -1694,17 +1808,6 @@
       <pre class="lines">
 
 
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
 248
 249
 250
@@ -1723,10 +1826,21 @@
 263
 264
 265
-266</pre>
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 237</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 248</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wire_all_sources'>wire_all_sources</span>
     <span class='comment'># * : For each layer in the grid
@@ -1790,19 +1904,6 @@
       <pre class="lines">
 
 
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
 145
 146
 147
@@ -1862,10 +1963,21 @@
 201
 202
 203
-204</pre>
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/randomGenComb.rb', line 145</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wire_to_random_source'>wire_to_random_source</span> <span class='id identifier rubyid_sink'>sink</span><span class='comma'>,</span> <span class='id identifier rubyid_layer_max'>layer_max</span> <span class='op'>=</span> <span class='ivar'>@grid</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='op'>+</span><span class='int'>1</span>
     <span class='comment'># * : Select all lower layers than the sink&#39;s one (layer_max)
@@ -1886,8 +1998,7 @@
             <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : Internal error encountered. Situation not yet handled, you can try changing netlist generation parameters.</span><span class='tstring_end'>&quot;</span></span>
         <span class='kw'>end</span>
     <span class='comment'># * : If none available then delete the output (at first sight, the best option)
-</span>        <span class='id identifier rubyid_sink'>sink</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_selected_source'>selected_source</span>
-
+</span>
         <span class='comment'># * : Update variables
 </span>        <span class='comment'># @available_primary_output_sources[selected_layer].delete(selected_source)
 </span>        <span class='ivar'>@available_primary_output_sources</span><span class='lbracket'>[</span><span class='id identifier rubyid_selected_layer'>selected_layer</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_filter!'>filter!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_source'>source</span><span class='op'>|</span> <span class='id identifier rubyid_source'>source</span> <span class='op'>!=</span> <span class='id identifier rubyid_selected_source'>selected_source</span><span class='rbrace'>}</span>
@@ -1906,9 +2017,7 @@
         <span class='id identifier rubyid_min_pairs'>min_pairs</span> <span class='op'>=</span> <span class='ivar'>@sources_usage_count</span><span class='lbracket'>[</span><span class='id identifier rubyid_selected_layer'>selected_layer</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_arr'>arr</span><span class='op'>|</span> <span class='id identifier rubyid_arr'>arr</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span> <span class='op'>==</span> <span class='id identifier rubyid_min_value'>min_value</span> <span class='rbrace'>}</span>
 
         <span class='id identifier rubyid_selected_source'>selected_source</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_min_pairs'>min_pairs</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
-        
-        <span class='id identifier rubyid_sink'>sink</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_selected_source'>selected_source</span>
-
+    
         <span class='ivar'>@sources_usage_count</span><span class='lbracket'>[</span><span class='id identifier rubyid_selected_layer'>selected_layer</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_selected_source'>selected_source</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='int'>1</span>
 
         <span class='comment'># * : Update variables 
@@ -1935,10 +2044,11 @@
 
         <span class='id identifier rubyid_selected_source'>selected_source</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_min_pairs'>min_pairs</span><span class='period'>.</span><span class='id identifier rubyid_sample'>sample</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
 
-        <span class='id identifier rubyid_sink'>sink</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_selected_source'>selected_source</span>
         <span class='comment'># * : Update the variables
 </span>        <span class='ivar'>@sources_usage_count</span><span class='lbracket'>[</span><span class='id identifier rubyid_selected_layer'>selected_layer</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_selected_source'>selected_source</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='int'>1</span>
     <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_sink'>sink</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_selected_source'>selected_source</span> 
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1950,9 +2060,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Apr 29 10:04:25 2025 by
+  Generated on Fri Oct 17 18:01:25 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.1).
+  0.9.37 (ruby-3.3.4).
 </div>
 
     </div>
