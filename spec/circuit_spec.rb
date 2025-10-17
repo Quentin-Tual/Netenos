@@ -1,4 +1,4 @@
-require "../lib/netlist.rb"
+require_relative '../lib/netlist'
 
 RSpec.describe Netlist::Circuit do
 
@@ -77,16 +77,16 @@ RSpec.describe Netlist::Circuit do
             in1 = Netlist::Port.new('i1', :in)
             in2 = Netlist::Port.new('i2', :in)
             in3 = Netlist::Port.new('i3', :in)
-            g1 = Netlist::And.new("g1")
-            g2 = Netlist::Or.new("g2")
+            g1 = Netlist::And2.new("g1")
+            g2 = Netlist::Or2.new("g2")
 
             @circ << out
             @circ << in1
             @circ << in2
             @circ << in3
             
-            g1.ports.each_value{|p| expect(p[0].partof).to eq(g1)}
-            g2.ports.each_value{|p| expect(p[0].partof).to eq(g2)}
+            g1.get_ports.each{|p| expect(p.partof).to eq(g1)}
+            g2.get_ports.each{|p| expect(p.partof).to eq(g2)}
             
             in1 <= g2.get_port_named("i0")
             in2 <= g1.get_port_named("i0")
@@ -100,42 +100,9 @@ RSpec.describe Netlist::Circuit do
             expect(g1.partof).to eq(@circ)
             expect(g2.partof).to eq(@circ)
 
-            # TODO : Vérifier que le datapath est bien enregistré et accessible.
-            # ? : Serait-il intéressant de constituer une classe Datapath ? permettrait d'ajouter des méthodes pour le parcours du chemin dans un sens ou dans l'autre, permettrait de poser un nom et une image sur l'attribut "function" d'un circuit, voire si ce n'est pas même plus clair en le renommant.
-
             # TODO : Voir si un 'visiteur' ne serait pas utile ici pour tester si le chemin est complet en départ de chaque entrée vers la sortie puis inversement.
 
+            # TODO : Tester chaque interconnection, au moins vérifier si chaque port est connecté à un autre (source pour une entrée, sink pour une sortie)
         end
-
-        # ? : vérifier le message d'erreur en rattrapant l'exception ? Serait préférable à terme
     end
-
-    # TODO : Vérifier ce que renvoie la fonction "inputs"
-    # ! : En soit fonction simple, pas vraiment besoin
-    # context 'allows to retrieve all its inputs' do
-
-    #     it 'when there is none' do
-            
-    #     end
-
-    #     it 'when there is one' do
-
-    #     end
-
-    #     it 'when there is many' do
-
-    #     end
-    # end
-
-    # TODO : Vérifier ce que renvoie la fonction "outputs"
-    # ! : Idem
-
-    # TODO : Vérifier le retour de la fonction "get_port_named"
-    # * : Fonctionne car déjà utilisée
-
-    # TODO : Vérifier le retour de la fonction "get_component named"
-    # * : Idem
-
-    # TODO : Vérifier l'effet de la fonction "to_hash"
-    # * Relativement long à faire et fonctionne vraisemblablement donc pas besoin d'aller plus loin.
 end

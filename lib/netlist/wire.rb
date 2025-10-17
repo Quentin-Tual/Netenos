@@ -44,7 +44,7 @@ module Netlist
                 @fanin = source
             else
                 unless @fanin == source 
-                    raise "Error : Interface #{self.get_full_name} of #{self.partof.name} already has a source, please verify."
+                    raise "Error : Interface #{self.get_full_name} of #{self.partof.name} already has #{@fanin.get_full_name} as a source, please verify."
                 end
             end
         end
@@ -163,7 +163,6 @@ module Netlist
             end
 
             source = get_source
-            input_slack = slack
             if source.class == Netlist::Wire
                 source.update_path_slack(@slack)
             elsif source.is_global?

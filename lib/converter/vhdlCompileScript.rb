@@ -1,5 +1,5 @@
 # require_relative '../vhdl.rb'
-require_relative '../netlist.rb'
+require_relative '../netlist'
 
 module Converter
 

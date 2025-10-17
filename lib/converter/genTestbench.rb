@@ -1,6 +1,7 @@
+require 'erb'
+
 # require './lib/vhdl.rb'
 require_relative '../converter.rb'
-require 'erb'
 
 module Converter
     class GenTestbench

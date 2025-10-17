@@ -26,10 +26,12 @@ module Netlist
     end
 
     def self.class_exists?(class_name)
-        klass = Module.const_get(class_name)
-        return klass.is_a?(Class)
-      rescue NameError
-        return false
+        begin
+            klass = Module.const_get(class_name)
+            return klass.is_a?(Class)
+        rescue NameError
+            return false
+        end
     end
 
     def self.create_class(class_name, inherit_name)
@@ -235,7 +237,7 @@ module Netlist
         VHDL_PREFIX = ""
         
         def initialize *args
-            super *args
+            super(*args)
             # TODO : set propag_time in function of the number of inputs
             @propag_time[:int_multi] = 1 + get_nb_inputs
         end
@@ -246,7 +248,7 @@ module Netlist
         VHDL_OP = "or"
         VHDL_PREFIX = ""
         def initialize *args 
-          super *args
+          super(*args)
           @propag_time[:int_multi] = 1 + get_nb_inputs
         end
     end
@@ -256,7 +258,7 @@ module Netlist
         VHDL_OP = "and"
         VHDL_PREFIX = "not"
         def initialize *args
-          super *args 
+          super(*args) 
           @propag_time[:int_multi] = 2 + get_nb_inputs
         end
     end    
@@ -266,7 +268,7 @@ module Netlist
         VHDL_OP = "or"
         VHDL_PREFIX = "not"
         def initialize *args
-            super *args
+            super(*args)
             @propag_time[:int_multi] = 2 + get_nb_inputs
         end 
     end
@@ -276,14 +278,14 @@ module Netlist
         VHDL_OP = "xor"
         VHDL_PREFIX = ""
         def initialize *args
-            super *args
+            super(*args)
             @propag_time[:int_multi] = 3 + get_nb_inputs
         end
     end
 
     class And2 < And
         def initialize *args
-            super *args
+            super(*args)
         end
 
         def compute_transit_proba transi_proba, rounding = 5
@@ -294,18 +296,18 @@ module Netlist
 
     class Or2 < Or
         def initialize *args
-            super *args
+            super(*args)
         end
 
         def compute_transit_proba transi_proba, rounding = 5
             proba_i0, proba_i1 = transi_proba
-            ((1.0 - proba_i0) * (1.0 - proba_i1) * (1.0 -((1.0 - proba_i0) * (1.0 - proba_i1)))).round(rounding)
+            ((1.0 - proba_i0) * (1.0 - proba_i1) * (1.0 - ((1.0 - proba_i0) * (1.0 - proba_i1)))).round(rounding)
         end
     end
     
     class Xor2 < Xor
         def initialize *args
-            super *args
+            super(*args)
         end
 
         def compute_transit_proba transi_proba, rounding = 5
@@ -316,7 +318,7 @@ module Netlist
 
     class Nor2 < Nor
         def initialize *args
-            super *args
+            super(*args)
         end
 
         def compute_transit_proba transi_proba, rounding = 5
@@ -327,7 +329,7 @@ module Netlist
 
     class Nand2 < Nand
         def initialize *args
-            super *args
+            super(*args)
         end
 
         def compute_transit_proba transi_proba, rounding = 5

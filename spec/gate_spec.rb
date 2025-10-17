@@ -1,11 +1,11 @@
-require "../lib/netlist.rb"
+require_relative '../lib/netlist'
 
 RSpec.describe Netlist::And do
 
     context "After instanciation" do
     # * : On considère que si les tests sont validés sur cette classe, ils le sont aussi sur les classes similaires dont seul le nom de la classe change (OR, XOR, ...). 
         
-        subject{Netlist::And.new "g1"}
+        subject{Netlist::And2.new "g1"}
 
         before(:all) do
             @in_port1 = Netlist::Port.new("i1", :in)
@@ -21,7 +21,8 @@ RSpec.describe Netlist::And do
         end
 
         it "can't have more than 2 input ports and 1 output port" do
-            subject.outputs.each{|p| expect(p.partof).to eq(subject)}
+            subject.get_inputs.each{|p| expect(p.partof).to eq(subject)}
+            subject.get_outputs.each{|p| expect(p.partof).to eq(subject)}
 
             expect{subject << @in_port1}.to raise_error
             expect{subject << @out_port}.to raise_error
@@ -49,8 +50,8 @@ RSpec.describe Netlist::Not do
         end
 
         it "can't have more than 1 port in and 1 port out" do
-            subject.inputs.each{|p| expect(p.partof).to eq(subject)}
-            subject.outputs.each{|p| expect(p.partof).to eq(subject)}
+            subject.get_inputs.each{|p| expect(p.partof).to eq(subject)}
+            subject.get_outputs.each{|p| expect(p.partof).to eq(subject)}
 
             expect {subject << @in_port1}.to raise_error
             expect {subject << @out_port}.to raise_error

@@ -1,5 +1,3 @@
-require_relative 'code.rb'
-
 module AtetaAddOn
     class AtetaSat 
         # ! Avec un AtetaSat pour chaque point d'insertion

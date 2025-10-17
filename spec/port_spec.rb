@@ -1,4 +1,4 @@
-require "../lib/netlist.rb"
+require_relative '../lib/netlist'
 
 RSpec.describe Netlist::Port do
 
@@ -41,31 +41,43 @@ RSpec.describe Netlist::Port do
             @out_port = Netlist::Port.new("out_port", :out)
 
             # Allowing context detection by wiring function
-            @circ = Netlist::Circuit.new("test")
+            @circ = Netlist::Circuit.new("test_circ")
             @global_in_port.partof = @circ
             @global_out_port.partof = @circ
-            @in_port.partof = @circ
-            @out_port.partof = @circ
+            @comp = Netlist::Circuit.new("test_comp")
+            @circ << @comp
+            @comp << @in_port
+            @comp << @out_port
         end
 
         it ":out <= :in" do
-            @out_port <= @in_port
+            expect{@out_port <= @in_port}.to raise_error
+        end
+
+        it ":in <= :out" do 
+            @in_port <= @out_port
             expect(@out_port.fanout).not_to be_empty
             expect(@in_port.fanin).not_to eq(nil)
             expect(@out_port.fanout).to include(@in_port)
             expect(@in_port.fanin).to eq(@out_port)
         end
 
-        it ":out <= :out (global)" do
-            @out_port <= @global_out_port
+        it ":out (global) <= :out" do
+            @global_out_port <= @out_port
             expect(@out_port.fanout).not_to be_empty
             expect(@global_out_port.fanin).not_to eq(nil)
             expect(@out_port.fanout).to include(@global_out_port)
             expect(@global_out_port.fanin).to eq(@out_port)
         end
 
-        it ":in (global) <= :in" do
-            @global_in_port <= @in_port
+        it "unplug" do 
+          @in_port.unplug2(@out_port.get_full_name)
+          expect(@in_port.fanin).to eq(nil)
+          expect(@out_port.fanout).not_to include(@in_port)
+        end
+
+        it ":in <= :in (global)" do
+            @in_port <= @global_in_port
             expect(@global_in_port.fanout).not_to be_empty
             expect(@in_port.fanin).not_to eq(nil)
             expect(@global_in_port.fanout).to include(@in_port)
@@ -73,11 +85,4 @@ RSpec.describe Netlist::Port do
         end
 
     end
-
-    # TODO : Vérifier l'effet de la fonction "wire"
-    # * Déjà fait par les tests de la fonction "<="
-
-    # TODO : Vérifier l'effet de la fonction "to_hash"
-    # TODO : Un peu long et fonctionne vraisemblablement donc remis à plus tard
-
 end

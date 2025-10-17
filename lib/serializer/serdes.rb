@@ -1,5 +1,5 @@
 require_relative "../netenos.rb"
-require_relative "../converter/code.rb"
+require_relative "../code.rb"
 
 class Serializer
   def serialize circuit
