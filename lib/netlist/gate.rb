@@ -76,20 +76,13 @@ module Netlist
             @ports.each_value{|io| io.each{|p| p.partof = self}}
             @partof = partof
             @components = [] 
-            @propag_time = {    :one => 1, 
-            :int => (((nb_inputs+1.0)/2.0)).round(3), 
-            :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3),
-                                :fract => (0.3 + ((((nb_inputs+1.0)/2.0)*rand(0.9..1.1))/2.2)).round(3)
-                            } # Supposedly in nanoseconds, 2.2 is the max value , 0.3 is the offset to center the distribution at 1.(normalization to fit in the other model)
-                            
-            klass = self.class.name.split("::")[1] 
-            if klass == "Xor2"
-                @propag_time[:int_multi] = 5
-            elsif klass == "Nand2" or klass == "Nor2" 
-                @propag_time[:int_multi] = 4
-            else
-                @propag_time[:int_multi] = 3
-            end
+            @propag_time = {    
+                :one => 1, 
+                :int => (((nb_inputs+1.0)/2.0)).round(3),
+                :int_multi => 1,
+                :int_rand => (((nb_inputs+1.0)/2.0)*rand(0.9..1.1)).round(3),                
+                :fract => (0.3 + ((((nb_inputs+1.0)/2.0)*rand(0.9..1.1))/2.2)).round(3)
+            } # Supposedly in nanoseconds, 2.2 is the max value , 0.3 is the offset to center the distribution at 1.(normalization to fit in the other model)
             
             @cumulated_propag_time = 0
             @slack = nil
