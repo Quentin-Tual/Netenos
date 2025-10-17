@@ -92,7 +92,7 @@ module Netlist
             end
             
             @cumulated_propag_time = 0
-            @slack = 0
+            @slack = nil
             @name2obj = {}
             @tag = nil
         end
@@ -171,7 +171,9 @@ module Netlist
                 input_slack = slack # * Because it is the critical node, there is no additionnal time to the slack
                 if in_p.slack.nil? or in_p.slack > input_slack
                     in_p.slack = input_slack
-                    if source.is_global?
+                    if source.instance_of? Netlist::Wire
+                        source.update_path_slack(input_slack)
+                    elsif source.is_global?
                         # * Set the primary input slack
                         source.slack = slack
                     else

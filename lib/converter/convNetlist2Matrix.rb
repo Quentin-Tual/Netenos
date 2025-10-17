@@ -64,7 +64,7 @@ module Converter
 
         def convWire sink_name, source_name
             sink_ids = @wires[sink_name].collect do |w_sink_name| 
-                tmp = w_sink_name.split("_")
+                tmp = w_sink_name.split($FULL_PORT_NAME_SEP)
                 if tmp.length == 3 # If it is a wire
                     @id_tab[tmp[1]]
                 else
@@ -77,40 +77,13 @@ module Converter
             end
         end
 
-        # def getGateType sink_full_name
-        #     if sink_full_name.split('_').length == 1
-        #         # * : It is a primary input/output name
-        #         return 1
-        #     else
-        #         # * : It is a component port name
-        #         case @netlist.get_component_named(sink_full_name.split('_')[0])
-        #         when And2
-        #             return 2
-        #         when Or2
-        #             return 3
-        #         when Nand2
-        #             return 4
-        #         when Nor2
-        #             return 5
-        #         when Xor2
-        #             return 6
-        #         when Not
-        #             return 7
-        #         when Wire
-        #             raise "Error : Impossible state reached. Internal Error."
-        #         else
-        #             raise "Error : Unknown gate type uncountered during netlist conversion to a matrix."
-        #         end
-        #     end
-        # end
-
         def getGateType sink_full_name
-            if sink_full_name.split('_').length == 1
+            if sink_full_name.split($FULL_PORT_NAME_SEP).length == 1
                 # * : It is a primary input/output name
                 return 1
             else
                 # * : It is a component port name
-                comp = @netlist.get_component_named(sink_full_name.split('_')[0])
+                comp = @netlist.get_component_named(sink_full_name.split($FULL_PORT_NAME_SEP)[0])
                 return comp.class.to_s.split('::').last
             end
         end
@@ -122,7 +95,7 @@ module Converter
                     if sink.is_wire?
                         convWire(sink.get_full_name, ginp.name)
                     else
-                        @matrix[@id_tab[ginp.name]][@id_tab[sink.get_full_name.split('_')[0]]] = getGateType(sink.get_full_name)
+                        @matrix[@id_tab[ginp.name]][@id_tab[sink.get_full_name.split($FULL_PORT_NAME_SEP)[0]]] = getGateType(sink.get_full_name)
                     end
                 end
             end
@@ -135,7 +108,7 @@ module Converter
                         if sink.is_wire?
                             convWire(sink.get_full_name, comp.name)
                         else
-                            @matrix[@id_tab[comp.name]][@id_tab[sink.get_full_name.split('_')[0]]] = getGateType(sink.get_full_name)
+                            @matrix[@id_tab[comp.name]][@id_tab[sink.get_full_name.split($FULL_PORT_NAME_SEP)[0]]] = getGateType(sink.get_full_name)
                         end
                     end
                 end

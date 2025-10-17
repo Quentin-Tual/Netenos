@@ -36,16 +36,6 @@ module AtetaAddOn
                     raise "Error: 'nil' insert point name encountered."
                 end
                 puts " |-- #{count += 1}/#{@insertionPoints.length} insert point." if $VERBOSE
-                # insertPoint = nil
-                # if insertPointName.include? "_" 
-                #     compName, portName = insertPointName.split("_")
-                #     if compName.nil? or portName.nil?
-                #         raise "Error: 'nil' value encountered for insert point #{insertPointName}."
-                #     end
-                #     insertPoint = @initCirc.get_component_named(compName).get_port_named(portName)
-                # else
-                #     insertPoint = @initCirc.get_port_named(insertPointName)
-                # end
                 # Créer une version altérée du circuit initial
                 downstreamOuputs = get_cone_outputs(insertPointName)
                 getAlteredCircuit(insertPointName)
@@ -89,8 +79,8 @@ module AtetaAddOn
         def getAlteredCircuit insertPointName
             @altCirc = @initCirc.deep_copy
 
-            if insertPointName.include? "_" 
-                compName, portName = insertPointName.split("_")
+            if insertPointName.include? $FULL_PORT_NAME_SEP 
+                compName, portName = insertPointName.split($FULL_PORT_NAME_SEP)
                 if compName.nil? or portName.nil?
                     raise "Error: 'nil' value encountered for insert point #{insertPointName}."
                 end
@@ -108,8 +98,8 @@ module AtetaAddOn
         def get_cone_outputs insertPointName
             # * search the output from the given insertPoint (last gate of the path) 
 
-            if insertPointName.include? "_" 
-                compName, portName = insertPointName.split("_")
+            if insertPointName.include? $FULL_PORT_NAME_SEP 
+                compName, portName = insertPointName.split($FULL_PORT_NAME_SEP)
                 if compName.nil? or portName.nil?
                     raise "Error: 'nil' value encountered for insert point #{insertPointName}."
                 end

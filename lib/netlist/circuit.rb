@@ -120,8 +120,9 @@ module Netlist
             get_outputs.each do |primary_output|
                 primary_output.slack = @crit_path_length - primary_output.cumulated_propag_time
                 source_node = primary_output.get_source_gates
-                if source_node.is_a? Netlist::Wire and source_node.is_global?
+                if source_node.instance_of? Netlist::Wire # is the call is_global? required here ?
                     source_node.slack = primary_output.slack
+                    source_node.update_path_slack(primary_output.slack)
                 else
                     source_node.update_path_slack(primary_output.slack)
                 end
@@ -524,16 +525,16 @@ module Netlist
         end
 
         def is_primary_output_name? port_name
-            return ((port_name[0] == 'o') and !port_name.include?('_'))
+            return ((port_name[0] == 'o') and !port_name.include?($FULL_PORT_NAME_SEP))
         end
 
         def is_primary_input_name? port_name
-            return ((port_name[0] == 'i') and !port_name.include?('_')) # fastest
+            return ((port_name[0] == 'i') and !port_name.include?($FULL_PORT_NAME_SEP)) # fastest
             # return get_inputs.any?{|in_p| in_p.name == port_name}
         end
 
         def is_global_port_name? port_name
-            return not(port_name.split('_').length > 1)
+            return not(port_name.split($FULL_PORT_NAME_SEP).length > 1)
         end
 
         def save_as path, type="marshal"

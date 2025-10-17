@@ -1,8 +1,13 @@
 module Converter
   
   class ConvNetlist2Bench
-    
+    BENCH_IN_NAME_SEP='_'
+
     def initialize
+    end
+
+    def bench_full_name p
+      p.get_full_name.tr($FULL_PORT_NAME_SEP,BENCH_IN_NAME_SEP)
     end
 
     def print circuit, filename="#{circuit.name}.bench"
@@ -91,11 +96,11 @@ module Converter
         prim_out = g.get_sink_gates.find{|sink| circuit.get_outputs.include? sink}
         if prim_out.nil? # Si la sortie de la porte n'est pas reliée à une sortie primaire, lui donné un nouveau symbole (son nom)
           g.get_outputs.each do |o|
-            @sym_tab[o] = o.get_full_name
+            @sym_tab[o] = bench_full_name(o)
           end
         else # Si la sortie de la porte est reliée à une sortie primaire, associé le même symbole (celui de la sortie primaire) à la sortie de la porte
           g.get_outputs.each do |o|
-            @sym_tab[o] = prim_out.get_full_name
+            @sym_tab[o] = bench_full_name(prim_out)
           end
         end
       end

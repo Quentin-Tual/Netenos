@@ -102,7 +102,7 @@ module Reverse
 
         def apply_connections 
             @relation_tab.each do |signal, sources|
-                if signal.include?('_')
+                if signal.include?($FULL_PORT_NAME_SEP)
                     connect_component(signal, sources) # * : signal is a component output
                 elsif signal[0] == "o"
                     connect_primary_output(signal, sources) # * : signal is a primary output
@@ -113,9 +113,9 @@ module Reverse
         end
        
         def connect_component signal, sources
-            sink = @inverted_circuit.get_component_named(signal.split("_")[0])
+            sink = @inverted_circuit.get_component_named(signal.split($FULL_PORT_NAME_SEP)[0])
             sources = sources.collect do |source|
-                if sources.include?('_')
+                if sources.include?($FULL_PORT_NAME_SEP)
                     @inverted_circuit.get_component_named(source)
                 else
                     @inverted_circuit.get_port_named(source)
@@ -135,8 +135,8 @@ module Reverse
                 raise "Error : Multiple sources for a primary output."
             end
             
-            if sources[0].include? "_"
-                source = @inverted_circuit.get_component_named(sources[0].split("_")[0])
+            if sources[0].include? $FULL_PORT_NAME_SEP
+                source = @inverted_circuit.get_component_named(sources[0].split($FULL_PORT_NAME_SEP)[0])
             else
                 source = @inverted_circuit.get_port_named(sources[0])
             end

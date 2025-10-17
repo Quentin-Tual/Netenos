@@ -84,7 +84,7 @@ module Netlist
             if self.is_global?
                 return @name
             else
-                return "#{@partof.name}_#{@name}"     
+                return "#{@partof.name}#{$FULL_PORT_NAME_SEP}#{@name}"     
             end
         end
 

@@ -2,7 +2,6 @@
 #! /usr/env/bin ruby    
 require_relative "../lib/netenos.rb"
 require_relative "../lib/converter/genStim2.rb"
-require_relative "../lib/converter/computeStim14.rb"
 # require 'ruby-prof'
 
 # result = RubyProf.profile do

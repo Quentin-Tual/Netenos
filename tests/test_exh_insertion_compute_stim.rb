@@ -47,7 +47,7 @@ class Test_ExhInsertionComputeStim < Test_compTbTraceCompt
             # if insert_point_name == "And2380_i0" #!DEBUG
             #     pp 'here'
             # end
-            insert_point = @circ_init.get_component_named(insert_point_name.split('_')[0]).get_inputs[insert_point_name.split('_')[1][1..].to_i]
+            insert_point = @circ_init.get_component_named(insert_point_name.split($FULL_PORT_NAME_SEP)[0]).get_inputs[insert_point_name.split($FULL_PORT_NAME_SEP)[1][1..].to_i]
             # TODO : Insert buffer at the given point
             do_one_insertion(insert_point)
             @circ_init = Marshal.load(IO.read("tmp.enl"))
@@ -97,7 +97,7 @@ if __FILE__ == $0
 
     Dir.chdir("tests/tmp") do
         puts "Lancement #{__FILE__}" 
-        'rm *'
+        `rm *`
         # print(self.class)
         env = Test_ExhInsertionComputeStim.new 
         env.run

@@ -13,9 +13,14 @@ module Converter
 
     class ConvNetlist2Vhdl
         # * : Convert a Netlist to a Vhdl format
+        VHDL_IN_NAME_SEP='_'
 
         def initialize netlist = nil
             @gtech = Netlist::get_gtech
+        end
+
+        def vhdl_full_name p
+          p.get_full_name.tr($FULL_PORT_NAME_SEP,VHDL_IN_NAME_SEP)
         end
 
         def gen_gtech gtech_type = "classic"
@@ -58,14 +63,14 @@ module Converter
             code.newline
             code << "architecture netenos of #{circuit.name} is"
             code.indent=1
-            wires = circuit.wires.collect{|wire| wire.get_full_name}
+            wires = circuit.wires.collect{|wire| vhdl_full_name(wire)}
             wires.each do |wire_name|
                 code << "signal #{wire_name} : std_logic;"
             end
             signals=circuit.components.collect{|comp| comp.get_outputs}.flatten
 
             signals.each do |sig|
-                code << "signal #{sig.get_full_name} : std_logic;"
+                code << "signal #{vhdl_full_name(sig)} : std_logic;"
             end
             code.indent=0
             code << "begin"
@@ -107,15 +112,15 @@ module Converter
                             code << "#{input.name} => '1',"
                         end 
                     else    
-                        code << "#{input.name} => #{input.get_source.get_full_name},"
+                        code << "#{input.name} => #{vhdl_full_name(input.get_source)},"
                     end
                 end
                 comp.get_outputs.each do |output|
                     # wire=output.fanout.first
                     if output.get_sinks[0].class == Netlist::Wire
-                        code << "#{output.name} => #{output.get_sinks[0].get_full_name},"
+                        code << "#{output.name} => #{vhdl_full_name(output.get_sinks[0])},"
                     else
-                        code << "#{output.name} => #{output.get_full_name},"
+                        code << "#{output.name} => #{vhdl_full_name(output)},"
                     end
                 end
                 code.lines[-1].delete_suffix!(",")
@@ -130,7 +135,7 @@ module Converter
                 if output.get_source.is_a? Netlist::Constant
                     code << "#{output.name} <= #{output.get_source.is_a?(Netlist::Zero) ? "'0'" : "'1'"};"
                 else
-                    code << "#{output.name} <= #{output.get_source.get_full_name};"
+                    code << "#{output.name} <= #{vhdl_full_name(output.get_source)};"
                 end
             end
             code.indent=0
@@ -162,14 +167,14 @@ module Converter
             code.newline
             code << "architecture netenos of #{circuit.name} is"
             code.indent=1
-            wires = circuit.wires.collect{|wire| wire.get_full_name}
+            wires = circuit.wires.collect{|wire| vhdl_full_name(wire)}
             wires.each do |wire_name|
                 code << "signal #{wire_name} : std_logic;"
             end
             signals=circuit.components.collect{|comp| comp.get_outputs}.flatten
 
             signals.each do |sig|
-                code << "signal #{sig.get_full_name} : std_logic;"
+                code << "signal #{vhdl_full_name(sig)} : std_logic;"
             end
             code.indent=0
             code << "begin"
@@ -198,14 +203,14 @@ module Converter
                 #     code << "clk => clk,"
                 # end
                 comp.get_inputs.each do |input|
-                    code << "#{input.name} => #{input.get_source.get_full_name},"
+                    code << "#{input.name} => #{vhdl_full_name(input.get_source)},"
                 end
                 comp.get_outputs.each do |output|
                     # wire=output.fanout.first
                     if output.get_sinks[0].class == Netlist::Wire
-                        code << "#{output.name} => #{output.get_sinks[0].get_full_name},"
+                        code << "#{output.name} => #{vhdl_full_name(output.get_sinks[0])},"
                     else
-                        code << "#{output.name} => #{output.get_full_name},"
+                        code << "#{output.name} => #{vhdl_full_name(output)},"
                     end
                 end
                 code.lines[-1].delete_suffix!(",")
@@ -217,7 +222,7 @@ module Converter
             code << "-- Wiring primary ouputs "
             code << "----------------------------------"
             circuit.get_outputs.each do |output|
-                code << "#{output.name} <= #{output.get_source.get_full_name};"
+                code << "#{output.name} <= #{vhdl_full_name(output.get_source)};"
             end
             code.indent=0
             code << "end netenos;"
@@ -248,13 +253,13 @@ module Converter
             code.newline
             code << "architecture netenos of #{circuit.name} is"
             code.indent=1
-            wires = circuit.wires.collect{|wire| wire.get_full_name}
+            wires = circuit.wires.collect{|wire| vhdl_full_name(wire)}
             wires.each do |wire_name|
                 code << "signal #{wire_name} : std_logic;"
             end
             signals=circuit.components.collect{|comp| comp.get_outputs}.flatten
             signals.each do |sig|
-                code << "signal #{sig.get_full_name} : std_logic;"
+                code << "signal #{vhdl_full_name(sig)} : std_logic;"
             end
             code.indent=0
             code << "begin"
@@ -283,15 +288,15 @@ module Converter
                             code << "#{input.name} => '1',"
                         end 
                     else    
-                        code << "#{input.name} => #{input.get_source.get_full_name},"
+                        code << "#{input.name} => #{vhdl_full_name(input.get_source)},"
                     end
                 end
                 comp.get_outputs.each do |output|
                     # wire=output.fanout.first
                     if output.get_sinks[0].class == Netlist::Wire
-                        code << "#{output.name} => #{output.get_sinks[0].get_full_name},"
+                        code << "#{output.name} => #{vhdl_full_name(output.get_sinks[0])},"
                     else
-                        code << "#{output.name} => #{output.get_full_name},"
+                        code << "#{output.name} => #{vhdl_full_name(output)},"
                     end
                 end
                 code.lines[-1].delete_suffix!(",")
@@ -303,13 +308,10 @@ module Converter
             code << "-- Wiring primary ouputs "
             code << "----------------------------------"
             circuit.get_outputs.each do |output|
-                # if output.get_source.get_full_name.include?("Zero") #!DEBUG
-                #     pp "here"
-                # end
                 if output.get_source.is_a? Netlist::Constant
                     code << "#{output.name} <= #{output.get_source.is_a?(Netlist::Zero) ? "'0'" : "'1'"};"
                 else
-                    code << "#{output.name} <= #{output.get_source.get_full_name};"
+                    code << "#{output.name} <= #{vhdl_full_name(output.get_source)};"
                 end
             end
             code.indent=0

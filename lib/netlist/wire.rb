@@ -1,6 +1,6 @@
 module Netlist
     class Wire
-        attr_accessor :name, :fanin, :fanout, :partof, :cumulated_propag_time
+        attr_accessor :name, :fanin, :fanout, :partof, :propag_time, :cumulated_propag_time, :slack
 
         def initialize name
             @name = name
@@ -121,7 +121,7 @@ module Netlist
                 # In case we still need it later, return a reference
                 return source
             else # then self is a source
-                sink = self.get_sink_named(interface_full_name.split('_')[1])
+                sink = self.get_sink_named(interface_full_name.split($FULL_PORT_NAME_SEP)[1])
                 if sink.nil?
                     raise "Error : Impossible to unplug sink #{interface_full_name} from source #{self.get_full_name} because they does not seem connected."
                 end
@@ -158,15 +158,13 @@ module Netlist
             # * Only one "input" for a Wire 
             # crit_node = [get_inputs.group_by{|in_p| in_p.get_source_cum_propag_time}.sort.last].to_h
 
-            if @slack.nil?
+            if @slack.nil? or slack < @slack
                 @slack = slack  
-            elsif slack < @slack
-                @slack = slack
             end
 
             source = get_source
             input_slack = slack
-            if source.class.name == "Netlist::Wire"
+            if source.class == Netlist::Wire
                 source.update_path_slack(@slack)
             elsif source.is_global?
                 source.slack = @slack

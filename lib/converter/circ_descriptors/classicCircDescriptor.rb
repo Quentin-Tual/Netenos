@@ -37,7 +37,7 @@ module Converter
                 code << "#{input.name} => '1',"
             end 
         else    
-            code << "#{input.name} => #{input.get_source.get_full_name},"
+            code << "#{input.name} => #{vhdl_full_name(input.get_source)},"
         end
       end
     end
@@ -45,9 +45,9 @@ module Converter
     def components_interconnect_outputs(code,comp)
       comp.get_outputs.each do |output|
         if output.get_sinks[0].class == Netlist::Wire
-          code << "#{output.name} => #{output.get_sinks[0].get_full_name},"
+          code << "#{output.name} => #{vhdl_full_name(output.get_sinks[0])},"
         else
-          code << "#{output.name} => #{output.get_full_name},"
+          code << "#{output.name} => #{vhdl_full_name(output)},"
         end
       end
       code.lines[-1].delete_suffix!(",")

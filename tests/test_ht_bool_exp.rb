@@ -69,7 +69,6 @@ end
 def simplify exp_h
 # ! Parfois certaines portes nor/nand/xor ne sont pas remplacées, voir comment éviter ces "oublis"
     exp_h.keys.each do |op|
-        # op = op.split("_")
         if exp_h[op].nil? or exp_h[op] == false #  ignore branch endings
             next
         else

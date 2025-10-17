@@ -3,11 +3,17 @@
 module Converter
   # Generates a VHDl description of a given circuit
   class CircDescriptor 
+    VHDL_IN_NAME_SEP='_'
+    
     def initialize(netlist, delay_model, opts={})
       @netlist = netlist
       @delay_model = delay_model
       @src_parts = {}
       @opts = opts
+    end
+
+    def vhdl_full_name p
+      p.get_full_name.tr($FULL_PORT_NAME_SEP,VHDL_IN_NAME_SEP)
     end
 
     def gen_description
@@ -46,7 +52,7 @@ module Converter
       end
       signals = @netlist.components.collect{|comp| comp.get_outputs}.flatten
       signals.each do |sig|
-          txt << "\tsignal #{sig.get_full_name} : std_logic;"
+          txt << "\tsignal #{vhdl_full_name(sig)} : std_logic;"
       end
       txt.join("\n")
     end
@@ -61,7 +67,7 @@ module Converter
           if output.get_source.is_a? Netlist::Constant
               txt << "#{output.name} <= #{output.get_source.is_a?(Netlist::Zero) ? "'0'" : "'1'"};"
           else
-              txt << "#{output.name} <= #{output.get_source.get_full_name};"
+              txt << "#{output.name} <= #{vhdl_full_name(output.get_source)};"
           end
       end
       txt.join("\n\t")

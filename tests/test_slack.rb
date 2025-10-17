@@ -16,17 +16,22 @@ class Test_computeStim
         @circ = Converter::ConvBlif2Netlist.new.convert path
     end
 
+    def load_marshal path
+        @circ = Marshal.load(File.read(path))
+    end
+
     def gen_rand_circ 
         @circ = @generator.getValidRandomNetlist "test"
         @circ.getNetlistInformations $DELAY_MODEL
     end
     
     def run
-        # load_blif("../C17.blif")
-        gen_rand_circ
+        # load_blif("../xor5.blif")
+        # gen_rand_circ
+        load_marshal("../xor5_wire.msl")
         @circ.getNetlistInformations($DELAY_MODEL)
         Converter::DotGen.new.dot @circ, "./test.dot"
-        slack_h = @circ.get_slack_hash($DELAY_MODEL)
+        slack_h = @circ.get_slack_hash
 
         if slack_h.length <= 1 and slack_h.keys.include?(nil)
             puts "Not valid slack"

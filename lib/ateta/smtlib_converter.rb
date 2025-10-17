@@ -37,7 +37,7 @@ module AtetaAddOn
                 sourceSigName = @circ.get_port_named(sigName).get_source.get_full_name
                 expr << get_smtlib_expr(sourceSigName,t)
             else
-                comp = @circ.get_component_named(sigName.split('_')[0])
+                comp = @circ.get_component_named(sigName.split($FULL_PORT_NAME_SEP)[0])
                 inPorts = comp.get_inputs
 
                 expr << comp.class::SMT_EXPR[0]

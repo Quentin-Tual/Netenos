@@ -1,11 +1,11 @@
 module Interface
 
     def work_in_progress
-        puts ("WIP")
+        raise ("WIP")
     end
 
     # Generate a netlist
-    def gen_netlist(name, params*)
+    def gen_netlist(name, *params)
         work_in_progress
     end
 
