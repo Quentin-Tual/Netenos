@@ -12,6 +12,16 @@ module SDF
     def add subnode
       @subnodes << subnode
     end
+
+    def get_subnode(ntype)
+      @subnodes.find{|n| n.instance_of? ntype}
+    end
+
+    def contains_class? *klass
+      klass.all? do |k|
+        @subnodes.any?{|obj| obj.instance_of? k}
+      end
+    end
   end
 
   class EdgeNode
@@ -34,20 +44,69 @@ module SDF
   end
 
   class Root < Node 
+    attr_reader :name
     def initialize filename
       super()
       @name = filename
     end
+
+    def valid?
+      !@name.empty? and subnodes.length == 1
+    end
   end
 
-  class DELAYFILE < Node; end;
+  class DELAYFILE < Node; 
+    def valid?
+      contains_class?(DESIGN,TIMESCALE,CELL)
+    end 
+
+    def design 
+      get_subnode DESIGN
+    end
+
+    def timescale
+      get_subnode TIMESCALE
+    end
+
+    def cells
+      @subnodes.select{|n| n.instance_of? CELL}
+    end
+  end;
   class DESIGN < EdgeNode; end;
   class TIMESCALE < EdgeNode; end;
-  class CELL < Node; end;
+  class CELL < Node; 
+    def instance
+      get_subnode INSTANCE
+    end
+
+    def celltype
+      get_subnode CELLTYPE
+    end
+
+    def delay
+      get_subnode DELAY
+    end
+  end;
   class CELLTYPE < EdgeNode; end;
   class INSTANCE < EdgeNode; end;
-  class DELAY < Node; end;
-  class ABSOLUTE < Node; end;
+  class DELAY < Node; 
+    def valid?
+      contains_class? ABSOLUTE
+    end
+
+    def absolute
+      get_subnode ABSOLUTE
+    end
+  end;
+  class ABSOLUTE < Node; 
+    def valid?
+      contains_class?(INTERCONNECT)
+    end
+
+    def interconnects
+      subnodes.select{|n| n.instance_of? INTERCONNECT}
+    end
+  end;
   class INTERCONNECT < DelayNode; end;
   class IOPATH < DelayNode; end;
 

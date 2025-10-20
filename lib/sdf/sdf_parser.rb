@@ -65,7 +65,7 @@ module SDF
       expect :rpar
       expect :new_line
 
-      DESIGN.new(token.data.split(' ')[1].tr('"', ''))
+      DESIGN.new(@design_name = token.data.split(' ')[1].tr('"', ''))
     end
 
     def parse_timescale
@@ -99,8 +99,17 @@ module SDF
       expect :rpar
       expect :new_line
 
-      i = token.data.index(/"\w+"/) + 1 # +1 to get rid of opening double quote
-      celltype = token.data[i...-1] # -1 to get rid of the closing double quote
+      # i = token.data.index(/"\w+"/) + 1 # +1 to get rid of opening double quote
+      # celltype = Ident.new(token.data[i...-1]) # -1 to get rid of the closing double quote
+
+      # Keeping double quotes : 
+      i = token.data.index(/"\w+"/) 
+      celltype = Ident.new(token.data[i..]) 
+
+      if celltype=="\"#{@design_name}\""
+        celltype = celltype[1...-1] # get rid of double quotes
+      end
+
       CELLTYPE.new(celltype)
     end
 
@@ -167,7 +176,7 @@ module SDF
       expect :new_line
 
       w, d = parse_delaynode(token)
-      INTERCONNECT.new(w, d)
+      IOPATH.new(w, d)
     end
 
     def parse_delaynode(token)

@@ -2,13 +2,14 @@ module SDF
   class Deparser < Visitor
     def initialize path
       @path = path
-      @txt = Code.new
+      @txt = Code.new(indent_sym: " ")
     end
 
     def visit(subject)
       case subject
       when SDF::Root 
         visit(subject.subnodes.first)
+        @txt.save_as(@path)
       when SDF::Node
         visit_node(subject)
       when SDF::DelayNode 
@@ -18,8 +19,6 @@ module SDF
       else
         raise "Error: Unexpected class object encountered #{subject}. Expecting a Node or an EdgeNode"
       end
-
-      @txt.save_as(@path)
     end
 
     def visit_node(subject)
@@ -34,7 +33,8 @@ module SDF
     def visit_edgenode(subject)
       keyword = subject.class.name.split('::')[1]
       value = format_data(subject.data)
-      @txt << "(#{keyword} #{value})"
+      sep_space = ((value == "") ? "" : " ") 
+      @txt << "(#{keyword}#{sep_space}#{value})"
     end
 
     def visit_delaynode(subject)

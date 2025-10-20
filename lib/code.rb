@@ -2,16 +2,17 @@ class Code
 
   attr_accessor :indent,:lines
 
-  def initialize str=nil
+  def initialize str=nil, indent_sym: "\t"
     @lines=[]
     (@lines << str) if str
     @indent=0
+    @indent_sym=indent_sym
   end
 
   def <<(thing)
     if (code=thing).is_a? Code
       code.lines.each do |line|
-        @lines << "\t"*@indent+line.to_s
+        @lines << @indent_sym*@indent+line.to_s
       end
     elsif thing.is_a? Array
       thing.each do |kode|
@@ -19,7 +20,7 @@ class Code
       end
     elsif thing.nil?
     else
-      @lines << "\t"*@indent+thing.to_s
+      @lines << @indent_sym*@indent+thing.to_s
     end
   end
 
