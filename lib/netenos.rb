@@ -13,3 +13,4 @@ require_relative "vcd.rb"
 require_relative "ateta.rb"
 require_relative "serializer/serdes.rb"
 require_relative 'verilog'
+require_relative 'sdf'

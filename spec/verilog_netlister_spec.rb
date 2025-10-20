@@ -1,19 +1,18 @@
 require_relative '../lib/netenos'
 
 RSpec.describe Verilog::NetlisterVisitor do
-  
-  subject{
-    Verilog::NetlisterVisitor.new
-    # Parse xor5.v to obtain its AST
-    parser = Verilog::Parser.new
-    ast = parser.parse("tests/verilog/xor5_prepnr.nl.v")
-    # Apply Visitor to the AST
-    netlister = Verilog::NetlisterVisitor.new
-    ast.accept(netlister)
-    # Subject is the resulting netlist
-  }
 
   context "With xor5_prepnr.nl.v" do 
+    subject{
+      Verilog::NetlisterVisitor.new
+      # Parse xor5.v to obtain its AST
+      parser = Verilog::Parser.new
+      ast = parser.parse("tests/verilog/xor5_prepnr.nl.v")
+      # Apply Visitor to the AST
+      netlister = Verilog::NetlisterVisitor.new
+      ast.accept(netlister)
+      # Subject is the resulting netlist
+    }
 
     it "generates a correctly named circuit" do
       expect(subject).to be_kind_of Netlist::Circuit
