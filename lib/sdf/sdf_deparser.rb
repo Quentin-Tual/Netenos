@@ -58,12 +58,15 @@ module SDF
     end
 
     def format_data d
-      if d.is_a? SDF::Ident
+      case d 
+      when Ident
         d.name
-      elsif d.is_a? SDF::Time
+      when Time
         d.val
-      else
+      when String
         "\"#{d}\""
+      else
+        raise "Error: unexpected type encountered #{d}"
       end
     end
   end # class

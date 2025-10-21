@@ -211,6 +211,8 @@ module Netlist
                 source = p_out.get_source
                 if source.is_a? Netlist::Port and source.is_global?
                     source.cumulated_propag_time
+                elsif source.is_a? Netlist::Wire 
+                    source.cumulated_propag_time
                 else
                     source.partof.cumulated_propag_time
                 end

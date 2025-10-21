@@ -3,7 +3,7 @@
 - [x] Add Verilog parser to Netenos
 - [ ] Update BLIF parser to accept PDK cells like the Verilog parser
 - [x] Add SDF parser to Netenos
-- [ ] Add RSpec tests for SDF Parser
+- [x] Add RSpec tests for SDF Parser
 - [ ] Add SDF AST visitor to annotate netlist with delays
 - [ ] Harmonize and simplify the `get_source[...]` functions, only one should be needed, or explicitly name it after what it is used for.
 - [ ] Divide "Converter" in many directories, reorganize the project structure in lib/converter

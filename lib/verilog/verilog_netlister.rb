@@ -9,6 +9,7 @@ module Verilog
       @pdk = JSON.parse(File.read(PDK_JSON))# Récupérer les données dans le hash du PDK
       @wiring = {}
       @sym_tab = {}
+      @primary_io_wires = {}
     end
 
     def visit(root)
@@ -80,7 +81,13 @@ module Verilog
     def visitWire w
       # TODO : Create a Buffer as an object with an input and an output
       wname = visitIdent(w.name) # ! Replaces every '_' by a '-' for compatibility with Netenos
-      @sym_tab[wname] = Netlist::Wire.new(wname) if @sym_tab[wname].nil?
+      if @sym_tab[wname].nil?
+        @sym_tab[wname] = Netlist::Wire.new(wname) 
+      elsif @sym_tab[wname]
+        @primary_io_wires[wname] = Netlist::Wire.new(wname)
+      else
+        raise "Error: the wire #{w} has the same name as another object #{@sym_tab[wname]} already created"
+      end
     end
 
     def visitIdent i
@@ -113,40 +120,36 @@ module Verilog
     end
 
     def wiringCompInput p, wire_name
-      if @sym_tab[wire_name].nil? # p is not connected to a primary port
-        if @sym_tab[wire_name].nil? # p is not connected to a wire
+      if @primary_io_wires[wire_name].nil?
+        if @sym_tab[wire_name].nil?
           raise "Error: #{wire_name} not generated from the AST."
-        else # p is connected to a wire (represented as a Buffer obj in the netlist)
-          w = @sym_tab[wire_name]
-          p <= w
+        else # Wire the component input port to a primary input
+          p <= @sym_tab[wire_name]
         end
-      else # p is connected to a primary port
-        source = @sym_tab[wire_name]
-        # if source.is_input?
-        p <= source
-        # else
-        #   # Should not be possible should raise an error
-        #   raise "Error: #{p.get_full_name} (a sink) should not be connected to #{wire_name} (also a sink)."
-        # end
+      else # Wire the component input port to a wire, then connect this wire to a primary input with the same name
+        if @sym_tab[wire_name].nil?
+          raise "Error: #{wire_name} not generated from the AST."
+        else
+          @primary_io_wires[wire_name] <= @sym_tab[wire_name]
+          p <= @primary_io_wires[wire_name]
+        end
       end
     end
 
     def wiringCompOutput p, wire_name
-      if @sym_tab[wire_name].nil? # p is not connected to a primary port
-        if @sym_tab[wire_name].nil? # p is not connected to a wire
+      if @primary_io_wires[wire_name].nil?
+        if @sym_tab[wire_name].nil?
           raise "Error: #{wire_name} not generated from the AST."
-        else # p is connected to a wire (represented as a Buffer obj in the netlist)
-          w = @sym_tab[wire_name]
-          w <= p 
+        else # Wire the component output port to a primary outputs
+          @sym_tab[wire_name] <= p
         end
-      else # p is connected to a primary port
-        sink = @sym_tab[wire_name]
-        # if sink.is_output?
-        sink <= p
-        # else
-        #   # Should not be possible should raise an error
-        #   raise "Error: #{p.get_full_name} (a source) should not be connected to #{wire_name} (also a source)."
-        # end
+      else # Wire the component output port to a wire, then connect this wire to a primary output with the same name
+        if @sym_tab[wire_name].nil?
+          raise "Error: #{wire_name} not generated from the AST."
+        else
+          @sym_tab[wire_name] <= @primary_io_wires[wire_name]
+          @primary_io_wires[wire_name] <= p
+        end
       end
     end
 

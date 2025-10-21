@@ -21,26 +21,17 @@ module SDF
     end
 
     def simplify(subject)
-      values = subject.subnodes.collect do |delayTable|
-        delayTable.delays.attr_list.collect do |delayArray| 
-          get_value(delayArray)
-        end
-      end.flatten
-      new_val = values.send(@fun)
+      new_val = subject.apply_fun(@fun)
       subject.subnodes.map do |delayTable|
         delayTable.delays.attr_list.map do |delayArray| 
           set_values(delayArray,new_val)
         end
       end
     end
-
-    def get_value(subject)
-      subject.send(@fun)
-    end
     
     def set_values(subject, new_val)
       subject.min = subject.typ = subject.max = new_val
     end
+
   end
-  
 end

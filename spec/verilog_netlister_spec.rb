@@ -4,7 +4,6 @@ RSpec.describe Verilog::NetlisterVisitor do
 
   context "With xor5_prepnr.nl.v" do 
     subject{
-      Verilog::NetlisterVisitor.new
       # Parse xor5.v to obtain its AST
       parser = Verilog::Parser.new
       ast = parser.parse("tests/verilog/xor5_prepnr.nl.v")
@@ -46,7 +45,9 @@ RSpec.describe Verilog::NetlisterVisitor do
     end
 
     it "generates the right amount of standard wires" do
-      expect(subject.wires.length).to eq(3)
+      # 3 internal wires, 5 input wires, 1 output wire
+      # also obtainable using grep -c "wire" 
+      expect(subject.wires.length).to eq(9) 
     end
 
     it "extracted each wire name" do 
@@ -57,5 +58,14 @@ RSpec.describe Verilog::NetlisterVisitor do
       end
     end
 
+    it "does not raise error with Netlist::Circuit methods and DotGen" do
+      nl = subject
+      expect{
+        nl.getNetlistInformations(:int_multi)
+        nl.get_timings_hash(:int_multi)
+        nl.get_slack_hash
+        Converter::DotGen.new.dot(nl, "tests/tmp/#{nl.name}.dot", :int_multi)
+      }.not_to raise_error
+    end
   end
 end
