@@ -3,7 +3,6 @@
 module test_sdf(i0, i1, i2, i3, i4, o0,o1);
   wire _0_;
   wire _1_;
-  wire _2_;
   input i0;
   wire i0;
   input i1;

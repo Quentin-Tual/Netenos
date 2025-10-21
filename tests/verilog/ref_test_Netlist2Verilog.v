@@ -7,15 +7,15 @@ module xor5(i0,i1,i2,i3,i4,o0);
 	input i3;
 	input i4;
 	output o0;
+	wire _0_;
+	wire _1_;
+	wire _2_;
 	wire i0;
 	wire i1;
 	wire i2;
 	wire i3;
 	wire i4;
 	wire o0;
-	wire _0_;
-	wire _1_;
-	wire _2_;
 	sky130_fd_sc_hd__xor2_2 _3_ (
 		.A(i0),
 		.B(i2),

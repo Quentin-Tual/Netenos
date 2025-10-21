@@ -41,6 +41,12 @@ module SDF
       @wire = wire
       @delays = delays
     end
+
+    def attr_flat_float_list 
+      @delays.attr_list.collect do |delayArr|
+        delayArr.attr_float_list
+      end.flatten
+    end
   end
 
   class Root < Node 
@@ -71,7 +77,8 @@ module SDF
     def cells
       @subnodes.select{|n| n.instance_of? CELL}
     end
-  end;
+  end
+
   class DESIGN < EdgeNode; end;
   class TIMESCALE < EdgeNode; end;
   class CELL < Node; 
@@ -86,10 +93,10 @@ module SDF
     def delay
       get_subnode DELAY
     end
-  end;
+  end
   class CELLTYPE < EdgeNode; end;
   class INSTANCE < EdgeNode; end;
-  class DELAY < Node; 
+  class DELAY < Node
     def valid?
       contains_class? ABSOLUTE
     end
@@ -97,17 +104,43 @@ module SDF
     def absolute
       get_subnode ABSOLUTE
     end
-  end;
-  class ABSOLUTE < Node; 
+  end
+
+  class ABSOLUTE < Node
     def valid?
       contains_class?(INTERCONNECT)
     end
 
     def interconnects
-      subnodes.select{|n| n.instance_of? INTERCONNECT}
+      @subnodes.select{|n| n.instance_of? INTERCONNECT}
+    end
+
+    def iopaths
+      @subnodes.select{|n| n.instance_of? IOPATH}
+    end
+
+    def apply_fun fun
+      values = @subnodes.collect do |delayNode|
+        delayNode.attr_flat_float_list
+      end.flatten
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
+  end
+
+  class INTERCONNECT < DelayNode;
+    def apply_fun fun
+      values = attr_flat_float_list
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
     end
   end;
-  class INTERCONNECT < DelayNode; end;
   class IOPATH < DelayNode; end;
 
   class Ident
@@ -157,6 +190,10 @@ module SDF
 
     def attr_list
       [@min,@typ,@max]
+    end
+
+    def attr_float_list
+      [@min,@typ,@max].map(&:to_f)
     end
   end
 end

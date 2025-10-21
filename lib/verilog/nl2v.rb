@@ -37,7 +37,7 @@ module Verilog
     end
 
     def wire_decl 
-      wires =  @netlist.get_ports + @netlist.wires
+      wires = @netlist.wires
       wires.each do |w|
         @txt << "wire #{w.name};"
       end

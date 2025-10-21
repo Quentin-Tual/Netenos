@@ -4,11 +4,11 @@ require_relative '../lib/netenos'
 
 TEST_FILE='tests/sdf/test_sdf.sdf'
 REF_TEST_FILE='tests/sdf/ref_test_sdf.sdf'
-OBTAINED_FILE='tests/sdf/deparsed_test_sdf.sdf'
+OBTAINED_FILE='tests/tmp/deparsed_test_sdf.sdf'
 
 RSpec.describe SDF::Parser do
 
-  context "Parsing then deparsing the tests/sdf/ref_test_sdf file" do
+  context "Parsing then deparsing the #{REF_TEST_FILE} file" do
     before(:all) do
       `rm #{OBTAINED_FILE}` if File.exist?(OBTAINED_FILE)
       # Parse test_sdf file
@@ -69,7 +69,7 @@ RSpec.describe SDF::Parser do
 
     it "extracted test_sdf CELL" do 
       expect(test_sdf_cell).not_to eq(nil) 
-      expect(test_sdf_cell.celltype.data.name).to eq("\"test_sdf\"")
+      expect(test_sdf_cell.celltype.data).to eq("test_sdf")
       expect(test_sdf_cell.instance.data.name).to eq("")
     end
 

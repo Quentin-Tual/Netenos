@@ -99,16 +99,8 @@ module SDF
       expect :rpar
       expect :new_line
 
-      # i = token.data.index(/"\w+"/) + 1 # +1 to get rid of opening double quote
-      # celltype = Ident.new(token.data[i...-1]) # -1 to get rid of the closing double quote
-
-      # Keeping double quotes : 
-      i = token.data.index(/"\w+"/) 
-      celltype = Ident.new(token.data[i..]) 
-
-      if celltype=="\"#{@design_name}\""
-        celltype = celltype[1...-1] # get rid of double quotes
-      end
+      i = token.data.index(/"\w+"/) + 1 # +1 to get rid of opening double quote
+      celltype = token.data[i...-1] # -1 to get rid of the closing double quote
 
       CELLTYPE.new(celltype)
     end

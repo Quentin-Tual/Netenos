@@ -88,7 +88,7 @@ module Netlist
         end
 
         def get_dot_name
-            return @name
+            return "w#{@name}"
         end
 
         def is_global?
