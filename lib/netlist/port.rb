@@ -96,18 +96,6 @@ module Netlist
             end
         end
 
-        def get_sink_gates
-            self.get_sinks.collect do |sink| 
-                if (sink.instance_of? Netlist::Port and sink.is_global?) 
-                    sink
-                elsif sink.instance_of? Netlist::Wire
-                    sink.fanout.collect{|in_p| in_p.partof}
-                else
-                    sink.partof
-                end
-            end
-        end
-
         def get_source_gates
             source = self.get_source 
             

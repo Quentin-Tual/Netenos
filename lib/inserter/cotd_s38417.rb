@@ -4,7 +4,6 @@ module Inserter
     attr_accessor :components
 
     class Cotd_s38417 < HT
-        attr_accessor :components
 
         def initialize
             # * : For the moment the only parameters allowed are power of 2 numbers. This is faster to develop and easier for a start. It may evolve later to allow more possibilities.

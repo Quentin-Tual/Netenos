@@ -45,6 +45,22 @@ module Netlist
         klass
     end
 
+    def self.create_pdk_class(class_name, pdk)
+        unless Netlist.class_exists?("Netlist::#{class_name}")
+        Object.class_eval <<-RUBY, __FILE__, __LINE__ + 1
+            class #{class_name} < #{Netlist::Gate}
+                def initialize( name,#{' '}
+                                partof = nil,#{' '}
+                                nb_inputs=#{pdk[class_name.downcase]['inputs'].length},
+                                nb_outputs=#{pdk[class_name.downcase]['outputs'].length})
+                super
+                end
+            end
+        RUBY
+        end
+        Netlist.const_get(class_name)
+    end
+
     def self.create_gate(type, nb_inputs, partof = nil)
         if [:and,:or,:not,:nand,:nor,:xor,:buf].include? type
             type_classname = type.to_s.capitalize
@@ -201,10 +217,12 @@ module Netlist
             get_output.get_sinks.collect do |sink| 
                 if sink.is_a? Netlist::Port and sink.is_global?
                     sink
+                elsif sink.instance_of? Netlist::Wire
+                    sink.get_sink_gates
                 else
                     sink.partof
                 end
-            end
+            end.flatten
         end
 
         def get_source_gates force = false

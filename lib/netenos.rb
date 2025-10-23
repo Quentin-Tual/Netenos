@@ -1,4 +1,5 @@
 $FULL_PORT_NAME_SEP='/'  
+$PDK_JSON=File.expand_path('sky130_fd_sc_hd_fixed.json',File.dirname(__FILE__))
 
 require 'erb'
 require 'json'

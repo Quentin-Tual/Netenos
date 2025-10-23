@@ -15,7 +15,8 @@ class Test_compTestbench
         puts "[+] Initial circuit generation" if $VERBOSE
         # gen_case 
 
-        load_blif $CIRC_PATH
+        # load_blif $CIRC_PATH
+        load_verilog $V_CIRC_PATH
 
         if @circ_init.has_combinational_loop?
             raise "Error : Combinational loop detected in #{@circ_init}"
@@ -24,8 +25,6 @@ class Test_compTestbench
         # load_blif "../f51m.blif"
         # load_enl "../test_circ.enl"
         gen_circ_files @circ_init
-
-  
 
         # stim_compute # ! Test stim computation
                 
@@ -105,6 +104,17 @@ class Test_compTestbench
         @circ_init.get_dot_graph $DELAY_MODEL
     end 
 
+    def load_verilog path
+        @circ_init = Verilog.load_netlist(path)
+        @circ_init.getNetlistInformations $DELAY_MODEL
+        @grid = @circ_init.get_netlist_precedence_grid
+
+        @vhdl_converter = Converter::ConvNetlist2Vhdl.new
+        @vhdl_converter.gen_gtech
+
+        @circ_init.get_dot_graph $DELAY_MODEL
+    end
+
     def gen_case
         @generator = Netlist::RandomGenComb.new *$CIRC_CARAC
         # * : Generate a netlist
@@ -120,6 +130,7 @@ class Test_compTestbench
     end
 
     def gen_circ_files circ
+        @vhdl_converter = Converter::ConvNetlist2Vhdl.new
         @vhdl_converter.generate circ
         circ.get_dot_graph $DELAY_MODEL
         circ.save_as("./")
@@ -165,6 +176,7 @@ if __FILE__ == $0
     $COMPILER = :ghdl
     $OPT = [:ghdl, :all_sig]
     $CIRC_PATH = "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/xor5.blif"
+    $V_CIRC_PATH = "../verilog/xor5_prepnr.nl.v"
 
     Dir.chdir("tests/tmp") do
         puts "Lancement #{__FILE__}" 

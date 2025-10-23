@@ -85,9 +85,14 @@ module Converter
             # wireName = "w#{source.get_dot_name}"
             @code << "#{w.get_dot_name}[shape=point];"
             @code << "#{source.get_dot_name} -> #{w.get_dot_name}[arrowhead=none]"
-            w.get_sinks.each{|sink|
-                write_wiring w, sink
-            }
+
+            if w.get_sinks.empty?
+                raise "Error: empty fanout for wire #{w.name}"
+            else
+                w.get_sinks.each{|sink|
+                    write_wiring w, sink
+                }
+            end
         end
 
         def write_wiring source, sink

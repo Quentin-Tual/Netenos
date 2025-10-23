@@ -13,7 +13,7 @@ module Netlist
             @ports = {:in => [], :out => []}
             @partof = partof
             # ? : possible optimization using 2 different attributes containing gates and components ?
-            @components = [] 
+            @components = []
             @wires = []
             @constants = []
             @crit_path_length = nil
@@ -22,10 +22,10 @@ module Netlist
 
         def <<(e)
             e.partof = self
-            case e 
+            case e
                 when Constant
                     @constants << e
-                    
+
                 when Port
                     case e.direction
                     when :in
@@ -33,7 +33,7 @@ module Netlist
                     when :out
                         @ports[:out] << e
                     end
-                    
+
                 when Wire
                     @wires << e
                     e.partof = self
@@ -42,19 +42,19 @@ module Netlist
                     @components << e
                     e.partof = self
 
-                
+
                 else raise "Error : Unknown class -> Integration of #{e.class.name} into #{self.class.name} is not allowed."
             end
         end
 
-        def pretty_print(pp) 
+        def pretty_print(pp)
             pp.text @name
         end
 
         def getNetlistInformations delay_model
             get_exact_crit_path_length delay_model
-            
-            return self.get_nb_inputs, self.get_outputs.length, self.components.length, self.get_mean_fanout, self.crit_path_length    
+
+            return self.get_nb_inputs, self.get_outputs.length, self.components.length, self.get_mean_fanout, self.crit_path_length
         end
 
         def get_nb_inputs
@@ -65,7 +65,7 @@ module Netlist
             end
         end
 
-        def get_mean_fanout 
+        def get_mean_fanout
             fanout_list = []
 
             # get_inputs.each do |in_p|
@@ -99,42 +99,64 @@ module Netlist
 
         # def get_insertion_points_names payload_delay
         #     slack_h = get_insertion_points payload_delay
-        #     slack_h 
+        #     slack_h
         # end
 
         def get_insertion_points payload_delay
-            # * Returns a list of gate which outputs has a slack greater than the payload delay 
+            # * Returns a list of gate which outputs has a slack greater than the payload delay
             slack_h = get_slack_hash
             return slack_h.select{|slack, nodes| slack >= payload_delay}.values.flatten.select{|node| !(node.instance_of? Netlist::Port and node.is_global?)}
+        end
+
+        def get_comp_avg_delay delay_model
+            delay_list = @components.collect{|comp| comp.propag_time[delay_model]}
+            (delay_list.sum / delay_list.length.to_f).to_i
+        end
+
+        def get_wire_avg_delay delay_model
+            delay_list = @wires.collect{|w| w.propag_time[delay_model]}
+            (delay_list.sum / delay_list.length.to_f).to_i
+        end
+
+        def get_comp_min_delay delay_model
+            @components.collect{|comp| comp.propag_time[delay_model]}.min
+        end
+
+        def get_wire_min_delay delay_model
+            @wires.collect{|w| w.propag_time[delay_model]}.min
+        end
+
+        def get_comp_max_delay delay_model
+            @components.collect{|comp| comp.propag_time[delay_model]}.max
+        end
+
+        def get_wire_max_delay delay_model
+            @wires.collect{|w| w.propag_time[delay_model]}.max
         end
 
         def get_slack_hash
             if @crit_path_length.nil?
                 raise "Error : Critical path length is not defined for #{self.class.name} #{self.name}. run get_exact_crit_path_length() before."
             end
-        
+
             # Initialize slack for all input ports
-            (get_inputs + @components.flat_map(&:get_inputs)).each { |port| port.slack = @crit_path_length }
-        
+            slack_containing_elements = (get_inputs + @components.collect(&:get_inputs) + @wires).flatten
+            slack_containing_elements.each { |port| port.slack = @crit_path_length}
+
             # Calculate slack for each signal from the output
             get_outputs.each do |primary_output|
                 primary_output.slack = @crit_path_length - primary_output.cumulated_propag_time
-                source_node = primary_output.get_source_gates
-                if source_node.instance_of? Netlist::Wire # is the call is_global? required here ?
-                    source_node.slack = primary_output.slack
-                    source_node.update_path_slack(primary_output.slack)
-                else
-                    source_node.update_path_slack(primary_output.slack)
-                end
+                source_node = primary_output.get_source_comp
+                source_node.update_path_slack(primary_output.slack)
             end
-        
+
             # Create the slack hash
             tmp = @components.each_with_object(Hash.new([])) do |comp, h|
                 comp.get_inputs.each do |in_p|
                     h[in_p.slack] += [in_p]
                 end
             end
-        
+
             # Add primary inputs to the slack hash
             get_inputs.each do |in_p|
                 tmp[in_p.slack] += [in_p]
@@ -144,50 +166,50 @@ module Netlist
             get_outputs.each do |out_p|
                 tmp[out_p.slack] += [out_p]
             end
-        
-            # Assign default slack to any missed ports
-            (get_inputs + @components.flat_map(&:get_inputs)).each do |port|
-                if port.slack.nil?
-                    port.slack = @crit_path_length
-                    tmp[port.slack] += [port]
-                end
-            end
-        
+
+            # # Assign default slack to any missed ports
+            # (get_inputs + @components.flat_map(&:get_inputs)).each do |port|
+            #     if port.slack.nil?
+            #         port.slack = @crit_path_length
+            #         tmp[port.slack] += [port]
+            #     end
+            # end
+
             return tmp.sort_by{|key, value| key}.to_h # ! ERROR : with some benchmark circuits (x2.blif from LGsynth91), 'sort' : comparison of Array with Array failed (ArgumentError)
         end
-        
+
         def topological_sort
             visited = Set.new
             stack = []
-            
+
             @components.each do |comp|
                 if !visited.include?(comp)
                 topological_sort_util(comp, visited, stack)
                 end
             end
-            
+
             stack
         end
-        
+
         def topological_sort_util(comp, visited, stack)
             visited.add(comp)
-            
+
             comp.get_sinks.each do |sink|
                 if !visited.include?(sink)
                 topological_sort_util(sink, visited, stack)
                 end
             end
-            
+
             stack.unshift(comp)
         end
 
         def clear_cumulated_propag_times
-            @components.map do |comp| 
+            @components.map do |comp|
                 comp.cumulated_propag_time = 0
             end
         end
-        
-        def get_exact_crit_path_length delay_model 
+
+        def get_exact_crit_path_length delay_model
             clear_cumulated_propag_times
 
             get_inputs.each do |p_in|
@@ -203,7 +225,7 @@ module Netlist
                 end
             end
 
-            if get_outputs.empty? 
+            if get_outputs.empty?
                 raise "Error: No outputs found in circuit #{@name}."
             end
 
@@ -211,7 +233,7 @@ module Netlist
                 source = p_out.get_source
                 if source.is_a? Netlist::Port and source.is_global?
                     source.cumulated_propag_time
-                elsif source.is_a? Netlist::Wire 
+                elsif source.is_a? Netlist::Wire
                     source.cumulated_propag_time
                 else
                     source.partof.cumulated_propag_time
@@ -229,7 +251,7 @@ module Netlist
             # * Returns a hash associating delays with each signals of the circuit (comp output)
             if @timings_h.nil?
 
-                # Update timings with given delay_model  
+                # Update timings with given delay_model
                 get_exact_crit_path_length delay_model
 
                 timing_h = @components.each_with_object({}) do |comp,h|
@@ -244,7 +266,7 @@ module Netlist
             else
                 @timings_h
             end
-        end 
+        end
 
         def get_transition_probability_h force = false, rounding = get_nb_inputs
 
@@ -253,7 +275,7 @@ module Netlist
                 computed_gates = Set.new
 
                 next_gates = Queue.new
-                
+
                 get_inputs.each do |p_in|
                     h[p_in] = BigDecimal("0.5")
                     p_in.get_sink_gates.each{|sink_gate| next_gates << sink_gate}
@@ -280,21 +302,21 @@ module Netlist
                 end
 
                 @transition_probability_h = h
-            else 
+            else
                 @transition_probability_h
             end
         end
 
         def to_hash
             return {
-                :circuit => {   
-                    :name => @name, 
-                    :partof => (@partof == nil ? nil : @partof.name), 
+                :circuit => {
+                    :name => @name,
+                    :partof => (@partof == nil ? nil : @partof.name),
                     :ports =>   {
                                     :in => @ports[:in].collect{|e| e.to_hash},
                                     :out => @ports[:out].collect{|e| e.to_hash}
                                 },
-                    :components => @components.empty? ? nil : @components.collect{|e| e.to_hash}     
+                    :components => @components.empty? ? nil : @components.collect{|e| e.to_hash}
                 }
             }
         end
@@ -302,7 +324,7 @@ module Netlist
         def get_inputs
             return @ports[:in]
         end
-      
+
         def get_outputs
             return @ports[:out]
         end
@@ -318,7 +340,7 @@ module Netlist
                 @name2obj[str] = @ports.values.flatten.find{|port| port.name == str}
             end
         end
-      
+
         def get_component_named str
             if @name2obj[str]
                 @name2obj[str]
@@ -331,7 +353,7 @@ module Netlist
             @wires.find{|w| w.get_full_name == str}
         end
 
-        def get_free_port 
+        def get_free_port
             self.get_ports.each do |p|
                 if p.is_free?
                     return p
@@ -363,68 +385,35 @@ module Netlist
 
         def get_netlist_precedence_grid
             return @precedence_grid if @precedence_grid
-          
+
             current_level = 0
             grid = {}
             # Use a Set for current layer to avoid duplicates
             layer = Set.new(get_inputs.flat_map(&:get_sink_gates))
-            
+
             # Process while we have gates in the layer
             until layer.empty?
               next_layer = Set.new
-              
+
               layer.each do |gate|
                 next if gate.instance_of?(Netlist::Port)
                 grid[gate] = current_level
                 next_layer.merge(gate.get_sink_gates)
               end
-              
+
               current_level += 1
               layer = next_layer
             end
-          
+
             # Build the reversed grid
             reversed_grid = {}
             grid.each do |gate, level|
               reversed_grid[level] ||= []
               reversed_grid[level] << gate
             end
-          
+
             @precedence_grid = reversed_grid
         end
-
-        # OLD VERSION, SEE THE PREVIOUS METHOD FOR THE NEW ONE
-        # def get_netlist_precedence_grid
-        #     if @precedence_grid.nil?
-        #         id = 0
-        #         grid = {}
-        #         layer = get_inputs.collect{|i| i.get_sink_gates}.flatten
-        #         layer.each{|g| grid[g] = id}
-                
-        #         loop do 
-        #             id += 1
-        #             new_layer = layer.collect{|g| g.get_sink_gates}.flatten
-                    
-        #             if new_layer.empty?
-        #                 break 
-        #             else
-        #                 new_layer.each do |g| 
-        #                     grid[g] = id unless g.instance_of? Netlist::Port
-        #                 end
-        #                 layer = new_layer
-        #             end
-        #         end
-
-        #         reversed_grid = {}
-        #         (0..grid.values.max).each do |stage|
-        #             reversed_grid[stage] = grid.keys.select{|g| grid[g] == stage}
-        #         end
-
-        #         @precedence_grid = reversed_grid
-        #     else
-        #         @precedence_grid
-        #     end
-        # end
 
         def cache_inputs_in_name2obj
             @components.each do |comp|
@@ -435,7 +424,7 @@ module Netlist
             end
 
             @ports.values.flatten.each do |p|
-                @name2obj[p.name] = p 
+                @name2obj[p.name] = p
             end
         end
 
@@ -450,17 +439,17 @@ module Netlist
             @timings_h = nil
             clear_name2obj
             clear_cumulated_propag_times
-            @components.each do |g| 
+            @components.each do |g|
                 if g.is_a? Netlist::Gate
                     g.clear_source_gates
                 end
             end
         end
-    
+
         def get_ruby_expr output
             get_ruby_expr_util(output.get_source_gates)
         end
-        
+
         def get_ruby_expr_util node
             case node
             when Netlist::Port
@@ -468,9 +457,9 @@ module Netlist
                     node.name
                 else
                     raise "Error: node is a port but not a primary one."
-                end 
+                end
             when Netlist::Gate
-                # TODO : Si possible de génériciser la fonciton (associer un symbole à chaque porte en attribut constant) 
+                # TODO : Si possible de génériciser la fonciton (associer un symbole à chaque porte en attribut constant)
                 case node
                 when Netlist::Not
                     "(!(#{get_ruby_expr_util(node.get_source_gates[0])}))"
@@ -478,23 +467,23 @@ module Netlist
                     "(#{get_ruby_expr_util(node.get_source_gates[0])})"
                 when Netlist::Nand
                     operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
-                    str_ops = operands.join(" & ") 
+                    str_ops = operands.join(" & ")
                     "(!( #{str_ops} ))"
                 when Netlist::Nor
                     operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
-                    str_ops = operands.join(" | ") 
+                    str_ops = operands.join(" | ")
                     "(!( #{str_ops} ))"
                 when Netlist::And
                     operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
-                    str_ops = operands.join(" & ") 
+                    str_ops = operands.join(" & ")
                     "( #{str_ops} )"
                 when Netlist::Or
                     operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
-                    str_ops = operands.join(" | ") 
+                    str_ops = operands.join(" | ")
                     "( #{str_ops} )"
                 when Netlist::Xor
                     operands = node.get_source_gates.collect{|source_gate| get_ruby_expr_util(source_gate)}
-                    str_ops = operands.join(" ^ ") 
+                    str_ops = operands.join(" ^ ")
                     "( #{str_ops} )"
                 else
                     raise "Error: unexpected node Class #{node.class}."
@@ -510,7 +499,7 @@ module Netlist
             return eval("lambda {|#{operand_list}| #{expr_str}}")
         end
 
-        def get_all_ruby_expr 
+        def get_all_ruby_expr
             clear_all_cached_data
             exp = {}
             get_outputs.each{|out_p| exp[out_p] = get_ruby_expr(out_p)}
@@ -519,10 +508,10 @@ module Netlist
 
         def get_all_eval_procs exp = {}
             eval_proc = {}
-            
+
             exp = get_all_ruby_expr
             exp.each{|o, expr| eval_proc[o] = @circ.get_eval_proc(expr)}
-            
+
             return eval_proc
         end
 
@@ -541,13 +530,13 @@ module Netlist
 
         def save_as path, type="marshal"
             if !path.nil?
-                if path[-1] == "/"  
+                if path[-1] == "/"
                     sep = ""
                 else
                     sep = "/"
                 end
-            else 
-                sep = "" 
+            else
+                sep = ""
             end
 
             case type
@@ -555,7 +544,7 @@ module Netlist
                 serializer = Serializer.new
                 serializer.serialize(self)
                 serializer.save_as "#{@name}.sexp"
-            else    
+            else
                 File.write("#{path}#{sep}#{@name}.enl", Marshal.dump(self))
             end
         end
@@ -570,9 +559,9 @@ module Netlist
 
             node.get_sink_gates.each do |sink|
                 if !visited.include?(sink)
-                return true if dfs(sink, visited, stack)
+                    return true if dfs(sink, visited, stack)
                 elsif stack.include?(sink)
-                return true
+                    return true
                 end
             end
 
@@ -582,7 +571,7 @@ module Netlist
 
         def has_combinational_loop?
             visited = Set.new
-            stack = Set.new            
+            stack = Set.new
 
             @components.each do |component|
                 return true if dfs(component, visited, stack)
@@ -597,7 +586,7 @@ module Netlist
 
         def get_output_path node, upstream_path = []
             upstream_path << node
-            
+
             if node.instance_of?(Netlist::Port) and node.is_global? and node.is_output?
                 return [upstream_path]
             else
@@ -609,6 +598,113 @@ module Netlist
 
                 return downstream_paths.flat_map{|el| el.first.is_a?(Array) ? el : [el]}
             end
+        end
+
+        def all_ports_connected?
+          primary_inputs = get_inputs.all? do |inp|
+            !inp.fanout.empty?
+          end
+
+          primary_outputs = get_outputs.all? do |outp|
+            !outp.fanin.nil?
+          end
+
+          comp_ios = components.all? do |comp|
+            comp_inputs = comp.get_inputs.all? do |inp|
+                !inp.fanin.nil?
+            end
+            comp_outputs = comp.get_outputs.all? do |outp|
+                !outp.fanout.empty?
+            end
+            comp_inputs and comp_outputs
+          end
+
+          primary_inputs and primary_outputs and comp_ios
+        end
+
+        def valid_connections?
+          primary_inputs = get_inputs.all? do |inp|
+            inp.fanout.all?{|e| e.inside?(self)}
+          end
+
+          primary_outputs = get_outputs.all? do |outp|
+            outp.fanin.inside?(self)
+          end
+
+          comp_ios = components.all? do |comp|
+            comp_inputs = comp.get_inputs.all? do |inp|
+                inp.fanin.inside?(self)
+            end
+            comp_outputs = comp.get_outputs.all? do |outp|
+                outp.fanout.all?{|e| e.inside?(self)}
+            end
+            comp_inputs and comp_outputs
+          end
+
+          primary_inputs and primary_outputs and comp_ios
+        end
+
+        def all_wires_connected?
+          @wires.all? do |w|
+            w.has_source? #and !w.fanout.empty?
+          end
+        end
+
+        def add_wires
+          # List all interconnections concerned (source => [sink])
+          interconnections = {}
+          # Each primary input
+          get_inputs.each do |ip|
+            interconnections[ip] = ip.get_sinks
+          end
+          # Each component output
+          @components.each do |c|
+            c.get_outputs.each do |op|
+              interconnections[op] = op.get_sinks
+            end
+          end
+          # Each constant (in case)
+          @constants.each do |c|
+            interconnections[c] = c.get_sinks
+          end
+               
+          # For each
+          interconnections.each do |source, sinks|
+            next if sinks.length==1 and sinks.first.instance_of? Wire
+            # Instanciate a wire
+            w = Wire.new("_#{@wires.length}_")
+            self << w
+            # Unplug the source for each sink
+            # Plug the wire to each sink
+            sinks.each do |sink|
+              sink.unplug2 source.get_full_name
+              sink <= w
+            end
+            # Plug the wire to source
+            w <= source
+          end
+        end
+
+        def remove_wires
+            while !@wires.empty? do
+                w = @wires.pop
+                remove_w(w)
+            end
+        end
+
+        def remove_w w
+          source = w.get_source
+          sinks = w.get_sinks
+
+          source.fanout.delete(w)
+          sinks.each do |sink|
+            sink.fanin = nil
+            sink <= source
+          end
+        end
+
+        def valid?
+          all_wires_connected? and all_ports_connected? and !has_combinational_loop? and valid_connections?
         end
     end
 end

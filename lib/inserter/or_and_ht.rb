@@ -3,12 +3,11 @@ require_relative "ht.rb"
 module Inserter
 
     class Or_And < HT
-        attr_accessor :components
         
         def initialize nb_trigger = 4
             # * : For the moment the only parameters allowed are power of 2 numbers. This is faster to develop and easier for a start. It may evolve later to allow more possibilities.
             if po2?(nb_trigger)
-                super 
+                super ()
                 @netlist = gen_netlist(nb_trigger)
             else 
                 raise "Error : This parameter is not yet managed. Please use a power of 2 as the number of trigger signal."

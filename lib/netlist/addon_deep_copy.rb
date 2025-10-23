@@ -47,7 +47,6 @@ module Netlist
         new_wire = wire.dup
         new_wire.partof = new_circuit
         @deep_copy_cache[wire.object_id] = new_wire
-        new_wire
       end
 
       reconnect_all(new_circuit)
@@ -71,9 +70,11 @@ module Netlist
 
     def reconnect_all(new_circuit)
       # Reconnect using cache
-      (@constants + @ports.values.flatten + @components.flat_map { |c| c.get_inputs + c.get_outputs } + @wires).each do |obj|
+      reconnect_elements = @constants + @ports.values.flatten + @components.flat_map{|c| c.get_ports} + @wires
+      reconnect_elements.each do |obj|
         new_obj = @deep_copy_cache[obj.object_id]
-        next unless new_obj
+        # next unless new_obj # can happen ?
+        raise "Error: No copied object cached for #{obj}" if new_obj.nil?
 
         # Reconnect fanin
         if obj.fanin && (new_source = @deep_copy_cache[obj.fanin.object_id])
@@ -101,6 +102,22 @@ module Netlist
       new_gate.instance_variable_set(:@ports, { in: new_inputs, out: new_outputs })
       
       new_gate
+    end
+  end
+
+  class Wire
+    def dup
+      new_wire = self.class.new(@name.dup)
+      new_wire.instance_variable_set(:@propag_time, @propag_time)
+      new_wire.instance_variable_set(:@cumulated_propag_time, @cumulated_propag_time)
+
+      new_wire
+    end
+  end
+
+  class Port
+    def dup
+      self.class.new(@name.dup, @direction.dup)
     end
   end
 end

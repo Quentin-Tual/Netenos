@@ -5,7 +5,7 @@ module Verilog
     def initialize netlist
       @netlist = netlist
       @txt = Code.new
-      @pdk = JSON.parse(File.read(PDK_JSON))
+      @pdk = JSON.parse(File.read($PDK_JSON))
     end
 
     def print path="#{netlist.name}.v"

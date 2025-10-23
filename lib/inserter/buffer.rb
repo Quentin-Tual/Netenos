@@ -3,10 +3,9 @@ require_relative "ht.rb"
 module Inserter
 
     class Buf < HT
-        attr_accessor :components # DEBUG
 
         def initialize ht_delay = 2
-            super
+            super()
             payload = Netlist::Buffer.new(propag_time: ht_delay)
             @netlist = payload
             @components = [payload]

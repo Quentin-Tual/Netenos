@@ -1,11 +1,19 @@
 # TODO List
 
 - [x] Add Verilog parser to Netenos
-- [ ] Update BLIF parser to accept PDK cells like the Verilog parser
 - [x] Add SDF parser to Netenos
 - [x] Add RSpec tests for SDF Parser
-- [ ] Add SDF AST visitor to annotate netlist with delays
-- [ ] Harmonize and simplify the `get_source[...]` functions, only one should be needed, or explicitly name it after what it is used for.
+- [x] Add SDF AST visitor to annotate netlist with delays
+- [x] Adapt Circuit::get_netlist_precedence_grid to handle Wire class
+- [x] Create a HT with standard cells from sky130 PDK (based on the same architectures of the basic ones ?)
+- [x] Use create_pdk_cell in Verilog module 
+- [x] Make PDK_JSON a Netenos global constant instead of Verilog and SDF modules Const only
+- [x] Add a method to add Wire class objects for all interconnections (when missing) 
+- [x] Write and validate an RSpec test for HT insertion on a Verilog parsed netlist annotated with a SDF file
+- [ ] Write and validate an RSpec test for ATETA on a Verilog parsed netlist annotated with a SDF file
+- [ ] Modularize Circuit class file, dividing it into different files for different categories, easier to read  
+- [ ] Update BLIF parser to accept PDK cells like the Verilog parser
+- [ ] Harmonize and simplify the `get_source[...]` and `get_sink[...]` functions, merge or explicitly name it after what it is used for.
 - [ ] Divide "Converter" in many directories, reorganize the project structure in lib/converter
 - [ ] Add a circ descriptor for rise/fall delay model ?
 - [ ] Refactor the data extracted from the netlist (all delays related data for example) to memorize them as external objects and not as attributes of the Circuit/Gate/Port class

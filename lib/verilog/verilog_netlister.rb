@@ -6,7 +6,7 @@ module Verilog
     def initialize #, ignore_rise_fall = true
       @netlist=nil
       
-      @pdk = JSON.parse(File.read(PDK_JSON))# Récupérer les données dans le hash du PDK
+      @pdk = JSON.parse(File.read($PDK_JSON))# Récupérer les données dans le hash du PDK
       @wiring = {}
       @sym_tab = {}
       @primary_io_wires = {}
@@ -44,16 +44,10 @@ module Verilog
     def visitInstance inst
       stdcell_name = visitIdent(inst.module_name)
       klassname = stdcell_name.capitalize
-      if !Netlist.class_exists?("Netlist::" + klassname)
-        klass = Netlist.create_class(klassname, "Gate")
-      else
-        klass = Netlist.const_get(klassname)
-      end
+      klass = Netlist.create_pdk_class(klassname, @pdk)
       
-      nb_inputs = @pdk[stdcell_name]["inputs"].size # !!! Récupérer l'info dans le JSON généré par le verilog grepper
-      nb_outputs = @pdk[stdcell_name]["outputs"].size
-      instance_name = visitIdent(inst.instance_name) # ! Replaces every '_' by a '-' for compatibility with Netenos
-      comp = @sym_tab[instance_name] = klass.new(instance_name, @netlist, nb_inputs, nb_outputs)
+      instance_name = visitIdent(inst.instance_name) 
+      comp = @sym_tab[instance_name] = klass.new(instance_name, @netlist)
       comp.get_ports.each{|p| @sym_tab[p.get_full_name] = p}
 
       visitPortmap(inst.port_map, stdcell_name, instance_name) unless inst.port_map.nil?

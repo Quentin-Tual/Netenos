@@ -6,6 +6,7 @@ require_relative "og_s38417_T100.rb"
 require_relative "inverted_trigger_s38417.rb"
 require_relative "buffer.rb"
 require_relative "or_and_ht.rb"
+require_relative 'sky130_HTs/sky130_Tbuffer'
 
 module Inserter
 
@@ -567,6 +568,24 @@ module Inserter
                 c.tag = :ht
                 @netlist << c
             end
+
+            return @netlist
+        end
+
+        def  insert_sky130_buffer_at loc, delay, scl = "sky130_fd_sc_hd"
+            @ht = Inserter::Sky130_Tbuffer.new delay, scl
+
+            source = loc.get_source
+            loc.unplug2 source.get_full_name
+            loc <= @ht.get_payload_out
+            @ht.get_payload_in <= source
+
+            @ht.components.each do |c|
+                c.tag = :ht
+                @netlist << c
+            end
+
+            raise "Error: HT #{@ht} not correctly inserted" unless @ht.is_inserted?
 
             return @netlist
         end

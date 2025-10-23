@@ -7,7 +7,7 @@ module Netlist
             @fanin = nil # Always only one source to the input 
             @fanout = []
             @partof = nil
-            @propag_time = {:one => 0, :int => 0.0, :int_multi => 0, :int_rand => 0.0, :fract => 0.0} 
+            @propag_time = {:one => 0, :int => 0.0, :int_multi => 0, :int_rand => 0.0, :fract => 0.0, :sdf => 0} 
             @cumulated_propag_time = 0
             @slack = nil
         end
@@ -73,6 +73,18 @@ module Netlist
                     sink.partof
                 end
             }
+        end
+
+        def get_sink_gates
+            self.get_sinks.collect do |sink| 
+                if (sink.instance_of? Netlist::Port and sink.is_global?) 
+                    sink
+                elsif sink.instance_of? Netlist::Wire
+                    sink.fanout.collect{|in_p| in_p.partof}
+                else
+                    sink.partof
+                end
+            end.flatten
         end
 
         def get_source_cumul_propag_time
@@ -143,10 +155,10 @@ module Netlist
         def update_path_delay elapsed, delay_model
             @cumulated_propag_time = [elapsed + @propag_time[delay_model], @cumulated_propag_time].max
             get_sinks.each do |sink|
-                if sink.class.name == "Netlist::Wire"
-                    sink.update_path_delay @cumulated_propag_time, delay_model
-                elsif !sink.is_global?
+                if !sink.is_global?
                     sink.partof.update_path_delay @cumulated_propag_time, delay_model
+                else # sink.class.name == "Netlist::Wire" or sink.is_global?
+                    sink.update_path_delay @cumulated_propag_time, delay_model
                 end
             end
         end
@@ -176,6 +188,14 @@ module Netlist
             # crit_node.values.each do |in_p|
             #     in_p.get_source_comp.update_path_slack(0.0 + @slack, delay_model)
             # end
+        end
+
+        def inside? circ
+          if @partof.nil?
+            false
+          elsif @partof == circ or @partof.partof == circ
+            true
+          end
         end
 
         def to_hash

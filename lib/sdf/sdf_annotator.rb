@@ -4,7 +4,7 @@ module SDF
     def initialize netlist, function = :max
       @netlist = netlist
       @fun = function
-      @pdk = JSON.parse(File.read(PDK_JSON))
+      @pdk = JSON.parse(File.read($PDK_JSON))
       @SDF_PORT_NAME_SEP = '.' # !!! Extract it from the AST, Modify the parser to get it.
 
       # TODO : Add DIVIDER statement handling in the SDF parser
