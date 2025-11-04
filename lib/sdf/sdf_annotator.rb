@@ -4,7 +4,7 @@ module SDF
     def initialize netlist, function = :max
       @netlist = netlist
       @fun = function
-      @pdk = JSON.parse(File.read($PDK_JSON))
+      @pdk_ios = JSON.parse(File.read($PDK_IOS_JSON))
       @SDF_PORT_NAME_SEP = '.' # !!! Extract it from the AST, Modify the parser to get it.
 
       # TODO : Add DIVIDER statement handling in the SDF parser
@@ -109,10 +109,10 @@ module SDF
       instance_name, port_name = name.split(@SDF_PORT_NAME_SEP)
       celltype = @netlist.get_component_named(instance_name).class.name.split('::').last.downcase
       # Convert source_name using PDK_JSON and celltype
-      if @pdk[celltype]["inputs"].include? port_name
-        "#{instance_name}#{$FULL_PORT_NAME_SEP}i#{@pdk[celltype]["inputs"].index(port_name)}" 
-      elsif @pdk[celltype]["outputs"].include? port_name
-        "#{instance_name}#{$FULL_PORT_NAME_SEP}o#{@pdk[celltype]["outputs"].index(port_name)}" 
+      if @pdk_ios[celltype]["inputs"].include? port_name
+        "#{instance_name}#{$FULL_PORT_NAME_SEP}i#{@pdk_ios[celltype]["inputs"].index(port_name)}" 
+      elsif @pdk_ios[celltype]["outputs"].include? port_name
+        "#{instance_name}#{$FULL_PORT_NAME_SEP}o#{@pdk_ios[celltype]["outputs"].index(port_name)}" 
       end
     end
 

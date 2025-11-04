@@ -5,7 +5,7 @@ module Verilog
     def initialize netlist
       @netlist = netlist
       @txt = Code.new
-      @pdk = JSON.parse(File.read($PDK_JSON))
+      @pdk_ios = JSON.parse(File.read($PDK_IOS_JSON))
     end
 
     def print path="#{netlist.name}.v"
@@ -59,7 +59,7 @@ module Verilog
       stdcell = comp.class.name.split('::').last.downcase
       comp.get_inputs.each do |ip|
         ip_index = ip.name.delete_prefix('i').to_i
-        ip_name = @pdk[stdcell]['inputs'][ip_index]
+        ip_name = @pdk_ios[stdcell]['inputs'][ip_index]
         @txt << ".#{ip_name}(#{ip.get_source.name}),"
       end
 
@@ -69,7 +69,7 @@ module Verilog
         end
         stdcell = comp.class.name.split('::').last.downcase
         op_index = op.name.delete_prefix('o').to_i
-        op_name = @pdk[stdcell]['outputs'][op_index]
+        op_name = @pdk_ios[stdcell]['outputs'][op_index]
         @txt << ".#{op_name}(#{op.get_sinks.first.name})," # Only one sink being a wire, else an error is raised beforehand 
       end
 

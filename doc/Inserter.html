@@ -79,7 +79,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/inserter/ht.rb<span class="defines">,<br />
-  lib/inserter/buffer.rb,<br /> lib/inserter/tamper.rb,<br /> lib/inserter/or_and_ht.rb,<br /> lib/inserter/xor_and_ht.rb,<br /> lib/inserter/cotd_s38417.rb,<br /> lib/inserter/and_not_and_ht.rb,<br /> lib/inserter/og_s38417_T100.rb,<br /> lib/inserter/inverted_trigger_s38417.rb</span>
+  lib/inserter/buffer.rb,<br /> lib/inserter/tamper.rb,<br /> lib/inserter/or_and_ht.rb,<br /> lib/inserter/xor_and_ht.rb,<br /> lib/inserter/cotd_s38417.rb,<br /> lib/inserter/and_not_and_ht.rb,<br /> lib/inserter/og_s38417_T100.rb,<br /> lib/inserter/sky130_HTs/sky130_T100.rb,<br /> lib/inserter/inverted_trigger_s38417.rb,<br /> lib/inserter/sky130_HTs/sky130_Tbuffer.rb</span>
 </dd>
   </dl>
   
@@ -91,7 +91,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Inserter/And_Not_And.html" title="Inserter::And_Not_And (class)">And_Not_And</a></span>, <span class='object_link'><a href="Inserter/Buf.html" title="Inserter::Buf (class)">Buf</a></span>, <span class='object_link'><a href="Inserter/Cotd_s38417.html" title="Inserter::Cotd_s38417 (class)">Cotd_s38417</a></span>, <span class='object_link'><a href="Inserter/HT.html" title="Inserter::HT (class)">HT</a></span>, <span class='object_link'><a href="Inserter/ImpossibleInsertion.html" title="Inserter::ImpossibleInsertion (class)">ImpossibleInsertion</a></span>, <span class='object_link'><a href="Inserter/It_s38417.html" title="Inserter::It_s38417 (class)">It_s38417</a></span>, <span class='object_link'><a href="Inserter/NoTriggerFound.html" title="Inserter::NoTriggerFound (class)">NoTriggerFound</a></span>, <span class='object_link'><a href="Inserter/Og_s38417.html" title="Inserter::Og_s38417 (class)">Og_s38417</a></span>, <span class='object_link'><a href="Inserter/Or_And.html" title="Inserter::Or_And (class)">Or_And</a></span>, <span class='object_link'><a href="Inserter/Tamperer.html" title="Inserter::Tamperer (class)">Tamperer</a></span>, <span class='object_link'><a href="Inserter/Xor_And.html" title="Inserter::Xor_And (class)">Xor_And</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Inserter/And_Not_And.html" title="Inserter::And_Not_And (class)">And_Not_And</a></span>, <span class='object_link'><a href="Inserter/Buf.html" title="Inserter::Buf (class)">Buf</a></span>, <span class='object_link'><a href="Inserter/Cotd_s38417.html" title="Inserter::Cotd_s38417 (class)">Cotd_s38417</a></span>, <span class='object_link'><a href="Inserter/HT.html" title="Inserter::HT (class)">HT</a></span>, <span class='object_link'><a href="Inserter/ImpossibleInsertion.html" title="Inserter::ImpossibleInsertion (class)">ImpossibleInsertion</a></span>, <span class='object_link'><a href="Inserter/It_s38417.html" title="Inserter::It_s38417 (class)">It_s38417</a></span>, <span class='object_link'><a href="Inserter/NoTriggerFound.html" title="Inserter::NoTriggerFound (class)">NoTriggerFound</a></span>, <span class='object_link'><a href="Inserter/Og_s38417.html" title="Inserter::Og_s38417 (class)">Og_s38417</a></span>, <span class='object_link'><a href="Inserter/Or_And.html" title="Inserter::Or_And (class)">Or_And</a></span>, <span class='object_link'><a href="Inserter/Sky130_T100.html" title="Inserter::Sky130_T100 (class)">Sky130_T100</a></span>, <span class='object_link'><a href="Inserter/Sky130_Tbuffer.html" title="Inserter::Sky130_Tbuffer (class)">Sky130_Tbuffer</a></span>, <span class='object_link'><a href="Inserter/Tamperer.html" title="Inserter::Tamperer (class)">Tamperer</a></span>, <span class='object_link'><a href="Inserter/Xor_And.html" title="Inserter::Xor_And (class)">Xor_And</a></span>
     
   
 </p>
@@ -260,7 +260,6 @@
       <pre class="lines">
 
 
-50
 51
 52
 53
@@ -290,10 +289,11 @@
 77
 78
 79
-80</pre>
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_getPayloadDelay'>getPayloadDelay</span> <span class='id identifier rubyid_htName'>htName</span><span class='comma'>,</span> <span class='id identifier rubyid_delayModel'>delayModel</span>
 
@@ -357,7 +357,6 @@
       <pre class="lines">
 
 
-31
 32
 33
 34
@@ -374,10 +373,11 @@
 45
 46
 47
-48</pre>
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_getSimpleInsertTrigVector'>getSimpleInsertTrigVector</span> <span class='id identifier rubyid_htName'>htName</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_inputs'>nb_inputs</span>
     <span class='kw'>case</span> <span class='id identifier rubyid_htName'>htName</span>
@@ -407,7 +407,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 17 18:01:19 2025 by
+  Generated on Tue Nov  4 15:19:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

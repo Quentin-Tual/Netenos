@@ -11,9 +11,8 @@ module AtetaAddOn
             @const_declarations = nil
             @delay_model = delay_model
 
-            unless @circ.wires.empty?
-                raise "Error : Current version is not compatible with Netlist::Wire usage !"
-            end
+            
+            raise "Error : Current version is not compatible with Netlist::Wire usage !" unless @circ.wires.empty?
         end
 
         def get_output_func_def targetedOutputName, func_name = "y" 
@@ -26,6 +25,32 @@ module AtetaAddOn
                 @output_func
             end
         end
+
+        # def get_smtlib_expr sigName, t=0 # ! Not compatible with Netlist::Wire usage !
+        #     expr = ""
+
+        #     if @circ.is_primary_input_name?(sigName)
+        #         v = "(#{sigName} (- t #{t}))"
+        #         expr << v
+        #     elsif @circ.is_primary_output_name?(sigName)
+        #         sourceSigName = @circ.get_port_named(sigName).get_source.get_full_name
+        #         expr << get_smtlib_expr(sourceSigName,t)
+        #     else
+        #         comp = @circ.get_component_named(sigName.split($FULL_PORT_NAME_SEP)[0])
+        #         inPorts = comp.get_inputs
+
+        #         expr << comp.class::SMT_EXPR[0]
+        #         inPorts.each do |p|
+        #             expr << get_smtlib_expr(
+        #                 p.get_source.get_full_name, 
+        #                 t + comp.propag_time[@delay_model])
+        #             expr << " "
+        #         end
+        #         expr << comp.class::SMT_EXPR[1]
+        #     end
+
+        #     return expr
+        # end
 
         def get_smtlib_expr sigName, t=0 # ! Not compatible with Netlist::Wire usage !
             expr = ""
@@ -52,6 +77,7 @@ module AtetaAddOn
 
             return expr
         end
+
 
         def get_const_declarations 
             if @const_declarations.nil?

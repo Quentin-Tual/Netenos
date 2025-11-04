@@ -506,7 +506,9 @@
 9
 10
 11
-12</pre>
+12
+13
+14</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 6</span>
@@ -514,9 +516,11 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='comment'>#, ignore_rise_fall = true
 </span>  <span class='ivar'>@netlist</span><span class='op'>=</span><span class='kw'>nil</span>
   
-  <span class='ivar'>@pdk</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Verilog.html#PDK_JSON-constant" title="Verilog::PDK_JSON (constant)">PDK_JSON</a></span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comment'># Récupérer les données dans le hash du PDK
-</span>  <span class='ivar'>@wiring</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@pdk_ios</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='gvar'>$PDK_IOS_JSON</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comment'># Récupérer les données dans le hash du PDK
+</span>  <span class='ivar'>@pdk_fun</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='gvar'>$PDK_FUN_JSON</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='ivar'>@wiring</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@sym_tab</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@primary_io_wires</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -593,24 +597,24 @@
       <pre class="lines">
 
 
-90
-91
 92
 93
 94
 95
 96
 97
-98</pre>
+98
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_equivalentPortName'>equivalentPortName</span> <span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='comma'>,</span> <span class='id identifier rubyid_inst_name'>inst_name</span><span class='comma'>,</span> <span class='id identifier rubyid_port_name'>port_name</span>
-  <span class='kw'>if</span> <span class='ivar'>@pdk</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>inputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_port_name'>port_name</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i</span><span class='embexpr_beg'>#{</span><span class='ivar'>@pdk</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>inputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_port_name'>port_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>elsif</span> <span class='ivar'>@pdk</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>outputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_port_name'>port_name</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>o</span><span class='embexpr_beg'>#{</span><span class='ivar'>@pdk</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>outputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_port_name'>port_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>if</span> <span class='ivar'>@pdk_ios</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>inputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_port_name'>port_name</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i</span><span class='embexpr_beg'>#{</span><span class='ivar'>@pdk_ios</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>inputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_port_name'>port_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>elsif</span> <span class='ivar'>@pdk_ios</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>outputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_port_name'>port_name</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>o</span><span class='embexpr_beg'>#{</span><span class='ivar'>@pdk_ios</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>outputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_port_name'>port_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: No port </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_port_name'>port_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> standard cell. Be assured to load the pdk JSON.</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
@@ -635,8 +639,6 @@
       <pre class="lines">
 
 
-14
-15
 16
 17
 18
@@ -644,10 +646,12 @@
 20
 21
 22
-23</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit'>visit</span><span class='lparen'>(</span><span class='id identifier rubyid_root'><span class='object_link'><a href="../top-level-namespace.html" title="Top Level Namespace (root)">root</a></span></span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_root'><span class='object_link'><a href="../top-level-namespace.html" title="Top Level Namespace (root)">root</a></span></span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../Verilog.html" title="Verilog (module)">Verilog</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Root.html" title="Verilog::Root (class)">Root</a></span></span>
@@ -679,12 +683,12 @@
       <pre class="lines">
 
 
-86
-87
-88</pre>
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visitIdent'>visitIdent</span> <span class='id identifier rubyid_i'>i</span>
   <span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
@@ -709,13 +713,13 @@
       <pre class="lines">
 
 
-33
-34
 35
-36</pre>
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visitInput'>visitInput</span> <span class='id identifier rubyid_ip'>ip</span>
   <span class='id identifier rubyid_portname'>portname</span> <span class='op'>=</span> <span class='id identifier rubyid_visitIdent'>visitIdent</span><span class='lparen'>(</span><span class='id identifier rubyid_ip'>ip</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -741,8 +745,6 @@
       <pre class="lines">
 
 
-43
-44
 45
 46
 47
@@ -754,28 +756,18 @@
 53
 54
 55
-56
-57
-58
-59
-60</pre>
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visitInstance'>visitInstance</span> <span class='id identifier rubyid_inst'>inst</span>
   <span class='id identifier rubyid_stdcell_name'>stdcell_name</span> <span class='op'>=</span> <span class='id identifier rubyid_visitIdent'>visitIdent</span><span class='lparen'>(</span><span class='id identifier rubyid_inst'>inst</span><span class='period'>.</span><span class='id identifier rubyid_module_name'>module_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_klassname'>klassname</span> <span class='op'>=</span> <span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='period'>.</span><span class='id identifier rubyid_capitalize'>capitalize</span>
-  <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='period'>.</span><span class='id identifier rubyid_class_exists?'><span class='object_link'><a href="../Netlist.html#class_exists%3F-class_method" title="Netlist.class_exists? (method)">class_exists?</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Netlist::</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_klassname'>klassname</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_class'><span class='object_link'><a href="../Netlist.html#create_class-class_method" title="Netlist.create_class (method)">create_class</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_klassname'>klassname</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Gate</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_klassname'>klassname</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+  <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_pdk_class'><span class='object_link'><a href="../Netlist.html#create_pdk_class-class_method" title="Netlist.create_pdk_class (method)">create_pdk_class</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_klassname'>klassname</span><span class='comma'>,</span> <span class='ivar'>@pdk_fun</span><span class='comma'>,</span> <span class='ivar'>@pdk_ios</span><span class='rparen'>)</span>
   
-  <span class='id identifier rubyid_nb_inputs'>nb_inputs</span> <span class='op'>=</span> <span class='ivar'>@pdk</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>inputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='comment'># !!! Récupérer l&#39;info dans le JSON généré par le verilog grepper
-</span>  <span class='id identifier rubyid_nb_outputs'>nb_outputs</span> <span class='op'>=</span> <span class='ivar'>@pdk</span><span class='lbracket'>[</span><span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>outputs</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
-  <span class='id identifier rubyid_instance_name'>instance_name</span> <span class='op'>=</span> <span class='id identifier rubyid_visitIdent'>visitIdent</span><span class='lparen'>(</span><span class='id identifier rubyid_inst'>inst</span><span class='period'>.</span><span class='id identifier rubyid_instance_name'>instance_name</span><span class='rparen'>)</span> <span class='comment'># ! Replaces every &#39;_&#39; by a &#39;-&#39; for compatibility with Netenos
-</span>  <span class='id identifier rubyid_comp'>comp</span> <span class='op'>=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_instance_name'>instance_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_instance_name'>instance_name</span><span class='comma'>,</span> <span class='ivar'>@netlist</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_outputs'>nb_outputs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_instance_name'>instance_name</span> <span class='op'>=</span> <span class='id identifier rubyid_visitIdent'>visitIdent</span><span class='lparen'>(</span><span class='id identifier rubyid_inst'>inst</span><span class='period'>.</span><span class='id identifier rubyid_instance_name'>instance_name</span><span class='rparen'>)</span> 
+  <span class='id identifier rubyid_comp'>comp</span> <span class='op'>=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_instance_name'>instance_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_instance_name'>instance_name</span><span class='comma'>,</span> <span class='ivar'>@netlist</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_get_ports'>get_ports</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_p'>p</span><span class='rbrace'>}</span>
 
   <span class='id identifier rubyid_visitPortmap'>visitPortmap</span><span class='lparen'>(</span><span class='id identifier rubyid_inst'>inst</span><span class='period'>.</span><span class='id identifier rubyid_port_map'>port_map</span><span class='comma'>,</span> <span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='comma'>,</span> <span class='id identifier rubyid_instance_name'>instance_name</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_inst'>inst</span><span class='period'>.</span><span class='id identifier rubyid_port_map'>port_map</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -801,16 +793,16 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
 30
-31</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visitModule'>visitModule</span> <span class='id identifier rubyid_mod'>mod</span>
   <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Circuit.html#initialize-instance_method" title="Netlist::Circuit#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_visitIdent'>visitIdent</span><span class='lparen'>(</span><span class='id identifier rubyid_mod'>mod</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -839,13 +831,13 @@
       <pre class="lines">
 
 
-38
-39
 40
-41</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visitOutput'>visitOutput</span> <span class='id identifier rubyid_op'>op</span>
   <span class='id identifier rubyid_portname'>portname</span> <span class='op'>=</span> <span class='id identifier rubyid_visitIdent'>visitIdent</span><span class='lparen'>(</span><span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -871,15 +863,15 @@
       <pre class="lines">
 
 
+58
+59
+60
+61
 62
-63
-64
-65
-66
-67</pre>
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visitPortmap'>visitPortmap</span> <span class='id identifier rubyid_portmap'>portmap</span><span class='comma'>,</span> <span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='comma'>,</span> <span class='id identifier rubyid_instance_name'>instance_name</span>
   <span class='comment'># Convertit le nom des ports &quot;A&quot;,&quot;B&quot;,etc en &quot;i0&quot;, &quot;i1&quot;, etc
@@ -907,19 +899,19 @@
       <pre class="lines">
 
 
+65
+66
+67
+68
 69
 70
 71
 72
 73
-74
-75
-76
-77
-78</pre>
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visitPortmapElt'>visitPortmapElt</span> <span class='id identifier rubyid_portmap_element'>portmap_element</span><span class='comma'>,</span> <span class='id identifier rubyid_stdcell_name'>stdcell_name</span><span class='comma'>,</span> <span class='id identifier rubyid_instance_name'>instance_name</span>
 
@@ -951,19 +943,31 @@
       <pre class="lines">
 
 
+76
+77
+78
+79
 80
 81
 82
 83
-84</pre>
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visitWire'>visitWire</span> <span class='id identifier rubyid_w'>w</span>
   <span class='comment'># TODO : Create a Buffer as an object with an input and an output
 </span>  <span class='id identifier rubyid_wname'>wname</span> <span class='op'>=</span> <span class='id identifier rubyid_visitIdent'>visitIdent</span><span class='lparen'>(</span><span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='comment'># ! Replaces every &#39;_&#39; by a &#39;-&#39; for compatibility with Netenos
-</span>  <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wname'>wname</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Wire.html" title="Netlist::Wire (class)">Wire</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Wire.html#initialize-instance_method" title="Netlist::Wire#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_wname'>wname</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wname'>wname</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+</span>  <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wname'>wname</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wname'>wname</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Wire.html" title="Netlist::Wire (class)">Wire</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Wire.html#initialize-instance_method" title="Netlist::Wire#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_wname'>wname</span><span class='rparen'>)</span> 
+  <span class='kw'>elsif</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wname'>wname</span><span class='rbracket'>]</span>
+    <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wname'>wname</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Wire.html" title="Netlist::Wire (class)">Wire</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Wire.html#initialize-instance_method" title="Netlist::Wire#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_wname'>wname</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: the wire </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_w'>w</span><span class='embexpr_end'>}</span><span class='tstring_content'> has the same name as another object </span><span class='embexpr_beg'>#{</span><span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wname'>wname</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> already created</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -985,8 +989,6 @@
       <pre class="lines">
 
 
-115
-116
 117
 118
 119
@@ -1005,25 +1007,23 @@
 132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wiringCompInput'>wiringCompInput</span> <span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_wire_name'>wire_name</span>
-  <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='comment'># p is not connected to a primary port
-</span>    <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='comment'># p is not connected to a wire
-</span>      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> not generated from the AST.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>else</span> <span class='comment'># p is connected to a wire (represented as a Buffer obj in the netlist)
-</span>      <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
-      <span class='id identifier rubyid_p'>p</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_w'>w</span>
+  <span class='kw'>if</span> <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> not generated from the AST.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span> <span class='comment'># Wire the component input port to a primary input
+</span>      <span class='id identifier rubyid_p'>p</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
-  <span class='kw'>else</span> <span class='comment'># p is connected to a primary port
-</span>    <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
-    <span class='comment'># if source.is_input?
-</span>    <span class='id identifier rubyid_p'>p</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_source'>source</span>
-    <span class='comment'># else
-</span>    <span class='comment'>#   # Should not be possible should raise an error
-</span>    <span class='comment'>#   raise &quot;Error: #{p.get_full_name} (a sink) should not be connected to #{wire_name} (also a sink).&quot;
-</span>    <span class='comment'># end
-</span>  <span class='kw'>end</span>
+  <span class='kw'>else</span> <span class='comment'># Wire the component input port to a wire, then connect this wire to a primary input with the same name
+</span>    <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> not generated from the AST.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span>
+      <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_p'>p</span> <span class='op'>&lt;=</span> <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1060,30 +1060,26 @@
 146
 147
 148
-149
-150
-151</pre>
+149</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wiringCompOutput'>wiringCompOutput</span> <span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_wire_name'>wire_name</span>
-  <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='comment'># p is not connected to a primary port
-</span>    <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='comment'># p is not connected to a wire
-</span>      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> not generated from the AST.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>else</span> <span class='comment'># p is connected to a wire (represented as a Buffer obj in the netlist)
-</span>      <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
-      <span class='id identifier rubyid_w'>w</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_p'>p</span> 
+  <span class='kw'>if</span> <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> not generated from the AST.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span> <span class='comment'># Wire the component output port to a primary outputs
+</span>      <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_p'>p</span>
     <span class='kw'>end</span>
-  <span class='kw'>else</span> <span class='comment'># p is connected to a primary port
-</span>    <span class='id identifier rubyid_sink'>sink</span> <span class='op'>=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
-    <span class='comment'># if sink.is_output?
-</span>    <span class='id identifier rubyid_sink'>sink</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_p'>p</span>
-    <span class='comment'># else
-</span>    <span class='comment'>#   # Should not be possible should raise an error
-</span>    <span class='comment'>#   raise &quot;Error: #{p.get_full_name} (a source) should not be connected to #{wire_name} (also a source).&quot;
-</span>    <span class='comment'># end
-</span>  <span class='kw'>end</span>
+  <span class='kw'>else</span> <span class='comment'># Wire the component output port to a wire, then connect this wire to a primary output with the same name
+</span>    <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> not generated from the AST.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span>
+      <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
+      <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_p'>p</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1105,8 +1101,6 @@
       <pre class="lines">
 
 
-100
-101
 102
 103
 104
@@ -1118,10 +1112,12 @@
 110
 111
 112
-113</pre>
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wiringStep'>wiringStep</span>
   <span class='ivar'>@wiring</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_instance_name'>instance_name</span><span class='comma'>,</span> <span class='id identifier rubyid_sub_h'>sub_h</span><span class='op'>|</span>
@@ -1147,7 +1143,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 17 18:01:26 2025 by
+  Generated on Tue Nov  4 15:19:50 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

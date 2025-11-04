@@ -105,44 +105,12 @@
 
 
 
-  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#components-instance_method" title="#components (instance method)">#<strong>components</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute components.</p>
-</div></span>
-  
-</li>
-
-    
-  </ul>
 
 
-
-  
+  <h2>Instance Attribute Summary</h2>
   
   <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="HT.html" title="Inserter::HT (class)">HT</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="HT.html#netlist-instance_method" title="Inserter::HT#netlist (method)">#netlist</a></span>, <span class='object_link'><a href="HT.html#payload_in-instance_method" title="Inserter::HT#payload_in (method)">#payload_in</a></span>, <span class='object_link'><a href="HT.html#propag_time-instance_method" title="Inserter::HT#propag_time (method)">#propag_time</a></span>, <span class='object_link'><a href="HT.html#triggers-instance_method" title="Inserter::HT#triggers (method)">#triggers</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="HT.html#components-instance_method" title="Inserter::HT#components (method)">#components</a></span>, <span class='object_link'><a href="HT.html#netlist-instance_method" title="Inserter::HT#netlist (method)">#netlist</a></span>, <span class='object_link'><a href="HT.html#payload_in-instance_method" title="Inserter::HT#payload_in (method)">#payload_in</a></span>, <span class='object_link'><a href="HT.html#propag_time-instance_method" title="Inserter::HT#propag_time (method)">#propag_time</a></span>, <span class='object_link'><a href="HT.html#triggers-instance_method" title="Inserter::HT#triggers (method)">#triggers</a></span></p>
 
 
   
@@ -288,14 +256,14 @@
       <pre class="lines">
 
 
+8
 9
 10
 11
-12
-13</pre>
+12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/cotd_s38417.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/cotd_s38417.rb', line 8</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
     <span class='comment'># * : For the moment the only parameters allowed are power of 2 numbers. This is faster to develop and easier for a start. It may evolve later to allow more possibilities.
@@ -308,54 +276,6 @@
 </div>
   
 </div>
-
-  <div id="instance_attr_details" class="attr_details">
-    <h2>Instance Attribute Details</h2>
-    
-      
-      <span id="components=-instance_method"></span>
-      <div class="method_details first">
-  <h3 class="signature first" id="components-instance_method">
-  
-    #<strong>components</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns the value of attribute components.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-7
-8
-9</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/cotd_s38417.rb', line 7</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_components'>components</span>
-  <span class='ivar'>@components</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -377,6 +297,7 @@
       <pre class="lines">
 
 
+14
 15
 16
 17
@@ -393,11 +314,10 @@
 28
 29
 30
-31
-32</pre>
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/cotd_s38417.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/cotd_s38417.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_netlist'>gen_netlist</span> 
     <span class='id identifier rubyid_gen_payload'>gen_payload</span>
@@ -437,16 +357,16 @@
       <pre class="lines">
 
 
+67
 68
 69
 70
 71
 72
-73
-74</pre>
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/cotd_s38417.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/cotd_s38417.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_payload'>gen_payload</span> 
     <span class='id identifier rubyid_generated_payload'>generated_payload</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Xor2.html" title="Netlist::Xor2 (class)">Xor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Xor2.html#initialize-instance_method" title="Netlist::Xor2#initialize (method)">new</a></span></span>
@@ -475,6 +395,7 @@
       <pre class="lines">
 
 
+33
 34
 35
 36
@@ -506,11 +427,10 @@
 62
 63
 64
-65
-66</pre>
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/cotd_s38417.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/cotd_s38417.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_triggers'>gen_triggers</span> 
     <span class='id identifier rubyid_new_gates'>new_gates</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/And2.html#initialize-instance_method" title="Netlist::And2#initialize (method)">new</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/And2.html#initialize-instance_method" title="Netlist::And2#initialize (method)">new</a></span></span><span class='comma'>,</span><span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nor2.html" title="Netlist::Nor2 (class)">Nor2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Nor2.html#initialize-instance_method" title="Netlist::Nor2#initialize (method)">new</a></span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Nand2.html" title="Netlist::Nand2 (class)">Nand2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Nand2.html#initialize-instance_method" title="Netlist::Nand2#initialize (method)">new</a></span></span><span class='rbracket'>]</span>
@@ -555,7 +475,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 17 18:01:24 2025 by
+  Generated on Tue Nov  4 15:19:46 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

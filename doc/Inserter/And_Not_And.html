@@ -105,44 +105,12 @@
 
 
 
-  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#components-instance_method" title="#components (instance method)">#<strong>components</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute components.</p>
-</div></span>
-  
-</li>
-
-    
-  </ul>
 
 
-
-  
+  <h2>Instance Attribute Summary</h2>
   
   <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="HT.html" title="Inserter::HT (class)">HT</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="HT.html#netlist-instance_method" title="Inserter::HT#netlist (method)">#netlist</a></span>, <span class='object_link'><a href="HT.html#payload_in-instance_method" title="Inserter::HT#payload_in (method)">#payload_in</a></span>, <span class='object_link'><a href="HT.html#propag_time-instance_method" title="Inserter::HT#propag_time (method)">#propag_time</a></span>, <span class='object_link'><a href="HT.html#triggers-instance_method" title="Inserter::HT#triggers (method)">#triggers</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="HT.html#components-instance_method" title="Inserter::HT#components (method)">#components</a></span>, <span class='object_link'><a href="HT.html#netlist-instance_method" title="Inserter::HT#netlist (method)">#netlist</a></span>, <span class='object_link'><a href="HT.html#payload_in-instance_method" title="Inserter::HT#payload_in (method)">#payload_in</a></span>, <span class='object_link'><a href="HT.html#propag_time-instance_method" title="Inserter::HT#propag_time (method)">#propag_time</a></span>, <span class='object_link'><a href="HT.html#triggers-instance_method" title="Inserter::HT#triggers (method)">#triggers</a></span></p>
 
 
   
@@ -310,6 +278,7 @@
       <pre class="lines">
 
 
+7
 8
 9
 10
@@ -317,16 +286,15 @@
 12
 13
 14
-15
-16</pre>
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 7</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span> <span class='op'>=</span> <span class='int'>4</span>
     <span class='comment'># * : For the moment the only parameters allowed are power of 2 numbers. This is faster to develop and easier for a start. It may evolve later to allow more possibilities.
 </span>    <span class='kw'>if</span> <span class='id identifier rubyid_po2?'>po2?</span><span class='lparen'>(</span><span class='id identifier rubyid_nb_trigger'>nb_trigger</span><span class='rparen'>)</span>
-        <span class='kw'>super</span> 
+        <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
         <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_netlist'>gen_netlist</span><span class='lparen'>(</span><span class='id identifier rubyid_nb_trigger'>nb_trigger</span><span class='rparen'>)</span>
     <span class='kw'>else</span> 
         <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : This parameter is not yet managed. Please use a power of 2 as the number of trigger signal.</span><span class='tstring_end'>&quot;</span></span>
@@ -338,54 +306,6 @@
 </div>
   
 </div>
-
-  <div id="instance_attr_details" class="attr_details">
-    <h2>Instance Attribute Details</h2>
-    
-      
-      <span id="components=-instance_method"></span>
-      <div class="method_details first">
-  <h3 class="signature first" id="components-instance_method">
-  
-    #<strong>components</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns the value of attribute components.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-6
-7
-8</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 6</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_components'>components</span>
-  <span class='ivar'>@components</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -407,6 +327,7 @@
       <pre class="lines">
 
 
+17
 18
 19
 20
@@ -423,11 +344,10 @@
 31
 32
 33
-34
-35</pre>
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_netlist'>gen_netlist</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span>
     <span class='id identifier rubyid_gen_payload'>gen_payload</span>
@@ -467,6 +387,7 @@
       <pre class="lines">
 
 
+103
 104
 105
 106
@@ -477,11 +398,10 @@
 111
 112
 113
-114
-115</pre>
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_payload'>gen_payload</span> 
     <span class='id identifier rubyid_generated_payload'>generated_payload</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/And2.html" title="Netlist::And2 (class)">And2</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/And2.html#initialize-instance_method" title="Netlist::And2#initialize (method)">new</a></span></span>
@@ -515,6 +435,7 @@
       <pre class="lines">
 
 
+36
 37
 38
 39
@@ -568,11 +489,10 @@
 87
 88
 89
-90
-91</pre>
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_triggers'>gen_triggers</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_nb_trigger'>nb_trigger</span><span class='period'>.</span><span class='id identifier rubyid_odd?'>odd?</span>
@@ -671,6 +591,7 @@
       <pre class="lines">
 
 
+92
 93
 94
 95
@@ -678,11 +599,10 @@
 97
 98
 99
-100
-101</pre>
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/and_not_and_ht.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_po2?'>po2?</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_n'>n</span> <span class='op'>&lt;=</span> <span class='int'>0</span>
@@ -703,7 +623,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 17 18:01:26 2025 by
+  Generated on Tue Nov  4 15:19:49 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

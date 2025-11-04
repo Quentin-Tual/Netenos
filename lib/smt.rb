@@ -1,0 +1,1 @@
+$SMT_KEYWORDS = ['(',')','not','and','or']

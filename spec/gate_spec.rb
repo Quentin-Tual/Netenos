@@ -57,3 +57,30 @@ RSpec.describe Netlist::Not do
             expect {subject << @out_port}.to raise_error
         end
 end
+
+RSpec.describe "Creating the Sky130_fd_sc_hd__xor2_2 PDK class" do 
+    subject(:pdk_ios) {JSON.parse(File.read($PDK_IOS_JSON))}
+    subject(:pdk_fun) {JSON.parse(File.read($PDK_FUN_JSON))}
+    subject(:class_name) {"Sky130_fd_sc_hd__xor2_2"}
+    subject(:create_class) {Netlist.create_pdk_class(class_name, pdk_fun, pdk_ios)}
+    subject(:expected_SMT_fun) {["(", "or", "(", "and", "A", "(", "not", "B", ")", ")", "(", "and", "(", "not", "A", ")", "B", ")", ")"]}
+
+    it 'does not raise error' do
+        expect{create_class}.not_to raise_error 
+    end
+
+    it 'creates the right amount of ios with valid netenos names' do 
+        g = create_class.new('test_gate')
+        expect(g.get_inputs.length).to eq(2)
+        expect(g.get_outputs.length).to eq(1)
+
+        expect(g.get_inputs[0].name).to eq('i0')
+        expect(g.get_inputs[1].name).to eq('i1')
+        expect(g.get_outputs[0].name).to eq('o0')
+    end
+
+    it 'stores the valid SMT_EXPR constant' do 
+        g = create_class.new('test_gate')
+        expect(g.class::SMT_EXPR).to eq(["(", "or", "(", "and", "i0", "(", "not", "i1", ")", ")", "(", "and", "(", "not", "i0", ")", "i1", ")", ")"])
+    end
+end

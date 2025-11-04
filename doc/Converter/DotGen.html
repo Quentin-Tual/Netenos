@@ -626,11 +626,6 @@
       <pre class="lines">
 
 
-97
-98
-99
-100
-101
 102
 103
 104
@@ -643,10 +638,15 @@
 111
 112
 113
-114</pre>
+114
+115
+116
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_foot'>foot</span> <span class='id identifier rubyid_circuit_name'>circuit_name</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span>
     <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_indent'>indent</span><span class='op'>=</span><span class='int'>0</span>
@@ -769,7 +769,12 @@
 88
 89
 90
-91</pre>
+91
+92
+93
+94
+95
+96</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 84</span>
@@ -778,9 +783,14 @@
     <span class='comment'># wireName = &quot;w#{source.get_dot_name}&quot;
 </span>    <span class='ivar'>@code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_get_dot_name'>get_dot_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>[shape=point];</span><span class='tstring_end'>&quot;</span></span>
     <span class='ivar'>@code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_get_dot_name'>get_dot_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> -&gt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_get_dot_name'>get_dot_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>[arrowhead=none]</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_get_sinks'>get_sinks</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sink'>sink</span><span class='op'>|</span>
-        <span class='id identifier rubyid_write_wiring'>write_wiring</span> <span class='id identifier rubyid_w'>w</span><span class='comma'>,</span> <span class='id identifier rubyid_sink'>sink</span>
-    <span class='rbrace'>}</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_get_sinks'>get_sinks</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: empty fanout for wire </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span>
+        <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_get_sinks'>get_sinks</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sink'>sink</span><span class='op'>|</span>
+            <span class='id identifier rubyid_write_wiring'>write_wiring</span> <span class='id identifier rubyid_w'>w</span><span class='comma'>,</span> <span class='id identifier rubyid_sink'>sink</span>
+        <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -850,12 +860,12 @@
       <pre class="lines">
 
 
-93
-94
-95</pre>
+98
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/dotgen.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_write_wiring'>write_wiring</span> <span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_sink'>sink</span>
     <span class='ivar'>@code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_get_dot_name'>get_dot_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> -&gt; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sink'>sink</span><span class='period'>.</span><span class='id identifier rubyid_get_dot_name'>get_dot_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span>
@@ -870,7 +880,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 17 18:01:23 2025 by
+  Generated on Tue Nov  4 15:19:44 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

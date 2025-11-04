@@ -8,7 +8,7 @@ module AtetaAddOn
     class Ateta 
         attr_reader :unobservables, :observables
 
-        def initialize initCirc, payloadDelay, delayModel, netlist_format: "sexp"
+        def initialize initCirc, payloadDelay, delayModel
             @initCirc = initCirc
             @payloadDelay = payloadDelay
             @delayModel = delayModel
@@ -20,7 +20,6 @@ module AtetaAddOn
 
             @unobservables = []
             @observables = []
-            @netlist_format = netlist_format
             @memoizer = AtetaAddOn::AtetaMemoizer.new
         end
 

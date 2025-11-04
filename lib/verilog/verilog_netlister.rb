@@ -6,7 +6,8 @@ module Verilog
     def initialize #, ignore_rise_fall = true
       @netlist=nil
       
-      @pdk = JSON.parse(File.read($PDK_JSON))# Récupérer les données dans le hash du PDK
+      @pdk_ios = JSON.parse(File.read($PDK_IOS_JSON))# Récupérer les données dans le hash du PDK
+      @pdk_fun = JSON.parse(File.read($PDK_FUN_JSON))
       @wiring = {}
       @sym_tab = {}
       @primary_io_wires = {}
@@ -44,7 +45,7 @@ module Verilog
     def visitInstance inst
       stdcell_name = visitIdent(inst.module_name)
       klassname = stdcell_name.capitalize
-      klass = Netlist.create_pdk_class(klassname, @pdk)
+      klass = Netlist.create_pdk_class(klassname, @pdk_fun, @pdk_ios)
       
       instance_name = visitIdent(inst.instance_name) 
       comp = @sym_tab[instance_name] = klass.new(instance_name, @netlist)
@@ -89,10 +90,10 @@ module Verilog
     end
 
     def equivalentPortName stdcell_name, inst_name, port_name
-      if @pdk[stdcell_name]["inputs"].include? port_name
-        "i#{@pdk[stdcell_name]["inputs"].index(port_name)}"
-      elsif @pdk[stdcell_name]["outputs"].include? port_name
-        "o#{@pdk[stdcell_name]["outputs"].index(port_name)}"
+      if @pdk_ios[stdcell_name]["inputs"].include? port_name
+        "i#{@pdk_ios[stdcell_name]["inputs"].index(port_name)}"
+      elsif @pdk_ios[stdcell_name]["outputs"].include? port_name
+        "o#{@pdk_ios[stdcell_name]["outputs"].index(port_name)}"
       else
         raise "Error: No port #{port_name} in #{stdcell_name} standard cell. Be assured to load the pdk JSON."
       end

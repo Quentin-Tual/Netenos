@@ -10,6 +10,12 @@
 - [x] Make PDK_JSON a Netenos global constant instead of Verilog and SDF modules Const only
 - [x] Add a method to add Wire class objects for all interconnections (when missing) 
 - [x] Write and validate an RSpec test for HT insertion on a Verilog parsed netlist annotated with a SDF file
+- [ ] Create a Bexpr module with operators and operand classes to modelize boolean expressions
+- [ ] Use these Bexpr objects to refactor the creation of SMT expressions, a simple visitor would be clever, the SMT_EXPR constant of Gate class objects would be replaced by a Bexpr object linked to each others as a tree 
+- [ ] Develop a tool to extract the SMT boolean expression from PDK SCLs
+- [ ] Possible to use z3-ruby interface to speed up ATETA by x1.4
+- [ ] Also possible to avoid deep-copy by not inserting the buffer but just add its delay when the insertion location is encountered during generation of the boolean expressions
+- [ ] Write and validate an RSpec test for ATETA on a netlist containing Wire class objects
 - [ ] Write and validate an RSpec test for ATETA on a Verilog parsed netlist annotated with a SDF file
 - [ ] Modularize Circuit class file, dividing it into different files for different categories, easier to read  
 - [ ] Update BLIF parser to accept PDK cells like the Verilog parser

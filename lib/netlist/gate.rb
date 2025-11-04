@@ -45,18 +45,51 @@ module Netlist
         klass
     end
 
-    def self.create_pdk_class(class_name, pdk)
-        unless Netlist.class_exists?("Netlist::#{class_name}")
-        Object.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-            class #{class_name} < #{Netlist::Gate}
-                def initialize( name,#{' '}
-                                partof = nil,#{' '}
-                                nb_inputs=#{pdk[class_name.downcase]['inputs'].length},
-                                nb_outputs=#{pdk[class_name.downcase]['outputs'].length})
-                super
+    def self.get_SMT_exp_from_pdk class_name, pdk_fun, pdk_ios
+        if pdk_ios[class_name].nil?
+          raise "Error: #{class_name} not found in #{$PDK_IOS_JSON}"
+        end
+
+        if pdk_fun[class_name].nil?
+          raise "Error: #{class_name} not found in #{$PDK_FUN_JSON}"
+        end
+
+        if pdk_ios[class_name]['outputs'].length != 1
+          raise "Error: Standard cells with more or less than 1 output are not handled."
+        end
+
+        lib_fun = pdk_fun[class_name].values.first.dup
+        lib_fun_ast = Liberty::FunParser.new.parse(lib_fun)
+        smt_fun = lib_fun_ast.accept(Bexp::SMTConverter.new)
+        # Replace all input names by there netenos equivalent
+        smt_fun.map! do |word| 
+            if $SMT_KEYWORDS.include? word
+                word
+            else # Port name
+                if pdk_ios[class_name]['inputs'].include? word
+                    "i#{pdk_ios[class_name]['inputs'].index(word)}"
+                elsif pdk_ios[class_name]['outputs'].include? word
+                    "o#{pdk_ios[class_name]['outputs'].index(word)}"
+                else 
+                    raise "Error: Port name not found for this std cell."
                 end
             end
-        RUBY
+        end
+    end
+
+    def self.create_pdk_class(class_name, pdk_fun, pdk_ios)
+        unless Netlist.class_exists?(class_name)
+            Object.class_eval <<-RUBY, __FILE__, __LINE__ + 1
+                class #{class_name} < #{Netlist::Gate}
+                    SMT_EXPR=#{get_SMT_exp_from_pdk(class_name.downcase, pdk_fun,pdk_ios)}
+                    def initialize( name,
+                                    partof = nil,
+                                    nb_inputs=#{pdk_ios[class_name.downcase]['inputs'].length},
+                                    nb_outputs=#{pdk_ios[class_name.downcase]['outputs'].length})
+                    super
+                    end
+                end
+            RUBY
         end
         Netlist.const_get(class_name)
     end

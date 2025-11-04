@@ -731,6 +731,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#insert_sky130_buffer_at-instance_method" title="#insert_sky130_buffer_at (instance method)">#<strong>insert_sky130_buffer_at</strong>(loc, delay, scl = &quot;sky130_fd_sc_hd&quot;)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#inside_out-instance_method" title="#inside_out (instance method)">#<strong>inside_out</strong>(h)  &#x21d2; Object </a>
     
 
@@ -980,7 +1002,6 @@
       <pre class="lines">
 
 
-99
 100
 101
 102
@@ -1001,10 +1022,11 @@
 117
 118
 119
-120</pre>
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_netlist'>netlist</span><span class='comma'>,</span> <span class='id identifier rubyid_stages'>stages</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='id identifier rubyid_timings_h'>timings_h</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>delay_model:</span> <span class='symbol'>:int_multi</span><span class='comma'>,</span> <span class='label'>trigger_pool:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_netlist'>netlist</span>
@@ -1066,12 +1088,12 @@
       <pre class="lines">
 
 
-97
 98
-99</pre>
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_forbidden_locs'>forbidden_locs</span>
   <span class='ivar'>@forbidden_locs</span>
@@ -1109,12 +1131,12 @@
       <pre class="lines">
 
 
-97
 98
-99</pre>
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_forbidden_triggers'>forbidden_triggers</span>
   <span class='ivar'>@forbidden_triggers</span>
@@ -1152,12 +1174,12 @@
       <pre class="lines">
 
 
-97
 98
-99</pre>
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span>
   <span class='ivar'>@insertPoint</span>
@@ -1195,12 +1217,12 @@
       <pre class="lines">
 
 
-97
 98
-99</pre>
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stages'>stages</span>
   <span class='ivar'>@stages</span>
@@ -1238,12 +1260,12 @@
       <pre class="lines">
 
 
-97
 98
-99</pre>
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_trig'>trig</span>
   <span class='ivar'>@trig</span>
@@ -1281,12 +1303,12 @@
       <pre class="lines">
 
 
-97
 98
-99</pre>
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_trigger_pool'>trigger_pool</span>
   <span class='ivar'>@trigger_pool</span>
@@ -1318,7 +1340,6 @@
       <pre class="lines">
 
 
-122
 123
 124
 125
@@ -1327,10 +1348,11 @@
 128
 129
 130
-131</pre>
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_a_to_h'>a_to_h</span> <span class='id identifier rubyid_a'>a</span>
     <span class='comment'># * : Converts an array into a hash object
@@ -1362,7 +1384,6 @@
       <pre class="lines">
 
 
-364
 365
 366
 367
@@ -1371,10 +1392,11 @@
 370
 371
 372
-373</pre>
+373
+374</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 364</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 365</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_combination_length'>combination_length</span> <span class='id identifier rubyid_nb_elem'>nb_elem</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_values'>nb_values</span>
     <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='int'>1</span>
@@ -1406,7 +1428,6 @@
       <pre class="lines">
 
 
-393
 394
 395
 396
@@ -1414,10 +1435,11 @@
 398
 399
 400
-401</pre>
+401
+402</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 393</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 394</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_limited_sig_pool'>gen_limited_sig_pool</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span>
     <span class='id identifier rubyid_pool'>pool</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_sig_pool'>gen_sig_pool</span><span class='lparen'>(</span><span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='rparen'>)</span>
@@ -1448,7 +1470,6 @@
       <pre class="lines">
 
 
-403
 404
 405
 406
@@ -1466,10 +1487,11 @@
 418
 419
 420
-421</pre>
+421
+422</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 403</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 404</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_limited_trigger_pool'>gen_limited_trigger_pool</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span>
     <span class='id identifier rubyid_pool'>pool</span> <span class='op'>=</span> <span class='ivar'>@trigger_pool</span>
@@ -1510,7 +1532,6 @@
       <pre class="lines">
 
 
-347
 348
 349
 350
@@ -1525,10 +1546,11 @@
 359
 360
 361
-362</pre>
+362
+363</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 347</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 348</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_sig_pool'>gen_sig_pool</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span>
     <span class='id identifier rubyid_pool'>pool</span> <span class='op'>=</span> <span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
@@ -1566,19 +1588,19 @@
       <pre class="lines">
 
 
-714
-715
-716
-717
-718
-719
-720
-721
-722
-723</pre>
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 714</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 733</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_ht_delay'>get_ht_delay</span>
     <span class='kw'>if</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_triggers'>triggers</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1610,12 +1632,12 @@
       <pre class="lines">
 
 
-737
-738
-739</pre>
+756
+757
+758</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 737</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 756</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_ht_size'>get_ht_size</span> 
     <span class='kw'>return</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_components'>get_components</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
@@ -1640,12 +1662,12 @@
       <pre class="lines">
 
 
-733
-734
-735</pre>
+752
+753
+754</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 733</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 752</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_ht_stage'>get_ht_stage</span> 
     <span class='kw'>return</span> <span class='ivar'>@location</span> 
@@ -1670,7 +1692,6 @@
       <pre class="lines">
 
 
-274
 275
 276
 277
@@ -1679,10 +1700,11 @@
 280
 281
 282
-283</pre>
+283
+284</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 275</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_min_stage'>get_min_stage</span> <span class='id identifier rubyid_min_stage'>min_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_trigger_sig'>nb_trigger_sig</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_available_sig'>nb_available_sig</span> <span class='op'>=</span> <span class='int'>0</span>
     <span class='ivar'>@stages</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='lbracket'>[</span><span class='id identifier rubyid_min_stage'>min_stage</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_stage'>stage</span><span class='op'>|</span>
@@ -1714,12 +1736,12 @@
       <pre class="lines">
 
 
-729
-730
-731</pre>
+748
+749
+750</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 729</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 748</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_payload_cumulated_delay'>get_payload_cumulated_delay</span>
     <span class='kw'>return</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_netlist'>netlist</span><span class='period'>.</span><span class='id identifier rubyid_cumulated_propag_time'>cumulated_propag_time</span>
@@ -1744,12 +1766,12 @@
       <pre class="lines">
 
 
-725
-726
-727</pre>
+744
+745
+746</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 725</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 744</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_payload_delay'>get_payload_delay</span> 
     <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_payload_in'>get_payload_in</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_propag_time'>propag_time</span><span class='lbracket'>[</span><span class='ivar'>@delay_model</span><span class='rbracket'>]</span>
@@ -1774,7 +1796,6 @@
       <pre class="lines">
 
 
-375
 376
 377
 378
@@ -1790,10 +1811,11 @@
 388
 389
 390
-391</pre>
+391
+392</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 375</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 376</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_possible_values_for_limited_combination'>get_possible_values_for_limited_combination</span> <span class='id identifier rubyid_nb_elem'>nb_elem</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span>
     <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='id identifier rubyid_nb_elem'>nb_elem</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span>
@@ -1832,14 +1854,14 @@
       <pre class="lines">
 
 
-333
 334
 335
 336
-337</pre>
+337
+338</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 333</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 334</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_transi_poba'>get_transi_poba</span> <span class='id identifier rubyid_trig_list'>trig_list</span>
     <span class='id identifier rubyid_trig_list'>trig_list</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='op'>|</span>
@@ -1866,16 +1888,16 @@
       <pre class="lines">
 
 
-339
 340
 341
 342
 343
 344
-345</pre>
+345
+346</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 339</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 340</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_transi_proba_sig'>get_transi_proba_sig</span> <span class='id identifier rubyid_sig'>sig</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_sig'>sig</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Gate.html" title="Netlist::Gate (class)">Gate</a></span></span>
@@ -1916,7 +1938,6 @@
       <pre class="lines">
 
 
-162
 163
 164
 165
@@ -1933,10 +1954,11 @@
 176
 177
 178
-179</pre>
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 163</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_trigger_conditions'>get_trigger_conditions</span>
     <span class='id identifier rubyid_local_exp'>local_exp</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> 
@@ -1998,12 +2020,12 @@
       <pre class="lines">
 
 
-675
-676
-677</pre>
+694
+695
+696</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 675</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 694</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ht_is_inserted?'>ht_is_inserted?</span>
     <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_is_inserted?'>is_inserted?</span>
@@ -2028,25 +2050,6 @@
       <pre class="lines">
 
 
-679
-680
-681
-682
-683
-684
-685
-686
-687
-688
-689
-690
-691
-692
-693
-694
-695
-696
-697
 698
 699
 700
@@ -2061,10 +2064,29 @@
 709
 710
 711
-712</pre>
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 679</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 698</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert'>insert</span> <span class='id identifier rubyid_zone'>zone</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>random</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_loc'>loc</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span> <span class='op'>=</span> <span class='id identifier rubyid_select_location'>select_location</span><span class='lparen'>(</span><span class='id identifier rubyid_zone'>zone</span><span class='comma'>,</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_triggers_nb'>get_triggers_nb</span><span class='rparen'>)</span>
@@ -2120,25 +2142,6 @@
       <pre class="lines">
 
 
-616
-617
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
 635
 636
 637
@@ -2177,10 +2180,29 @@
 670
 671
 672
-673</pre>
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 616</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 635</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert2'>insert2</span> <span class='id identifier rubyid_zone'>zone</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>random</span><span class='tstring_end'>&quot;</span></span>
 
@@ -2260,7 +2282,6 @@
       <pre class="lines">
 
 
-551
 552
 553
 554
@@ -2281,10 +2302,11 @@
 569
 570
 571
-572</pre>
+572
+573</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 551</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 552</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert_buffer_at'>insert_buffer_at</span> <span class='id identifier rubyid_loc'>loc</span><span class='comma'>,</span> <span class='id identifier rubyid_delay'>delay</span> <span class='op'>=</span> <span class='int'>1</span>
     <span class='ivar'>@ht</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Inserter.html" title="Inserter (module)">Inserter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Buf.html" title="Inserter::Buf (class)">Buf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Buf.html#initialize-instance_method" title="Inserter::Buf#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_delay'>delay</span><span class='rparen'>)</span>
@@ -2314,6 +2336,64 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="insert_sky130_buffer_at-instance_method">
+  
+    #<strong>insert_sky130_buffer_at</strong>(loc, delay, scl = &quot;sky130_fd_sc_hd&quot;)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 575</span>
+
+<span class='kw'>def</span>  <span class='id identifier rubyid_insert_sky130_buffer_at'>insert_sky130_buffer_at</span> <span class='id identifier rubyid_loc'>loc</span><span class='comma'>,</span> <span class='id identifier rubyid_delay'>delay</span><span class='comma'>,</span> <span class='id identifier rubyid_scl'>scl</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>sky130_fd_sc_hd</span><span class='tstring_end'>&quot;</span></span>
+    <span class='ivar'>@ht</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Inserter.html" title="Inserter (module)">Inserter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Sky130_Tbuffer.html" title="Inserter::Sky130_Tbuffer (class)">Sky130_Tbuffer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Sky130_Tbuffer.html#initialize-instance_method" title="Inserter::Sky130_Tbuffer#initialize (method)">new</a></span></span> <span class='id identifier rubyid_delay'>delay</span><span class='comma'>,</span> <span class='id identifier rubyid_scl'>scl</span>
+
+    <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span>
+    <span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_unplug2'>unplug2</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span>
+    <span class='id identifier rubyid_loc'>loc</span> <span class='op'>&lt;=</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_payload_out'>get_payload_out</span>
+    <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_get_payload_in'>get_payload_in</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_source'>source</span>
+
+    <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span>
+        <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_tag'>tag</span> <span class='op'>=</span> <span class='symbol'>:ht</span>
+        <span class='ivar'>@netlist</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_c'>c</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: HT </span><span class='embexpr_beg'>#{</span><span class='ivar'>@ht</span><span class='embexpr_end'>}</span><span class='tstring_content'> not correctly inserted</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@ht</span><span class='period'>.</span><span class='id identifier rubyid_is_inserted?'>is_inserted?</span>
+
+    <span class='kw'>return</span> <span class='ivar'>@netlist</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="inside_out-instance_method">
   
     #<strong>inside_out</strong>(h)  &#x21d2; <tt>Object</tt> 
@@ -2328,15 +2408,15 @@
       <pre class="lines">
 
 
-133
 134
 135
 136
 137
-138</pre>
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inside_out'>inside_out</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span>
     <span class='comment'># * : Inverts a hash, using the values as keys and the keys as values
@@ -2364,7 +2444,6 @@
       <pre class="lines">
 
 
-181
 182
 183
 184
@@ -2393,10 +2472,11 @@
 207
 208
 209
-210</pre>
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_ht'>select_ht</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_trigger_sig'>nb_trigger_sig</span> <span class='op'>=</span> <span class='int'>4</span>
     <span class='comment'># * Instantiate and load a HT, method insert allows to inject it into the loaded netlist
@@ -2448,7 +2528,6 @@
       <pre class="lines">
 
 
-285
 286
 287
 288
@@ -2494,10 +2573,11 @@
 328
 329
 330
-331</pre>
+331
+332</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 285</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 286</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_location'>select_location</span> <span class='id identifier rubyid_zone'>zone</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_trigger_sig'>nb_trigger_sig</span>
     <span class='kw'>case</span> <span class='id identifier rubyid_zone'>zone</span>
@@ -2566,7 +2646,6 @@
       <pre class="lines">
 
 
-212
 213
 214
 215
@@ -2626,10 +2705,11 @@
 269
 270
 271
-272</pre>
+272
+273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 213</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_location2'>select_location2</span> <span class='id identifier rubyid_zone'>zone</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_trigger_sig'>nb_trigger_sig</span>
     <span class='kw'>case</span> <span class='id identifier rubyid_zone'>zone</span>
@@ -2712,7 +2792,6 @@
       <pre class="lines">
 
 
-423
 424
 425
 426
@@ -2727,10 +2806,11 @@
 435
 436
 437
-438</pre>
+438
+439</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 423</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 424</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_triggers_limited'>select_triggers_limited</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span> <span class='op'>=</span> <span class='int'>1000000</span>
     <span class='id identifier rubyid_pool'>pool</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_limited_trigger_pool'>gen_limited_trigger_pool</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_max_combination'>max_combination</span><span class='rparen'>)</span>
@@ -2768,7 +2848,6 @@
       <pre class="lines">
 
 
-516
 517
 518
 519
@@ -2801,10 +2880,11 @@
 546
 547
 548
-549</pre>
+549
+550</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 516</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 517</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_triggers_sig'>select_triggers_sig</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span>
     <span class='comment'># * : Constituting a pool of components sources in which we can pick.  
@@ -2860,7 +2940,6 @@
       <pre class="lines">
 
 
-440
 441
 442
 443
@@ -2934,10 +3013,11 @@
 511
 512
 513
-514</pre>
+514
+515</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 440</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 441</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_select_triggers_sig2'>select_triggers_sig2</span> <span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_max_stage'>max_stage</span><span class='comma'>,</span> <span class='id identifier rubyid_max_delay'>max_delay</span>
     <span class='comment'># * : Constituting a pool of components sources in which we can pick.  
@@ -3034,25 +3114,6 @@
       <pre class="lines">
 
 
-574
-575
-576
-577
-578
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589
-590
-591
-592
 593
 594
 595
@@ -3074,10 +3135,29 @@
 611
 612
 613
-614</pre>
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 574</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 593</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_simple_insert'>simple_insert</span>
     <span class='id identifier rubyid_slack_h'>slack_h</span> <span class='op'>=</span> <span class='ivar'>@netlist</span><span class='period'>.</span><span class='id identifier rubyid_get_slack_hash'>get_slack_hash</span>
@@ -3140,17 +3220,17 @@
       <pre class="lines">
 
 
-152
 153
 154
 155
 156
 157
 158
-159</pre>
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_trigger_pool_2_name'>trigger_pool_2_name</span>
 
@@ -3180,7 +3260,6 @@
       <pre class="lines">
 
 
-140
 141
 142
 143
@@ -3190,10 +3269,11 @@
 147
 148
 149
-150</pre>
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/tamper.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_trigger_pool_2_obj'>trigger_pool_2_obj</span> <span class='id identifier rubyid_trigger_pool'>trigger_pool</span>
     <span class='id identifier rubyid_trigger_pool'>trigger_pool</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name_list'>name_list</span><span class='op'>|</span>
@@ -3216,7 +3296,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 17 18:01:23 2025 by
+  Generated on Tue Nov  4 15:19:43 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>
