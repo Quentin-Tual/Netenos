@@ -125,8 +125,16 @@ module Verilog
         if @sym_tab[wire_name].nil?
           raise "Error: #{wire_name} not generated from the AST."
         else
-          @primary_io_wires[wire_name] <= @sym_tab[wire_name]
-          p <= @primary_io_wires[wire_name]
+          if @sym_tab[wire_name].is_input?
+            @primary_io_wires[wire_name] <= @sym_tab[wire_name]
+            p <= @primary_io_wires[wire_name]
+          elsif @sym_tab[wire_name].is_output?
+            @sym_tab[wire_name] <= @primary_io_wires[wire_name]
+            p <= @primary_io_wires[wire_name]
+          else
+            raise "Error: Internal error, unexpected state reached."
+          end
+          
         end
       end
     end

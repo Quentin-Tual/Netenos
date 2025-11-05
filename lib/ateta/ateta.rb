@@ -90,8 +90,14 @@ module AtetaAddOn
 
             precedenceGrid = @altCirc.get_netlist_precedence_grid
             timings_h = @altCirc.get_timings_hash(@delayModel)
-            tamperer = Inserter::Tamperer.new(@altCirc, precedenceGrid, timings_h)
-            tamperer.insert_buffer_at(insertPoint, @payloadDelay)
+            tamperer = Inserter::Tamperer.new(@altCirc, precedenceGrid, timings_h, @delayModel)
+            if @altCirc.components.all?{|g| g.is_a? Netlist::STDCell}
+                tamperer.insert_sky130_buffer_at(insertPoint,@payloadDelay)
+            elsif @altCirc.components.none?{|g| g.is_a? Netlist::STDCell}
+                tamperer.insert_buffer_at(insertPoint, @payloadDelay)
+            else
+                raise "Error: Non homogeneous circuit encountered, expected all components to be STDCell class objects or GTECH Gate class objects."
+            end
         end
 
         def get_cone_outputs insertPointName

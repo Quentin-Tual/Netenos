@@ -2,11 +2,12 @@ require_relative '../ht'
 
 module Inserter
   class Sky130_Tbuffer < HT
-    def initialize delay, scl
+    def initialize delay, delay_model, scl
       super()
       @stdcell = "#{scl}__dlygate4sd1_1" # CHECK if ok  
       # Should act as a gate with a identity function
       @delay=delay
+      @delay_model = delay_model
       @netlist = gen_netlist
     end
 
@@ -18,7 +19,7 @@ module Inserter
       klass = Netlist.create_pdk_class(klassname, pdk_fun, pdk_ios)
       # Instanciate the buffer 
       payload = klass.new("HTpayload")
-      payload.propag_time = @delay
+      payload.propag_time = {@delay_model => @delay}
       # Set payload_out 
       @payload_out = payload.get_free_output
       # Set payload_in

@@ -1,1 +1,1 @@
-$SMT_KEYWORDS = ['(',')','not','and','or']
+$SMT_KEYWORDS = Set.new(['(',')','not','and','or'])

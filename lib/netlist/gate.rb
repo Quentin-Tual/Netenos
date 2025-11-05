@@ -80,7 +80,7 @@ module Netlist
     def self.create_pdk_class(class_name, pdk_fun, pdk_ios)
         unless Netlist.class_exists?(class_name)
             Object.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-                class #{class_name} < #{Netlist::Gate}
+                class #{class_name} < #{Netlist::STDCell}
                     SMT_EXPR=#{get_SMT_exp_from_pdk(class_name.downcase, pdk_fun,pdk_ios)}
                     def initialize( name,
                                     partof = nil,
@@ -281,6 +281,7 @@ module Netlist
             @source_gates = nil
         end
     end
+    class STDCell < Gate; end;
 
     class And < Gate 
         SMT_EXPR  = ["(and",")"]

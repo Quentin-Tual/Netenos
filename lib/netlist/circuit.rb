@@ -528,6 +528,10 @@ module Netlist
             return not(port_name.split($FULL_PORT_NAME_SEP).length > 1)
         end
 
+        def is_wire_name? sig_name
+            !get_wire_named(sig_name).nil?
+        end
+
         def save_as path, type="marshal"
             if !path.nil?
                 if path[-1] == "/"

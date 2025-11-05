@@ -21,12 +21,12 @@ RSpec.describe Inserter::Tamperer do
   context "Using Sky130_Tbuffer HT to tamper" do 
     subject(:alt_nl) {
       to_alter_nl = NETLIST.deep_copy
-      attacker = Inserter::Tamperer.new(to_alter_nl,precedence_grid,timings_h,delay_model: DELAY_MODEL)
+      attacker = Inserter::Tamperer.new(to_alter_nl,precedence_grid,timings_h, DELAY_MODEL)
       min_delay = to_alter_nl.get_comp_min_delay(DELAY_MODEL)
       insertion_points = to_alter_nl.get_insertion_points(min_delay)
       loc = insertion_points.first
-      delay_h = {sdf: min_delay}
-      attacker.insert_sky130_buffer_at(loc, delay_h).add_wires
+      # delay_h = {sdf: min_delay}
+      attacker.insert_sky130_buffer_at(loc, min_delay).add_wires
       to_alter_nl
     }
   

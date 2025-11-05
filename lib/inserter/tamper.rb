@@ -97,7 +97,7 @@ module Inserter
     class Tamperer
         attr_accessor :stages, :forbidden_locs, :forbidden_triggers, :trig, :insertPoint, :trigger_pool
 
-        def initialize netlist, stages = {}, timings_h = {}, delay_model: :int_multi, trigger_pool: []
+        def initialize netlist, stages = {}, timings_h = {}, delay_model, trigger_pool: []
             @netlist = netlist
             # @stages = stages
             @timings_h = timings_h
@@ -573,7 +573,7 @@ module Inserter
         end
 
         def  insert_sky130_buffer_at loc, delay, scl = "sky130_fd_sc_hd"
-            @ht = Inserter::Sky130_Tbuffer.new delay, scl
+            @ht = Inserter::Sky130_Tbuffer.new delay, @delay_model, scl
 
             source = loc.get_source
             loc.unplug2 source.get_full_name
