@@ -7,7 +7,7 @@ require_relative "../lib/netenos.rb"
 
 
 # $CIRC_CARAC = [8, 4, 15, [:even, 0.70]]
-$DELAY_MODEL = :one
+$DELAY_MODEL = :int_multi
 $HT_DELAY = 1
 $FREQ = "Infinity"
 $COMPILER = :ghdl

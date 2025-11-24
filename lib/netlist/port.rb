@@ -96,6 +96,14 @@ module Netlist
             end
         end
 
+        def get_pdk_name
+            if !partof.nil? and partof.is_a? STDCell
+                return "#{partof.name}#{$FULL_PORT_NAME_SEP}#{partof.scl_ios[@name]}"
+            else
+                raise "Error: no PDK name for a port in an object which is not a STDCell class object."
+            end
+        end
+
         def get_source_gates
             source = self.get_source 
             

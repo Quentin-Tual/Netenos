@@ -629,6 +629,8 @@ module Inserter
             @netlist.clear_cumulated_propag_times
             @netlist.get_exact_crit_path_length(@delay_model)
 
+            puts "INFO: Trojan inserted on #{attacked_sig.get_full_name}" #DEBUG
+
             return @netlist
         end
 

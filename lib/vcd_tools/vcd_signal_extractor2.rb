@@ -122,6 +122,43 @@ module VCD
             return {    "output_traces" => @output_traces, 
                         "id_tab" => @id_tab }
         end
+
+        def trace2arraytrace trace, clk_period
+            last_event_date = Hash.new()
+            ArrayTrace.new(trace["id_tab"].values, clk_period).tap do |a_trace|
+                a_trace.signal_names.each{|s| last_event_date[s]=0}
+                # Avoid first event, considering all signals to be initialized to 0
+                # Avoid last element being [:eof] to signal the end of the sequence
+                trace['output_traces'][1...-1].each do |events|
+                    instant = events[0]
+                    events[1..].each do |sig_val|
+                        sig = sig_val[0...-1]
+                        val = sig_val[-1]
+                        repeat = instant - last_event_date[sig] - 1
+                        
+                        a_trace.repeat_last_value(sig, repeat)
+                        a_trace.add(val,sig)
+
+                        last_event_date[sig] = instant
+                    end
+                end
+
+                last_timestamp = trace['output_traces'][-1][0]
+                # Calculer le nombre de cycles COMPLETS calculés
+                nb_cycles = (last_timestamp / clk_period.to_f).ceil
+                # Calculer le dernier instant de la simulation (!= dernier timestamp)
+                sim_end_timestamp = nb_cycles * clk_period 
+                # Ajouter des valeurs pour le temps nécessaire sur chaque signal afin que la longueur de chaque trace soit exactement le nombre de cycles simulés
+                a_trace.signal_names.each do |sig|
+                    repeat = sim_end_timestamp - last_event_date[sig] - 1
+                    a_trace.repeat_last_value(sig, repeat)
+                end
+
+                a_trace.sort
+
+                raise "Error: Trace not valid" unless a_trace.is_valid?
+            end
+        end
         
         # * : Start the extraction, kind of the FSM controler
         def extract path, compiler, signals = :outputs_only
@@ -197,12 +234,13 @@ module VCD
         end
 
         def get_last_timestamp path
+            `mkdir /tmp/netenos` unless Dir.exist?('/tmp/netenos')
             
-            `tail -n 100000 #{path} > obj/tmp.vcd`
+            `tail -n 100000 #{path} > /tmp/netenos/tmp.vcd`
 
-            File.foreach("obj/tmp.vcd").reverse_each do |line|
+            File.foreach("/tmp/netenos/tmp.vcd").reverse_each do |line|
                 if line[0] == '#'
-                    `rm obj/tmp.vcd`
+                    `rm /tmp/netenos/tmp.vcd`
                     return line.delete_prefix('#').to_i
                 end 
             end

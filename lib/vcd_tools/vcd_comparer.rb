@@ -397,7 +397,7 @@ module VCD
                 raise "Error: 'disp_index' values comparison impossible\n -> #{disp_index}"
             end
 
-            # * Return a correlation score, here it is the mean of cross_correlation of each signal 
+            # * Return a correlation score, here it is the mean of cross_correlation of each signal
             corr_score = 0
             corr_by_sig[best_tau].keys.each do |sig|
                 corr_score += corr_by_sig[best_tau][sig]

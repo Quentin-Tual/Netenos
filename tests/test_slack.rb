@@ -26,9 +26,9 @@ class Test_computeStim
     end
     
     def run
-        # load_blif("../xor5.blif")
+        load_blif("../xor5.blif")
         # gen_rand_circ
-        load_marshal("../xor5_wire.msl")
+        # load_marshal("../xor5_wire.msl")
         @circ.getNetlistInformations($DELAY_MODEL)
         Converter::DotGen.new.dot @circ, "./test.dot"
         slack_h = @circ.get_slack_hash

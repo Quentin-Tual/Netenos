@@ -21,6 +21,8 @@ module AtetaAddOn
             @unobservables = []
             @observables = []
             @memoizer = AtetaAddOn::AtetaMemoizer.new
+
+            `mkdir htpg_smts` if !File.exist?('htpg_smts') 
         end
 
         def generate_stim forbiddenVectors = []
@@ -42,7 +44,7 @@ module AtetaAddOn
                 # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
                 downstreamOuputs.each do |targetedOutputName|
                     # Appliquer Ateta_sat
-                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors, @memoizer)
+                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors, @memoizer, @payload_delay)
                     result = solver.run
                     # Stocker les couples de test générés dans un tableau
                     if result.nil? 
@@ -74,6 +76,59 @@ module AtetaAddOn
 
             return res
         end
+
+        def generate_glitch_stim forbiddenVectors = []
+            puts "[+] Generating stim for #{@initCirc.name}, #{@insertionPoints.length} insertion points to go." if $VERBOSE
+            count = 0 if $VERBOSE
+
+            @solutions = Hash.new { |h, k| h[k] = Hash.new}
+            # @vec_list = []
+            # Pour chaque point d'insertion dans le circuit initial
+            @insertionPoints.each do |insertPointName|
+                if insertPointName.nil?
+                    raise "Error: 'nil' insert point name encountered."
+                end
+                puts " |-- #{count += 1}/#{@insertionPoints.length} insert point." if $VERBOSE
+                # Créer une version altérée du circuit initial
+                downstreamOuputs = get_cone_outputs(insertPointName)
+                getAlteredCircuit(insertPointName)
+                solution_found = false
+                # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
+                downstreamOuputs.each do |targetedOutputName|
+                    # Appliquer Ateta_sat
+                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors, @memoizer, @payloadDelay)
+                    result = solver.runGlitch
+                    # Stocker les couples de test générés dans un tableau
+                    if result.nil? 
+                        next
+                    else
+                        solution_found = true
+                        # ! Stocker le nom et non l'objet (insertPoint ET targetedOutput)
+                        @solutions[insertPointName][targetedOutputName] = result
+                        @observables << insertPointName # ! Stocker le nom et non l'objet
+                        break
+                    end
+                end
+
+                unless solution_found
+                    @unobservables << insertPointName
+                end
+            end
+            
+            # Renvoyer les vecteurs de test générés
+
+            res = @solutions.values.collect{|h| h.values}.flatten
+
+            fvSet = Set.new(forbiddenVectors)
+            res.each do |v|
+                if fvSet.include? v
+                    raise "Error: Forbidden Vector generated."
+                end
+            end
+
+            return res
+        end
+
 
         def getAlteredCircuit insertPointName
             @altCirc = @initCirc.deep_copy
@@ -116,7 +171,13 @@ module AtetaAddOn
             next_gates = nil
 
             if insertPoint.instance_of? Netlist::Port and insertPoint.is_global?
-                next_gates = insertPoint.get_sink_gates
+                if insertPoint.is_input?
+                    next_gates = insertPoint.get_sink_gates
+                elsif insertPoint.is_output?
+                    return [insertPoint.get_full_name]
+                else 
+                    raise "Error: Internal error, unexpected state reached"
+                end
             else
                 next_gates = insertPoint.partof.get_sink_gates
             end

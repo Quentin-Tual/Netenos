@@ -9,19 +9,19 @@ Gem::Specification.new do |spec|
   spec.license     = 'GPL-3.0-only'
 
   spec.bindir = 'bin'
-  spec.files = Dir['**/*.rb'] #Dir['lib/**/*.rb'] + Dir['bin/*'] + Dir['doc/*'] + Dir['lib/*.rb'] + Dir['Hyle/**/*.rb'] + Dir['Hyle/*.rb']
+  spec.files = Dir['**/*.rb'] 
   spec.files += Dir['[A-Z]*']
   spec.files += Dir['lib/converter/**/*.vhdl']
   spec.files += Dir['lib/converter/**/*.erb']
-  # spec.files += Dir['lib/converter/tb_template3.vhdl']
-  # spec.files += Dir['lib/converter/tb_comp_template.vhdl']
-  # spec.files += Dir['lib/converter/tb_detect_template.vhdl']
   spec.files += Dir['lib/converter/gtech.genlib']
-  # spec.require_paths = ['Hyle']
-  # spec.add_runtime_dependency 'Hyle', '~> 0.1.0'
+  spec.files += Dir['lib/*.json']
+
   spec.add_runtime_dependency 'oj', '>= 3.0.0'
   spec.add_runtime_dependency 'sxp'
+  spec.add_runtime_dependency 'json'
+  spec.add_runtime_dependency 'pycall'
+  spec.add_runtime_dependency 'fileutils'
 
-  # spec.add_development_dependency 'Hyle'
+  spec.add_development_dependency 'rspec'
 end
   

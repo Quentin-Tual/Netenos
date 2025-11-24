@@ -105,7 +105,9 @@ module Netlist
         def get_insertion_points payload_delay
             # * Returns a list of gate which outputs has a slack greater than the payload delay
             slack_h = get_slack_hash
-            return slack_h.select{|slack, nodes| slack >= payload_delay}.values.flatten.select{|node| !(node.instance_of? Netlist::Port and node.is_global?)}
+            return slack_h.select{|slack, nodes| slack >= payload_delay}.values.flatten.select{|node| 
+                !(node.instance_of? Netlist::Port and node.is_global? and node.is_input?)
+            }
         end
 
         def get_comp_avg_delay delay_model
@@ -233,7 +235,7 @@ module Netlist
                 source = p_out.get_source
                 if source.is_a? Netlist::Port and source.is_global?
                     source.cumulated_propag_time
-                elsif source.is_a? Netlist::Wire
+                elsif source.instance_of? Netlist::Wire
                     source.cumulated_propag_time
                 else
                     source.partof.cumulated_propag_time
@@ -242,6 +244,8 @@ module Netlist
 
             if @crit_path_length.nil?
                 raise "Error: Nil critical path computed. Please verify circuit structure."
+            elsif @crit_path_length == 0
+                raise "Error: Critical path computed as 0. Please verify."
             end
 
             return @crit_path_length
@@ -705,6 +709,12 @@ module Netlist
             sink.fanin = nil
             sink <= source
           end
+        end
+
+        def analyse delay_model
+            getNetlistInformations(delay_model)
+            get_timings_hash(delay_model)
+            get_slack_hash
         end
 
         def valid?

@@ -10,13 +10,17 @@
 - [x] Make PDK_JSON a Netenos global constant instead of Verilog and SDF modules Const only
 - [x] Add a method to add Wire class objects for all interconnections (when missing) 
 - [x] Write and validate an RSpec test for HT insertion on a Verilog parsed netlist annotated with a SDF file
-- [ ] Create a Bexpr module with operators and operand classes to modelize boolean expressions
-- [ ] Use these Bexpr objects to refactor the creation of SMT expressions, a simple visitor would be clever, the SMT_EXPR constant of Gate class objects would be replaced by a Bexpr object linked to each others as a tree 
-- [ ] Develop a tool to extract the SMT boolean expression from PDK SCLs
+- [x] Create a Bexpr module with operators and operand classes to modelize boolean expressions
+- [x] Use these Bexpr objects to refactor the creation of SMT expressions, a simple visitor would be clever, the SMT_EXPR constant of Gate class objects would be replaced by a Bexpr object linked to each others as a tree 
+- [x] Develop a tool to extract the SMT boolean expression from PDK SCLs
+- [ ] Add `rspec` and `yard` rules in the makefile for gem update and git push 
+- [ ] Create a verilog testbench generator, add rspec tests for it
+- [ ] Check and refactor if necessary the VCD tooling, use rspec for it
+- [ ] Add commands and checkups to create a python venv with 'liberty-parser' module installed ? 
 - [ ] Possible to use z3-ruby interface to speed up ATETA by x1.4
 - [ ] Also possible to avoid deep-copy by not inserting the buffer but just add its delay when the insertion location is encountered during generation of the boolean expressions
-- [ ] Write and validate an RSpec test for ATETA on a netlist containing Wire class objects
-- [ ] Write and validate an RSpec test for ATETA on a Verilog parsed netlist annotated with a SDF file
+- [x] Write and validate an RSpec test for ATETA on a netlist containing Wire class objects
+- [x] Write and validate an RSpec test for ATETA on a Verilog parsed netlist annotated with a SDF file
 - [ ] Modularize Circuit class file, dividing it into different files for different categories, easier to read  
 - [ ] Update BLIF parser to accept PDK cells like the Verilog parser
 - [ ] Harmonize and simplify the `get_source[...]` and `get_sink[...]` functions, merge or explicitly name it after what it is used for.

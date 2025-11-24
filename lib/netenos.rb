@@ -5,6 +5,7 @@ $PDK_FUN_JSON=File.expand_path('sky130_functions.json', File.dirname(__FILE__))
 require 'erb'
 require 'json'
 
+require_relative 'util'
 require_relative 'code'
 require_relative 'visitor'
 require_relative "netlist.rb"

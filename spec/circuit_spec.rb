@@ -263,7 +263,13 @@ RSpec.describe Netlist::Circuit do
             expect{
                 uut = p2p_circ
                 uut.getNetlistInformations(delay_model)
+            }.not_to raise_error
+            uut = p2p_circ
+            uut.getNetlistInformations(delay_model)
+            expect(uut.crit_path_length).not_to eq(0)
+            expect{
                 uut.get_timings_hash(delay_model)
+                uut.get_dot_graph
                 uut.get_netlist_precedence_grid
                 uut.get_slack_hash
             }.not_to raise_error

@@ -8,13 +8,14 @@ module AtetaAddOn
         # !     - parsing des résultats de script smtlib
         # !     - conversion des résultats de script en couple de vecteurs de test
 
-        def initialize initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer
+        def initialize initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer, payload_delay
             @initCirc = initCirc
             @altCirc = altCirc
             @insertPointName = insertPointName
             @targetedOutputName = targetedOutputName
             @delayModel = delayModel
             @forbiddenVectors = forbiddenVectors
+            @payload_delay = payload_delay
 
             if memoizer.exists?(targetedOutputName)
                 @initExprExtractor = memoizer.get_back(targetedOutputName)
@@ -53,10 +54,9 @@ module AtetaAddOn
             oldestInstant = var_h.values.collect{|e| e.keys}.flatten.uniq.sort_by{|x| x.to_i}[0]
             # ! What if the the transition instant is not the oldest one ?
             # ! We miss a lot of solutions.
-            # ! We wwant a transition instant before which values won't change from an instant to the other, and after which the values won't change anymore.
+            # ! We want a transition instant before which values won't change from an instant to the other, and after which the values won't change anymore.
 
             var_h.each do |input_name, sub_h|
-                # TODO :    Add an equality between all other instants than the first
                 if sub_h.length > 1 # No need if there is two elements or less
                     sub_h.to_a.sort_by{|a| a[0].to_i}.each_cons(2) do |prev, curr|
                         unless prev[0] == oldestInstant
@@ -87,6 +87,29 @@ module AtetaAddOn
             return constraints
         end
 
+        def genVarConstrFor t
+            constraints = []
+            # signals, instants = getAllSigAndInstants
+
+            transition_index = @instants.index(t)
+
+            # TODO : Pour chaque instant de 0 à t-1 (each_cons do |t1, t2|)
+            @instants[0...transition_index].each_cons(2) do |t1, t2|
+                @signals.each do |s|
+                    constraints << genVarEqFor(s, t1, t2)
+                end
+            end
+
+            # TODO : Pour chaque instant >= à t
+            @instants[transition_index..].each_cons(2) do |t1, t2|
+                @signals.each do |s|
+                    constraints << genVarEqFor(s, t1, t2)
+                end
+            end
+
+            return "(define-fun c_#{t} () Bool (and #{constraints.join(" ")}))"
+        end
+
         def genVariablesAssertion 
             c_list = @instants[1...].collect{|t| "c_#{t}"}
             if c_list.length < 2
@@ -109,29 +132,6 @@ module AtetaAddOn
             # instants = (initInstants + altInstants).uniq.sort_by{|t| t.to_i}
 
             return signals, instants
-        end
-
-        def genVarConstrFor t
-            constraints = []
-            # signals, instants = getAllSigAndInstants
-
-            transition_index = @instants.index(t)
-
-            # TODO : Pour chaque instant de 0 à t-1 (each_cons do |t1, t2|)
-            @instants[0...transition_index].each_cons(2) do |t1, t2|
-                @signals.each do |s|
-                    constraints << genVarEqFor(s, t1, t2)
-                end
-            end
-
-            # TODO : Pour chaque instant >= à t
-            @instants[transition_index..].each_cons(2) do |t1, t2|
-                @signals.each do |s|
-                    constraints << genVarEqFor(s, t1, t2)
-                end
-            end
-
-            return "(define-fun c_#{t} () Bool (and #{constraints.join(" ")}))"
         end
 
         def genVarEqFor sig, t1, t2
@@ -285,6 +285,77 @@ module AtetaAddOn
             end
         end
 
+        def genGlitchSolvingScript saveAs = nil
+
+            initExpr = genSmtlibExprInit # ! Should not be computed again each time, see how to optimize it properly by passing it 
+            altExpr = genSmtlibExprAlt
+
+            # @signals, @instants = getAllSigAndInstants
+            @signals = (@initExprExtractor.signals).uniq.sort_by{|s| s[1..].to_i}
+
+            if initExpr == altExpr 
+                raise "Error : Initial and Altered circuit gave the same expression for targeted output."
+            end
+
+            src = Code.new
+
+            src << "; #{@initCirc.name}, #{@insertPointName}, #{@targetedOutputName}"
+            src << "; Variable Declarations"
+            src << genVariablesDeclaration.join("\n")
+            src << "(declare-const t_b Int)"
+            src << "(declare-const t_c Int)"
+            src << "(declare-const t_d Int)"
+            src.newline
+
+            src << "; Function Definitions"
+            src << genInputFunDefinition.join("\n")
+            src << initExpr
+            src << altExpr
+            src.newline
+
+            # src << "; Synchronous Stimulation Constraints"
+            # src << genVariablesConstraints2.join("\n")
+            # src.newline
+            
+            src << "; Forbidden Vectors Constraints"
+            src << genForbiddenVecConstraints2.join("\n")
+            src.newline
+
+            src << "; Assertions"
+            # src << genVariablesAssertion
+            src << genForbiddenVecAssertion
+            # src << "(assert (> t_a 0))"
+            # src << "(assert (> t_b t_a))"
+            # src << "(assert (> t_c t_b))"
+            # src << "(assert (= (y t_b) (not (yp t_b))))"
+            # src << "(assert (= (y t_a) (y t_b)))"
+            # src << "(assert (= (y t_b) (y t_c)))"
+
+            src << "(assert (> t_a 0))"
+            src << "(assert (> t_b t_a))"
+            src << "(assert (> t_c t_b))"
+            src << "(assert (> t_d t_c))"
+
+            src << "(assert (forall ((t Int)) (=> (and (>= t t_a) (< t t_d)) (= (yp t) (yp t_a)))))"
+            src << "(assert (forall ((t Int)) (=> (and (>= t t_a) (< t t_b)) (= (yp t) (y t)))))"
+            src << "(assert (forall ((t Int)) (=> (and (>= t t_b) (< t t_c)) (= (yp t) (not (y t))))))"
+            src << "(assert (forall ((t Int)) (=> (and (>= t t_c) (< t t_d)) (= (yp t) (y t)))))"
+            # src << "(assert (> (- t_c t_b) #{@payload_delay})) ; INERTIAL DELAY !"
+            
+            src.newline
+
+            src << "; Solve"
+            src << "(check-sat)"
+            src << "(get-model)"
+            
+            if saveAs.nil?
+                return src.to_s
+            else
+                # src.save_as(saveAs)
+                src.save_as("htpg_smts/#{@insertPointName.tr('/','_')}.smt") # DEBUG
+            end
+        end
+
         def runSolvingScript scriptName
             `z3 -smt2 #{scriptName}`
         end 
@@ -412,6 +483,12 @@ module AtetaAddOn
         def run 
             genSolvingScript "tmp.smt"
             res = runSolvingScript "tmp.smt"
+            results2vec2 res
+        end
+
+        def runGlitch
+            genGlitchSolvingScript "tmp.smt"
+            res = runSolvingScript "htpg_smts/#{@insertPointName.tr('/','_')}.smt"
             results2vec2 res
         end
     end

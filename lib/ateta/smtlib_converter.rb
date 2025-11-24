@@ -58,7 +58,7 @@ module AtetaAddOn
         end
 
         def get_smtlib_expr_globalinput port, t
-            return "(#{port.name} (- t_a #{t}))"
+            return ["(#{port.name} (- t #{t}))"]
         end
         
         def get_smtlib_expr_compout port, t
@@ -98,10 +98,8 @@ module AtetaAddOn
         end
 
         def get_gtech_gate_smtlib_expr smt_fun_a, t, comp
-            pp comp.class
-            pp comp
             inPorts = comp.get_inputs
-            expr = ""
+            expr = []
             expr << comp.class::SMT_EXPR[0]
             inPorts.each do |p|
                 expr << get_smtlib_expr_source(

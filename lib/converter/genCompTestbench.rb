@@ -46,7 +46,7 @@ module Converter
             case stim_type
             when String 
                 @stim_file_path = stim_type # stim_type is the path to the stim sequence (test vector) file
-                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_comp_template2.vhdl"))
+                @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_comp_template3.vhdl"))
             else
                 raise "Error: stimulus type not available for comparer testbench."
             end

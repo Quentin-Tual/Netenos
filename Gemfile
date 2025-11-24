@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+gem 'oj'
+gem 'json'
+gem 'sxp'
+gem 'pycall'
+gem 'fileutils'
+gem 'rspec'

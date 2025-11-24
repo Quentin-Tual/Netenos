@@ -1,5 +1,3 @@
-require_relative 'lib_extraction'
-
 module Liberty
   Token = Struct.new(:kind, :data)
 

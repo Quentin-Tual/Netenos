@@ -2,7 +2,7 @@ require_relative 'port.rb'
 
 module Netlist
 
-    def self.generate_gtech(max_nb_inputs = 5, excluded_gate_types = ["Buffer","Not"])
+    def self.generate_gtech(max_nb_inputs = 5, excluded_gate_types = ["Buffer","Not","STDCell"])
         types_list = Netlist::DEF_GATE_TYPES.collect{|klass| klass.name.split("::")[1]}
         types_list -= excluded_gate_types 
         (3..max_nb_inputs).each do |nb_inputs|
@@ -16,7 +16,7 @@ module Netlist
     end
 
     def self.get_gtech
-        gtech = Netlist::Gate.subclasses.select{|klass| klass.subclasses.empty?}
+        gtech = Netlist::Gate.subclasses.select{|klass| klass.subclasses.empty? and klass != STDCell}
         Netlist::Gate.subclasses.each do |subklass|
             subklass.subclasses.each do |subsubklass|
                 gtech << subsubklass if subsubklass.subclasses.empty?
@@ -77,16 +77,28 @@ module Netlist
         end
     end
 
+    def self.get_ios_eq_tab ios_h
+        ios_h.each_with_object(Hash.new) do |(direction, sub_h), ios_eq_tab|
+            sub_h.each do |pname|
+                io = "#{direction[0]}#{sub_h.index(pname)}"
+                ios_eq_tab[io] = pname
+            end
+        end
+    end
+
     def self.create_pdk_class(class_name, pdk_fun, pdk_ios)
         unless Netlist.class_exists?(class_name)
+            std_cell_name = class_name.downcase
             Object.class_eval <<-RUBY, __FILE__, __LINE__ + 1
                 class #{class_name} < #{Netlist::STDCell}
-                    SMT_EXPR=#{get_SMT_exp_from_pdk(class_name.downcase, pdk_fun,pdk_ios)}
+                    attr_reader :scl_ios
+                    SMT_EXPR=#{get_SMT_exp_from_pdk(std_cell_name, pdk_fun,pdk_ios)}
                     def initialize( name,
                                     partof = nil,
-                                    nb_inputs=#{pdk_ios[class_name.downcase]['inputs'].length},
-                                    nb_outputs=#{pdk_ios[class_name.downcase]['outputs'].length})
+                                    nb_inputs=#{pdk_ios[std_cell_name]['inputs'].length},
+                                    nb_outputs=#{pdk_ios[std_cell_name]['outputs'].length})
                     super
+                    @scl_ios = #{get_ios_eq_tab(pdk_ios[std_cell_name])}
                     end
                 end
             RUBY
@@ -194,6 +206,11 @@ module Netlist
             get_inputs.difference(crit_node.values.flatten).each do |in_p|
                 source = in_p.get_source
                 input_slack = crit_node.keys[0] - in_p.get_source_cumul_propag_time + slack 
+
+                if input_slack < 0
+                  raise "Error: negative slack not expected, #{in_p} has #{input_slack} slack"
+                end
+
                 if in_p.slack.nil? or in_p.slack > input_slack 
                     in_p.slack = input_slack
                     if source.instance_of? Netlist::Wire
