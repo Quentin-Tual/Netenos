@@ -1,0 +1,36 @@
+digraph test_sdf {
+		graph [rankdir = LR];
+		_2_[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1|<i2>i2}|{_2_|{269|276}}|{<o0>o0}}"]
+		_3_[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{_3_|{138|145}}|{<o0>o0}}"]
+		_4_[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{_4_|{138|414}}|{<o0>o0}}"]
+		i0[shape=cds,xlabel="i0"]
+		i1[shape=cds,xlabel="i1"]
+		i2[shape=cds,xlabel="i2"]
+		i3[shape=cds,xlabel="i3"]
+		i4[shape=cds,xlabel="i4"]
+		o0[shape=cds,xlabel="o0"]
+		wi0[shape=point];
+		i0 -> wi0[arrowhead=none]
+		wi0 -> _2_:i1;
+		wi1[shape=point];
+		i1 -> wi1[arrowhead=none]
+		wi1 -> _2_:i0;
+		wi2[shape=point];
+		i2 -> wi2[arrowhead=none]
+		wi2 -> _2_:i2;
+		wi3[shape=point];
+		i3 -> wi3[arrowhead=none]
+		wi3 -> _3_:i0;
+		wi4[shape=point];
+		i4 -> wi4[arrowhead=none]
+		wi4 -> _3_:i1;
+		w_0_[shape=point];
+		_2_:o0 -> w_0_[arrowhead=none]
+		w_0_ -> _4_:i0;
+		w_1_[shape=point];
+		_3_:o0 -> w_1_[arrowhead=none]
+		w_1_ -> _4_:i1;
+		wo0[shape=point];
+		_4_:o0 -> wo0[arrowhead=none]
+		wo0 -> o0;
+}

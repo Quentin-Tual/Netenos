@@ -1,4 +1,6 @@
 require_relative 'vcd_tools/array_trace'
+require_relative 'vcd_tools/word_trace'
+require_relative 'vcd_tools/bin_trace'
 require_relative 'vcd_tools/vcd_comparer'
-# require_relative 'vcd_tools/vcd_signal_extractor.rb'
 require_relative 'vcd_tools/vcd_signal_extractor2'
+require_relative 'vcd_tools/diff_activity_log'

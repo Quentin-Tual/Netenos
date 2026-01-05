@@ -1,5 +1,6 @@
 module AtetaAddOn
     class AtetaSat 
+        TMP_SMT_PATH = "#{$TMP_PATH}/htpg_smt"
         # ! Avec un AtetaSat pour chaque point d'insertion
         # ! Avec les méthodes suivantes
         # !     
@@ -262,7 +263,7 @@ module AtetaAddOn
             # src << "; Synchronous Stimulation Constraints"
             # src << genVariablesConstraints2.join("\n")
             # src.newline
-            
+
             src << "; Forbidden Vectors Constraints"
             src << genForbiddenVecConstraints2.join("\n")
             src.newline
@@ -272,6 +273,61 @@ module AtetaAddOn
             src << genForbiddenVecAssertion
             src << "(assert (> t_a 0))"
             src << "(assert (= (y t_a) (not (yp t_a))))"
+            src.newline
+
+            src << "; Solve"
+            src << "(check-sat)"
+            src << "(get-model)"
+            
+            if saveAs.nil?
+                return src.to_s
+            else
+                src.save_as(saveAs)
+            end
+        end
+
+        def genMaximizeSolvingScript saveAs = nil, targeted_duration
+
+            initExpr = genSmtlibExprInit # ! Should not be computed again each time, see how to optimize it properly by passing it 
+            altExpr = genSmtlibExprAlt
+
+            # @signals, @instants = getAllSigAndInstants
+            @signals = (@initExprExtractor.signals).uniq.sort_by{|s| s[1..].to_i}
+
+            if initExpr == altExpr 
+                raise "Error : Initial and Altered circuit gave the same expression for targeted output."
+            end
+
+            src = Code.new
+
+            src << "; #{@initCirc.name}, #{@insertPointName}, #{@targetedOutputName}"
+            src << "; Variable Declarations"
+            src << genVariablesDeclaration.join("\n")
+            src.newline
+
+            src << "; Function Definitions"
+            src << genInputFunDefinition.join("\n")
+            src << initExpr
+            src << altExpr
+            src.newline
+
+            # src << "; Synchronous Stimulation Constraints"
+            # src << genVariablesConstraints2.join("\n")
+            # src.newline
+            src << "(define-fun diff ((t Int)) Bool (xor (y t) (yp t)))" # Maximize modification
+            diff_count = "(+ #{(0..targeted_duration).collect{|i| "(diff (+ t_a #{i}))"}.join(' ')})" # Maximize modification
+            src << "(define-fun count () Int #{diff_count})" # Maximize modification
+
+            src << "; Forbidden Vectors Constraints"
+            src << genForbiddenVecConstraints2.join("\n")
+            src.newline
+
+            src << "; Assertions"
+            # src << genVariablesAssertion
+            src << genForbiddenVecAssertion
+            src << "(assert (> t_a 0))"
+            src << "(assert (= (y t_a) (not (yp t_a))))"
+            src << "(maximize count)" # Maximize modification
             src.newline
 
             src << "; Solve"
@@ -351,8 +407,7 @@ module AtetaAddOn
             if saveAs.nil?
                 return src.to_s
             else
-                # src.save_as(saveAs)
-                src.save_as("htpg_smts/#{@insertPointName.tr('/','_')}.smt") # DEBUG
+                src.save_as(saveAs)
             end
         end
 
@@ -481,15 +536,25 @@ module AtetaAddOn
         end
 
         def run 
-            genSolvingScript "tmp.smt"
-            res = runSolvingScript "tmp.smt"
+            smt_path = "#{TMP_SMT_PATH}/#{@insertPointName.tr('/','_')}.smt"
+            genSolvingScript smt_path
+            res = runSolvingScript smt_path
+            results2vec2 res
+        end
+        
+        def runMaximize(targeted_duration)
+            smt_path = "#{TMP_SMT_PATH}/#{@insertPointName.tr('/','_')}.smt"
+            genMaximizeSolvingScript smt_path, targeted_duration
+            res = runSolvingScript smt_path
             results2vec2 res
         end
 
         def runGlitch
-            genGlitchSolvingScript "tmp.smt"
-            res = runSolvingScript "htpg_smts/#{@insertPointName.tr('/','_')}.smt"
+            smt_path = "#{TMP_SMT_PATH}/#{@insertPointName.tr('/','_')}.smt"
+            genGlitchSolvingScript smt_path
+            res = runSolvingScript smt_path
             results2vec2 res
         end
+
     end
 end

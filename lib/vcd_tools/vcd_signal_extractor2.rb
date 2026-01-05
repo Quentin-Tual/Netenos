@@ -125,7 +125,7 @@ module VCD
 
         def trace2arraytrace trace, clk_period
             last_event_date = Hash.new()
-            ArrayTrace.new(trace["id_tab"].values, clk_period).tap do |a_trace|
+            BinArrayTrace.new(trace["id_tab"].values, clk_period).tap do |a_trace|
                 a_trace.signal_names.each{|s| last_event_date[s]=0}
                 # Avoid first event, considering all signals to be initialized to 0
                 # Avoid last element being [:eof] to signal the end of the sequence
@@ -154,7 +154,7 @@ module VCD
                     a_trace.repeat_last_value(sig, repeat)
                 end
 
-                a_trace.sort
+                a_trace.finalize
 
                 raise "Error: Trace not valid" unless a_trace.is_valid?
             end

@@ -146,7 +146,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(delay, scl)  &#x21d2; Sky130_Tbuffer </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(delay, delay_model, scl)  &#x21d2; Sky130_Tbuffer </a>
     
 
     
@@ -189,7 +189,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(delay, scl)  &#x21d2; <tt><span class='object_link'><a href="" title="Inserter::Sky130_Tbuffer (class)">Sky130_Tbuffer</a></span></tt> 
+    #<strong>initialize</strong>(delay, delay_model, scl)  &#x21d2; <tt><span class='object_link'><a href="" title="Inserter::Sky130_Tbuffer (class)">Sky130_Tbuffer</a></span></tt> 
   
 
   
@@ -218,16 +218,18 @@
 8
 9
 10
-11</pre>
+11
+12</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/inserter/sky130_HTs/sky130_Tbuffer.rb', line 5</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_delay'>delay</span><span class='comma'>,</span> <span class='id identifier rubyid_scl'>scl</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_delay'>delay</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_model'>delay_model</span><span class='comma'>,</span> <span class='id identifier rubyid_scl'>scl</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
   <span class='ivar'>@stdcell</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_scl'>scl</span><span class='embexpr_end'>}</span><span class='tstring_content'>__dlygate4sd1_1</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># CHECK if ok  
 </span>  <span class='comment'># Should act as a gate with a identity function
 </span>  <span class='ivar'>@delay</span><span class='op'>=</span><span class='id identifier rubyid_delay'>delay</span>
+  <span class='ivar'>@delay_model</span> <span class='op'>=</span> <span class='id identifier rubyid_delay_model'>delay_model</span>
   <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='id identifier rubyid_gen_netlist'>gen_netlist</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -257,7 +259,6 @@
       <pre class="lines">
 
 
-13
 14
 15
 16
@@ -274,10 +275,11 @@
 27
 28
 29
-30</pre>
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/inserter/sky130_HTs/sky130_Tbuffer.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/inserter/sky130_HTs/sky130_Tbuffer.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_netlist'>gen_netlist</span> 
   <span class='comment'># Create a class using json extracted from the PDK
@@ -287,7 +289,7 @@
   <span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_pdk_class'><span class='object_link'><a href="../Netlist.html#create_pdk_class-class_method" title="Netlist.create_pdk_class (method)">create_pdk_class</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_klassname'>klassname</span><span class='comma'>,</span> <span class='id identifier rubyid_pdk_fun'>pdk_fun</span><span class='comma'>,</span> <span class='id identifier rubyid_pdk_ios'>pdk_ios</span><span class='rparen'>)</span>
   <span class='comment'># Instanciate the buffer 
 </span>  <span class='id identifier rubyid_payload'>payload</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>HTpayload</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_propag_time'>propag_time</span> <span class='op'>=</span> <span class='ivar'>@delay</span>
+  <span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_propag_time'>propag_time</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='ivar'>@delay_model</span> <span class='op'>=&gt;</span> <span class='ivar'>@delay</span><span class='rbrace'>}</span>
   <span class='comment'># Set payload_out 
 </span>  <span class='ivar'>@payload_out</span> <span class='op'>=</span> <span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_get_free_output'>get_free_output</span>
   <span class='comment'># Set payload_in
@@ -307,7 +309,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  4 15:19:52 2025 by
+  Generated on Mon Dec  8 18:56:27 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

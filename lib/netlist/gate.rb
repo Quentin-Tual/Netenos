@@ -51,12 +51,18 @@ module Netlist
         end
 
         if pdk_fun[class_name].nil?
-          raise "Error: #{class_name} not found in #{$PDK_FUN_JSON}"
+          if ['tap','decap','fill'].any?{|exception| class_name.include?(exception)}
+            return ''
+          else
+            raise "Error: #{class_name} not found in #{$PDK_FUN_JSON}"
+          end
         end
 
         if pdk_ios[class_name]['outputs'].length != 1
-          raise "Error: Standard cells with more or less than 1 output are not handled."
+          return ''
+          # raise "Error: Standard cells with more or less than 1 output are not handled."
         end
+
 
         lib_fun = pdk_fun[class_name].values.first.dup
         lib_fun_ast = Liberty::FunParser.new.parse(lib_fun)

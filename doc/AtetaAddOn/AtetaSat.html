@@ -205,6 +205,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#genGlitchSolvingScript-instance_method" title="#genGlitchSolvingScript (instance method)">#<strong>genGlitchSolvingScript</strong>(saveAs = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#genInputFunDefinition-instance_method" title="#genInputFunDefinition (instance method)">#<strong>genInputFunDefinition</strong>  &#x21d2; Object </a>
     
 
@@ -447,7 +469,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer)  &#x21d2; AtetaSat </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer, payload_delay)  &#x21d2; AtetaSat </a>
     
 
     
@@ -583,6 +605,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#runGlitch-instance_method" title="#runGlitch (instance method)">#<strong>runGlitch</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#runSolvingScript-instance_method" title="#runSolvingScript (instance method)">#<strong>runSolvingScript</strong>(scriptName)  &#x21d2; Object </a>
     
 
@@ -611,7 +655,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer)  &#x21d2; <tt><span class='object_link'><a href="" title="AtetaAddOn::AtetaSat (class)">AtetaSat</a></span></tt> 
+    #<strong>initialize</strong>(initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer, payload_delay)  &#x21d2; <tt><span class='object_link'><a href="" title="AtetaAddOn::AtetaSat (class)">AtetaSat</a></span></tt> 
   
 
   
@@ -655,18 +699,20 @@
 25
 26
 27
-28</pre>
+28
+29</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 11</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_initCirc'>initCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_altCirc'>altCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='comma'>,</span> <span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='comma'>,</span> <span class='id identifier rubyid_delayModel'>delayModel</span><span class='comma'>,</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='comma'>,</span> <span class='id identifier rubyid_memoizer'>memoizer</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_initCirc'>initCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_altCirc'>altCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='comma'>,</span> <span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='comma'>,</span> <span class='id identifier rubyid_delayModel'>delayModel</span><span class='comma'>,</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='comma'>,</span> <span class='id identifier rubyid_memoizer'>memoizer</span><span class='comma'>,</span> <span class='id identifier rubyid_payload_delay'>payload_delay</span>
     <span class='ivar'>@initCirc</span> <span class='op'>=</span> <span class='id identifier rubyid_initCirc'>initCirc</span>
     <span class='ivar'>@altCirc</span> <span class='op'>=</span> <span class='id identifier rubyid_altCirc'>altCirc</span>
     <span class='ivar'>@insertPointName</span> <span class='op'>=</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span>
     <span class='ivar'>@targetedOutputName</span> <span class='op'>=</span> <span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span>
     <span class='ivar'>@delayModel</span> <span class='op'>=</span> <span class='id identifier rubyid_delayModel'>delayModel</span>
     <span class='ivar'>@forbiddenVectors</span> <span class='op'>=</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span>
+    <span class='ivar'>@payload_delay</span> <span class='op'>=</span> <span class='id identifier rubyid_payload_delay'>payload_delay</span>
 
     <span class='kw'>if</span> <span class='id identifier rubyid_memoizer'>memoizer</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='rparen'>)</span>
         <span class='ivar'>@initExprExtractor</span> <span class='op'>=</span> <span class='id identifier rubyid_memoizer'>memoizer</span><span class='period'>.</span><span class='id identifier rubyid_get_back'>get_back</span><span class='lparen'>(</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='rparen'>)</span>
@@ -963,6 +1009,170 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="genGlitchSolvingScript-instance_method">
+  
+    #<strong>genGlitchSolvingScript</strong>(saveAs = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 288</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_genGlitchSolvingScript'>genGlitchSolvingScript</span> <span class='id identifier rubyid_saveAs'>saveAs</span> <span class='op'>=</span> <span class='kw'>nil</span>
+
+    <span class='id identifier rubyid_initExpr'>initExpr</span> <span class='op'>=</span> <span class='id identifier rubyid_genSmtlibExprInit'>genSmtlibExprInit</span> <span class='comment'># ! Should not be computed again each time, see how to optimize it properly by passing it 
+</span>    <span class='id identifier rubyid_altExpr'>altExpr</span> <span class='op'>=</span> <span class='id identifier rubyid_genSmtlibExprAlt'>genSmtlibExprAlt</span>
+
+    <span class='comment'># @signals, @instants = getAllSigAndInstants
+</span>    <span class='ivar'>@signals</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@initExprExtractor</span><span class='period'>.</span><span class='id identifier rubyid_signals'>signals</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span><span class='period'>.</span><span class='id identifier rubyid_sort_by'>sort_by</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbrace'>}</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_initExpr'>initExpr</span> <span class='op'>==</span> <span class='id identifier rubyid_altExpr'>altExpr</span> 
+        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error : Initial and Altered circuit gave the same expression for targeted output.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span>
+
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>; </span><span class='embexpr_beg'>#{</span><span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertPointName</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@targetedOutputName</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>; Variable Declarations</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_genVariablesDeclaration'>genVariablesDeclaration</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(declare-const t_b Int)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(declare-const t_c Int)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(declare-const t_d Int)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span>
+
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>; Function Definitions</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_genInputFunDefinition'>genInputFunDefinition</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_initExpr'>initExpr</span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_altExpr'>altExpr</span>
+    <span class='id identifier rubyid_src'>src</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span>
+
+    <span class='comment'># src &lt;&lt; &quot;; Synchronous Stimulation Constraints&quot;
+</span>    <span class='comment'># src &lt;&lt; genVariablesConstraints2.join(&quot;\n&quot;)
+</span>    <span class='comment'># src.newline
+</span>    
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>; Forbidden Vectors Constraints</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_genForbiddenVecConstraints2'>genForbiddenVecConstraints2</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_src'>src</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span>
+
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>; Assertions</span><span class='tstring_end'>&quot;</span></span>
+    <span class='comment'># src &lt;&lt; genVariablesAssertion
+</span>    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_genForbiddenVecAssertion'>genForbiddenVecAssertion</span>
+    <span class='comment'># src &lt;&lt; &quot;(assert (&gt; t_a 0))&quot;
+</span>    <span class='comment'># src &lt;&lt; &quot;(assert (&gt; t_b t_a))&quot;
+</span>    <span class='comment'># src &lt;&lt; &quot;(assert (&gt; t_c t_b))&quot;
+</span>    <span class='comment'># src &lt;&lt; &quot;(assert (= (y t_b) (not (yp t_b))))&quot;
+</span>    <span class='comment'># src &lt;&lt; &quot;(assert (= (y t_a) (y t_b)))&quot;
+</span>    <span class='comment'># src &lt;&lt; &quot;(assert (= (y t_b) (y t_c)))&quot;
+</span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(assert (&gt; t_a 0))</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(assert (&gt; t_b t_a))</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(assert (&gt; t_c t_b))</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(assert (&gt; t_d t_c))</span><span class='tstring_end'>&quot;</span></span>
+
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(assert (forall ((t Int)) (=&gt; (and (&gt;= t t_a) (&lt; t t_d)) (= (yp t) (yp t_a)))))</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(assert (forall ((t Int)) (=&gt; (and (&gt;= t t_a) (&lt; t t_b)) (= (yp t) (y t)))))</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(assert (forall ((t Int)) (=&gt; (and (&gt;= t t_b) (&lt; t t_c)) (= (yp t) (not (y t))))))</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(assert (forall ((t Int)) (=&gt; (and (&gt;= t t_c) (&lt; t t_d)) (= (yp t) (y t)))))</span><span class='tstring_end'>&quot;</span></span>
+    <span class='comment'># src &lt;&lt; &quot;(assert (&gt; (- t_c t_b) #{@payload_delay})) ; INERTIAL DELAY !&quot;
+</span>    
+    <span class='id identifier rubyid_src'>src</span><span class='period'>.</span><span class='id identifier rubyid_newline'>newline</span>
+
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>; Solve</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(check-sat)</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(get-model)</span><span class='tstring_end'>&quot;</span></span>
+    
+    <span class='kw'>if</span> <span class='id identifier rubyid_saveAs'>saveAs</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+        <span class='kw'>return</span> <span class='id identifier rubyid_src'>src</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='kw'>else</span>
+        <span class='comment'># src.save_as(saveAs)
+</span>        <span class='id identifier rubyid_src'>src</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>htpg_smts/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_tr'>tr</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.smt</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comment'># DEBUG
+</span>    <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="genInputFunDefinition-instance_method">
   
     #<strong>genInputFunDefinition</strong>  &#x21d2; <tt>Object</tt> 
@@ -1007,12 +1217,12 @@
       <pre class="lines">
 
 
-34
 35
-36</pre>
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_genSmtlibExprAlt'>genSmtlibExprAlt</span>
     <span class='ivar'>@altExprExtractor</span><span class='period'>.</span><span class='id identifier rubyid_get_output_func_def'>get_output_func_def</span><span class='lparen'>(</span><span class='ivar'>@targetedOutputName</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>yp</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>    
@@ -1037,12 +1247,12 @@
       <pre class="lines">
 
 
-30
 31
-32</pre>
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_genSmtlibExprInit'>genSmtlibExprInit</span>
     <span class='ivar'>@initExprExtractor</span><span class='period'>.</span><span class='id identifier rubyid_get_output_func_def'>get_output_func_def</span><span class='lparen'>(</span><span class='ivar'>@targetedOutputName</span><span class='rparen'>)</span>
@@ -1191,31 +1401,31 @@
       <pre class="lines">
 
 
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135</pre>
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_genVarConstrFor'>genVarConstrFor</span> <span class='id identifier rubyid_t'>t</span>
     <span class='id identifier rubyid_constraints'>constraints</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1289,17 +1499,17 @@
       <pre class="lines">
 
 
-90
-91
-92
-93
-94
-95
-96
-97</pre>
+113
+114
+115
+116
+117
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_genVariablesAssertion'>genVariablesAssertion</span> 
     <span class='id identifier rubyid_c_list'>c_list</span> <span class='op'>=</span> <span class='ivar'>@instants</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>...</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>c_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_t'>t</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
@@ -1329,7 +1539,6 @@
       <pre class="lines">
 
 
-42
 43
 44
 45
@@ -1360,7 +1569,7 @@
 70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_genVariablesConstraints'>genVariablesConstraints</span>
     <span class='id identifier rubyid_var_decl'>var_decl</span> <span class='op'>=</span> <span class='id identifier rubyid_genVariablesDeclaration'>genVariablesDeclaration</span>
@@ -1376,11 +1585,10 @@
 </span>    <span class='id identifier rubyid_oldestInstant'>oldestInstant</span> <span class='op'>=</span> <span class='id identifier rubyid_var_h'>var_h</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span><span class='period'>.</span><span class='id identifier rubyid_sort_by'>sort_by</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbrace'>}</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
     <span class='comment'># ! What if the the transition instant is not the oldest one ?
 </span>    <span class='comment'># ! We miss a lot of solutions.
-</span>    <span class='comment'># ! We wwant a transition instant before which values won&#39;t change from an instant to the other, and after which the values won&#39;t change anymore.
+</span>    <span class='comment'># ! We want a transition instant before which values won&#39;t change from an instant to the other, and after which the values won&#39;t change anymore.
 </span>
     <span class='id identifier rubyid_var_h'>var_h</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_input_name'>input_name</span><span class='comma'>,</span> <span class='id identifier rubyid_sub_h'>sub_h</span><span class='op'>|</span>
-        <span class='comment'># TODO :    Add an equality between all other instants than the first
-</span>        <span class='kw'>if</span> <span class='id identifier rubyid_sub_h'>sub_h</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>1</span> <span class='comment'># No need if there is two elements or less
+        <span class='kw'>if</span> <span class='id identifier rubyid_sub_h'>sub_h</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>1</span> <span class='comment'># No need if there is two elements or less
 </span>            <span class='id identifier rubyid_sub_h'>sub_h</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span><span class='period'>.</span><span class='id identifier rubyid_sort_by'>sort_by</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_a'>a</span><span class='op'>|</span> <span class='id identifier rubyid_a'>a</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_each_cons'>each_cons</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_prev'>prev</span><span class='comma'>,</span> <span class='id identifier rubyid_curr'>curr</span><span class='op'>|</span>
                 <span class='kw'>unless</span> <span class='id identifier rubyid_prev'>prev</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_oldestInstant'>oldestInstant</span>
                     <span class='id identifier rubyid_constraints'>constraints</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>(assert (= </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_prev'>prev</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_curr'>curr</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>))</span><span class='tstring_end'>&quot;</span></span> 
@@ -1469,12 +1677,12 @@
       <pre class="lines">
 
 
-38
 39
-40</pre>
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_genVariablesDeclaration'>genVariablesDeclaration</span>
     <span class='lparen'>(</span><span class='ivar'>@initExprExtractor</span><span class='period'>.</span><span class='id identifier rubyid_get_const_declarations'>get_const_declarations</span> <span class='op'>+</span> <span class='ivar'>@altExprExtractor</span><span class='period'>.</span><span class='id identifier rubyid_get_const_declarations'>get_const_declarations</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span>
@@ -1499,23 +1707,23 @@
       <pre class="lines">
 
 
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112</pre>
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 122</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_getAllSigAndInstants'>getAllSigAndInstants</span> 
     <span class='id identifier rubyid_signals'>signals</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@initExprExtractor</span><span class='period'>.</span><span class='id identifier rubyid_signals'>signals</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span><span class='period'>.</span><span class='id identifier rubyid_sort_by'>sort_by</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rbrace'>}</span>
@@ -1551,40 +1759,40 @@
       <pre class="lines">
 
 
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347</pre>
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 388</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_results'>parse_results</span> <span class='id identifier rubyid_results'>results</span>
     <span class='id identifier rubyid_res_h'>res_h</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rbrace'>}</span>
@@ -1637,33 +1845,33 @@
       <pre class="lines">
 
 
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315</pre>
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 363</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_results2'>parse_results2</span> <span class='id identifier rubyid_results'>results</span>
     <span class='id identifier rubyid_res_h'>res_h</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rbrace'>}</span>
@@ -1709,44 +1917,44 @@
       <pre class="lines">
 
 
-376
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404
-405
-406
-407
-408
-409
-410</pre>
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 376</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 447</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_results2vec'>results2vec</span> <span class='id identifier rubyid_results'>results</span>
     <span class='comment'># * Returns a vector couple or nil if no solution found 
@@ -1803,35 +2011,35 @@
       <pre class="lines">
 
 
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374</pre>
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 349</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 420</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_results2vec2'>results2vec2</span> <span class='id identifier rubyid_results'>results</span> 
     
@@ -1879,18 +2087,52 @@
       <pre class="lines">
 
 
-412
-413
-414
-415
-416</pre>
+483
+484
+485
+486
+487</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 412</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 483</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span> 
     <span class='id identifier rubyid_genSolvingScript'>genSolvingScript</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tmp.smt</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='id identifier rubyid_runSolvingScript'>runSolvingScript</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tmp.smt</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_results2vec2'>results2vec2</span> <span class='id identifier rubyid_res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="runGlitch-instance_method">
+  
+    #<strong>runGlitch</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+489
+490
+491
+492
+493</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 489</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_runGlitch'>runGlitch</span>
+    <span class='id identifier rubyid_genGlitchSolvingScript'>genGlitchSolvingScript</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tmp.smt</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='id identifier rubyid_runSolvingScript'>runSolvingScript</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>htpg_smts/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_tr'>tr</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.smt</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_results2vec2'>results2vec2</span> <span class='id identifier rubyid_res'>res</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1913,12 +2155,12 @@
       <pre class="lines">
 
 
-288
-289
-290</pre>
+359
+360
+361</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 288</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_sat.rb', line 359</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_runSolvingScript'>runSolvingScript</span> <span class='id identifier rubyid_scriptName'>scriptName</span>
     <span class='backtick'>`</span><span class='tstring_content'>z3 -smt2 </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_scriptName'>scriptName</span><span class='embexpr_end'>}</span><span class='tstring_end'>`</span></span>
@@ -1933,7 +2175,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  4 15:19:42 2025 by
+  Generated on Mon Dec  8 18:56:22 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

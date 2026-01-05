@@ -1,6 +1,9 @@
 $FULL_PORT_NAME_SEP='/'  
 $PDK_IOS_JSON=File.expand_path('sky130_fd_sc_hd_fixed.json',File.dirname(__FILE__))
 $PDK_FUN_JSON=File.expand_path('sky130_functions.json', File.dirname(__FILE__))
+$TMP_PATH='/tmp/Netenos'
+
+Dir.mkdir($TMP_PATH) unless Dir.exist?($TMP_PATH)
 
 require 'erb'
 require 'json'

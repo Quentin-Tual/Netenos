@@ -133,6 +133,63 @@ module AtetaAddOn
             end
         end
 
+        def get_pdk_stdcell_smtlib_expr2 t, comp
+            
+            # Pour chaque entrée, récupérer le terme
+            terms = comp.get_inputs.collect do |ip|
+                puts "Nil source for #{ip.get_full_name} of comp #{comp.name}." if ip.get_source.nil?
+
+                source = ip.get_source
+                
+                # Si la source est une entrée globale, récupérer le nom de cette entrée
+                if source.instance_of? Netlist::Wire
+                    source=source.get_source
+                end
+
+                puts "ip (#{ip.class}): #{ip.get_full_name}, source (#{source.class}) : #{source.name}"
+
+                if source.instance_of? Netlist::Port and source.is_input? and source.is_global? 
+                    "(#{source.name} (- t #{t}))"
+                # Sinon, récupérer l'expression de la source (appel récursif sur le composant source)
+                else
+                    get_pdk_stdcell_smtlib_expr2(t, source.partof)
+                end
+            end
+
+            # Constituer l'expression SMT à partir de 'comp.class::SMT_EXPR' et des termes récupérées juste avant
+            expr = comp.class::SMT_EXPR.dup
+            expr.map! do |w|
+              if $SMT_KEYWORDS.include? w
+                w
+              else
+                input_nb = w[1..].to_i
+                terms[input_nb]
+              end
+            end
+
+            # smt_fun_a.map! do |word|
+            #     if !word.is_a? String
+            #       raise "Error: String object is expected, obtained #{word} which is a #{word.class} class object. Check #{comp.name} object."
+            #     elsif $SMT_KEYWORDS.include? word
+            #         word
+            #     else # It is a port name
+            #         p = comp.get_port_named(word)
+            #         raise "Error: port #{word} not found in #{comp}" if p.nil?
+            #         source = p.get_source
+            #         begin
+            #             get_smtlib_expr_source(source, t + comp.propag_time[@delay_model])
+            #         rescue => e
+            #             puts t 
+            #             puts comp.propag_time[@delay_model]
+            #             puts comp
+            #             raise e
+            #         end
+            #     end
+            # end
+            # smt_fun_a.flatten
+            expr.join
+        end
+
         def get_smtlib_expr sigName, t=0
             get_smtlib_expr_globaloutput(sigName,t).join(' ')
         end

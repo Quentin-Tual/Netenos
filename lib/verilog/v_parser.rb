@@ -78,6 +78,7 @@ module Verilog
       else
         until showNext.kind == :semicolon
           ios << Ident.new(expect(:ident).data)
+          maybe :new_line
           expect :coma, :rpar
           maybe :new_line
         end

@@ -23,6 +23,7 @@ describe AtetaAddOn::Ateta do
   subject(:save_tvps) {ateta.save_explicit(tvps_save_path)}
   subject(:save_bin_tvps) {Converter::GenStim.new(nl).save_vec_list(bin_tvps_save_path, generate, bin_stim_vec: true)}
   context "used on a Verilog parsed netlist with SDF annotation" do
+    TVPS_SAVE_PATH = 'tests/tmp/test_ateta.stim'
     subject(:tvps_save_path) {'tests/tmp/test_ateta.stim'}
     subject(:bin_tvps_save_path) {'tests/tmp/test_bin_ateta.stim'}
     subject(:generate) {ateta.generate_stim}
@@ -35,7 +36,7 @@ describe AtetaAddOn::Ateta do
     after :all do 
       `rm tmp.smt` if File.exist?('tmp.smt')
       `rm -r htpg_smts` if Dir.exist?('htpg_smts')
-      `rm #{tvps_save_path}` if File.exist?(tvps_save_path)
+      `rm #{TVPS_SAVE_PATH}` if File.exist?(TVPS_SAVE_PATH)
     end
 
     it "does not raise errors" do
@@ -67,6 +68,45 @@ describe AtetaAddOn::Ateta do
     end
 
      after :example do 
+      `rm tmp.smt` if File.exist?('tmp.smt')
+      if Dir.exist?('htpg_smts')
+        `cp -r htpg_smts tests/tmp/` 
+        `rm -r htpg_smts`
+      end
+    end
+
+    it "does not raise errors" do
+      expect{generate}.not_to raise_error
+    end
+
+    it "generates test vectors" do
+      generate 
+      save_tvps
+      save_bin_tvps
+      expect(Dir.exist?('htpg_smts')).to eq(true)
+      expect(Dir.empty?('htpg_smts')).to eq(false)
+      expect(File.exist?(tvps_save_path))
+    end
+
+    it "has no unobservable risky signal" do 
+      uut = ateta
+      uut.generate_stim
+      expect(uut.unobservables).to be_empty 
+    end
+  end
+
+  context "Use to generate anomalies with a maximized length on a Verilog netlist annotated with a SDF file" do
+    subject(:tvps_save_path) {'tests/tmp/test_ateta_max.stim'}
+    subject(:bin_tvps_save_path) {'tests/tmp/test_bin_ateta_max.stim'}
+    subject(:generate) {ateta.generate_maximized_stim}
+
+    before :example do 
+      `rm -r htpg_smts` if File.exist?('htpg_smts')
+      # `rm #{tvps_save_path}` if File.exist?(tvps_save_path)
+    end
+
+     after :example do 
+      `rm tmp.smt` if File.exist?('tmp.smt')
       if Dir.exist?('htpg_smts')
         `cp -r htpg_smts tests/tmp/` 
         `rm -r htpg_smts`

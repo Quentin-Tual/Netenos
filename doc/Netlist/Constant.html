@@ -215,7 +215,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Port.html" title="Netlist::Port (class)">Port</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Port.html#check_link%3F-instance_method" title="Netlist::Port#check_link? (method)">#check_link?</a></span>, <span class='object_link'><a href="Port.html#check_link_fanin%3F-instance_method" title="Netlist::Port#check_link_fanin? (method)">#check_link_fanin?</a></span>, <span class='object_link'><a href="Port.html#check_link_fanout%3F-instance_method" title="Netlist::Port#check_link_fanout? (method)">#check_link_fanout?</a></span>, <span class='object_link'><a href="Port.html#dup-instance_method" title="Netlist::Port#dup (method)">#dup</a></span>, <span class='object_link'><a href="Port.html#get_dot_name-instance_method" title="Netlist::Port#get_dot_name (method)">#get_dot_name</a></span>, <span class='object_link'><a href="Port.html#get_full_name-instance_method" title="Netlist::Port#get_full_name (method)">#get_full_name</a></span>, <span class='object_link'><a href="Port.html#get_source_comp-instance_method" title="Netlist::Port#get_source_comp (method)">#get_source_comp</a></span>, <span class='object_link'><a href="Port.html#get_source_gates-instance_method" title="Netlist::Port#get_source_gates (method)">#get_source_gates</a></span>, <span class='object_link'><a href="Port.html#is_free%3F-instance_method" title="Netlist::Port#is_free? (method)">#is_free?</a></span>, <span class='object_link'><a href="Port.html#is_input%3F-instance_method" title="Netlist::Port#is_input? (method)">#is_input?</a></span>, <span class='object_link'><a href="Port.html#is_output%3F-instance_method" title="Netlist::Port#is_output? (method)">#is_output?</a></span>, <span class='object_link'><a href="Port.html#is_partof%3F-instance_method" title="Netlist::Port#is_partof? (method)">#is_partof?</a></span>, <span class='object_link'><a href="Port.html#is_wire%3F-instance_method" title="Netlist::Port#is_wire? (method)">#is_wire?</a></span>, <span class='object_link'><a href="Port.html#to_hash-instance_method" title="Netlist::Port#to_hash (method)">#to_hash</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Port.html#check_link%3F-instance_method" title="Netlist::Port#check_link? (method)">#check_link?</a></span>, <span class='object_link'><a href="Port.html#check_link_fanin%3F-instance_method" title="Netlist::Port#check_link_fanin? (method)">#check_link_fanin?</a></span>, <span class='object_link'><a href="Port.html#check_link_fanout%3F-instance_method" title="Netlist::Port#check_link_fanout? (method)">#check_link_fanout?</a></span>, <span class='object_link'><a href="Port.html#dup-instance_method" title="Netlist::Port#dup (method)">#dup</a></span>, <span class='object_link'><a href="Port.html#get_dot_name-instance_method" title="Netlist::Port#get_dot_name (method)">#get_dot_name</a></span>, <span class='object_link'><a href="Port.html#get_full_name-instance_method" title="Netlist::Port#get_full_name (method)">#get_full_name</a></span>, <span class='object_link'><a href="Port.html#get_pdk_name-instance_method" title="Netlist::Port#get_pdk_name (method)">#get_pdk_name</a></span>, <span class='object_link'><a href="Port.html#get_source_comp-instance_method" title="Netlist::Port#get_source_comp (method)">#get_source_comp</a></span>, <span class='object_link'><a href="Port.html#get_source_gates-instance_method" title="Netlist::Port#get_source_gates (method)">#get_source_gates</a></span>, <span class='object_link'><a href="Port.html#is_free%3F-instance_method" title="Netlist::Port#is_free? (method)">#is_free?</a></span>, <span class='object_link'><a href="Port.html#is_input%3F-instance_method" title="Netlist::Port#is_input? (method)">#is_input?</a></span>, <span class='object_link'><a href="Port.html#is_output%3F-instance_method" title="Netlist::Port#is_output? (method)">#is_output?</a></span>, <span class='object_link'><a href="Port.html#is_partof%3F-instance_method" title="Netlist::Port#is_partof? (method)">#is_partof?</a></span>, <span class='object_link'><a href="Port.html#is_wire%3F-instance_method" title="Netlist::Port#is_wire? (method)">#is_wire?</a></span>, <span class='object_link'><a href="Port.html#to_hash-instance_method" title="Netlist::Port#to_hash (method)">#to_hash</a></span></p>
 
   
   
@@ -256,12 +256,12 @@
       <pre class="lines">
 
 
-446
-447
-448</pre>
+469
+470
+471</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 446</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 469</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_name'>name</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>::</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_object_id'>object_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_partof'>partof</span><span class='op'>=</span><span class='kw'>nil</span>
     <span class='kw'>super</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='symbol'>:out</span><span class='comma'>,</span> <span class='id identifier rubyid_partof'>partof</span>
@@ -293,12 +293,12 @@
       <pre class="lines">
 
 
-450
-451
-452</pre>
+473
+474
+475</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 450</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 473</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_output'>get_output</span> 
     <span class='kw'>return</span> <span class='kw'>self</span>
@@ -345,12 +345,12 @@
       <pre class="lines">
 
 
-454
-455
-456</pre>
+477
+478
+479</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 454</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/gate.rb', line 477</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_global?'>is_global?</span>
     <span class='kw'>return</span> <span class='kw'>true</span>
@@ -365,7 +365,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  4 15:19:41 2025 by
+  Generated on Mon Dec  8 18:56:21 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

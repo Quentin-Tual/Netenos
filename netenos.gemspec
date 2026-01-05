@@ -11,6 +11,7 @@ Gem::Specification.new do |spec|
   spec.bindir = 'bin'
   spec.files = Dir['**/*.rb'] 
   spec.files += Dir['[A-Z]*']
+  spec.files += Dir['lib/converter/**/*.v']
   spec.files += Dir['lib/converter/**/*.vhdl']
   spec.files += Dir['lib/converter/**/*.erb']
   spec.files += Dir['lib/converter/gtech.genlib']

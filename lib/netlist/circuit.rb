@@ -105,13 +105,13 @@ module Netlist
         def get_insertion_points payload_delay
             # * Returns a list of gate which outputs has a slack greater than the payload delay
             slack_h = get_slack_hash
-            return slack_h.select{|slack, nodes| slack >= payload_delay}.values.flatten.select{|node| 
+            return slack_h.select{|slack, nodes| slack >= payload_delay}.values.flatten.select{|node|
                 !(node.instance_of? Netlist::Port and node.is_global? and node.is_input?)
             }
         end
 
         def get_comp_avg_delay delay_model
-            delay_list = @components.collect{|comp| comp.propag_time[delay_model]}
+            delay_list = @components.collect{|comp| comp.propag_time[delay_model]}.compact
             (delay_list.sum / delay_list.length.to_f).to_i
         end
 
@@ -121,7 +121,7 @@ module Netlist
         end
 
         def get_comp_min_delay delay_model
-            @components.collect{|comp| comp.propag_time[delay_model]}.min
+            @components.collect{|comp| comp.propag_time[delay_model]}.compact.min
         end
 
         def get_wire_min_delay delay_model
@@ -129,7 +129,7 @@ module Netlist
         end
 
         def get_comp_max_delay delay_model
-            @components.collect{|comp| comp.propag_time[delay_model]}.max
+            @components.collect{|comp| comp.propag_time[delay_model]}.compact.max
         end
 
         def get_wire_max_delay delay_model
@@ -675,7 +675,7 @@ module Netlist
           @constants.each do |c|
             interconnections[c] = c.get_sinks
           end
-               
+
           # For each
           interconnections.each do |source, sinks|
             next if sinks.length==1 and sinks.first.instance_of? Wire
@@ -694,10 +694,10 @@ module Netlist
         end
 
         def remove_wires
-            while !@wires.empty? do
-                w = @wires.pop
-                remove_w(w)
-            end
+          while !@wires.empty? do
+            w = @wires.pop
+            remove_w(w)
+          end
         end
 
         def remove_w w
@@ -717,8 +717,34 @@ module Netlist
             get_slack_hash
         end
 
+        def no_double_wiring?
+          get_inputs.each do |ip|
+            ip_sinks = ip.get_sinks
+            base_len = ip_sinks.length
+            if base_len == ip_sinks.uniq.length
+              next
+            else
+              return false
+            end
+          end
+
+          get_outputs.each do |op|
+            op_w = op.get_source
+            op_sinks = op_w.get_sinks
+            base_len = op_sinks.length
+            if base_len == op_sinks.uniq.length
+              next
+            else
+              return false
+            end
+          end
+
+          return true
+        end
+
         def valid?
-          all_wires_connected? and all_ports_connected? and !has_combinational_loop? and valid_connections?
+          all_wires_connected? and all_ports_connected? and !has_combinational_loop? and valid_connections? and
+          no_double_wiring?
         end
     end
 end

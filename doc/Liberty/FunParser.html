@@ -382,14 +382,14 @@
       <pre class="lines">
 
 
+48
+49
 50
 51
-52
-53
-54</pre>
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_accept_empty_lines'>accept_empty_lines</span>
   <span class='kw'>until</span> <span class='id identifier rubyid_showNext'>showNext</span><span class='period'>.</span><span class='id identifier rubyid_kind'>kind</span> <span class='op'>!=</span> <span class='symbol'>:new_line</span>
@@ -416,12 +416,12 @@
       <pre class="lines">
 
 
-38
-39
-40</pre>
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_acceptIt'>acceptIt</span>
   <span class='ivar'>@tokens</span><span class='period'>.</span><span class='id identifier rubyid_shift'>shift</span>
@@ -446,16 +446,16 @@
       <pre class="lines">
 
 
+67
+68
 69
 70
 71
 72
-73
-74
-75</pre>
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_kind'>kind</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_kind'>kind</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_actual'>actual</span> <span class='op'>=</span> <span class='id identifier rubyid_showNext'>showNext</span><span class='period'>.</span><span class='id identifier rubyid_kind'>kind</span><span class='rparen'>)</span>
@@ -484,12 +484,12 @@
       <pre class="lines">
 
 
-46
-47
-48</pre>
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_lookAhead'>lookAhead</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
   <span class='ivar'>@tokens</span><span class='lbracket'>[</span><span class='id identifier rubyid_n'>n</span> <span class='op'>-</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -525,14 +525,14 @@
       <pre class="lines">
 
 
+75
+76
 77
 78
-79
-80
-81</pre>
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_maybe'>maybe</span> <span class='id identifier rubyid_kind'>kind</span> <span class='comment'># same as expect but without error raised, for new_line token that does not change the structure or information contained in the file 
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_showNext'>showNext</span><span class='period'>.</span><span class='id identifier rubyid_kind'>kind</span> <span class='op'>==</span> <span class='id identifier rubyid_kind'>kind</span> 
@@ -559,6 +559,8 @@
       <pre class="lines">
 
 
+81
+82
 83
 84
 85
@@ -597,12 +599,10 @@
 118
 119
 120
-121
-122
-123</pre>
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_expr'>expr</span><span class='rparen'>)</span>
   <span class='ivar'>@tokens</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="FunLexer.html" title="Liberty::FunLexer (class)">FunLexer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="FunLexer.html#initialize-instance_method" title="Liberty::FunLexer#initialize (method)">new</a></span></span><span class='period'>.</span><span class='id identifier rubyid_tokenize'><span class='object_link'><a href="FunLexer.html#tokenize-instance_method" title="Liberty::FunLexer#tokenize (method)">tokenize</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_expr'>expr</span><span class='rparen'>)</span>
@@ -665,6 +665,8 @@
       <pre class="lines">
 
 
+123
+124
 125
 126
 127
@@ -699,12 +701,10 @@
 156
 157
 158
-159
-160
-161</pre>
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_block'>parse_block</span>
   <span class='id identifier rubyid_operands'>operands</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -763,12 +763,12 @@
       <pre class="lines">
 
 
-175
-176
-177</pre>
+173
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 173</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_ident'>parse_ident</span> <span class='id identifier rubyid_tok'>tok</span>
   <span class='const'><span class='object_link'><a href="../Bexp.html" title="Bexp (module)">Bexp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bexp/Operand.html" title="Bexp::Operand (class)">Operand</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Bexp/Operand.html#initialize-instance_method" title="Bexp::Operand#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_tok'>tok</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
@@ -793,6 +793,8 @@
       <pre class="lines">
 
 
+161
+162
 163
 164
 165
@@ -801,12 +803,10 @@
 168
 169
 170
-171
-172
-173</pre>
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_not'>parse_not</span>
   <span class='id identifier rubyid_tok'>tok</span> <span class='op'>=</span> <span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='symbol'>:lpar</span><span class='comma'>,</span> <span class='symbol'>:ident</span><span class='rparen'>)</span>
@@ -839,6 +839,8 @@
       <pre class="lines">
 
 
+54
+55
 56
 57
 58
@@ -848,12 +850,10 @@
 62
 63
 64
-65
-66
-67</pre>
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_show_next_line_kinds'>show_next_line_kinds</span>
   <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -887,12 +887,12 @@
       <pre class="lines">
 
 
-42
-43
-44</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/liberty/lib_fun_parser.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_showNext'>showNext</span>
   <span class='id identifier rubyid_lookAhead'>lookAhead</span> <span class='int'>1</span>
@@ -907,7 +907,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  4 15:19:48 2025 by
+  Generated on Mon Dec  8 18:56:25 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

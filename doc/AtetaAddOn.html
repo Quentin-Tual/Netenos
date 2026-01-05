@@ -79,7 +79,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/ateta/ateta.rb<span class="defines">,<br />
-  lib/ateta/ateta_sat.rb,<br /> lib/ateta/ateta_memoizer.rb,<br /> lib/ateta/smtlib_converter.rb</span>
+  lib/ateta/ateta_sat.rb,<br /> lib/ateta/ateta_memoizer.rb,<br /> lib/ateta/ateta_primitives.rb,<br /> lib/ateta/smtlib_converter.rb</span>
 </dd>
   </dl>
   
@@ -102,12 +102,93 @@
 
 
 
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
 
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate-class_method" title="generate (class method)">.<strong>generate</strong>(nl, ht_delay, delay_model, path: &quot;#{nl.name}.txt&quot;, forbidden_vectors: [], explicit: true, bin_stim_vec: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="generate-class_method">
+  
+    .<strong>generate</strong>(nl, ht_delay, delay_model, path: &quot;#{nl.name}.txt&quot;, forbidden_vectors: [], explicit: true, bin_stim_vec: false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5
+6
+7
+8
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta_primitives.rb', line 3</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='id identifier rubyid_nl'>nl</span><span class='comma'>,</span> <span class='id identifier rubyid_ht_delay'>ht_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_model'>delay_model</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nl'>nl</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.txt</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>forbidden_vectors:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>explicit:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>bin_stim_vec:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_generator'>generator</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="AtetaAddOn/Ateta.html" title="AtetaAddOn::Ateta (class)">Ateta</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="AtetaAddOn/Ateta.html#initialize-instance_method" title="AtetaAddOn::Ateta#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_nl'>nl</span><span class='comma'>,</span> <span class='id identifier rubyid_ht_delay'>ht_delay</span><span class='comma'>,</span> <span class='id identifier rubyid_delay_model'>delay_model</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_vec_list'>vec_list</span> <span class='op'>=</span> <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_generate_stim'>generate_stim</span><span class='lparen'>(</span><span class='id identifier rubyid_forbidden_vectors'>forbidden_vectors</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_explicit'>explicit</span>
+    <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_save_explicit'>save_explicit</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>binStimVec:</span> <span class='id identifier rubyid_bin_stim_vec'>bin_stim_vec</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='const'><span class='object_link'><a href="Converter.html" title="Converter (module)">Converter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Converter/GenStim.html" title="Converter::GenStim (class)">GenStim</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Converter/GenStim.html#initialize-instance_method" title="Converter::GenStim#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_nl'>nl</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_save_vec_list'><span class='object_link'><a href="Converter/GenStim.html#save_vec_list-instance_method" title="Converter::GenStim#save_vec_list (method)">save_vec_list</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_vec_list'>vec_list</span><span class='comma'>,</span> <span class='label'>bin_stim_vec:</span> <span class='id identifier rubyid_bin_stim_vec'>bin_stim_vec</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  4 15:19:37 2025 by
+  Generated on Mon Dec  8 18:56:19 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

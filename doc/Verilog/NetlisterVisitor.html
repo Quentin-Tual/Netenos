@@ -1004,7 +1004,15 @@
 129
 130
 131
-132</pre>
+132
+133
+134
+135
+136
+137
+138
+139
+140</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 117</span>
@@ -1020,8 +1028,16 @@
 </span>    <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> not generated from the AST.</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>else</span>
-      <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
-      <span class='id identifier rubyid_p'>p</span> <span class='op'>&lt;=</span> <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
+      <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_input?'>is_input?</span>
+        <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_p'>p</span> <span class='op'>&lt;=</span> <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
+      <span class='kw'>elsif</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_output?'>is_output?</span>
+        <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_p'>p</span> <span class='op'>&lt;=</span> <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Internal error, unexpected state reached.</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
+      
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -1045,14 +1061,6 @@
       <pre class="lines">
 
 
-134
-135
-136
-137
-138
-139
-140
-141
 142
 143
 144
@@ -1060,10 +1068,18 @@
 146
 147
 148
-149</pre>
+149
+150
+151
+152
+153
+154
+155
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/verilog_netlister.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wiringCompOutput'>wiringCompOutput</span> <span class='id identifier rubyid_p'>p</span><span class='comma'>,</span> <span class='id identifier rubyid_wire_name'>wire_name</span>
   <span class='kw'>if</span> <span class='ivar'>@primary_io_wires</span><span class='lbracket'>[</span><span class='id identifier rubyid_wire_name'>wire_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1143,7 +1159,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  4 15:19:50 2025 by
+  Generated on Mon Dec  8 18:56:26 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.4).
 </div>

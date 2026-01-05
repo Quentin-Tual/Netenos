@@ -126,11 +126,15 @@ module Verilog
           raise "Error: #{wire_name} not generated from the AST."
         else
           if @sym_tab[wire_name].is_input?
-            @primary_io_wires[wire_name] <= @sym_tab[wire_name]
-            p <= @primary_io_wires[wire_name]
+            prim_io_w = @primary_io_wires[wire_name]
+            prim_io = @sym_tab[wire_name]
+            prim_io_w <= prim_io unless prim_io.get_sinks.include?(prim_io_w)
+            p <= prim_io_w
           elsif @sym_tab[wire_name].is_output?
-            @sym_tab[wire_name] <= @primary_io_wires[wire_name]
-            p <= @primary_io_wires[wire_name]
+            prim_io_w = @primary_io_wires[wire_name]
+            prim_io = @sym_tab[wire_name]
+            prim_io <= prim_io_w unless prim_io_w.get_sinks.include?(prim_io)
+            p <= prim_io_w
           else
             raise "Error: Internal error, unexpected state reached."
           end
