@@ -87,6 +87,17 @@ module Netlist
             end.flatten
         end
 
+        def get_source_gates 
+            source = get_source
+            if source.is_a? Netlist::Port and source.is_global?
+                source
+            elsif source.instance_of? Netlist::Wire
+                source.get_source_gates
+            else
+                source.partof
+            end
+        end
+
         def get_source_cumul_propag_time
             if @fanin.class.name == "Netlist::Wire" or @fanin.is_global?
                 return @fanin.cumulated_propag_time

@@ -88,14 +88,14 @@ module tb_f51m;
   activity_logger logger(.reset_n(reset_n));
 
   // Instantiate dumpers
-  activity_dumper #(.NAME("tb_pnrxapnr_o0")) dump_o0(.sig(tb_pnrxapnr_o[0]), .cycle(line_count));
-  activity_dumper #(.NAME("tb_pnrxapnr_o1")) dump_o1(.sig(tb_pnrxapnr_o[1]), .cycle(line_count));
-  activity_dumper #(.NAME("tb_pnrxapnr_o2")) dump_o2(.sig(tb_pnrxapnr_o[2]), .cycle(line_count));
-  activity_dumper #(.NAME("tb_pnrxapnr_o3")) dump_o3(.sig(tb_pnrxapnr_o[3]), .cycle(line_count));
-  activity_dumper #(.NAME("tb_pnrxapnr_o4")) dump_o4(.sig(tb_pnrxapnr_o[4]), .cycle(line_count));
-  activity_dumper #(.NAME("tb_pnrxapnr_o5")) dump_o5(.sig(tb_pnrxapnr_o[5]), .cycle(line_count));
-  activity_dumper #(.NAME("tb_pnrxapnr_o6")) dump_o6(.sig(tb_pnrxapnr_o[6]), .cycle(line_count));
-  activity_dumper #(.NAME("tb_pnrxapnr_o7")) dump_o7(.sig(tb_pnrxapnr_o[7]), .cycle(line_count));
+  activity_dumper #(.NAME("o0")) dump_o0(.sig(tb_pnrxapnr_o[0]), .cycle(line_count));
+  activity_dumper #(.NAME("o1")) dump_o1(.sig(tb_pnrxapnr_o[1]), .cycle(line_count));
+  activity_dumper #(.NAME("o2")) dump_o2(.sig(tb_pnrxapnr_o[2]), .cycle(line_count));
+  activity_dumper #(.NAME("o3")) dump_o3(.sig(tb_pnrxapnr_o[3]), .cycle(line_count));
+  activity_dumper #(.NAME("o4")) dump_o4(.sig(tb_pnrxapnr_o[4]), .cycle(line_count));
+  activity_dumper #(.NAME("o5")) dump_o5(.sig(tb_pnrxapnr_o[5]), .cycle(line_count));
+  activity_dumper #(.NAME("o6")) dump_o6(.sig(tb_pnrxapnr_o[6]), .cycle(line_count));
+  activity_dumper #(.NAME("o7")) dump_o7(.sig(tb_pnrxapnr_o[7]), .cycle(line_count));
 
   // Main test sequence
   initial begin

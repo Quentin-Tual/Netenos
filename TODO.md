@@ -14,8 +14,8 @@
 - [x] Use these Bexpr objects to refactor the creation of SMT expressions, a simple visitor would be clever, the SMT_EXPR constant of Gate class objects would be replaced by a Bexpr object linked to each others as a tree 
 - [x] Develop a tool to extract the SMT boolean expression from PDK SCLs
 - [ ] Add `rspec` and `yard` rules in the makefile for gem update and git push 
-- [ ] Create a verilog testbench generator, add rspec tests for it
-- [ ] Check and refactor if necessary the VCD tooling, use rspec for it
+- [x] Create a verilog testbench generator, add rspec tests for it
+- [x] Check and refactor if necessary the VCD tooling, use rspec for it
 - [ ] Add commands and checkups to create a python venv with 'liberty-parser' module installed ? 
 - [ ] Possible to use z3-ruby interface to speed up ATETA by x1.4
 - [ ] Also possible to avoid deep-copy by not inserting the buffer but just add its delay when the insertion location is encountered during generation of the boolean expressions

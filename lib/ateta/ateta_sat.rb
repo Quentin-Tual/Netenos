@@ -26,6 +26,7 @@ module AtetaAddOn
             end
             @altExprExtractor = SmtlibConverter.new(altCirc, @delayModel)
 
+            Dir.mkdir(TMP_SMT_PATH) unless Dir.exist?(TMP_SMT_PATH)
             # TODO : Check if z3 is installed and accessible (in the path)
         end
 

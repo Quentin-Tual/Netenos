@@ -172,7 +172,7 @@ RSpec.describe Netlist::Circuit do
     end
 
     context "Containing wires" do
-        
+
         subject(:wired_circ) {
             circ = Netlist::Circuit.new("test")
             out = Netlist::Port.new('o0', :out)
@@ -270,6 +270,7 @@ RSpec.describe Netlist::Circuit do
             expect{
                 uut.get_timings_hash(delay_model)
                 uut.get_dot_graph
+                `mv #{uut.name}.dot tests/tmp`
                 uut.get_netlist_precedence_grid
                 uut.get_slack_hash
             }.not_to raise_error

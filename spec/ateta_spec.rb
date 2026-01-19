@@ -7,6 +7,7 @@ describe AtetaAddOn::Ateta do
   TEST_V_FILE='tests/verilog/f51m.nl.v'
   DELAY_MODEL=:sdf
   SIMPLIFIER_FUN=:max
+  SMT_PATH = '/tmp/Netenos/htpg_smt'
   
   NETLIST = Verilog.load_netlist(TEST_V_FILE)
   SDF.annotate(NETLIST,TEST_SDF_FILE)
@@ -22,6 +23,8 @@ describe AtetaAddOn::Ateta do
   subject(:ateta) {AtetaAddOn::Ateta.new(nl,payload_delay,delay_model)}
   subject(:save_tvps) {ateta.save_explicit(tvps_save_path)}
   subject(:save_bin_tvps) {Converter::GenStim.new(nl).save_vec_list(bin_tvps_save_path, generate, bin_stim_vec: true)}
+  # subject(:smt_path) {'/tmp/Netenos/htpg_smt'}
+
   context "used on a Verilog parsed netlist with SDF annotation" do
     TVPS_SAVE_PATH = 'tests/tmp/test_ateta.stim'
     subject(:tvps_save_path) {'tests/tmp/test_ateta.stim'}
@@ -35,7 +38,7 @@ describe AtetaAddOn::Ateta do
 
     after :all do 
       `rm tmp.smt` if File.exist?('tmp.smt')
-      `rm -r htpg_smts` if Dir.exist?('htpg_smts')
+      `rm -r #{SMT_PATH}` if Dir.exist?(SMT_PATH)
       `rm #{TVPS_SAVE_PATH}` if File.exist?(TVPS_SAVE_PATH)
     end
 
@@ -46,7 +49,8 @@ describe AtetaAddOn::Ateta do
     it "generates test vectors" do
       generate 
       save_tvps
-      expect(File.exist?('tmp.smt')).to eq(true)
+      expect(Dir.exist?(SMT_PATH)).to eq(true)
+      expect(Dir.empty?(SMT_PATH)).to eq(false)
       expect(File.exist?(tvps_save_path))
     end
 
@@ -61,17 +65,17 @@ describe AtetaAddOn::Ateta do
     subject(:tvps_save_path) {'tests/tmp/test_ateta_glitch.stim'}
     subject(:bin_tvps_save_path) {'tests/tmp/test_bin_ateta_glitch.stim'}
     subject(:generate) {ateta.generate_glitch_stim}
+    # subject(:smt_path) {'/tmp/Netenos/htpg_smt'}
 
     before :example do 
-      `rm -r htpg_smts` if File.exist?('htpg_smts')
+      `rm -r #{SMT_PATH}` if File.exist?(SMT_PATH)
       # `rm #{tvps_save_path}` if File.exist?(tvps_save_path)
     end
 
-     after :example do 
+    after :example do 
       `rm tmp.smt` if File.exist?('tmp.smt')
-      if Dir.exist?('htpg_smts')
-        `cp -r htpg_smts tests/tmp/` 
-        `rm -r htpg_smts`
+      if Dir.exist?(SMT_PATH)
+        `rm -r #{SMT_PATH}`
       end
     end
 
@@ -83,8 +87,8 @@ describe AtetaAddOn::Ateta do
       generate 
       save_tvps
       save_bin_tvps
-      expect(Dir.exist?('htpg_smts')).to eq(true)
-      expect(Dir.empty?('htpg_smts')).to eq(false)
+      expect(Dir.exist?(SMT_PATH)).to eq(true)
+      expect(Dir.empty?(SMT_PATH)).to eq(false)
       expect(File.exist?(tvps_save_path))
     end
 
@@ -99,17 +103,17 @@ describe AtetaAddOn::Ateta do
     subject(:tvps_save_path) {'tests/tmp/test_ateta_max.stim'}
     subject(:bin_tvps_save_path) {'tests/tmp/test_bin_ateta_max.stim'}
     subject(:generate) {ateta.generate_maximized_stim}
+    # subject(:smt_path) {'/tmp/Netenos/htpg_smt'}
 
     before :example do 
-      `rm -r htpg_smts` if File.exist?('htpg_smts')
+      `rm -r #{SMT_PATH}` if File.exist?(SMT_PATH)
       # `rm #{tvps_save_path}` if File.exist?(tvps_save_path)
     end
 
      after :example do 
       `rm tmp.smt` if File.exist?('tmp.smt')
-      if Dir.exist?('htpg_smts')
-        `cp -r htpg_smts tests/tmp/` 
-        `rm -r htpg_smts`
+      if Dir.exist?(SMT_PATH)
+        `rm -r #{SMT_PATH}`
       end
     end
 
@@ -121,8 +125,8 @@ describe AtetaAddOn::Ateta do
       generate 
       save_tvps
       save_bin_tvps
-      expect(Dir.exist?('htpg_smts')).to eq(true)
-      expect(Dir.empty?('htpg_smts')).to eq(false)
+      expect(Dir.exist?(SMT_PATH)).to eq(true)
+      expect(Dir.empty?(SMT_PATH)).to eq(false)
       expect(File.exist?(tvps_save_path))
     end
 

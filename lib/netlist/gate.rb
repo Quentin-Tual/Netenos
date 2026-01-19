@@ -73,9 +73,11 @@ module Netlist
                 word
             else # Port name
                 if pdk_ios[class_name]['inputs'].include? word
-                    "i#{pdk_ios[class_name]['inputs'].index(word)}"
+                    in_p_index = pdk_ios[class_name]['inputs'].index(word)
+                    "i#{in_p_index}"
                 elsif pdk_ios[class_name]['outputs'].include? word
-                    "o#{pdk_ios[class_name]['outputs'].index(word)}"
+                    out_p_index = pdk_ios[class_name]['outputs'].index(word)
+                    "o#{out_p_index}"
                 else 
                     raise "Error: Port name not found for this std cell."
                 end
@@ -287,6 +289,8 @@ module Netlist
                     source = ip.get_source
                     if source.is_a? Netlist::Port and source.is_global?
                         source
+                    elsif source.instance_of? Netlist::Wire
+                        source.get_source_gates
                     else
                         source.partof
                     end
@@ -304,6 +308,7 @@ module Netlist
             @source_gates = nil
         end
     end
+
     class STDCell < Gate; end;
 
     class And < Gate 

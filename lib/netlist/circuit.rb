@@ -739,6 +739,28 @@ module Netlist
             end
           end
 
+          @components.each do |comp|
+            comp.get_outputs.each do |op|
+                op_sinks = op.get_sinks
+                base_len = op_sinks.length
+                if base_len == op_sinks.uniq.length
+                    next
+                else
+                    return false
+                end
+            end
+          end
+
+          @wires.each do |w|
+            sinks = w.get_sinks
+            base_len = sinks.length
+            if base_len == sinks.uniq.length
+                next
+            else
+                return false
+            end
+          end
+
           return true
         end
 
