@@ -38,10 +38,11 @@ module SDF
 
     def visit_CELL(subject)
       is_top_module = subject.instance.data.name.empty?
-      is_eco_buffer = subject.instance.data.include?('eco_buffer')
+      is_eco_buffer = subject.instance.data.name.include?('eco_buffer')
       is_a_buffer = subject.celltype.data.include?('buf')
+      is_a_delay = subject.celltype.data.include?('dly')
 
-      if (!(is_eco_buffer) and (is_a_buffer)) or is_top_module # is not an ECO inserted buffer but is a buffer
+      if (!(is_eco_buffer) and (is_a_buffer or is_a_delay)) or is_top_module # is not an ECO inserted buffer but is a buffer
         subject.delay.accept(self)
       else
         ignore(subject)
