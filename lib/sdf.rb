@@ -4,5 +4,7 @@ require_relative 'sdf/sdf_parser'
 require_relative 'sdf/sdf_simplifier'
 require_relative 'sdf/sdf_deparser'
 require_relative 'sdf/sdf_annotator'
+require_relative 'sdf/sdf_noiseadder'
+require_relative 'sdf/sdf_nullifyroutingdelays'
 
 require_relative 'sdf/sdf_primitives'

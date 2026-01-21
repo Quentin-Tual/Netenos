@@ -20,11 +20,11 @@ RSpec.describe SDF::Parser do
 
     it "Valid SDF matches the parsed then deparsed file" do
       # Read test_sdf file
-      expected = File.read(ref_test_file)
+      expected = ref_test_file
       parse_deparse
       # Read obtained file
-      obtained = File.read(obtained_file)
-      expect(obtained).to eq(expected)
+      obtained = obtained_file
+      expect(FileUtils.identical?(expected, obtained)).to eq(true)
     end
   end
 

@@ -18,7 +18,7 @@
 - [x] Check and refactor if necessary the VCD tooling, use rspec for it
 - [ ] Add commands and checkups to create a python venv with 'liberty-parser' module installed ? 
 - [ ] Possible to use z3-ruby interface to speed up ATETA by x1.4
-- [ ] Also possible to avoid deep-copy by not inserting the buffer but just add its delay when the insertion location is encountered during generation of the boolean expressions
+- [ ] Maybe possible to avoid deep-copy by not inserting the buffer but just add its delay when the insertion location is encountered during generation of the boolean expressions
 - [x] Write and validate an RSpec test for ATETA on a netlist containing Wire class objects
 - [x] Write and validate an RSpec test for ATETA on a Verilog parsed netlist annotated with a SDF file
 - [ ] Modularize Circuit class file, dividing it into different files for different categories, easier to read  

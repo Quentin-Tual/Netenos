@@ -1,8 +1,11 @@
 module SDF
-  class SimplifierVisitor < Visitor
-    def initialize(function = :max) # , ignore_rise_fall = true
-      # @ignore_rise_fall = ignore_rise_fall
-      @fun = function
+  class NoiseAdder < Visitor
+    attr_reader :history, :variation_rate
+
+    def initialize#(variation_rate)
+      # @variation_rate = variation_rate
+      @prng = Random.new
+      @history = []
     end
 
     def visit_node(subject)
@@ -11,8 +14,13 @@ module SDF
 
     def ignore_edge(subject); end
 
+    def visit_edgenode(subject)
+      ignore_edge(subject)
+    end
+
     def visit_Root(subject)
       visit_node(subject)
+      return subject
     end
 
     def visit_DelayNode(subject)
@@ -48,7 +56,7 @@ module SDF
     end
 
     def visit_ABSOLUTE(subject)
-      simplify(subject)
+      add_noise(subject)
     end
 
     def visit_INTERCONNECT(subject)
@@ -59,17 +67,23 @@ module SDF
       ignore_edge(subject)
     end
 
-    def simplify(subject)
-      new_val = subject.apply_fun(@fun)
+    def add_noise(subject)
+      # new_val = subject.apply_fun(@fun)
       subject.subnodes.map do |delayTable|
         delayTable.delays.attr_list.map do |delayArray|
-          set_values(delayArray, new_val)
+          set_values(delayArray)
         end
       end
     end
 
-    def set_values(subject, new_val)
-      subject.min = subject.typ = subject.max = new_val
+    def set_values(subject)
+      # random_noise = @prng.rand(@variation_rate*2) - @variation_rate
+      # @history << random_noise
+      # new_typ = (subject.typ.to_f + random_noise*subject.typ.to_f).round(3)
+      # new_typ = [new_typ, subject.min.to_f].max
+      # new_typ = [new_typ, subject.max.to_f].min
+      subject.typ = (rand(subject.min.to_f..subject.max.to_f).round(3)).to_s
+      @history << subject.typ.to_f
     end
   end
 end

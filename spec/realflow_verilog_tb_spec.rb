@@ -12,9 +12,10 @@ describe Converter::GenRealflowTestbench do
     it "generates the expected testbench" do
       expect{gen_tb}.not_to raise_error
       
-      expected = File.read("tests/realflow_tb_gen/ref_test_realflow_tb.v")
-      actual = File.read("tests/tmp/test_realflow_tb.v") 
-      expect(actual).to eq(expected)
+      expected = "tests/realflow_tb_gen/ref_test_realflow_tb.v"
+      actual = "tests/tmp/test_realflow_tb.v"
+      # expect(actual).to eq(expected)
+      expect(FileUtils.identical?(expected, actual)).to eq(true)
     end
   end
 end

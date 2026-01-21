@@ -26,7 +26,7 @@ module SDF
       end
     end
 
-    def visitRoot subject
+    def visit_Root subject
       visit(subject.subnodes.first)
     end
 

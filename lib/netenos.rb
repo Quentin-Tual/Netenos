@@ -7,6 +7,7 @@ Dir.mkdir($TMP_PATH) unless Dir.exist?($TMP_PATH)
 
 require 'erb'
 require 'json'
+require 'fileutils'
 
 require_relative 'util'
 require_relative 'code'

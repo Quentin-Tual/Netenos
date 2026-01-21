@@ -22,6 +22,11 @@ module SDF
         @subnodes.any?{|obj| obj.instance_of? k}
       end
     end
+
+    def accept(visitor)
+      self_classname = self.class.name.split('::').last
+      visitor.send("visit_#{self_classname}".to_sym, self)
+    end
   end
 
   class EdgeNode
@@ -31,6 +36,11 @@ module SDF
 
     def initialize data
       @data = data
+    end
+
+    def accept(visitor)
+      self_classname = self.class.name.split('::').last
+      visitor.send("visit_#{self_classname}".to_sym, self)
     end
   end
 
@@ -57,13 +67,13 @@ module SDF
     end
 
     def valid?
-      !@name.empty? and subnodes.length == 1
+      !@name.empty? and subnodes.length == 1 and @subnodes.all?{|n| n.valid?}
     end
   end
 
   class DELAYFILE < Node; 
     def valid?
-      contains_class?(DESIGN,TIMESCALE,CELL)
+      contains_class?(DESIGN,TIMESCALE,CELL) and @subnodes.all?{|n| n.valid?}
     end 
 
     def design 
@@ -79,8 +89,16 @@ module SDF
     end
   end
 
-  class DESIGN < EdgeNode; end;
-  class TIMESCALE < EdgeNode; end;
+  class DESIGN < EdgeNode
+    def valid?
+      !(@data.nil? or @data.empty?)
+    end
+  end
+  class TIMESCALE < EdgeNode
+    def valid?
+      @data.valid?
+    end
+  end
   class CELL < Node; 
     def instance
       get_subnode INSTANCE
@@ -93,12 +111,27 @@ module SDF
     def delay
       get_subnode DELAY
     end
+
+    def valid?
+      contains_class?(INSTANCE,CELLTYPE,DELAY) and @subnodes.all?{|n| n.valid?}
+    end 
   end
-  class CELLTYPE < EdgeNode; end;
-  class INSTANCE < EdgeNode; end;
+
+  class CELLTYPE < EdgeNode
+    def valid?
+      !(@data.nil? or @data.empty?)
+    end
+  end
+
+  class INSTANCE < EdgeNode
+    def valid?
+      @data.valid?
+    end
+  end
+
   class DELAY < Node
     def valid?
-      contains_class? ABSOLUTE
+      contains_class? ABSOLUTE and @subnodes.all?{|n| n.valid?}
     end
 
     def absolute
@@ -108,7 +141,7 @@ module SDF
 
   class ABSOLUTE < Node
     def valid?
-      contains_class?(INTERCONNECT)
+      contains_class?(INTERCONNECT) and @subnodes.all?{|n| n.valid?}
     end
 
     def interconnects
@@ -131,7 +164,7 @@ module SDF
     end
   end
 
-  class INTERCONNECT < DelayNode;
+  class INTERCONNECT < DelayNode
     def apply_fun fun
       values = attr_flat_float_list
       if fun == :avg or fun == :mean
@@ -140,14 +173,26 @@ module SDF
         values.send(fun)
       end
     end
-  end;
-  class IOPATH < DelayNode; end;
 
+    def valid?
+      @wire.valid? and @delays.valid?
+    end
+  end
+
+  class IOPATH < DelayNode
+    def valid?
+      @subnodes.all?{|n| n.valid?}
+    end
+  end
   class Ident
     attr_reader :name
 
     def initialize name
       @name = name
+    end
+
+    def valid?
+      !@name.nil?
     end
   end
 
@@ -157,6 +202,10 @@ module SDF
     def initialize val
       @val = val
     end
+
+    def valid? 
+      !@val.nil?
+    end
   end
 
   class Wire 
@@ -164,6 +213,10 @@ module SDF
     def initialize(source_name, sink_name)
       @source_name = source_name
       @sink_name = sink_name
+    end
+
+    def valid? 
+      @source_name.valid? and @sink_name.valid? and @source_name != @sink_name
     end
   end
 
@@ -177,6 +230,10 @@ module SDF
 
     def attr_list 
       [@rise,@fall]
+    end
+
+    def valid?
+      @rise.valid? and @fall.valid?
     end
   end
 
@@ -194,6 +251,10 @@ module SDF
 
     def attr_float_list
       [@min,@typ,@max].map(&:to_f)
+    end
+
+    def valid?
+      (@typ <= @max) and (@typ >= @min) and (@max >= @min)
     end
   end
 end

@@ -21,6 +21,11 @@ module SDF
       end
     end
 
+    def visit_Root(subject)
+      visit(subject.subnodes.first)
+      @txt.save_as(@path)
+    end
+
     def visit_node(subject)
       keyword = subject.class.name.split('::')[1]
       @txt << "(#{keyword}"
