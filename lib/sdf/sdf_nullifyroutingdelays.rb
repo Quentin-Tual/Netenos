@@ -83,7 +83,7 @@ module SDF
     end
 
     def set_values(subject, new_val)
-      subject.min = subject.typ = subject.max = new_val
+      subject.min = subject.typ = subject.max = format('%<num>1.3f', num: new_val)
     end
   end
 end

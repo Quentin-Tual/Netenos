@@ -23,6 +23,7 @@
     (INTERCONNECT _2_.X _4_.A (0.000:0.000:0.001) (0.000:0.000:0.001))
     (INTERCONNECT _3_.X _4_.B (0.000:0.000:0.001) (0.000:0.000:0.001))
     (INTERCONNECT _4_.X o0 (0.000:0.000:0.001) (0.000:0.000:0.001))
+    (INTERCONNECT eco_buffer_0.X _38_.A1 (0.001:0.001:0.001) (0.000:0.000:0.001))
    )
   )
  )
@@ -71,6 +72,24 @@
    (ABSOLUTE
     (IOPATH A X (0.167:0.167:0.167) (0.076:0.076:0.076))
     (IOPATH A X (0.164:0.164:0.164) (0.160:0.160:0.160))
+   )
+  )
+ )
+ (CELL
+  (CELLTYPE "sky130_fd_sc_hd__buf_8")
+  (INSTANCE eco_buffer_0)
+  (DELAY
+   (ABSOLUTE
+    (IOPATH A X (0.113:0.113:0.113) (0.138:0.138:0.138))
+   )
+  )
+ )
+ (CELL
+  (CELLTYPE "sky130_fd_sc_hd__dlymetal6s2s_1")
+  (INSTANCE input14)
+  (DELAY
+   (ABSOLUTE
+    (IOPATH A X (0.184:0.184:0.184) (0.173:0.173:0.173))
    )
   )
  )

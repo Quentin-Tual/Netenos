@@ -56,7 +56,7 @@ module ActivityLog
     def initialize log, stim_path, nb_outputs
       @log = log
       @stim_targets = {}
-      @TMP_FILEPATH = "#{$TMP_PATH}/#{stim_path}.tmp"
+      @TMP_FILEPATH = "#{$TMP_PATH}/#{File.basename(stim_path)}.tmp"
       @nb_outputs = nb_outputs
       @nb_inputs = 0
       load_stim_from(stim_path)

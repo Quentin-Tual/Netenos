@@ -82,8 +82,13 @@ module SDF
       # new_typ = (subject.typ.to_f + random_noise*subject.typ.to_f).round(3)
       # new_typ = [new_typ, subject.min.to_f].max
       # new_typ = [new_typ, subject.max.to_f].min
-      subject.typ = (rand(subject.min.to_f..subject.max.to_f).round(3)).to_s
-      @history << subject.typ.to_f
+      min = subject.min.to_f
+      max = subject.max.to_f
+      unless min >= max 
+        new_val = rand(min..max).round(3)
+        subject.typ = format('%<num>1.3f', num: new_val)
+        @history << subject.typ
+      end
     end
   end
 end

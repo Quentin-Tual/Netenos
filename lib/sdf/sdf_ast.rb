@@ -27,6 +27,10 @@ module SDF
       self_classname = self.class.name.split('::').last
       visitor.send("visit_#{self_classname}".to_sym, self)
     end
+
+    def valid?
+      @subnodes.all?{|n| n.valid?}
+    end
   end
 
   class EdgeNode
@@ -67,13 +71,14 @@ module SDF
     end
 
     def valid?
-      !@name.empty? and subnodes.length == 1 and @subnodes.all?{|n| n.valid?}
+      !@name.empty? and subnodes.length == 1 
+      super
     end
   end
 
   class DELAYFILE < Node; 
     def valid?
-      contains_class?(DESIGN,TIMESCALE,CELL) and @subnodes.all?{|n| n.valid?}
+      contains_class?(DESIGN,TIMESCALE,CELL) and super
     end 
 
     def design 
@@ -113,7 +118,7 @@ module SDF
     end
 
     def valid?
-      contains_class?(INSTANCE,CELLTYPE,DELAY) and @subnodes.all?{|n| n.valid?}
+      contains_class?(INSTANCE,CELLTYPE,DELAY) and super
     end 
   end
 
@@ -131,7 +136,7 @@ module SDF
 
   class DELAY < Node
     def valid?
-      contains_class? ABSOLUTE and @subnodes.all?{|n| n.valid?}
+      (contains_class?(ABSOLUTE)) and super
     end
 
     def absolute
@@ -141,7 +146,7 @@ module SDF
 
   class ABSOLUTE < Node
     def valid?
-      contains_class?(INTERCONNECT) and @subnodes.all?{|n| n.valid?}
+      (contains_class?(INTERCONNECT) or contains_class?(IOPATH)) and super
     end
 
     def interconnects
@@ -179,11 +184,20 @@ module SDF
     end
   end
 
-  class IOPATH < DelayNode
-    def valid?
-      @subnodes.all?{|n| n.valid?}
+  class IOPATH < DelayNode;
+    def apply_fun fun
+      values = attr_flat_float_list
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
     end
-  end
+
+    def valid?
+      @wire.valid? and @delays.valid?
+    end
+  end;
   class Ident
     attr_reader :name
 
@@ -254,7 +268,10 @@ module SDF
     end
 
     def valid?
-      (@typ <= @max) and (@typ >= @min) and (@max >= @min)
+      typ = @typ.to_f
+      min = @min.to_f
+      max = @max.to_f
+      (typ <= max) and (typ >= min) and (max >= min)
     end
   end
 end
