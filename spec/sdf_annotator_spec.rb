@@ -168,7 +168,7 @@ RSpec.describe SDF::Annotator do
         d = comp.propag_time[:sdf]
         expect(d).not_to eq(nil) 
         expect(d).to be_kind_of(Integer)
-      endgit 
+      end
     end
 
     it "applied a :sdf delay to each wire of the given netlist" do
