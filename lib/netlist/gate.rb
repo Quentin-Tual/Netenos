@@ -161,6 +161,10 @@ module Netlist
             @tag = nil
         end
 
+        def accept(visitor)
+            visitor.visit_Gate(self)
+        end
+
         def <<(e)
             e.partof = self
             case e 

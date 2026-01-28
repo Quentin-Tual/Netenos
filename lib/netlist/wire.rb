@@ -12,6 +12,10 @@ module Netlist
             @slack = nil
         end
 
+        def accept(visitor)
+            visitor.visit_Wire(self)
+        end
+
         def <= source 
 
             if source.nil? 

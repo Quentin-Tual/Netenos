@@ -47,8 +47,8 @@ module Netlist
             end
         end
 
-        def pretty_print(pp)
-            pp.text @name
+        def accept(visitor)
+            visitor.visit_Circuit(self)
         end
 
         def getNetlistInformations delay_model

@@ -16,6 +16,10 @@ module Netlist
             @tag = nil
         end
 
+        def accept(visitor)
+            visitor.visit_Port(self)
+        end
+
         def check_link_fanout?
             !@fanout.empty? and @fanout.collect{|sink| sink.get_source}.all?{|sink_source| sink_source == self}
         end
