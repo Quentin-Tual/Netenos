@@ -3,14 +3,16 @@ module Verilog
   class NetlisterVisitor < Visitor
     attr_reader :netlist
     
+    IGNORE_KEYWORDS = ['ANTENNA','FILLER','ROW']
+
     def initialize #, ignore_rise_fall = true
       @netlist=nil
       
       @pdk_ios = JSON.parse(File.read($PDK_IOS_JSON))# Récupérer les données dans le hash du PDK
       @pdk_fun = JSON.parse(File.read($PDK_FUN_JSON))
-      @wiring = {}
+      @wiring = {} # Associates a sink to her source
       @sym_tab = {}
-      @primary_io_wires = {}
+      # @primary_io_wires = {}
     end
 
     def visit(root)
@@ -20,7 +22,7 @@ module Verilog
         raise "Error: Expecting a Verilog::Root class, encountered a #{root.class}"
       end
       
-      wiringStep
+      # wiringStep
       @netlist
     end
 
@@ -28,8 +30,9 @@ module Verilog
       @netlist = Netlist::Circuit.new(visitIdent(mod.name))
       mod.inputs.each{|o| @netlist << visitInput(o)}
       mod.outputs.each{|o| @netlist << visitOutput(o)}
-      mod.instances.each{|o| @netlist << visitInstance(o)}
-      mod.wires.each{|o| w=visitWire(o); @netlist << w unless w.nil?;}
+      mod.instances.each{|o| @netlist << visitInstance(o) unless (o.port_map.nil?) or (visitIdent(o.instance_name).include? 'ANTENNA')}
+      # mod.wires.each{|o| w=visitWire(o); @netlist << w unless w.nil?;}
+      @wiring.each_with_index{|(sink,source),i| wire(sink,source,i)}
     end
 
     def visitInput ip
@@ -48,11 +51,14 @@ module Verilog
       klass = Netlist.create_pdk_class(klassname, @pdk_fun, @pdk_ios)
       
       instance_name = visitIdent(inst.instance_name) 
-      comp = @sym_tab[instance_name] = klass.new(instance_name, @netlist)
-      comp.get_ports.each{|p| @sym_tab[p.get_full_name] = p}
+      # unless IGNORE_KEYWORDS.one?{|kw| instance_name.include? kw} 
+        comp = @sym_tab[instance_name] = klass.new(instance_name, @netlist)
+        comp.get_ports.each{|p| @sym_tab[p.get_full_name] = p}
 
-      visitPortmap(inst.port_map, stdcell_name, instance_name) unless inst.port_map.nil?
-      comp
+        visitPortmap(inst.port_map, stdcell_name, instance_name)
+        comp
+      # end
+      # nil
     end
 
     def visitPortmap portmap, stdcell_name, instance_name
@@ -65,28 +71,24 @@ module Verilog
     def visitPortmapElt portmap_element, stdcell_name, instance_name
 
       port_name = equivalentPortName(stdcell_name, instance_name, visitIdent(portmap_element.port))
-      wire_name = visitIdent(portmap_element.wire) # ! Replaces every '_' by a '-' for compatibility with Netenos
-      if @wiring[instance_name].nil?
-        @wiring[instance_name] = {port_name => wire_name}
-      else
-        @wiring[instance_name][port_name] = wire_name
+      wire_name = visitIdent(portmap_element.wire) 
+      if port_name[0] == 'i' # is an input
+        if !@sym_tab[wire_name].nil? and @sym_tab[wire_name].is_global? and @sym_tab[wire_name].is_output?
+          # Get source of global output 
+          source_of_primary_output = @wiring[wire_name]
+          @wiring["#{instance_name}/#{port_name}"] = source_of_primary_output
+        else
+          @wiring["#{instance_name}/#{port_name}"] = wire_name
+        end
+      elsif port_name[0] == 'o'
+        if !@sym_tab[wire_name].nil? and @sym_tab[wire_name].is_global? and @sym_tab[wire_name].is_output?
+          @wiring[wire_name] = "#{instance_name}/#{port_name}"
+        else 
+          @sym_tab[wire_name] = @sym_tab["#{instance_name}/#{port_name}"]
+        end
+      else 
+        raise "Error: expected an input or an output port, got a name corresponding to none : #{port_name}."
       end
-    end
-
-    def visitWire w
-      # TODO : Create a Buffer as an object with an input and an output
-      wname = visitIdent(w.name) # ! Replaces every '_' by a '-' for compatibility with Netenos
-      if @sym_tab[wname].nil?
-        @sym_tab[wname] = Netlist::Wire.new(wname) 
-      elsif @sym_tab[wname]
-        @primary_io_wires[wname] = Netlist::Wire.new(wname)
-      else
-        raise "Error: the wire #{w} has the same name as another object #{@sym_tab[wname]} already created"
-      end
-    end
-
-    def visitIdent i
-      i.name
     end
 
     def equivalentPortName stdcell_name, inst_name, port_name
@@ -99,6 +101,30 @@ module Verilog
       end
     end
 
+    def visitIdent i
+      i.name
+    end
+
+    def wire sink_name, source_name, i
+      @netlist << w = Netlist::Wire.new("w#{i}")
+      
+      @sym_tab[sink_name] <= w 
+      w <= @sym_tab[source_name]
+    end
+
+
+    
+    def visitWire w
+      wname = visitIdent(w.name) 
+      if @sym_tab[wname].nil?
+        @sym_tab[wname] = Netlist::Wire.new(wname) 
+      elsif @sym_tab[wname]
+        @primary_io_wires[wname] = Netlist::Wire.new(wname)
+      else
+        raise "Error: the wire #{w} has the same name as another object #{@sym_tab[wname]} already created"
+      end
+    end
+    
     def wiringStep
       @wiring.each do |instance_name, sub_h|
         sub_h.each do |port_name, wire_name|

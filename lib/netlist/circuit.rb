@@ -691,6 +691,7 @@ module Netlist
             # Plug the wire to source
             w <= source
           end
+          self
         end
 
         def remove_wires

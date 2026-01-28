@@ -1,6 +1,9 @@
 module SDF
 
   class Annotator < Visitor
+
+    IGNORE_KEYWORDS = ['ANTENNA','FILLER','ROW']
+
     def initialize netlist, function = :max
       @netlist = netlist
       @fun = function
@@ -76,18 +79,23 @@ module SDF
 
     def visitInterconnection(subject)
       w = subject.wire
+      
       # Find corresponding source in the netlist
       source_name = w.source_name.name
       if source_name.include?(@SDF_PORT_NAME_SEP) # the source is a port of an standard cell instance 
         source_name = get_eq_name(source_name)
       end # else the source is a primary input
-
+      
       # Find corresponding sink in the netlist
       sink_name = w.sink_name.name
       if sink_name.include?(@SDF_PORT_NAME_SEP) # the source is a port of an standard cell instance 
         sink_name = get_eq_name(sink_name)
       end # else the source is a primary input
         
+      if sink_name.nil? or source_name.nil?
+        return
+      end
+
       # Find corresponding wire in the netlist if it exists
       found_wire = @netlist.wires.find do |w|
         # source has computed source_name as name
@@ -96,6 +104,7 @@ module SDF
         valid_sink = w.get_sinks.collect{|sink| sink.get_full_name}.include? sink_name
         valid_source and valid_sink 
       end
+
       if found_wire.nil?
         # Raise an error if not found
         raise "Error: No wire matching with the INTERCONNECTION #{subject}, connecting #{subject.wire.source_name.name} (#{source_name} in the netlist) to #{subject.wire.sink_name.name} (#{sink_name} in the netlist)"
@@ -107,12 +116,22 @@ module SDF
     
     def get_eq_name name
       instance_name, port_name = name.split(@SDF_PORT_NAME_SEP)
-      celltype = @netlist.get_component_named(instance_name).class.name.split('::').last.downcase
-      # Convert source_name using PDK_JSON and celltype
-      if @pdk_ios[celltype]["inputs"].include? port_name
-        "#{instance_name}#{$FULL_PORT_NAME_SEP}i#{@pdk_ios[celltype]["inputs"].index(port_name)}" 
-      elsif @pdk_ios[celltype]["outputs"].include? port_name
-        "#{instance_name}#{$FULL_PORT_NAME_SEP}o#{@pdk_ios[celltype]["outputs"].index(port_name)}" 
+      instance = @netlist.get_component_named(instance_name)
+      if !instance.nil?
+        celltype = instance.class.name.split('::').last.downcase
+
+        # Convert source_name using PDK_JSON and celltype
+        if @pdk_ios[celltype].nil?
+          raise "Error: Unknown celltype #{celltype} in pdk io library."
+        else
+          if @pdk_ios[celltype]["inputs"].include? port_name
+            "#{instance_name}#{$FULL_PORT_NAME_SEP}i#{@pdk_ios[celltype]["inputs"].index(port_name)}" 
+          elsif @pdk_ios[celltype]["outputs"].include? port_name
+            "#{instance_name}#{$FULL_PORT_NAME_SEP}o#{@pdk_ios[celltype]["outputs"].index(port_name)}" 
+          end
+        end
+      else
+        nil
       end
     end
 
