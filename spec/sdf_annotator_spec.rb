@@ -168,18 +168,8 @@ RSpec.describe SDF::Annotator do
         d = comp.propag_time[:sdf]
         expect(d).not_to eq(nil) 
         expect(d).to be_kind_of(Integer)
-      end
+      endgit 
     end
-
-    # it "applied the correct delay to gates" do 
-    #   nl = annotated_nl
-    #   g = nl.get_component_named("_2_")
-    #   expect(g.propag_time[:sdf]).to eq(145)
-    #   g = nl.get_component_named("_3_")
-    #   expect(g.propag_time[:sdf]).to eq(73)
-    #   g = nl.get_component_named("_4_")
-    #   expect(g.propag_time[:sdf]).to eq(73)
-    # end
 
     it "applied a :sdf delay to each wire of the given netlist" do
       annotated_nl.wires.each do |w|
