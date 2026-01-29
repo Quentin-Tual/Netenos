@@ -1,6 +1,6 @@
 module SDF
   class NoiseAdder < Visitor
-    attr_reader :history, :variation_rate
+    attr_reader :history
 
     def initialize#(variation_rate)
       # @variation_rate = variation_rate
@@ -86,8 +86,8 @@ module SDF
       max = subject.max.to_f
       unless min >= max 
         new_val = rand(min..max).round(3)
+        @history << new_val - subject.typ.to_f
         subject.typ = format('%<num>1.3f', num: new_val)
-        @history << subject.typ
       end
     end
   end
