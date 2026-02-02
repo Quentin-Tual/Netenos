@@ -133,6 +133,10 @@ module SDF
   end
 
   class DESIGN < EdgeNode
+    def accept visitor
+      visitor.visitDesign(self)
+    end
+
     def valid?
       !(@data.nil? or @data.empty?)
     end
@@ -155,18 +159,30 @@ module SDF
       get_subnode DELAY
     end
 
+    def accept visitor
+      visitor.visitCell(self)
+    end
+
     def valid?
       contains_class?(INSTANCE,CELLTYPE,DELAY) and super
     end 
   end
 
   class CELLTYPE < EdgeNode
+    def accept visitor
+      visitor.visitCellType(self)
+    end
+
     def valid?
       !(@data.nil? or @data.empty?)
     end
   end
 
   class INSTANCE < EdgeNode
+    def accept visitor 
+      visitor.accept(self)
+    end
+
     def valid?
       @data.valid?
     end
@@ -177,12 +193,20 @@ module SDF
       (contains_class?(ABSOLUTE)) and super
     end
 
+    def accept visitor
+      visitor.visitDelay(self)
+    end
+
     def absolute
       get_subnode ABSOLUTE
     end
   end
 
   class ABSOLUTE < Node
+    def accept visitor
+      visitor.visitAbsolute(self)
+    end
+
     def valid?
       (contains_class?(INTERCONNECT) or contains_class?(IOPATH)) and super
     end
@@ -271,6 +295,10 @@ module SDF
       @name = name
     end
 
+    def accept visitor
+      visitor.visitIdent(self)
+    end
+
     def valid?
       !@name.nil?
     end
@@ -282,6 +310,11 @@ module SDF
     def initialize val
       @val = val
     end
+
+    def accept visitor
+      visitor.visitTime(self)
+    end
+
 
     def valid? 
       !@val.nil?
@@ -351,6 +384,10 @@ module SDF
 
     def attr_float_list
       [@min,@typ,@max].map(&:to_f)
+    end
+
+    def accept visitor
+      visitor.visitDelayArray(self)
     end
 
     def valid?
