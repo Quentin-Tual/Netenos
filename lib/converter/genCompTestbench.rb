@@ -152,7 +152,7 @@ module Converter
       }
     end
 
-    def gen_testbench circ_name, stim_file, clk_period = 5, path: ""
+    def gen_testbench circ_name, stim_file, clk_period = 5, path: "", full_traces: false
       @engine = ERB.new(IO.read("#{File.dirname(__FILE__)}/tb_templates/tb_comp_realflow.v"))
 
       # total_cycles = # Calculer le nombre de vecteurs de test dans le stim_file 
