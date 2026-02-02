@@ -124,7 +124,7 @@ module <%=tb_entity_name%>;
   initial begin
     // Create a dump file
     $dumpfile("tb_<%=circ_name%>.vcd");
-    <%=full_traces ? "//" : "" %>$dumpvars(0, tb_<%=circ_name%>);  // Dump all levels
+    <%=full_traces ? "" : "//" %>$dumpvars(0, tb_<%=circ_name%>);  // Dump all levels
     $dumpvars(1, clk);
     $dumpvars(1, i);
     $dumpvars(1, tb_pnrxapnr_o);
