@@ -4,9 +4,10 @@ module SDF
 
     IGNORE_KEYWORDS = ['ANTENNA','FILLER','ROW']
 
-    def initialize netlist, function = :max
+    def initialize netlist, function = :max, col: :typ
       @netlist = netlist
       @fun = function
+      @col = col
       @pdk_ios = JSON.parse(File.read($PDK_IOS_JSON))
       @SDF_PORT_NAME_SEP = '.' # !!! Extract it from the AST, Modify the parser to get it.
 
@@ -74,7 +75,7 @@ module SDF
     end
 
     def visitAbsolute(subject)
-      subject.apply_fun(@fun)
+      subject.apply_fun_to_col(@fun, @col)
     end
 
     def visitInterconnection(subject)
@@ -110,7 +111,7 @@ module SDF
         raise "Error: No wire matching with the INTERCONNECTION #{subject}, connecting #{subject.wire.source_name.name} (#{source_name} in the netlist) to #{subject.wire.sink_name.name} (#{sink_name} in the netlist)"
       else
         # Annotate the sdf delay to the wire according to the function specified at instanciation 
-        found_wire.propag_time[:sdf] = (subject.apply_fun(@fun)*1000).to_i 
+        found_wire.propag_time[:sdf] = (subject.apply_fun_to_col(@fun, @col)*1000).to_i 
       end 
     end
     

@@ -61,6 +61,32 @@ module SDF
         delayArr.attr_float_list
       end.flatten
     end
+
+    def get_flat_float_list attr
+      @delays.get_float_list(attr)
+    end
+
+    def apply_fun fun
+      values = attr_flat_float_list
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
+
+    def apply_fun_to_col fun, col
+      values = get_flat_float_list(col)
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
+
+    def valid?
+      @wire.valid? and @delays.valid?
+    end
   end
 
   class Root < Node 
@@ -167,36 +193,59 @@ module SDF
         values.send(fun)
       end
     end
+
+    def apply_fun_to_col fun, col
+      unless [:min,:typ,:max].include? col 
+        raise "Error: unknown column #{col}, expecting :min, :typ, or :max symbol."
+      end
+      values = @subnodes.collect do |dly_node|
+        dly_node.get_flat_float_list(col)
+      end.flatten
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
   end
 
   class INTERCONNECT < DelayNode
-    def apply_fun fun
-      values = attr_flat_float_list
-      if fun == :avg or fun == :mean
-        (values.sum / values.size).round(3)
-      else # :min or :max
-        values.send(fun)
-      end
-    end
+    # def apply_fun fun
+    #   values = attr_flat_float_list
+    #   if fun == :avg or fun == :mean
+    #     (values.sum / values.size).round(3)
+    #   else # :min or :max
+    #     values.send(fun)
+    #   end
+    # end
 
-    def valid?
-      @wire.valid? and @delays.valid?
-    end
+    # def apply_fun_to_col fun, col
+    #   values = get_flat_float_list(col)
+    #   if fun == :avg or fun == :mean
+    #     (values.sum / values.size).round(3)
+    #   else # :min or :max
+    #     values.send(fun)
+    #   end
+    # end
+
+    # def valid?
+    #   @wire.valid? and @delays.valid?
+    # end
   end
 
   class IOPATH < DelayNode;
-    def apply_fun fun
-      values = attr_flat_float_list
-      if fun == :avg or fun == :mean
-        (values.sum / values.size).round(3)
-      else # :min or :max
-        values.send(fun)
-      end
-    end
+    # def apply_fun fun
+    #   values = attr_flat_float_list
+    #   if fun == :avg or fun == :mean
+    #     (values.sum / values.size).round(3)
+    #   else # :min or :max
+    #     values.send(fun)
+    #   end
+    # end
 
-    def valid?
-      @wire.valid? and @delays.valid?
-    end
+    # def valid?
+    #   @wire.valid? and @delays.valid?
+    # end
   end;
   class Ident
     attr_reader :name
@@ -242,8 +291,12 @@ module SDF
       @fall = fall
     end
 
-    def attr_list 
+    def attr_list
       [@rise,@fall]
+    end
+
+    def get_float_list attr
+      [@rise.send(attr).to_f,@fall.send(attr).to_f]
     end
 
     def valid?
