@@ -48,36 +48,76 @@ module SDF
       visit_node(subject)
     end
 
-    def get_rise_values subject
-      SDF_COLS.collect{|col| subject.apply_fun_to_col_rising(@fun,col)}
+    def get_rise_values(g)
+      SDF_COLS.collect do |col| 
+        g.collect do |iopath| 
+          iopath.get_flat_float_list_rising(col)
+        end.flatten
+      end
     end
 
-    def get_fall_values subject
-      SDF_COLS.collect{|col| subject.apply_fun_to_col_falling(@fun,col)}
+    def get_fall_values g
+      SDF_COLS.collect do |col| 
+        g.collect do |iopath| 
+          iopath.get_flat_float_list_falling(col)
+        end.flatten
+      end
     end
   
     def get_ioarcs_group absolute_node
       absolute_node.subnodes.group_by{|n| n.wire.source_name.name + n.wire.sink_name.name}.values
     end
 
+    def simplify_ioarc_group_by_fun(subject)
+      groups = get_ioarcs_group(subject)
+      groups.each do |g|
+      # Pour chaque colonne (min, typ, max)
+        # Récupérer toutes les valeurs RISE des éléments de g 
+        # Récupérer toutes les valeurs FALL des éléments de g
+        # Appliquer la fonction @fun pour conserver une seule valeur
+        @rise_values = get_rise_values(g).collect{|col_values| apply_fun_to_arr(col_values)}
+        @fall_values = get_fall_values(g).collect{|col_values| apply_fun_to_arr(col_values)}
+        # Fixer toutes les valeurs RISE à la valeur obtenue
+        # Idem pour les valeurs FALL
+        g.each{|iopath_node| iopath_node.accept(self)} 
+      end
+    end 
+
     def visit_ABSOLUTE(subject)
       unless subject.contains_class? INTERCONNECT
-        groups = get_ioarcs_group(subject)
-        groups.each do |g|
-        # Pour chaque colonne (min, typ, max)
-          # Récupérer toutes les valeurs RISE des éléments de g 
-          rise_values = SDF_COLS.collect{|col| g.collect{|iopath| iopath.get_flat_float_list_rising(col)}.flatten}
-          # Récupérer toutes les valeurs FALL des éléments de g
-          fall_values = SDF_COLS.collect{|col| g.collect{|iopath| iopath.get_flat_float_list_falling(col)}.flatten}
-          # Appliquer la fonction @fun pour conserver une seule valeur
-          @rise_values = rise_values.collect{|col_values| apply_fun_to_arr(col_values)}
-          @fall_values = fall_values.collect{|col_values| apply_fun_to_arr(col_values)}
-          # Fixer toutes les valeurs RISE à la valeur obtenue
-          # Idem pour les valeurs FALL
-          g.each{|iopath_node| iopath_node.accept(self)} 
-        end
+        simplify_ioarc_group_by_fun(subject)
       end
     end
+
+    # def get_last_rise_value g
+    #   SDF_COLS.collect do |col| 
+    #     iopath = g.last
+    #     iopath.get_flat_float_list_rising(col)
+    #   end
+    # end
+
+    # def get_last_fall_value g
+    #   SDF_COLS.collect do |col| 
+    #     iopath = g.last
+    #     iopath.get_flat_float_list_falling(col)
+    #   end
+    # end
+
+    # def simplify_ioarc_group_by_last(subject)
+    #   groups = get_ioarcs_group(subject)
+    #   groups.each do |g|
+    #   # Pour chaque colonne (min, typ, max)
+    #     # Récupérer toutes les valeurs RISE des éléments de g 
+    #     # Récupérer toutes les valeurs FALL des éléments de g
+    #     # Appliquer la fonction @fun pour conserver une seule valeur
+        
+    #     @rise_values = get_last_rise_values(g)#.collect{|col_values| apply_fun_to_arr(col_values)}
+    #     @fall_values = get_last_fall_values(g)#.collect{|col_values| apply_fun_to_arr(col_values)}
+    #     # Fixer toutes les valeurs RISE à la valeur obtenue
+    #     # Idem pour les valeurs FALL
+    #     g.each{|iopath_node| iopath_node.accept(self)} 
+    #   end
+    # end
 
     def visit_INTERCONNECT(subject)
       ignore_edge(subject)

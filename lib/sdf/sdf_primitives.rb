@@ -45,4 +45,12 @@ module SDF
     deparser = Deparser.new(modified_path)
     ast.accept(deparser)
   end
+
+  def self.simplifyRFIOLastVal sdf_path, modified_path
+    ast = Parser.new.parse(sdf_path)
+    simplifyer = SimplifierRFIOLastValVisitor.new
+    ast.accept(simplifyer)
+    deparser = Deparser.new(modified_path)
+    ast.accept(deparser)
+  end
 end
