@@ -1,8 +1,8 @@
 module SDF
   
-  def self.annotate nl, sdf_path 
+  def self.annotate nl, sdf_path, fun: :max, col: :typ
     ast = Parser.new.parse(sdf_path)
-    annotator = Annotator.new(nl, :max)
+    annotator = Annotator.new(nl, fun, col: col)
     ast.accept(annotator)
   end
 

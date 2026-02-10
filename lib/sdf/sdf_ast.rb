@@ -56,6 +56,10 @@ module SDF
       @delays = delays
     end
 
+    def same_wire? w
+      @wire.identical? w
+    end
+
     def attr_flat_float_list 
       @delays.attr_list.collect do |delayArr|
         delayArr.attr_float_list
@@ -64,6 +68,14 @@ module SDF
 
     def get_flat_float_list attr
       @delays.get_float_list(attr)
+    end
+
+    def get_flat_float_list_rising attr
+      @delays.get_float_list_rising(attr)
+    end
+
+    def get_flat_float_list_falling attr
+      @delays.get_float_list_falling(attr)
     end
 
     def apply_fun fun
@@ -195,9 +207,6 @@ module SDF
     end
 
     def apply_fun_to_col fun, col
-      unless [:min,:typ,:max].include? col 
-        raise "Error: unknown column #{col}, expecting :min, :typ, or :max symbol."
-      end
       values = @subnodes.collect do |dly_node|
         dly_node.get_flat_float_list(col)
       end.flatten
@@ -207,45 +216,53 @@ module SDF
         values.send(fun)
       end
     end
+
+    def apply_fun_to_col_rising fun, col
+      values = @subnodes.collect do |dly_node|
+        dly_node.get_flat_float_list_rising(col)
+      end.flatten
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
+
+    def apply_fun_to_col_falling fun, col
+      values = @subnodes.collect do |dly_node|
+        dly_node.get_flat_float_list_falling(col)
+      end.flatten
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
+  
+    def apply_fun_to_col_rising_ioarc fun, col, g
+      values = g.collect{|n| n.get_flat_float_list_rising(col)}
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
+    
+    def apply_fun_to_col_falling_ioarc fun, col, g
+      values = g.collect{|n| n.get_flat_float_list_falling(col)}
+      if fun == :avg or fun == :mean
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
+
   end
 
   class INTERCONNECT < DelayNode
-    # def apply_fun fun
-    #   values = attr_flat_float_list
-    #   if fun == :avg or fun == :mean
-    #     (values.sum / values.size).round(3)
-    #   else # :min or :max
-    #     values.send(fun)
-    #   end
-    # end
-
-    # def apply_fun_to_col fun, col
-    #   values = get_flat_float_list(col)
-    #   if fun == :avg or fun == :mean
-    #     (values.sum / values.size).round(3)
-    #   else # :min or :max
-    #     values.send(fun)
-    #   end
-    # end
-
-    # def valid?
-    #   @wire.valid? and @delays.valid?
-    # end
   end
 
   class IOPATH < DelayNode;
-    # def apply_fun fun
-    #   values = attr_flat_float_list
-    #   if fun == :avg or fun == :mean
-    #     (values.sum / values.size).round(3)
-    #   else # :min or :max
-    #     values.send(fun)
-    #   end
-    # end
-
-    # def valid?
-    #   @wire.valid? and @delays.valid?
-    # end
   end;
   class Ident
     attr_reader :name
@@ -278,6 +295,10 @@ module SDF
       @sink_name = sink_name
     end
 
+    def identical? w
+      (@source_name == w.source_name) and (@sink_name == w.sink_name)
+    end
+
     def valid? 
       @source_name.valid? and @sink_name.valid? and @source_name != @sink_name
     end
@@ -296,11 +317,23 @@ module SDF
     end
 
     def get_float_list attr
-      [@rise.send(attr).to_f,@fall.send(attr).to_f]
+      [@rise.send(attr).to_f, @fall.send(attr).to_f]
+    end
+
+    def get_float_list_rising attr
+      @rise.send(attr).to_f
+    end
+
+    def get_float_list_falling attr
+      @fall.send(attr).to_f
     end
 
     def valid?
       @rise.valid? and @fall.valid?
+    end
+
+    def accept(visitor)
+      visitor.visit_DelayTable(self)
     end
   end
 
@@ -325,6 +358,10 @@ module SDF
       min = @min.to_f
       max = @max.to_f
       (typ <= max) and (typ >= min) and (max >= min)
+    end
+
+    def accept(visitor)
+      visitor.visit_DelayArray(self)
     end
   end
 end

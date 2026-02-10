@@ -6,5 +6,7 @@ require_relative 'sdf/sdf_deparser'
 require_relative 'sdf/sdf_annotator'
 require_relative 'sdf/sdf_noiseadder'
 require_relative 'sdf/sdf_nullifyroutingdelays'
+require_relative 'sdf/sdf_simplifier_RF'
+require_relative 'sdf/sdf_simplifier_RFIO'
 
 require_relative 'sdf/sdf_primitives'

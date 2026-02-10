@@ -5,6 +5,11 @@ module SDF
     IGNORE_KEYWORDS = ['ANTENNA','FILLER','ROW']
 
     def initialize netlist, function = :max, col: :typ
+      
+      unless [:min,:typ,:max].include? col 
+        raise "Error: unknown column #{col}, expecting :min, :typ, or :max symbol."
+      end
+
       @netlist = netlist
       @fun = function
       @col = col

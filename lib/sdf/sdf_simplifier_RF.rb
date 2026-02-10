@@ -1,8 +1,8 @@
 module SDF
-  class SimplifierVisitor < Visitor
+  class SimplifierRFVisitor < Visitor
     SDF_COLS = [:min, :typ, :max]
 
-    def initialize(function = :max)
+    def initialize(function = :max) 
       @fun = function
     end
 
@@ -48,15 +48,23 @@ module SDF
       visit_node(subject)
     end
 
+    def get_rise_values subject
+      SDF_COLS.collect{|col| subject.apply_fun_to_col_rising(@fun,col)}
+    end
+
+    def get_fall_values subject
+      SDF_COLS.collect{|col| subject.apply_fun_to_col_falling(@fun,col)}
+    end
+
     def visit_ABSOLUTE(subject)
-      min_values, typ_values, max_values = SDF_COLS.collect{|col| subject.iopaths.collect{|dly_node| dly_node.apply_fun_to_col(@fun,col)}}
-      @new_min, @new_typ, @new_max = [min_values, typ_values, max_values].collect{|arr| apply_fun_to_arr(arr)}
+      @rise_values = get_rise_values(subject)
+      @fall_values = get_fall_values(subject)
+
       visit_node(subject)
     end
 
     def visit_INTERCONNECT(subject)
-      @new_min, @new_typ, @new_max = SDF_COLS.collect{|col| subject.apply_fun_to_col(@fun,col)}
-      subject.delays.accept(self)
+      ignore_edge(subject)
     end
 
     def visit_IOPATH(subject)
@@ -64,7 +72,10 @@ module SDF
     end
 
     def visit_DelayTable(subject)
+      @new_min, @new_typ, @new_max = @rise_values
       subject.rise.accept(self)
+      
+      @new_min, @new_typ, @new_max = @fall_values
       subject.fall.accept(self)
     end 
 
