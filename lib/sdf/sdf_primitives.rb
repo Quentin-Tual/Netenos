@@ -29,4 +29,20 @@ module SDF
     deparser = Deparser.new(modified_path)
     ast.accept(deparser)
   end
+
+  def self.simplifyRF sdf_path, modified_path
+    ast = Parser.new.parse(sdf_path)
+    simplifyer = SimplifierRFVisitor.new
+    ast.accept(simplifyer)
+    deparser = Deparser.new(modified_path)
+    ast.accept(deparser)
+  end
+
+  def self.simplifyRFIO sdf_path, modified_path
+    ast = Parser.new.parse(sdf_path)
+    simplifyer = SimplifierRFIOVisitor.new
+    ast.accept(simplifyer)
+    deparser = Deparser.new(modified_path)
+    ast.accept(deparser)
+  end
 end
