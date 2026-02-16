@@ -1,0 +1,14 @@
+digraph test {
+		graph [rankdir = LR];
+		g1[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{g1|{1|1}}|{<o0>o0}}"]
+		g2[shape=record; style="rounded,filled"; fillcolor=cadetblue; label="{{<i0>i0|<i1>i1}|{g2|{1|2}}|{<o0>o0}}"]
+		i1[shape=cds,xlabel="i1"]
+		i2[shape=cds,xlabel="i2"]
+		i3[shape=cds,xlabel="i3"]
+		o0[shape=cds,xlabel="o0"]
+		i1 -> g2:i0;
+		i2 -> g1:i0;
+		i3 -> g1:i1;
+		g1:o0 -> g2:i1;
+		g2:o0 -> o0;
+}

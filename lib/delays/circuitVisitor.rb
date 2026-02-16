@@ -3,8 +3,22 @@ module Netlist
   class CircuitVisitor < Visitor
     # Abstract class for all circuit exploration tasks
 
+    def initialize nl
+      @nl = nl
+      @visited = Set.new([])
+    end
+
     def raise_not_implemented
       raise "Error: Not implemented"
+    end
+
+    def visited? obj
+      if @visited.include? obj
+        true
+      else
+        @visited << obj
+        false
+      end
     end
 
     def visit_Circuit c

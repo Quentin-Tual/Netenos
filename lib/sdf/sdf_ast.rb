@@ -133,9 +133,9 @@ module SDF
   end
 
   class DESIGN < EdgeNode
-    def accept visitor
-      visitor.visitDesign(self)
-    end
+    # def accept visitor
+    #   visitor.visit_DESIGN(self)
+    # end
 
     def valid?
       !(@data.nil? or @data.empty?)
@@ -159,9 +159,9 @@ module SDF
       get_subnode DELAY
     end
 
-    def accept visitor
-      visitor.visitCell(self)
-    end
+    # def accept visitor
+    #   visitor.visit_Cell(self)
+    # end
 
     def valid?
       contains_class?(INSTANCE,CELLTYPE,DELAY) and super
@@ -169,9 +169,9 @@ module SDF
   end
 
   class CELLTYPE < EdgeNode
-    def accept visitor
-      visitor.visitCellType(self)
-    end
+    # def accept visitor
+    #   visitor.visitCellType(self)
+    # end
 
     def valid?
       !(@data.nil? or @data.empty?)
@@ -179,9 +179,9 @@ module SDF
   end
 
   class INSTANCE < EdgeNode
-    def accept visitor 
-      visitor.accept(self)
-    end
+    # def accept visitor 
+    #   visitor.accept(self)
+    # end
 
     def valid?
       @data.valid?
@@ -193,9 +193,9 @@ module SDF
       (contains_class?(ABSOLUTE)) and super
     end
 
-    def accept visitor
-      visitor.visitDelay(self)
-    end
+    # def accept visitor
+    #   visitor.visitDelay(self)
+    # end
 
     def absolute
       get_subnode ABSOLUTE
@@ -203,9 +203,9 @@ module SDF
   end
 
   class ABSOLUTE < Node
-    def accept visitor
-      visitor.visitAbsolute(self)
-    end
+    # def accept visitor
+    #   visitor.visitAbsolute(self)
+    # end
 
     def valid?
       (contains_class?(INTERCONNECT) or contains_class?(IOPATH)) and super
@@ -295,9 +295,9 @@ module SDF
       @name = name
     end
 
-    def accept visitor
-      visitor.visitIdent(self)
-    end
+    # def accept visitor
+    #   visitor.visit_Ident(self)
+    # end
 
     def valid?
       !@name.nil?
@@ -311,9 +311,9 @@ module SDF
       @val = val
     end
 
-    def accept visitor
-      visitor.visitTime(self)
-    end
+    # def accept visitor
+    #   visitor.visit_Time(self)
+    # end
 
 
     def valid? 

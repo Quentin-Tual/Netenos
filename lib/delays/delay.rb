@@ -109,15 +109,27 @@ module Delays
       @rise_dly = rise_dly
       @fall_dly = fall_dly
     end
+
+    def rise 
+      rise_dly
+    end
+
+    def fall
+      fall_dly
+    end
   end
 
   class ArcDelays 
     attr_reader :arcs
 
     def initialize *io_dly # Expecting [[i,o,dly],...] with dly a RiseFallDelay
-      @arcs = io_dly.each_with_object do |(i,o, dly), h|
+      @arcs = io_dly.each_with_object(Hash.new) do |(i,o, dly), h|
         h[i] = {o => dly} # !!! Considering the gate has only one output
       end
+    end
+
+    def ioarc_dly(ip_name, op_name)
+      @arcs[ip_name][op_name]
     end
   end
 
@@ -132,6 +144,14 @@ module Delays
     # Associates a dly to an object
     def add obj, dly # Expecting a ArcDelays
       @delays[obj] = dly
+    end
+
+    def get_wire_dly(w, transi, col)
+      @delays[w].send(transi).send(col)
+    end
+
+    def get_gate_dly(g, ioarc, transi, col)
+      @delays[g].ioarc_dly(*ioarc).send(transi).send(col)
     end
 
     # def only_one_values?

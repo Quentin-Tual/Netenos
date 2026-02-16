@@ -3,7 +3,7 @@ module SDF
   class DelayGenerator < Visitor
     def initialize netlist, function = :max
       @netlist = netlist
-      @delays = Delays::SDFDelays.new
+      @delays = Delays::SDFDelays.new(@netlist)
       @fun = function
       @pdk_ios = JSON.parse(File.read($PDK_IOS_JSON))
       @SDF_PORT_NAME_SEP = '.' # !!! Extract it from the AST, Modify the parser to get it.
@@ -17,32 +17,22 @@ module SDF
       ast_name == netlist_name
     end
 
-    def visit(subject)
-      case subject
-      when Root 
-        visit(subject.subnodes.first)
-      when DELAYFILE
-        visitDelayFile(subject)
-      else
-        raise "Error: Unexpected AST object encountered #{subject}, not handled."
-      end
-    end
-
     def visit_Root subject
-      visit(subject.subnodes.first)
+      subject.subnodes.first.accept(self)
+      @delays
     end
 
-    def visitDelayFile subject
+    def visit_DELAYFILE subject
       subject.design.accept(self)
       subject.cells.each{|n| n.accept(self)}
     end
 
-    def visitDesign(subject)
+    def visit_DESIGN(subject)
       # visitDesign(subject)
         raise "Error: AST design name #{subject.data} does not match netlist name #{netlist.name}" unless check_name(subject.data, @netlist.name)
     end
 
-    def visitCell(subject)
+    def visit_CELL(subject)
       celltype = subject.celltype.accept(self)
       instance_name = subject.instance.accept(self)
       @current_instance = instance_name
@@ -62,23 +52,40 @@ module SDF
       end
     end
     
-    def visitCellType(subject)
+    def visit_CELLTYPE(subject)
       subject.data # String expected as data
     end
 
-    def visitInstance(subject)
+    def visit_INSTANCE(subject)
       subject.data.name # Ident expected as data
     end
 
-    def visitDelay(subject)
+    def visit_DELAY(subject)
       subject.absolute.accept(self)
     end
 
-    def visitAbsolute(subject)
-      ArcDelays.new(subject.subnodes.collect{|n| n.accept(self)})
+    def visit_ABSOLUTE(subject)
+      comp_delays = []
+
+      subject.subnodes.each do |n|
+        if n.instance_of? INTERCONNECT
+          n.accept(self)
+        else
+          comp_delays << n.accept(self)
+        end
+      end
+
+      if subject.contains_class? IOPATH
+        Delays::ArcDelays.new(*comp_delays)
+      else 
+        nil
+      end
     end
 
-    def visitInterconnection(subject)
+    # Possible de traiter les interconnexions comme les iopath ? \
+    # en modifiant la fonction add de l'object SDFDelays
+    # par exemple quand l'instance est nil ou "" la fonction add ajoute le délai entre deux fils via ArcDelays et 
+    def visit_INTERCONNECT(subject)
       w = subject.wire
       # Find corresponding source in the netlist
       source_name = w.source_name.name
@@ -104,30 +111,39 @@ module SDF
         # Raise an error if not found
         raise "Error: No wire matching with the INTERCONNECTION #{subject}, connecting #{subject.wire.source_name.name} (#{source_name} in the netlist) to #{subject.wire.sink_name.name} (#{sink_name} in the netlist)"
       else
-        # Annotate the sdf delay to the wire according to the function specified at instanciation 
-        # found_wire.propag_time[:sdf] = (subject.apply_fun(@fun)*1000).to_i 
-        @delays.add(found_wire, subject.delays.accept(self))
+        @delays.add(found_wire, Delays::RiseFallDelay.new(*subject.delays.accept(self)))
       end 
     end
     
-    def visitIopath(subject) 
+    def visit_IOPATH(subject)
       if @current_instance.nil?
         raise "Error: No current instance defined."
       end
       
-      source_name = get_eq_name("#{@current_instance}#{@SDF_PORT_NAME_SEP}#{subject.wire.source_name}")
-      sink_name = get_eq_name("#{@current_instance}#{@SDF_PORT_NAME_SEP}#{subject.wire.sink_name}")
+      source_name = get_eq_name("#{@current_instance}#{@SDF_PORT_NAME_SEP}#{subject.wire.source_name.name}")
+      sink_name = get_eq_name("#{@current_instance}#{@SDF_PORT_NAME_SEP}#{subject.wire.sink_name.name}")
 
-      return source_name, sink_name, Delays::RiseFallDelay.new(subject.delays.accept(self))
+      return source_name, sink_name, Delays::RiseFallDelay.new(*subject.delays.accept(self))
     end
 
-    def visitDelayTable subject
-      return Delays::MinTypMaxDelay.new(subject.rise_dly.accept(self)), Delays::MinTypMaxDelay.new(subject.fall_dly.accept(self))
+    def visit_DelayTable subject
+      return Delays::MinTypMaxDelay.new(*subject.rise.accept(self)), Delays::MinTypMaxDelay.new(*subject.fall.accept(self))
     end
 
-    def visitDelayArray subject
-      return subject.min, subject.typ, subject.max
+    def visit_DelayArray subject
+      min_dly = (subject.max.to_f * 1000).to_i
+      typ_dly = (subject.max.to_f * 1000).to_i
+      max_dly = (subject.max.to_f * 1000).to_i
+      return min_dly, typ_dly, max_dly
     end
+
+    # def visit_Ident subject
+    #   subject.name
+    # end
+
+    # def visit_Time subject
+    #   subject.val
+    # end
 
     def get_eq_name name
       instance_name, port_name = name.split(@SDF_PORT_NAME_SEP)
