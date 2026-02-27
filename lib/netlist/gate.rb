@@ -130,8 +130,7 @@ module Netlist
     end 
 
     class Gate < Circuit
-        attr_accessor :name, :ports, :partof, :propag_time, :cumulated_propag_time, :tag, :decisions, :forbidden_transitions
-        attr_reader :slack
+        attr_accessor :name, :ports, :partof, :propag_time, :cumulated_propag_time, :tag, :decisions, :forbidden_transitions, :slack
 
         def initialize name = "#{self.class.name.split("::")[1]}#{self.object_id}", partof = nil, nb_inputs = self.class.name.split("::")[1].chars[-1].to_i, nb_outputs = 1
             @name = name

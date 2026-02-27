@@ -1,14 +1,17 @@
 module SMT
-  class SMTExprExtractor < Netlist::CircuitVisitor
+  class SMTExprExtractor < Netlist::BackwardUniqDFS
     attr_reader :expr
 
-    def initialize nl, delays, sdf_col: :typ
+    def initialize nl, delays, sdf_col: :typ, inserted_gates: [], write_constants: true
       super(nl)
       @delays = delays
+      @gate_min_dly = @nl.get_comp_min_delay(:sdf, dly_db: @delays)
       @sdf_col = sdf_col
       @src = []
       @expr = []
       @prefix = nl.name + '/'
+      @inserted_gates = inserted_gates
+      @write_constants = write_constants
     end
 
     def save_as path 
@@ -16,39 +19,69 @@ module SMT
     end
 
     def print 
-      @expr.reverse.join("\n")
+      @expr.join("\n")
     end
 
     def visit_Port p
-      return if visited?(p)
+      super
+    end
 
-      # Plusieurs cas selon que p est :
-      #   - une sortie primaire 
-      #   - la sortie d'une porte
-      #   - l'entrée d'une porte ?
-      #   - une entrée primaire
+    def visit_Gate g
+      super # unless @inserted_gates.include?(g)
+
+      sp_names = get_source_port_names(g)
+      ioarcs = get_ioarcs(g)
       
-      primary_port = p.is_global?
-      input_port = p.is_input?
+      # retrieve rise and fall delays for each ioarc
+      rise_dlys, fall_dlys = get_rise_fall_dlys(g, ioarcs)
 
-      case [primary_port, input_port]
-      when [false, false] # sortie d'une porte (le + fréquent)
-        visit_gate_output(p)
-      when [true, true]   # entrée primaire (le 2eme + fréquent) 
-        visit_prim_input(p)
-      when [true, false]  # sortie primaire (le 3 eme + fréquent)
-        visit_prim_output(p)
-      else # entrée d'une porte (ne devrait jamais arriver)
-        raise "Error : unexpected primary input #{p.get_full_name} encountered during the visit of #{@nl.name}"
-      end
+      # complete gate output expression with according delays for rise, fall and comb cases
+      rise_expr = risefall_expr(g, sp_names, rise_dlys)
+      fall_expr = risefall_expr(g, sp_names, fall_dlys)
+      comb_expr = comb_expr(g,sp_names)
 
-      if p.is_output? and p.is_global?
-        p.get_source_gates.accept(self)
+      prefixed_name = @prefix + g.get_output.get_full_name
+      
+      # store expressions
+      @expr << rise_fun(prefixed_name, rise_expr.join(' '))
+      @expr << fall_fun(prefixed_name, fall_expr.join(' '))
+      @expr << comb_fun(prefixed_name, comb_expr.join(' '))
+      @expr << zerod_fun(prefixed_name, nodly_expr(g, sp_names).join(' '))
+      @expr << risefallcomb_rec_fun(prefixed_name) 
+    end
+
+    def visit_Wire w
+      super
+
+      prefixed_name = @prefix + w.name
+      s = w.get_source
+      sname = @prefix + s.get_full_name
+
+      rise_dly = @delays.get_wire_dly(w, :rise, @sdf_col)
+      fall_dly = @delays.get_wire_dly(w, :fall, @sdf_col)
+
+      comb_expr = "#{sname}C"
+      zerod_expr = "(#{sname} t)"
+
+      if (rise_dly == fall_dly) and (fall_dly == 0)
+        @expr << comb_fun(prefixed_name, comb_expr)
+        @expr << zerod_fun(prefixed_name, zerod_expr)
+        @expr << wire_nodly_fun(prefixed_name)
+      else
+        rise_expr = "(#{sname} (- t #{rise_dly}))"
+        fall_expr = "(#{sname} (- t #{fall_dly}))"
+        @expr << rise_fun(prefixed_name, rise_expr)
+        @expr << fall_fun(prefixed_name, fall_expr)
+        @expr << comb_fun(prefixed_name, comb_expr)
+        @expr << zerod_fun(prefixed_name, zerod_expr)
+        @expr << risefallcomb_rec_fun(prefixed_name) 
       end
     end
 
+    private
+
     def visit_gate_output(op)
-      op.partof.accept(self)
+      super
     end
 
     def declare_input_constant(name)
@@ -58,84 +91,65 @@ module SMT
 
     def visit_prim_input(ip)
       pip_name = ip.get_full_name
-      @expr << "(define-fun #{@prefix}#{pip_name}C () Bool #{pip_name}_d)"
+      declare_input_constant(pip_name) if @write_constants
       @expr << "(define-fun #{@prefix}#{pip_name} ((t Int)) Bool (ite (< t 0) #{pip_name}_d #{pip_name}_a))"
-      declare_input_constant(pip_name)
+      @expr << "(define-fun #{@prefix}#{pip_name}C () Bool #{pip_name}_d)"
     end
 
     def visit_prim_output(op)
+      super
+
       source = op.get_source
       source_name = source.get_full_name
       @expr << "(define-fun #{@prefix}#{op.name} ((t Int)) Bool (#{@prefix}#{source_name} t))"
-      source.accept(self)
     end
 
-    # Modulariser cette méthode
-    def visit_Gate g      
-      return if visited?(g)
-
-      sps = g.get_inputs.collect{|ip| ip.get_source} # gate output or primary input sources
-      sp_names = sps.collect do |sg| 
+    def get_source_port_names g
+      source_ports = g.get_inputs.collect{|ip| ip.get_source} # gate output or primary input sources
+      source_ports.collect do |sg| 
         if sg.is_a?(Netlist::Gate) 
           @prefix + sg.get_output.get_full_name
         else 
           @prefix + sg.get_full_name
         end
       end
+    end
 
-      prefixed_name = @prefix + g.get_output.get_full_name
-      # write multiple cases (rise fall comb)
-      @expr << risefallcomb_rec_fun(prefixed_name) 
-      
-      op_name = g.get_output.get_full_name
-      ioarcs = g.get_inputs.collect do |ip|
-        [ip.get_full_name, op_name]
+    def get_ioarcs(g)
+      g.get_inputs.collect do |ip|
+        [ip.get_full_name, g.get_output.get_full_name]
       end
+    end
 
-      # retrieve rise and fall delays for each ioarc
-      rise_dlys = ioarcs.collect do |ioarc| 
-        @delays.get_gate_dly(
-          g, 
-          ioarc, 
-          :rise, 
-          @sdf_col
-        )
+    def get_rise_fall_dlys(g, ioarcs)
+      [:rise,:fall].collect do |transi|
+        ioarcs.collect do |ioarc| 
+          @delays.get_gate_dly(
+            g, 
+            ioarc, 
+            transi, 
+            @sdf_col
+          )
+        end
       end
+    end
 
-      fall_dlys = ioarcs.collect do |ioarc| 
-        @delays.get_gate_dly(
-          g, 
-          ioarc, 
-          :fall, 
-          @sdf_col
-        )
-      end
-
-      # complete gate output expression with according delays for rise, fall and comb cases
-      rise_expr = g.class::SMT_EXPR.dup
-      rise_expr.map! do |w|
+    def risefall_expr g, sp_names, risefall_dlys
+      expr = g.class::SMT_EXPR.dup
+      expr.map! do |w|
         if $SMT_KEYWORDS.include? w
           w
         else
           ip_index = w[1..].to_i
           # change delay fixing
-          "(#{sp_names[ip_index]} (- t #{rise_dlys[ip_index]}))"
+          "(#{sp_names[ip_index]} (- t #{risefall_dlys[ip_index]}))"
         end
       end
+    end
 
-      fall_expr = g.class::SMT_EXPR.dup
-      fall_expr.map! do |w|
-        if $SMT_KEYWORDS.include? w
-          w
-        else
-          ip_index = w[1..].to_i
-          # change delay fixing
-          "(#{sp_names[ip_index]} (- t #{fall_dlys[ip_index]}))"
-        end
-      end
-
-      comb_expr = g.class::SMT_EXPR.dup
-      comb_expr.map! do |w|
+    def comb_expr g, sp_names
+      expr = g.class::SMT_EXPR.dup
+      expr.map! do |w|
         if $SMT_KEYWORDS.include? w
           w
         else
@@ -144,52 +158,45 @@ module SMT
           "#{sp_names[ip_index]}C"
         end
       end
+    end
 
-      # store expressions
-      @expr << rise_fun(prefixed_name, rise_expr.join(' '))
-      @expr << fall_fun(prefixed_name, fall_expr.join(' '))
-      @expr << comb_fun(prefixed_name, comb_expr.join(' '))
-      
-      # visit sources ports
-      sps.each do |sp|
-        sp.accept(self)
+    def nodly_expr g, sp_names
+      expr = g.class::SMT_EXPR.dup
+      expr.map! do |w|
+        if $SMT_KEYWORDS.include? w
+          w
+        else
+          ip_index = w[1..].to_i
+          # change delay fixing
+          "(#{sp_names[ip_index]} t)"
+        end
       end
     end
-
-    def visit_Wire w
-      return if visited?(w)
-
-      prefixed_name = @prefix + w.name
-      s = w.get_source
-      sname = @prefix + s.get_full_name
-      @expr << risefallcomb_rec_fun(prefixed_name) 
-    
-      rise_dly = @delays.get_wire_dly(w, :rise, @sdf_col)
-      fall_dly = @delays.get_wire_dly(w, :fall, @sdf_col)
-
-      rise_expr = "(#{sname} (- t #{rise_dly}))" 
-      fall_expr = "(#{sname} (- t #{fall_dly}))"
-      comb_expr = "#{sname}C"
-
-      
-      @expr << rise_fun(prefixed_name, rise_expr)
-      @expr << fall_fun(prefixed_name, fall_expr)
-      @expr << comb_fun(prefixed_name, comb_expr)
-
-      s.accept(self)
-    end
-
-    private
 
     def risefallcomb_rec_fun signame
 "(define-fun-rec #{signame} ((t Int)) Bool
   (ite (<= t 0)
     #{signame}C
-    (ite (= (#{signame} (- t 1)) true)
-      (#{signame}F t)
-      (#{signame}R t)
+    (ite (= (#{signame}0D t) (#{signame}F t) false)
+      false
+      (ite (= (#{signame}0D t) (#{signame}R t) true)
+        true
+        (#{signame} (- t #{@gate_min_dly})) ; not an ideal resolution, speed up calculations with inertial delay
+      )
     )
   )
+)"
+    end
+
+    def wire_nodly_fun signame
+"(define-fun #{signame} ((t Int)) Bool
+  (#{signame}0D t)
+)"
+    end
+
+    def zerod_fun signame, nodly_expr
+"(define-fun #{signame}0D ((t Int)) Bool
+  #{nodly_expr}
 )"
     end
 

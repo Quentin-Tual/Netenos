@@ -7,5 +7,8 @@ require_relative "./netlist/randomGenComb.rb"
 require_relative "./netlist/randomGenSeq.rb"
 require_relative "./netlist/addon_deep_copy.rb"
 
+require_relative 'netlist/circuitVisitor'
+require_relative 'netlist/backwardUniqDFS'
+
 # TESTS, lib adds
 # require_relative "../tests/test_lib.rb"

@@ -1,16 +1,22 @@
 module SDF
 
   class DelayGenerator < Visitor
-    def initialize netlist, function = :max
+    def initialize netlist, function = :max, inserted_gates: []
       @netlist = netlist
-      @delays = Delays::SDFDelays.new(@netlist)
+      @delays = nil
       @fun = function
       @pdk_ios = JSON.parse(File.read($PDK_IOS_JSON))
       @SDF_PORT_NAME_SEP = '.' # !!! Extract it from the AST, Modify the parser to get it.
+      @inserted_gates = inserted_gates
 
       # TODO : Add DIVIDER statement handling in the SDF parser
       # TODO : Add Wire declaration having the same name as an input in the Verilog parser
       @current_instance = nil
+
+      # #!DEBUG
+      # @netlist.name = @netlist.name + '_alt'
+      # @netlist.get_dot_graph
+      # @netlist.name.delete_suffix!('_alt')
     end
 
     def check_name(ast_name, netlist_name)
@@ -18,6 +24,7 @@ module SDF
     end
 
     def visit_Root subject
+      @delays = Delays::SDFDelays.new(@netlist, subject.name)
       subject.subnodes.first.accept(self)
       @delays
     end
@@ -29,7 +36,7 @@ module SDF
 
     def visit_DESIGN(subject)
       # visitDesign(subject)
-        raise "Error: AST design name #{subject.data} does not match netlist name #{netlist.name}" unless check_name(subject.data, @netlist.name)
+        raise "Error: AST design name #{subject.data} does not match netlist name #{@netlist.name}" unless check_name(subject.data, @netlist.name)
     end
 
     def visit_CELL(subject)
@@ -107,9 +114,25 @@ module SDF
         valid_sink = w.get_sinks.collect{|sink| sink.get_full_name}.include? sink_name
         valid_source and valid_sink 
       end
+
       if found_wire.nil?
-        # Raise an error if not found
-        raise "Error: No wire matching with the INTERCONNECTION #{subject}, connecting #{subject.wire.source_name.name} (#{source_name} in the netlist) to #{subject.wire.sink_name.name} (#{sink_name} in the netlist)"
+        found_wire = @netlist.wires.find do |w|
+          # source has computed source_name as name
+          valid_source = w.get_source.get_full_name == source_name
+          # sink has computed sink_name as name
+          sink_gates = w.get_sinks.collect{|sink| sink.partof}
+          valid_sink = sink_gates.one?{|sink_g| @inserted_gates.include? sink_g}
+          valid_source and valid_sink
+        end
+
+        if found_wire.nil?
+        #   found_wire = found_wire.first
+        # else
+          # Raise an error if not found or multiple possibilities
+          raise "Error: No wire matching with the INTERCONNECTION #{subject}, connecting #{subject.wire.source_name.name} (#{source_name} in the netlist) to #{subject.wire.sink_name.name} (#{sink_name} in the netlist)"
+        else
+          @delays.add(found_wire, Delays::RiseFallDelay.new(*subject.delays.accept(self)))
+        end
       else
         @delays.add(found_wire, Delays::RiseFallDelay.new(*subject.delays.accept(self)))
       end 

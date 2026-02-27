@@ -20,6 +20,10 @@ describe SMT::SMTExprExtractor do
     # }
     subject {SMT::SMTExprExtractor.new(nl, nl_delays, sdf_col: :typ)}
 
+    before(:example) do 
+      `rm #{obtained_file}` if File.exist?(obtained_file)
+    end
+
     it "raises no error" do
       expect{nl.get_outputs.first.accept(subject)}.not_to raise_error
     end
@@ -27,6 +31,7 @@ describe SMT::SMTExprExtractor do
     it "allows to save obtained smt expr in a file" do
       smt_extractor = subject
       nl.get_outputs.first.accept(smt_extractor)
+      smt_extractor.visited.each{|node| node.is_a?(Netlist::Gate) ? puts(node.name) : puts(node.get_full_name)}
       smt_extractor.save_as(obtained_file)
       expect(File.exist?(obtained_file)).to eq(true)
       expect(File.zero?(obtained_file)).to eq(false) # not empty

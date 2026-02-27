@@ -97,7 +97,7 @@ module Inserter
     class Tamperer
         attr_accessor :stages, :forbidden_locs, :forbidden_triggers, :trig, :insertPoint, :trigger_pool
 
-        def initialize netlist, stages = {}, timings_h = {}, delay_model, trigger_pool: []
+        def initialize netlist, stages = {}, timings_h = {}, delay_model, trigger_pool: [], dly_db: nil
             @netlist = netlist
             # @stages = stages
             @timings_h = timings_h
@@ -116,8 +116,10 @@ module Inserter
             # end
 
 
-            @netlist.get_exact_crit_path_length(@delay_model)
-            @netlist.get_slack_hash # Necessary for later (location selection)
+            if dly_db.nil?
+                @netlist.get_exact_crit_path_length(@delay_model)
+                @netlist.get_slack_hash # Necessary for later (location selection)
+            end
         end
 
         def a_to_h a
@@ -629,7 +631,7 @@ module Inserter
             @netlist.clear_cumulated_propag_times
             @netlist.get_exact_crit_path_length(@delay_model)
 
-            puts "INFO: Trojan inserted on #{attacked_sig.get_full_name}" #DEBUG
+            # puts "INFO: Trojan inserted on #{attacked_sig.get_full_name}" #DEBUG
 
             return @netlist
         end

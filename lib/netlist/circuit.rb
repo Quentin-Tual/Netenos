@@ -102,16 +102,42 @@ module Netlist
         #     slack_h
         # end
 
-        def get_insertion_points payload_delay
+
+        # def gates_wires_or_prim_inputs? obj
+        #   obj.is_a? Netlist::Gate or (obj.instance_of? Netlist::Wire) or (obj.instance_of? Netlist::Port and obj.is_global? and obj.is_input?)
+        # end
+
+        def is_gate_input?(obj)
+          obj.instance_of?(Netlist::Port) and !obj.is_global? and obj.is_input?
+        end
+
+        def is_prim_output?(obj)
+          obj.instance_of?(Netlist::Port) and obj.is_global? and obj.is_output?
+        end
+
+        def valid_insert_point?(obj)
+          is_gate_input?(obj) or is_prim_output?(obj)
+        end
+
+        def get_insertion_points payload_delay, slack_db = nil
             # * Returns a list of gate which outputs has a slack greater than the payload delay
-            slack_h = get_slack_hash
-            return slack_h.select{|slack, nodes| slack >= payload_delay}.values.flatten.select{|node|
-                !(node.instance_of? Netlist::Port and node.is_global? and node.is_input?)
-            }
+            if slack_db.nil?
+                slack_h = get_slack_hash 
+                return slack_h.select{|slack, nodes| slack >= payload_delay}.values.flatten.select{|node|
+                    valid_insert_point?(node)
+                }
+            else
+                slack_db = slack_db.select do |sig, slack| 
+                    valid_insert_point?(sig)
+                end
+                slack_db.select{|sig, slack| slack >= payload_delay}.keys
+            end
         end
 
         def get_comp_avg_delay delay_model
-            delay_list = @components.collect{|comp| comp.propag_time[delay_model]}.compact
+            delay_list = @components.collect do |comp| 
+                comp.propag_time[delay_model]
+            end.compact
             (delay_list.sum / delay_list.length.to_f).to_i
         end
 
@@ -120,8 +146,12 @@ module Netlist
             (delay_list.sum / delay_list.length.to_f).to_i
         end
 
-        def get_comp_min_delay delay_model
-            @components.collect{|comp| comp.propag_time[delay_model]}.compact.min
+        def get_comp_min_delay delay_model, dly_db: nil
+            if dly_db.nil?
+                @components.collect{|comp| comp.propag_time[delay_model]}.compact.min
+            else
+                @components.collect{|comp| dly_db.gate_min_dly(comp)}.min
+            end
         end
 
         def get_wire_min_delay delay_model
@@ -658,6 +688,21 @@ module Netlist
           end
         end
 
+        def add_wire_after source, sinks
+            # Instanciate a wire
+            w = Wire.new("w#{@wires.length}")
+            self << w
+            # Unplug the source for each sink
+            # Plug the wire to each sink
+            sinks.each do |sink|
+              sink.unplug2 source.get_full_name
+              sink <= w
+            end
+            # Plug the wire to source
+            w <= source
+            w
+        end
+        
         def add_wires
           # List all interconnections concerned (source => [sink])
           interconnections = {}
@@ -679,17 +724,7 @@ module Netlist
           # For each
           interconnections.each do |source, sinks|
             next if sinks.length==1 and sinks.first.instance_of? Wire
-            # Instanciate a wire
-            w = Wire.new("_#{@wires.length}_")
-            self << w
-            # Unplug the source for each sink
-            # Plug the wire to each sink
-            sinks.each do |sink|
-              sink.unplug2 source.get_full_name
-              sink <= w
-            end
-            # Plug the wire to source
-            w <= source
+            add_wire_between(source,sinks)
           end
           self
         end

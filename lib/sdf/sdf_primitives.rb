@@ -6,28 +6,31 @@ module SDF
     ast.accept(annotator)
   end
 
-  def self.nullify sdf_path, modified_path
+  def self.apply_visitor sdf_path, visitor
     ast = Parser.new.parse(sdf_path)
-    nullifyer = NullifyRoutingDelays.new
-    ast.accept(nullifyer)
+    ast.accept(visitor)
+  end
+
+  def self.visit_n_write sdf_path, modified_path, visitor
+    ast = Parser.new.parse(sdf_path)
+    ast.accept(visitor)
     deparser = Deparser.new(modified_path)
     ast.accept(deparser)
+  end
+
+  def self.nullify sdf_path, modified_path
+    nullifyer = NullifyRoutingDelays.new
+    visit_n_write(sdf_path, modified_path, nullifyer)
   end
 
   def self.add_noise sdf_path, modified_path
-    ast = Parser.new.parse(sdf_path)
     noise_adder = NoiseAdder.new
-    ast.accept(noise_adder)
-    deparser = Deparser.new(modified_path)
-    ast.accept(deparser)
+    visit_n_write(sdf_path, modified_path, noise_adder)
   end
 
   def self.simplify sdf_path, modified_path
-    ast = Parser.new.parse(sdf_path)
     simplifyer = SimplifierVisitor.new
-    ast.accept(simplifyer)
-    deparser = Deparser.new(modified_path)
-    ast.accept(deparser)
+    visit_n_write(sdf_path, modified_path, simplifyer)
   end
 
   def self.simplifyRF sdf_path, modified_path
@@ -39,18 +42,18 @@ module SDF
   end
 
   def self.simplifyRFIO sdf_path, modified_path
-    ast = Parser.new.parse(sdf_path)
     simplifyer = SimplifierRFIOVisitor.new
-    ast.accept(simplifyer)
-    deparser = Deparser.new(modified_path)
-    ast.accept(deparser)
+    visit_n_write(sdf_path, modified_path, simplifyer)
   end
 
   def self.simplifyRFIOLastVal sdf_path, modified_path
-    ast = Parser.new.parse(sdf_path)
     simplifyer = SimplifierRFIOLastValVisitor.new
-    ast.accept(simplifyer)
-    deparser = Deparser.new(modified_path)
-    ast.accept(deparser)
+    visit_n_write(sdf_path, modified_path, simplifyer)
   end
+
+  def self.generate_dly_db c, sdf_path, inserted_gates: []
+    visitor = SDF::DelayGenerator.new(c,:typ, inserted_gates: inserted_gates)
+    apply_visitor(sdf_path,visitor)
+  end
+
 end

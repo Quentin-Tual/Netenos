@@ -13,14 +13,15 @@ require_relative 'util'
 require_relative 'code'
 require_relative 'visitor'
 require_relative "netlist.rb"
+require_relative 'delays'
 require_relative "converter.rb"
 require_relative "serializer/serdes.rb"
 require_relative "interface.rb"
 require_relative "inserter/tamper.rb"
 require_relative "vcd.rb"
 require_relative 'bexp/bexp'
-require_relative 'smt'
 require_relative 'sdf'
 require_relative 'liberty'
 require_relative 'verilog'
 require_relative 'ateta'
+require_relative 'smt'

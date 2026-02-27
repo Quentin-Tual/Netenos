@@ -5,22 +5,24 @@ module AtetaAddOn
     # !     - Insert a Buffer on an insertion point, returning a netlist
     # !     - Apply Ateta_sat on each insertion point, aggregating test vector couples
 
-    class Ateta 
+    class Htpg
         attr_reader :unobservables, :observables
 
-        def initialize initCirc, payloadDelay, delayModel
+        def initialize initCirc, payloadDelay, dly_db
             @initCirc = initCirc
             @payloadDelay = payloadDelay
-            @delayModel = delayModel
+            @init_dly_db = dly_db
 
-            initCirc.get_exact_crit_path_length(delayModel)
-            @insertionPoints = initCirc.get_insertion_points(payloadDelay)
+            # initCirc.get_exact_crit_path_length(delayModel)
+            timings_db = Delays::TimingAnalyzer.new(initCirc, dly_db).analyze
+            @crit_path = timings_db.max_by{|sig, val| val}.last
+            slack_db = Delays::SlackAnalyzer.new(initCirc, timings_db).analyze
+            @insertionPoints = initCirc.get_insertion_points(payloadDelay, slack_db)
             @insertionPoints.collect!{|ip| ip.get_full_name}
             @altCirc = nil
-
+            @alt_dly_db = nil
             @unobservables = []
             @observables = []
-            @memoizer = AtetaAddOn::AtetaMemoizer.new 
         end
 
         def generate_stim forbiddenVectors = []
@@ -41,7 +43,10 @@ module AtetaAddOn
                 # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
                 downstreamOuputs.each do |targetedOutputName|
                     # Appliquer Ateta_sat
-                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors, @memoizer, @payload_delay)
+                    solver = AtetaAddOn::HtpgSat.new(
+                        @initCirc, @init_dly_db, @crit_path,
+                        @altCirc, @alt_dly_db, 
+                        insertPointName, targetedOutputName)
                     result = solver.run
                     # Stocker les couples de test générés dans un tableau
                     if result.nil? 
@@ -74,111 +79,6 @@ module AtetaAddOn
             return res
         end
 
-        def generate_maximized_stim forbiddenVectors = [], targeted_duration = @initCirc.get_comp_max_delay(@delayModel)
-            puts "[+] Generating stim for #{@initCirc.name}, #{@insertionPoints.length} insertion points to go." if $VERBOSE
-            count = 0 if $VERBOSE
-
-            @solutions = Hash.new { |h, k| h[k] = Hash.new}
-            # @vec_list = []
-            # Pour chaque point d'insertion dans le circuit initial
-            @insertionPoints.each do |insertPointName|
-                if insertPointName.nil?
-                    raise "Error: 'nil' insert point name encountered."
-                end
-                puts " |-- #{count += 1}/#{@insertionPoints.length} insert point." if $VERBOSE
-                # Créer une version altérée du circuit initial
-                downstreamOuputs = get_cone_outputs(insertPointName)
-                getAlteredCircuit(insertPointName)
-                solution_found = false
-                # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
-                downstreamOuputs.each do |targetedOutputName|
-                    # Appliquer Ateta_sat
-                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors, @memoizer, @payload_delay)
-                    result = solver.runMaximize(targeted_duration)
-                    # Stocker les couples de test générés dans un tableau
-                    if result.nil? 
-                        next
-                    else
-                        solution_found = true
-                        # ! Stocker le nom et non l'objet (insertPoint ET targetedOutput)
-                        @solutions[insertPointName][targetedOutputName] = result
-                        @observables << insertPointName # ! Stocker le nom et non l'objet
-                        break
-                    end
-                end
-
-                unless solution_found
-                    @unobservables << insertPointName
-                end
-            end
-            
-            # Renvoyer les vecteurs de test générés
-
-            res = @solutions.values.collect{|h| h.values}.flatten
-
-            fvSet = Set.new(forbiddenVectors)
-            res.each do |v|
-                if fvSet.include? v
-                    raise "Error: Forbidden Vector generated."
-                end
-            end
-
-            return res
-        end
-
-        def generate_glitch_stim forbiddenVectors = []
-            puts "[+] Generating stim for #{@initCirc.name}, #{@insertionPoints.length} insertion points to go." if $VERBOSE
-            count = 0 if $VERBOSE
-
-            @solutions = Hash.new { |h, k| h[k] = Hash.new}
-            # @vec_list = []
-            # Pour chaque point d'insertion dans le circuit initial
-            @insertionPoints.each do |insertPointName|
-                if insertPointName.nil?
-                    raise "Error: 'nil' insert point name encountered."
-                end
-                puts " |-- #{count += 1}/#{@insertionPoints.length} insert point." if $VERBOSE
-                # Créer une version altérée du circuit initial
-                downstreamOuputs = get_cone_outputs(insertPointName)
-                getAlteredCircuit(insertPointName)
-                solution_found = false
-                # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
-                downstreamOuputs.each do |targetedOutputName|
-                    # Appliquer Ateta_sat
-                    solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors, @memoizer, @payloadDelay)
-                    result = solver.runGlitch
-                    # Stocker les couples de test générés dans un tableau
-                    if result.nil? 
-                        next
-                    else
-                        solution_found = true
-                        # ! Stocker le nom et non l'objet (insertPoint ET targetedOutput)
-                        @solutions[insertPointName][targetedOutputName] = result
-                        @observables << insertPointName # ! Stocker le nom et non l'objet
-                        break
-                    end
-                end
-
-                unless solution_found
-                    @unobservables << insertPointName
-                end
-            end
-            
-            # Renvoyer les vecteurs de test générés
-
-            res = @solutions.values.collect{|h| h.values}.flatten
-
-            fvSet = Set.new(forbiddenVectors)
-            res.each do |v|
-                if fvSet.include? v
-                    raise "Error: Forbidden Vector generated."
-                end
-            end
-
-            return res
-        end
-
-
         def getAlteredCircuit insertPointName
             @altCirc = @initCirc.deep_copy
 
@@ -192,13 +92,32 @@ module AtetaAddOn
                 insertPoint = @altCirc.get_port_named(insertPointName)
             end
 
-            precedenceGrid = @altCirc.get_netlist_precedence_grid
-            timings_h = @altCirc.get_timings_hash(@delayModel)
-            tamperer = Inserter::Tamperer.new(@altCirc, precedenceGrid, timings_h, @delayModel)
+            # precedenceGrid = @altCirc.get_netlist_precedence_grid
+            # timings_h = @altCirc.get_timings_hash(@delayModel)
+            tamperer = Inserter::Tamperer.new(@altCirc, nil, nil, @delayModel, dly_db: @init_dly_db)
             if @altCirc.components.all?{|g| g.is_a? Netlist::STDCell}
                 tamperer.insert_sky130_buffer_at(insertPoint,@payloadDelay)
+                
+                # TODO : Add a new objects in dly_db for delays of the inserted buffer, do it in the initialize ? earlier ? here ?
+                added_buf = @altCirc.components.last
+                added_wire = @altCirc.add_wire_after(
+                    added_buf.get_output, 
+                    added_buf.get_output.get_sinks
+                )
+
+                @altCirc.name.delete_suffix!('_copy')
+                @alt_dly_db = SDF.generate_dly_db(@altCirc, @init_dly_db.sdf_filepath, inserted_gates: [added_buf])
+                @altCirc.name = @altCirc.name + '_copy'
+
+                unless added_wire.instance_of? Netlist::Wire
+                  raise "Error: Sink of the added buffer #{added_buf.name} should be a wire, got #{added_wire}"
+                end
+
+                @alt_dly_db.create_add(added_buf, @payloadDelay)
+                @alt_dly_db.create_add(added_wire, 0)
+
             elsif @altCirc.components.none?{|g| g.is_a? Netlist::STDCell}
-                tamperer.insert_buffer_at(insertPoint, @payloadDelay)
+                raise "Error: Expecting a sky130 gate-level netlist, encountered non sky130 components."
             else
                 raise "Error: Non homogeneous circuit encountered, expected all components to be STDCell class objects or GTECH Gate class objects."
             end
@@ -296,5 +215,109 @@ module AtetaAddOn
             save_explicit_util(binStimVec, s, path, repetition)
         end
 
+
+        # def generate_maximized_stim forbiddenVectors = [], targeted_duration = @initCirc.get_comp_max_delay(@delayModel)
+        #     puts "[+] Generating stim for #{@initCirc.name}, #{@insertionPoints.length} insertion points to go." if $VERBOSE
+        #     count = 0 if $VERBOSE
+
+        #     @solutions = Hash.new { |h, k| h[k] = Hash.new}
+        #     # @vec_list = []
+        #     # Pour chaque point d'insertion dans le circuit initial
+        #     @insertionPoints.each do |insertPointName|
+        #         if insertPointName.nil?
+        #             raise "Error: 'nil' insert point name encountered."
+        #         end
+        #         puts " |-- #{count += 1}/#{@insertionPoints.length} insert point." if $VERBOSE
+        #         # Créer une version altérée du circuit initial
+        #         downstreamOuputs = get_cone_outputs(insertPointName)
+        #         getAlteredCircuit(insertPointName)
+        #         solution_found = false
+        #         # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
+        #         downstreamOuputs.each do |targetedOutputName|
+        #             # Appliquer Ateta_sat
+        #             solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors, @memoizer, @payload_delay)
+        #             result = solver.runMaximize(targeted_duration)
+        #             # Stocker les couples de test générés dans un tableau
+        #             if result.nil? 
+        #                 next
+        #             else
+        #                 solution_found = true
+        #                 # ! Stocker le nom et non l'objet (insertPoint ET targetedOutput)
+        #                 @solutions[insertPointName][targetedOutputName] = result
+        #                 @observables << insertPointName # ! Stocker le nom et non l'objet
+        #                 break
+        #             end
+        #         end
+
+        #         unless solution_found
+        #             @unobservables << insertPointName
+        #         end
+        #     end
+            
+        #     # Renvoyer les vecteurs de test générés
+
+        #     res = @solutions.values.collect{|h| h.values}.flatten
+
+        #     fvSet = Set.new(forbiddenVectors)
+        #     res.each do |v|
+        #         if fvSet.include? v
+        #             raise "Error: Forbidden Vector generated."
+        #         end
+        #     end
+
+        #     return res
+        # end
+
+        # def generate_glitch_stim forbiddenVectors = []
+        #     puts "[+] Generating stim for #{@initCirc.name}, #{@insertionPoints.length} insertion points to go." if $VERBOSE
+        #     count = 0 if $VERBOSE
+
+        #     @solutions = Hash.new { |h, k| h[k] = Hash.new}
+        #     # @vec_list = []
+        #     # Pour chaque point d'insertion dans le circuit initial
+        #     @insertionPoints.each do |insertPointName|
+        #         if insertPointName.nil?
+        #             raise "Error: 'nil' insert point name encountered."
+        #         end
+        #         puts " |-- #{count += 1}/#{@insertionPoints.length} insert point." if $VERBOSE
+        #         # Créer une version altérée du circuit initial
+        #         downstreamOuputs = get_cone_outputs(insertPointName)
+        #         getAlteredCircuit(insertPointName)
+        #         solution_found = false
+        #         # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
+        #         downstreamOuputs.each do |targetedOutputName|
+        #             # Appliquer Ateta_sat
+        #             solver = AtetaAddOn::AtetaSat.new(@initCirc, @altCirc, insertPointName, targetedOutputName, @delayModel, forbiddenVectors, @memoizer, @payloadDelay)
+        #             result = solver.runGlitch
+        #             # Stocker les couples de test générés dans un tableau
+        #             if result.nil? 
+        #                 next
+        #             else
+        #                 solution_found = true
+        #                 # ! Stocker le nom et non l'objet (insertPoint ET targetedOutput)
+        #                 @solutions[insertPointName][targetedOutputName] = result
+        #                 @observables << insertPointName # ! Stocker le nom et non l'objet
+        #                 break
+        #             end
+        #         end
+
+        #         unless solution_found
+        #             @unobservables << insertPointName
+        #         end
+        #     end
+            
+        #     # Renvoyer les vecteurs de test générés
+
+        #     res = @solutions.values.collect{|h| h.values}.flatten
+
+        #     fvSet = Set.new(forbiddenVectors)
+        #     res.each do |v|
+        #         if fvSet.include? v
+        #             raise "Error: Forbidden Vector generated."
+        #         end
+        #     end
+
+        #     return res
+        # end
     end
 end

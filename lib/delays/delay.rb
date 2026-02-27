@@ -117,6 +117,14 @@ module Delays
     def fall
       fall_dly
     end
+
+    def max 
+      [@rise_dly.max, @fall_dly.max].max
+    end
+
+    def min 
+      [@rise_dly.min, @fall_dly.min].min
+    end
   end
 
   class ArcDelays 
@@ -131,14 +139,27 @@ module Delays
     def ioarc_dly(ip_name, op_name)
       @arcs[ip_name][op_name]
     end
+
+    def max 
+      @arcs.values.collect do |subh| 
+        subh.values.first.max
+      end.flatten.max
+    end
+
+    def min
+      @arcs.values.collect do |subh| 
+        subh.values.first.min
+      end.flatten.min
+    end
   end
 
   class SDFDelays < CircuitDelays
     # Object containing a hash associating each circuit component/gate or wire to a delay object   
-    attr_reader :nl, :delays
+    attr_reader :nl, :delays, :sdf_filepath
     
-    def initialize nl
+    def initialize nl, sdf_filepath
       super(nl)
+      @sdf_filepath = sdf_filepath
     end
 
     # Associates a dly to an object
@@ -154,9 +175,39 @@ module Delays
       @delays[g].ioarc_dly(*ioarc).send(transi).send(col)
     end
 
-    # def only_one_values?
-    #   @delays.values.all?{|v| v == 1}
-    # end
+    def wire_worst_dly(w)
+      @delays[w].max  
+    end
+
+    def gate_worst_dly(g)
+      @delays[g].max
+    end
+
+    def gate_min_dly(g)
+      @delays[g].min
+    end
+
+    def create_add obj, dly_val
+      if obj.is_a? Netlist::Gate
+        io_dlys = obj.get_inputs.collect do |ip|
+          [ ip.get_full_name, 
+            obj.get_output.get_full_name,
+            RiseFallDelay.new(
+              MinTypMaxDelay.new(dly_val,dly_val,dly_val),
+              MinTypMaxDelay.new(dly_val,dly_val,dly_val)
+            )]
+        end
+        add(obj, ArcDelays.new(*io_dlys))
+      elsif obj.instance_of? Netlist::Wire
+        rf_dly = RiseFallDelay.new(
+          MinTypMaxDelay.new(dly_val,dly_val,dly_val),
+          MinTypMaxDelay.new(dly_val,dly_val,dly_val)
+        )
+        add(obj, rf_dly)
+      else
+        raise "Error: Unexpected class #{obj.class} encountered for #{obj.name}"
+      end
+    end 
 
     def valid? 
       super #and only_one_values? 

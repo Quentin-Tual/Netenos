@@ -9,14 +9,13 @@ module AtetaAddOn
         # !     - parsing des résultats de script smtlib
         # !     - conversion des résultats de script en couple de vecteurs de test
 
-        def initialize initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer, payload_delay
+        def initialize initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer, _
             @initCirc = initCirc
             @altCirc = altCirc
             @insertPointName = insertPointName
             @targetedOutputName = targetedOutputName
             @delayModel = delayModel
             @forbiddenVectors = forbiddenVectors
-            @payload_delay = payload_delay
 
             if memoizer.exists?(targetedOutputName)
                 @initExprExtractor = memoizer.get_back(targetedOutputName)
@@ -397,7 +396,6 @@ module AtetaAddOn
             src << "(assert (forall ((t Int)) (=> (and (>= t t_a) (< t t_b)) (= (yp t) (y t)))))"
             src << "(assert (forall ((t Int)) (=> (and (>= t t_b) (< t t_c)) (= (yp t) (not (y t))))))"
             src << "(assert (forall ((t Int)) (=> (and (>= t t_c) (< t t_d)) (= (yp t) (y t)))))"
-            # src << "(assert (> (- t_c t_b) #{@payload_delay})) ; INERTIAL DELAY !"
             
             src.newline
 

@@ -26,7 +26,7 @@ describe SDF::DelayGenerator do
     # Check if the methods of the SDFDelays object works correctly
     it "allows to retrieve wire delay" do
       w = nl.wires.first
-      expect(subject.get_wire_dly(w,:rise,:typ)).to eq("0.032")
+      expect(subject.get_wire_dly(w,:rise,:typ)).to eq(32)
     end
 
     it "allows to retrieve gate delays" do
@@ -39,7 +39,7 @@ describe SDF::DelayGenerator do
         ioarc, 
         :rise,
         :typ)
-      expect(dly).to eq("0.157")
+      expect(dly).to eq(157)
     end
   end
 end
