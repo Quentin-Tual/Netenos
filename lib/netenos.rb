@@ -5,6 +5,18 @@ $TMP_PATH='/tmp/Netenos'
 
 Dir.mkdir($TMP_PATH) unless Dir.exist?($TMP_PATH)
 
+class Array
+  def depth
+    new = self.flatten(1)
+    if new == self
+      return 1
+    else
+      return 1 + new.depth
+    end
+  end
+end
+
+
 require 'erb'
 require 'json'
 require 'fileutils'

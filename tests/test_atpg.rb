@@ -18,12 +18,12 @@ Dir.chdir("tests/tmp") do
 
     stim_seq = foo.gen_atpg(circ)
     # # pp stim_seq
-    # foo.save_as_txt("test.txt")
+    foo.save_as_txt("atpg.txt", bin_stim_vec:"bin")
 
     # puts "Test sequence length : #{stim_seq.values[0].length}"
 
     # foo = Converter::GenStim.new(rand_circ)
-    test_vec = foo.load_txt("stim.txt")
+    test_vec = foo.load_txt("atpg.txt")
 
     pp test_vec
     # test_vec.slice!(0)

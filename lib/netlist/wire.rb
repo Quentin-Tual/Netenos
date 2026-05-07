@@ -190,12 +190,25 @@ module Netlist
             end
 
             source = get_source
-            if source.class == Netlist::Wire
-                source.update_path_slack(@slack)
-            elsif source.is_global?
+            
+            if source.nil? 
+                if self.is_a? Netlist::Constant
+                    return
+                else
+                    raise "nil source encountered for #{self.get_full_name} of class #{self.class}" 
+                end
+            end
+
+            if source.is_a? Netlist::Constant 
                 source.slack = @slack
-            elsif !source.is_global?
-                get_source_comp.update_path_slack(@slack)
+            elsif source.instance_of? Netlist::Wire
+                source.update_path_slack(@slack)
+            elsif source.instance_of? Netlist::Port
+                if source.is_global?
+                    source.slack = @slack
+                elsif !source.is_global?
+                    get_source_comp.update_path_slack(@slack)
+                end
             end
             # end
 

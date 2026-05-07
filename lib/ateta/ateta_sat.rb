@@ -26,6 +26,8 @@ module AtetaAddOn
             @altExprExtractor = SmtlibConverter.new(altCirc, @delayModel)
 
             Dir.mkdir(TMP_SMT_PATH) unless Dir.exist?(TMP_SMT_PATH)
+            @SMTS_PATH = TMP_SMT_PATH + '/' + @initCirc.name
+            Dir.mkdir(@SMTS_PATH) unless Dir.exist?(@SMTS_PATH)
             # TODO : Check if z3 is installed and accessible (in the path)
         end
 
@@ -535,21 +537,21 @@ module AtetaAddOn
         end
 
         def run 
-            smt_path = "#{TMP_SMT_PATH}/#{@insertPointName.tr('/','_')}.smt"
+            smt_path = "#{@SMTS_PATH}/#{@insertPointName.tr('/','_')}.smt"
             genSolvingScript smt_path
             res = runSolvingScript smt_path
             results2vec2 res
         end
         
         def runMaximize(targeted_duration)
-            smt_path = "#{TMP_SMT_PATH}/#{@insertPointName.tr('/','_')}.smt"
+            smt_path = "#{@SMTS_PATH}/#{@insertPointName.tr('/','_')}.smt"
             genMaximizeSolvingScript smt_path, targeted_duration
             res = runSolvingScript smt_path
             results2vec2 res
         end
 
         def runGlitch
-            smt_path = "#{TMP_SMT_PATH}/#{@insertPointName.tr('/','_')}.smt"
+            smt_path = "#{@SMTS_PATH}/#{@insertPointName.tr('/','_')}.smt"
             genGlitchSolvingScript smt_path
             res = runSolvingScript smt_path
             results2vec2 res

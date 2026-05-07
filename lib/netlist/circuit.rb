@@ -179,7 +179,11 @@ module Netlist
             get_outputs.each do |primary_output|
                 primary_output.slack = @crit_path_length - primary_output.cumulated_propag_time
                 source_node = primary_output.get_source_comp
-                source_node.update_path_slack(primary_output.slack)
+                if ((source_node.instance_of? Netlist::Port) and source_node.is_global?)
+                    source_node.slack = primary_output.slack
+                else
+                    source_node.update_path_slack(primary_output.slack)
+                end 
             end
 
             # Create the slack hash
@@ -688,7 +692,7 @@ module Netlist
           end
         end
 
-        def add_wire_after source, sinks
+        def add_wire_between source, sinks
             # Instanciate a wire
             w = Wire.new("w#{@wires.length}")
             self << w
@@ -803,6 +807,56 @@ module Netlist
         def valid?
           all_wires_connected? and all_ports_connected? and !has_combinational_loop? and valid_connections? and
           no_double_wiring?
+        end
+
+        def get_cone_outputs signalName
+            # * search the output from the given signal (last gate of the path) 
+
+            if sigName.include? $FULL_PORT_NAME_SEP 
+                compName, portName = sigName.split($FULL_PORT_NAME_SEP)
+                if compName.nil? or portName.nil?
+                    raise "Error: 'nil' value encountered for insert point #{sigName}."
+                end
+                signal = get_component_named(compName).get_port_named(portName)
+            else
+                signal = get_port_named(sigName)
+            end
+            
+            next_gates = nil
+
+            if signal.instance_of? Netlist::Port and signal.is_global?
+                if signal.is_input?
+                    next_gates = signal.get_sink_gates
+                elsif signal.is_output?
+                    return [signal.get_full_name]
+                else 
+                    raise "Error: Internal error, unexpected state reached"
+                end
+            else
+                next_gates = signal.partof.get_sink_gates
+            end
+
+            cone_outputs = Set.new
+
+            until next_gates.empty?
+                current_gate = next_gates.shift
+                if current_gate.instance_of? Netlist::Port and current_gate.is_global? # * If insertion point is the last gate before a primary output
+                    cone_outputs << current_gate
+                    next
+                end
+
+                primary_outputs, current_gate_sinks = current_gate.get_sink_gates.partition{|g| g.is_a? Netlist::Port and g.is_global?}
+                
+                cone_outputs << primary_outputs unless primary_outputs.empty?
+                cone_outputs.flatten!
+                next_gates += current_gate_sinks unless next_gates.include? current_gate
+            end
+
+            # * Filter primary outputs plugged to a constant
+            cone_outputs = cone_outputs.to_a.flatten.select{|g| !g.get_source.instance_of?(Netlist::Constant)}
+            cone_outputs.map!(&:get_full_name)
+
+            return cone_outputs 
         end
     end
 end

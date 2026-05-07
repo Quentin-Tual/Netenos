@@ -8,7 +8,7 @@ module Converter
             @nb_outputs = 0
             @sym_tab = {:p_in => {}, :p_out => {}, :g_out => {}}
             @genlib_path = genlib_path
-            gen_genlib
+            gen_genlib unless File.exist?(@genlib_path + '/gtech.genlib')
             # TODO : check if yosys-abc is installed, raise exception if its not 
         end
 
@@ -84,17 +84,13 @@ module Converter
         end
 
         def truth_table_2_gates(path)
-            if !File.exist? "/tmp/netenos"
-                Dir.mkdir("/tmp/netenos")
-            end
-            std_o = `yosys-abc -c "read_blif #{path}; read_library #{@genlib_path}/gtech.genlib; strash; map; write_blif /tmp/netenos/~#{File.basename(path)}"`
-            # std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; dretime; map {D}; write_blif /tmp/netenos/~#{File.basename(path)}"`
-            # std_o = `yosys-abc -c "read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; &get -n; &fraig -x; &put; scorr; dc2; dretime; strash; &get -n; &dch -f; &nf {D}; &put; write_blif /tmp/netenos/~#{File.basename(path)}"`
-            # if File.exist?("/tmp/netenos/~#{File.basename(path)}")
-            #     raise "Error: File #{path} not converted correctly. "
-            # end
+            circ_name = File.basename(path).delete_suffix('.blif')
+            @TMP_BLIF_PATH = $TMP_PATH + circ_name
+            Dir.mkdir(@TMP_BLIF_PATH) unless File.exist? @TMP_BLIF_PATH
+            std_o = `yosys-abc -c "read_blif #{path}; read_library #{@genlib_path}/gtech.genlib; strash; map; write_blif #{@TMP_BLIF_PATH}/~#{File.basename(path)}"`
+            
             puts std_o if $VERBOSE
-            return "/tmp/netenos/~#{File.basename(path)}"
+            return "#{@TMP_BLIF_PATH}/~#{File.basename(path)}"
         end
 
         def parse_inputs_line line

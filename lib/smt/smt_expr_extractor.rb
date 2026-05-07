@@ -9,6 +9,7 @@ module SMT
       @sdf_col = sdf_col
       @src = []
       @expr = []
+      add_all_nl_inputs_constants if write_constants
       @prefix = nl.name + '/'
       @inserted_gates = inserted_gates
       @write_constants = write_constants
@@ -80,6 +81,13 @@ module SMT
 
     private
 
+    def add_all_nl_inputs_constants
+      @nl.get_inputs.each do |ip|
+        ip_name = ip.get_full_name
+        declare_input_constant(ip_name)
+      end
+    end
+
     def visit_gate_output(op)
       super
     end
@@ -91,7 +99,7 @@ module SMT
 
     def visit_prim_input(ip)
       pip_name = ip.get_full_name
-      declare_input_constant(pip_name) if @write_constants
+      # declare_input_constant(pip_name) if @write_constants
       @expr << "(define-fun #{@prefix}#{pip_name} ((t Int)) Bool (ite (< t 0) #{pip_name}_d #{pip_name}_a))"
       @expr << "(define-fun #{@prefix}#{pip_name}C () Bool #{pip_name}_d)"
     end

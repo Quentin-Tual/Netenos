@@ -100,7 +100,7 @@ module AtetaAddOn
                 
                 # TODO : Add a new objects in dly_db for delays of the inserted buffer, do it in the initialize ? earlier ? here ?
                 added_buf = @altCirc.components.last
-                added_wire = @altCirc.add_wire_after(
+                added_wire = @altCirc.add_wire_between(
                     added_buf.get_output, 
                     added_buf.get_output.get_sinks
                 )
