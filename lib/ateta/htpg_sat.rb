@@ -2,7 +2,7 @@ module AtetaAddOn
   class HtpgSat
     TMP_SMT_PATH = "#{$TMP_PATH}/htpg_smt"
 
-    def initialize initCirc, init_dly_db, crit_path, altCirc, alt_dly_db, insertPointName, targetedOutputName, dly_db_col: :typ
+    def initialize initCirc, init_dly_db, crit_path, altCirc, alt_dly_db, insertPointName, targetedOutputName, dly_db_col: :typ, path_to_constraint: nil
       @initCirc = initCirc
       @init_dly_db = init_dly_db
       @altCirc = altCirc
@@ -16,6 +16,8 @@ module AtetaAddOn
       @targetedOutputName = targetedOutputName
 
       @dly_db_col = dly_db_col
+      @path_to_constraint = path_to_constraint
+      @constraint_index = 0
       
       # If it does not exist, create the temporary dir to store smt files 
       Dir.mkdir(TMP_SMT_PATH) unless Dir.exist?(TMP_SMT_PATH)
@@ -63,11 +65,12 @@ module AtetaAddOn
 
     def constraint_insert_point
       src = []
-      src << '(declare-const t_b Int)'
-      src << '(assert (> t_b 0))'
-      src << "(assert (< t_b #{@crit_path}))"
+      src << "(declare-const t_#{@constraint_index} Int)"
+      src << "(assert (> t_#{@constraint_index} 0))"
+      src << "(assert (< t_#{@constraint_index} #{@crit_path}))"
+      @constraint_index += 1
       src << "(assert (not (= (#{@initCirc.name}/#{@initInsertWireName} t_b) (#{@altCirc.name}/#{@altInsertWireName} t_b))))"
-      src << soft_constraint_insert_point
+      # src << soft_constraint_insert_point
       src << "(check-sat)"
       src << "(push)"
       src
@@ -105,18 +108,39 @@ module AtetaAddOn
 
     def constraint_targeted_output
       src = []
-      src << '(declare-const t_a Int)'
-      src << '(assert (> t_a t_b))'
-      src << "(assert (< t_a #{@crit_path}))"
-      src << "(assert (not (= (#{@initCirc.name}/#{@targetedOutputName} t_a) (#{@altCirc.name}/#{@targetedOutputName} t_a))))"
-      src << soft_constraint_targeted_output
+      src << "(declare-const t_#{@constraint_index} Int)"
+      src << "(assert (> t_#{@constraint_index} t_#{@constraint_index-1}))"
+      src << "(assert (< t_#{@constraint_index} #{@crit_path}))"
+      src << "(assert (not (= (#{@initCirc.name}/#{@targetedOutputName} t_#{@constraint_index}) (#{@altCirc.name}/#{@targetedOutputName} t_#{@constraint_index}))))"
+      # src << soft_constraint_targeted_output
+      @constraint_index+=1
+      src
+    end
+
+    def constraint_targeted_path
+      src = []
+      @path_to_constraint.each do |obj| 
+        next if obj.is_a? Netlist::Gate 
+        next if obj.is_a?(Netlist::Port) and (obj.is_input? and !obj.is_global?)
+        obj_name = obj.get_full_name
+        src << "(declare-const t_#{@constraint_index} Int)"
+        src << "(assert (> t_#{@constraint_index} t_#{@constraint_index - 1}))"
+        src << "(assert (not (= (#{@initCirc.name}/#{obj_name} t_#{@constraint_index}) (#{@altCirc.name}/#{obj_name} t_#{@constraint_index}))))"
+        src << "(check-sat)"
+        src << "(push)"
+        @constraint_index += 1
+      end
       src
     end
 
     def append_constraints
       src = []
       src += constraint_insert_point
-      src += constraint_targeted_output
+      if @path_to_constraint.nil?
+        src += constraint_targeted_output
+      else
+        src += constraint_targeted_path
+      end
       src << '(check-sat)'
       src << '(get-model)'
       File.write(@SMTS_PATH, src.join("\n"), mode: 'a')

@@ -119,18 +119,32 @@ module Netlist
           is_gate_input?(obj) or is_prim_output?(obj)
         end
 
-        def get_insertion_points payload_delay, slack_db = nil
+        def get_insertion_points payload_delay, slack_db = nil, topo_sort: true
             # * Returns a list of gate which outputs has a slack greater than the payload delay
+
             if slack_db.nil?
                 slack_h = get_slack_hash 
-                return slack_h.select{|slack, nodes| slack >= payload_delay}.values.flatten.select{|node|
+                res = slack_h.select{|slack, nodes| slack >= payload_delay}.values.flatten.select{|node|
                     valid_insert_point?(node)
                 }
             else
                 slack_db = slack_db.select do |sig, slack| 
                     valid_insert_point?(sig)
                 end
-                slack_db.select{|sig, slack| slack >= payload_delay}.keys
+                res = slack_db.select{|sig, slack| slack >= payload_delay}.keys
+            end
+
+            if topo_sort
+                sorted_res = []
+                precedence_grid = get_netlist_precedence_grid
+                precedence_grid.values.flatten.collect do |g|
+                    g.get_inputs.collect do |gip|
+                        sorted_res << gip if res.include? gip
+                    end
+                end
+                sorted_res
+            else
+                res
             end
         end
 

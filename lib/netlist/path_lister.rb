@@ -1,6 +1,7 @@
 module Netlist
   class PathLister < Netlist::ForwardDFS 
     attr_reader :authorized_list
+    
     def initialize nl, stop_sig, authorized_list = []
       super(nl)
       
@@ -18,7 +19,7 @@ module Netlist
     end
 
     def visit_Port p
-      return [p] if is_stopsig?(p)
+      return [p] if is_stopsig?(p) or (p.is_global? and p.is_output?)
       forward_paths = super if authorized?(p)
       forward_paths.flatten!(1) if forward_paths.depth > 2
       forward_paths.map! do |path|
@@ -70,9 +71,9 @@ module Netlist
 
     # end
 
-    def visit_prim_output(op)
-      # super
-      [[op]]
-    end
+    # def visit_prim_output(op)
+    #   # super
+    #   [[op]]
+    # end
   end
 end

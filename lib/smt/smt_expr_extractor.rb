@@ -189,7 +189,7 @@ module SMT
       false
       (ite (= (#{signame}0D t) (#{signame}R t) true)
         true
-        (#{signame} (- t #{@gate_min_dly})) ; not an ideal resolution, speed up calculations with inertial delay
+        (#{signame} (- t #{@gate_min_dly})) ; not an ideal resolution, speeds up calculations with inertial delay
       )
     )
   )

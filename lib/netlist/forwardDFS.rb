@@ -37,9 +37,14 @@ module Netlist
       print_obj_name(g) if $DEBUG
 
       # visit sink ports
-      sps = g.get_output.get_sinks 
-      sps.collect do |sp|
-        sp.accept(self)
+      # sps = g.get_output.get_sinks 
+      # sps.collect do |sp|
+      #   sp.accept(self)
+      # end
+      
+      # visit outputs
+      g.get_outputs.collect do |go|
+        go.accept(self)
       end
     end
 
