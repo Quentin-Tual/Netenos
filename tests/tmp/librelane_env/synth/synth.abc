@@ -1,7 +1,0 @@
-read_blif netlist/alu3.blif
-#write_blif -noalias -impltf -top alu3 synth/alu3.ys.blif
-#design -reset
-#read_blif synth/alu3.ys.blif
-#setundef -one
-#opt
-write_verilog synth/alu3.v
