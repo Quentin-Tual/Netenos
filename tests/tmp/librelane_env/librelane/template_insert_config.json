@@ -1,0 +1,53 @@
+{
+	"DESIGN_NAME": "$CIRC_NAME",
+	"VERILOG_FILES": "synth/$CIRC_NAME.v",
+	"PDK_ROOT": "$PDK",
+	"PDK": "sky130A",
+	"STD_CELL_LIBRARY": "$SCL_TARGET",
+	"CLOCK_PERIOD": 100.0,
+	"meta": {
+		"version": 1,
+		"flow": [
+			"Odb.InsertECOBuffers",
+			"OpenROAD.DetailedRouting",
+			"Odb.RemoveRoutingObstructions",
+			"OpenROAD.CheckAntennas",
+			"Checker.TrDRC",
+			"Odb.ReportDisconnectedPins",
+			"Checker.DisconnectedPins",
+			"Odb.ReportWireLength",
+			"Checker.WireLength",
+			"OpenROAD.FillInsertion",
+			"Odb.CellFrequencyTables",
+			"OpenROAD.RCX",
+			"OpenROAD.STAPostPNR",
+			"OpenROAD.IRDropReport",
+			"Magic.StreamOut",
+			"KLayout.StreamOut",
+			"KLayout.Render",
+			"Magic.WriteLEF",
+			"Odb.CheckDesignAntennaProperties",
+			"KLayout.XOR",
+			"Checker.XOR",
+			"Magic.DRC",
+			"KLayout.DRC",
+			"Checker.MagicDRC",
+			"Checker.KLayoutDRC",
+			"Magic.SpiceExtraction",
+			"Checker.IllegalOverlap",
+			"Netgen.LVS",
+			"Checker.LVS",
+			"Checker.SetupViolations",
+			"Checker.HoldViolations",
+			"Checker.MaxSlewViolations",
+			"Checker.MaxCapViolations",
+			"Misc.ReportManufacturability"
+		]
+	},
+	"INSERT_ECO_BUFFERS": [
+    {
+      "target": "$ATTACKED_SIG",
+      "buffer": "$INSERTED_STD_CELL"
+    }
+  ]
+}

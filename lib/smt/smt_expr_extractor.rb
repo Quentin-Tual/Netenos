@@ -2,7 +2,7 @@ module SMT
   class SMTExprExtractor < Netlist::BackwardUniqDFS
     attr_reader :expr
 
-    def initialize nl, delays, sdf_col: :typ, inserted_gates: [], write_constants: true
+    def initialize nl, delays, sdf_col: :typ, inserted_gates: [], write_constants: true, crit_path_delay: nil, smt_format: :rec
       super(nl)
       @delays = delays
       @gate_min_dly = @nl.get_comp_min_delay(:sdf, dly_db: @delays)
@@ -13,6 +13,9 @@ module SMT
       @prefix = nl.name + '/'
       @inserted_gates = inserted_gates
       @write_constants = write_constants
+      @transition_instant = 0
+      @upper_bound = crit_path_delay
+      @smt_format = smt_format
     end
 
     def save_as path 
@@ -20,7 +23,7 @@ module SMT
     end
 
     def print 
-      @expr.join("\n")
+      @expr.join("\n") + "\n"
     end
 
     def visit_Port p
@@ -48,7 +51,13 @@ module SMT
       @expr << fall_fun(prefixed_name, fall_expr.join(' '))
       @expr << comb_fun(prefixed_name, comb_expr.join(' '))
       @expr << zerod_fun(prefixed_name, nodly_expr(g, sp_names).join(' '))
-      @expr << risefallcomb_rec_fun(prefixed_name) 
+      if @smt_format == :simple
+        max_rise_dly = rise_dlys.max
+        max_fall_dly = fall_dlys.max
+        @expr << risefallcomb_fun(prefixed_name, [max_rise_dly, max_fall_dly]) 
+      else
+        @expr << risefallcomb_fun(prefixed_name) 
+      end
     end
 
     def visit_Wire w
@@ -75,7 +84,11 @@ module SMT
         @expr << fall_fun(prefixed_name, fall_expr)
         @expr << comb_fun(prefixed_name, comb_expr)
         @expr << zerod_fun(prefixed_name, zerod_expr)
-        @expr << risefallcomb_rec_fun(prefixed_name) 
+        if @smt_format == :simple
+          @expr << risefallcomb_fun(prefixed_name, [rise_dly, fall_dly])
+        else
+          @expr << risefallcomb_fun(prefixed_name) 
+        end
       end
     end
 
@@ -181,18 +194,84 @@ module SMT
       end
     end
 
+    def risefallcomb_fun signame, params=nil
+      case @smt_format
+      when :rec
+        risefallcomb_rec_fun(signame)
+      when :arrays
+        risefallcomb_array_assert_fun(signame)
+      when :simple
+        risefallcomb_simple_fun(signame, *params)
+      when :pure
+        risefallcomb_pure_fun(signame)
+      else
+        risefallcomb_simple_fun(signame, *params)
+      end
+    end
+
+    def risefallcomb_pure_fun signame
+"(define-fun #{signame} ((t Int)) Bool
+  (ite (<= t 0)
+    #{signame}C
+    (ite (not (#{signame}0D t))
+      (#{signame}F t)
+      (#{signame}R t)
+    )
+  )
+)"
+    end
+
     def risefallcomb_rec_fun signame
 "(define-fun-rec #{signame} ((t Int)) Bool
   (ite (<= t 0)
     #{signame}C
-    (ite (= (#{signame}0D t) (#{signame}F t) false)
+    (ite (not (or (#{signame}0D t) (#{signame}F t) ))
       false
-      (ite (= (#{signame}0D t) (#{signame}R t) true)
+      (ite (and (#{signame}0D t) (#{signame}R t) )
         true
         (#{signame} (- t #{@gate_min_dly})) ; not an ideal resolution, speeds up calculations with inertial delay
       )
     )
   )
+)"
+    end
+
+    # INACCURATE AND WRONG 
+    def risefallcomb_simple_fun signame, max_rise_delay, max_fall_delay
+"(define-fun #{signame} ((t Int)) Bool
+  (ite (<= t 0)
+    #{signame}C
+    (ite (#{signame}0D t)
+      (ite (#{signame}R t)
+        true
+        (#{signame}R (- t #{max_rise_delay}))
+      )
+      (ite (not (#{signame}F t))
+        false
+        (#{signame}F (- t #{max_fall_delay}))
+      )
+    )
+  )
+)"
+    end
+
+    # DOES NOT SPEED UP THE PROCESS
+    def risefallcomb_array_assert_fun signame
+"(declare-const #{signame}_arr (Array Int Bool))
+(assert (= (select #{signame}_arr #{@transition_instant}) #{signame}C))
+(assert (forall ((t Int))
+  (=> (and (> t #{@transition_instant}) (< t #{@upper_bound}))
+    (ite (not (or (#{signame}0D t) (#{signame}F t)))
+      (= (select #{signame}_arr t) false)
+      (ite (and (#{signame}0D t) (#{signame}R t))
+        (= (select #{signame}_arr t) true)
+        (= (select #{signame}_arr t) (select #{signame}_arr (- t #{@gate_min_dly})))
+      )
+    )
+  )
+))
+(define-fun #{signame} ((t Int)) Bool 
+  (select #{signame}_arr t)
 )"
     end
 

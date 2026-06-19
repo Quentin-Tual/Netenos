@@ -8,7 +8,7 @@ module AtetaAddOn
     class Htpg
         attr_reader :unobservables, :observables
 
-        def initialize initCirc, payloadDelay, dly_db
+        def initialize initCirc, payloadDelay, dly_db, smt_format: :rec
             @initCirc = initCirc
             @payloadDelay = payloadDelay
             @init_dly_db = dly_db
@@ -23,6 +23,7 @@ module AtetaAddOn
             @alt_dly_db = nil
             @unobservables = []
             @observables = []
+            @smt_format = smt_format
         end
 
         def generate_stim forbiddenVectors = []
@@ -35,6 +36,7 @@ module AtetaAddOn
                 if insertPointName.nil?
                     raise "Error: 'nil' insert point name encountered."
                 end
+                next if @observables.include? insertPointName
                 puts " |-- #{count += 1}/#{@insertionPoints.length} insert point." if $VERBOSE
                 # Créer une version altérée du circuit initial
                 downstreamOuputs = get_cone_outputs(insertPointName)
@@ -42,11 +44,15 @@ module AtetaAddOn
                 solution_found = false
                 # Pour chaque sortie du cone de sortie, jusqu'à ce qu'une solution soit trouvée
                 downstreamOuputs.each do |targetedOutputName|
+                    # Déterminer le chemin entre le point d'insertion et la sortie qui contient le plus de signaux à risque
+                    path = most_covering_path(insertPointName, targetedOutputName)
                     # Appliquer Ateta_sat
                     solver = AtetaAddOn::HtpgSat.new(
                         @initCirc, @init_dly_db, @crit_path,
                         @altCirc, @alt_dly_db, 
-                        insertPointName, targetedOutputName)
+                        insertPointName, targetedOutputName, 
+                        #path_to_constraint: path, 
+                        smt_format: @smt_format)
                     result = solver.run
                     # Stocker les couples de test générés dans un tableau
                     if result.nil? 
@@ -54,6 +60,13 @@ module AtetaAddOn
                     else
                         solution_found = true
                         # ! Stocker le nom et non l'objet (insertPoint ET targetedOutput)
+                        path.collect do |obj|
+                          obj_name = obj.is_a?(Netlist::Gate) ? obj.name : obj.get_full_name
+                          if @insertionPoints.include? obj_name
+                            @solutions[obj_name][targetedOutputName] = result
+                            @observables << obj_name
+                          end
+                        end
                         @solutions[insertPointName][targetedOutputName] = result
                         @observables << insertPointName # ! Stocker le nom et non l'objet
                         break
@@ -171,6 +184,23 @@ module AtetaAddOn
             cone_outputs.map!(&:get_full_name)
 
             return cone_outputs 
+        end
+
+        def most_covering_path(insertPointName, targetedOutputName)
+            targetedOutput = @initCirc.get_port_named(targetedOutputName)
+            compName, portName = insertPointName.split($FULL_PORT_NAME_SEP)
+
+            pathLister = Netlist::PathLister.new(@initCirc, targetedOutput)
+            
+            insertPoint = @initCirc.get_component_named(compName).get_port_named(portName)
+            
+            paths = insertPoint.accept(pathLister)
+            
+            insertionPointsSet = Set.new(@insertionPoints)
+            paths.max_by do |path|
+              namePath = path.collect{|obj| obj.is_a?(Netlist::Gate) ? obj.name : obj.get_full_name}
+              (insertionPointsSet & namePath).length
+            end
         end
 
         def save_explicit_add_headers(src, binStimVec)

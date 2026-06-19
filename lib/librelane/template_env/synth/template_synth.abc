@@ -1,0 +1,7 @@
+read_blif netlist/$CIRC_NAME.blif
+#write_blif -noalias -impltf -top $CIRC_NAME synth/$CIRC_NAME.ys.blif
+#design -reset
+#read_blif synth/$CIRC_NAME.ys.blif
+#setundef -one
+#opt
+write_verilog synth/$CIRC_NAME.v

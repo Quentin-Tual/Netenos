@@ -2,7 +2,7 @@ module AtetaAddOn
   class HtpgSat
     TMP_SMT_PATH = "#{$TMP_PATH}/htpg_smt"
 
-    def initialize initCirc, init_dly_db, crit_path, altCirc, alt_dly_db, insertPointName, targetedOutputName, dly_db_col: :typ, path_to_constraint: nil
+    def initialize initCirc, init_dly_db, crit_path, altCirc, alt_dly_db, insertPointName, targetedOutputName, dly_db_col: :typ, path_to_constraint: nil, smt_format: :rec
       @initCirc = initCirc
       @init_dly_db = init_dly_db
       @altCirc = altCirc
@@ -18,11 +18,18 @@ module AtetaAddOn
       @dly_db_col = dly_db_col
       @path_to_constraint = path_to_constraint
       @constraint_index = 0
+      @smt_format = smt_format
       
       # If it does not exist, create the temporary dir to store smt files 
       Dir.mkdir(TMP_SMT_PATH) unless Dir.exist?(TMP_SMT_PATH)
+
       @SMTS_PATH = TMP_SMT_PATH + '/' + @initCirc.name + "/#{@insertPointName.tr('/','_')}_#{@targetedOutputName}.smt"
-      Dir.mkdir(TMP_SMT_PATH + '/' + @initCirc.name) unless Dir.exist?(TMP_SMT_PATH + '/' + @initCirc.name)
+
+      if Dir.exist?(TMP_SMT_PATH + '/' + @initCirc.name)
+        `rm #{TMP_SMT_PATH + '/' + @initCirc.name + '/*.smt'}`
+      else
+        Dir.mkdir(TMP_SMT_PATH + '/' + @initCirc.name)
+      end
 
       # TODO : If it does not exist, create a file to contain initial circuit formal representation (self.create_init_circ_basefile)
       # TODO : Append the altered formal representation to it (self.append_alt_circ_representation)
@@ -31,7 +38,7 @@ module AtetaAddOn
     end
 
     def create_init_circ_basefile
-      smt_extractor = SMT::SMTExprExtractor.new(@initCirc, @init_dly_db)
+      smt_extractor = SMT::SMTExprExtractor.new(@initCirc, @init_dly_db, crit_path_delay: @crit_path, smt_format: @smt_format)
       targeted_output = @initCirc.get_port_named(@targetedOutputName)
       targeted_output.accept(smt_extractor)
       @on_output_path = smt_extractor.visited
@@ -39,7 +46,7 @@ module AtetaAddOn
     end
 
     def append_alt_circ_representation
-      smt_extractor = SMT::SMTExprExtractor.new(@altCirc, @alt_dly_db, inserted_gates: [@altCirc.components.last], write_constants: false)
+      smt_extractor = SMT::SMTExprExtractor.new(@altCirc, @alt_dly_db, inserted_gates: [@altCirc.components.last], write_constants: false, crit_path_delay: @crit_path, smt_format: @smt_format)
       targeted_output = @altCirc.get_port_named(@targetedOutputName)
       targeted_output.accept(smt_extractor)
       smt_extractor.save_as(@SMTS_PATH)
@@ -60,7 +67,7 @@ module AtetaAddOn
       else
         @soft_constraint_value = false
       end
-      "(assert-soft (= (#{@initCirc.name}/#{@initInsertWireName} t_b) #{@soft_constraint_value.to_s}))"
+      "(assert-soft (= (#{@initCirc.name}/#{@initInsertWireName} t_#{@constraint_index}) #{@soft_constraint_value.to_s}))"
     end
 
     def constraint_insert_point
@@ -68,11 +75,11 @@ module AtetaAddOn
       src << "(declare-const t_#{@constraint_index} Int)"
       src << "(assert (> t_#{@constraint_index} 0))"
       src << "(assert (< t_#{@constraint_index} #{@crit_path}))"
-      @constraint_index += 1
-      src << "(assert (not (= (#{@initCirc.name}/#{@initInsertWireName} t_b) (#{@altCirc.name}/#{@altInsertWireName} t_b))))"
-      # src << soft_constraint_insert_point
+      src << "(assert (xor (#{@initCirc.name}/#{@initInsertWireName} t_#{@constraint_index}) (#{@altCirc.name}/#{@altInsertWireName} t_#{@constraint_index})))"
+      src << soft_constraint_insert_point unless @smt_format
       src << "(check-sat)"
       src << "(push)"
+      @constraint_index += 1
       src
     end
 
@@ -103,7 +110,7 @@ module AtetaAddOn
         value = !@soft_constraint_value
       end
 
-      "(assert-soft (= (#{@initCirc.name}/#{@targetedOutputName} t_a) #{value.to_s}))"
+      "(assert-soft (= (#{@initCirc.name}/#{@targetedOutputName} t_#{@constraint_index}) #{value.to_s}))"
     end
 
     def constraint_targeted_output
@@ -111,8 +118,8 @@ module AtetaAddOn
       src << "(declare-const t_#{@constraint_index} Int)"
       src << "(assert (> t_#{@constraint_index} t_#{@constraint_index-1}))"
       src << "(assert (< t_#{@constraint_index} #{@crit_path}))"
-      src << "(assert (not (= (#{@initCirc.name}/#{@targetedOutputName} t_#{@constraint_index}) (#{@altCirc.name}/#{@targetedOutputName} t_#{@constraint_index}))))"
-      # src << soft_constraint_targeted_output
+      src << "(assert (xor (#{@initCirc.name}/#{@targetedOutputName} t_#{@constraint_index}) (#{@altCirc.name}/#{@targetedOutputName} t_#{@constraint_index})))"
+      src << soft_constraint_targeted_output unless @smt_format
       @constraint_index+=1
       src
     end
@@ -125,7 +132,8 @@ module AtetaAddOn
         obj_name = obj.get_full_name
         src << "(declare-const t_#{@constraint_index} Int)"
         src << "(assert (> t_#{@constraint_index} t_#{@constraint_index - 1}))"
-        src << "(assert (not (= (#{@initCirc.name}/#{obj_name} t_#{@constraint_index}) (#{@altCirc.name}/#{obj_name} t_#{@constraint_index}))))"
+        src << "(assert (< t_#{@constraint_index} #{@crit_path}))"
+        src << "(assert (xor (#{@initCirc.name}/#{obj_name} t_#{@constraint_index}) (#{@altCirc.name}/#{obj_name} t_#{@constraint_index})))"
         src << "(check-sat)"
         src << "(push)"
         @constraint_index += 1
@@ -140,6 +148,7 @@ module AtetaAddOn
         src += constraint_targeted_output
       else
         src += constraint_targeted_path
+        # src << "(assert (<= t_#{@constraint_index} #{@crit_path}))"
       end
       src << '(check-sat)'
       src << '(get-model)'

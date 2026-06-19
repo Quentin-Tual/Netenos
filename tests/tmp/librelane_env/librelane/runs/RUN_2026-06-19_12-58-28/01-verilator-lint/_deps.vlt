@@ -1,0 +1,5 @@
+`verilator_config
+lint_off -rule DECLFILENAME
+lint_off -rule EOFNEWLINE
+lint_off -rule UNDRIVEN -file "/home/quentint/Workspace/Ruby/Netenos/tests/tmp/librelane_env/librelane/runs/RUN_2026-06-19_12-58-28/tmp/17cd8ecd60d94b5a865cc52a841e3ef4.bb.v"
+lint_off -rule UNUSEDSIGNAL -file "/home/quentint/Workspace/Ruby/Netenos/tests/tmp/librelane_env/librelane/runs/RUN_2026-06-19_12-58-28/tmp/17cd8ecd60d94b5a865cc52a841e3ef4.bb.v"

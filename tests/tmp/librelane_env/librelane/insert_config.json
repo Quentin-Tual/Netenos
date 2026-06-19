@@ -1,0 +1,53 @@
+{
+	"DESIGN_NAME": "alu3",
+	"VERILOG_FILES": "synth/alu3.v",
+	"PDK_ROOT": "/home/quentint/.ciel/ciel/sky130/versions/0fe599b2afb6708d281543108caf8310912f54af",
+	"PDK": "sky130A",
+	"STD_CELL_LIBRARY": "sky130_fd_sc_hd",
+	"CLOCK_PERIOD": 100.0,
+	"meta": {
+		"version": 1,
+		"flow": [
+			"Odb.InsertECOBuffers",
+			"OpenROAD.DetailedRouting",
+			"Odb.RemoveRoutingObstructions",
+			"OpenROAD.CheckAntennas",
+			"Checker.TrDRC",
+			"Odb.ReportDisconnectedPins",
+			"Checker.DisconnectedPins",
+			"Odb.ReportWireLength",
+			"Checker.WireLength",
+			"OpenROAD.FillInsertion",
+			"Odb.CellFrequencyTables",
+			"OpenROAD.RCX",
+			"OpenROAD.STAPostPNR",
+			"OpenROAD.IRDropReport",
+			"Magic.StreamOut",
+			"KLayout.StreamOut",
+			"KLayout.Render",
+			"Magic.WriteLEF",
+			"Odb.CheckDesignAntennaProperties",
+			"KLayout.XOR",
+			"Checker.XOR",
+			"Magic.DRC",
+			"KLayout.DRC",
+			"Checker.MagicDRC",
+			"Checker.KLayoutDRC",
+			"Magic.SpiceExtraction",
+			"Checker.IllegalOverlap",
+			"Netgen.LVS",
+			"Checker.LVS",
+			"Checker.SetupViolations",
+			"Checker.HoldViolations",
+			"Checker.MaxSlewViolations",
+			"Checker.MaxCapViolations",
+			"Misc.ReportManufacturability"
+		]
+	},
+	"INSERT_ECO_BUFFERS": [
+    {
+      "target": "output16/A",
+      "buffer": "sky130_fd_sc_hd__buf_8"
+    }
+  ]
+}

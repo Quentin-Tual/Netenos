@@ -1,7 +1,14 @@
 source 'https://rubygems.org'
-gem 'oj'
-gem 'json'
-gem 'sxp'
-gem 'pycall'
-gem 'fileutils'
-gem 'rspec'
+
+group :prod do 
+  gem 'oj'
+  gem 'json'
+  gem 'sxp'
+  gem 'pycall'
+  gem 'fileutils'  
+end
+
+group :development do
+  gem "ruby-lsp-rspec", require: false
+  gem 'rspec'
+end

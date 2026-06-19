@@ -1,0 +1,3 @@
+sta -no_splash -exit /nix/store/yz2zawvq8zmkicjp7ng20fhs97b1gl5c-python3-3.11.9-env/lib/python3.11/site-packages/librelane/scripts/openroad/sta/corner.tcl
+sta -no_splash -exit /nix/store/yz2zawvq8zmkicjp7ng20fhs97b1gl5c-python3-3.11.9-env/lib/python3.11/site-packages/librelane/scripts/openroad/sta/corner.tcl
+sta -no_splash -exit /nix/store/yz2zawvq8zmkicjp7ng20fhs97b1gl5c-python3-3.11.9-env/lib/python3.11/site-packages/librelane/scripts/openroad/sta/corner.tcl

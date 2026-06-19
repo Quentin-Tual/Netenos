@@ -1,0 +1,1 @@
+openroad -exit -no_splash -metrics /home/quentint/Workspace/Ruby/Netenos/tests/tmp/librelane_env/librelane/runs/RUN_2026-06-19_12-58-28/37-openroad-stamidpnr-2/or_metrics_out.json /nix/store/yz2zawvq8zmkicjp7ng20fhs97b1gl5c-python3-3.11.9-env/lib/python3.11/site-packages/librelane/scripts/openroad/sta/corner.tcl
