@@ -41,13 +41,25 @@ module Librelane
       end
     end
 
-    def gen_ateta_stim 
+    def gen_ateta_stim inserted_std_cell: nil
       Dir.chdir('librelane_env') do      
         init_circ = Verilog.load_netlist(get_pnr_v)
         SDF.annotate(init_circ, get_pnr_sdf)
         ht_dly = init_circ.get_comp_min_delay(@DLY_MDL)
         
-        generator = AtetaAddOn::AtetaLibrelane.new(self, init_circ, ht_dly, @DLY_MDL)
+        generator = AtetaAddOn::AtetaLibrelane.new(self, init_circ, ht_dly, @DLY_MDL, inserted_std_cell: inserted_std_cell)
+        generator.generate_stim
+        generator.save_explicit("made/#{@circ_name}/#{@circ_name}.stim", binStimVec: true)
+      end
+    end
+
+    def gen_htpg_transport_dly_stim inserted_std_cell: nil
+      Dir.chdir('librelane_env') do
+        init_circ = Verilog.load_netlist(get_pnr_v)
+        init_dly_db = SDF.generate_dly_db(init_circ, get_pnr_sdf)
+        ht_dly = init_circ.get_comp_min_delay(:sdf, dly_db: init_dly_db)
+        
+        generator = AtetaAddOn::HtpgLibrelane.new(self, init_circ, ht_dly, init_dly_db, smt_format: :pure)
         generator.generate_stim
         generator.save_explicit("made/#{@circ_name}/#{@circ_name}.stim", binStimVec: true)
       end
@@ -55,6 +67,10 @@ module Librelane
 
     def insert_buf_and_finalize attacked_sig, inserted_std_cell = "#{@SCL_TARGET}__buf_8"
       puts " > Attack place and route"
+
+      if inserted_std_cell.nil?
+        inserted_std_cell = "#{@SCL_TARGET}__buf_8"
+      end
 
       # Dir.chdir('librelane_env') do 
         last_run_path = get_last_run_path
@@ -117,7 +133,7 @@ module Librelane
     private 
 
     def check_install
-      @LBLANE_NIX = `find / -wholename "*librelane/shell.nix" -print -quit`.delete_suffix("\n")
+      @LBLANE_NIX = `find $HOME -wholename "*librelane/shell.nix" -print -quit`.delete_suffix("\n")
       if @LBLANE_NIX.empty?
         raise "No Nix based LibreLane installation found, please see : https://librelane.readthedocs.io/en/stable/installation/index.html"
       end

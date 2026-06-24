@@ -24,7 +24,7 @@ module AtetaAddOn
       insertPointName = get_pdk_name(insertPointName)
 
       # Faire une insertion dans l'environnement LibreLane  
-      @lblane_env.insert_buf_and_finalize(insertPointName)
+      @lblane_env.insert_buf_and_finalize(insertPointName, @inserted_std_cell)
       
       # Charger le .v altéré
       @altCirc = Verilog.load_netlist(@lblane_env.get_last_run_v)

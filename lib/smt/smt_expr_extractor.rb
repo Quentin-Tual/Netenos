@@ -202,7 +202,7 @@ module SMT
         risefallcomb_array_assert_fun(signame)
       when :simple
         risefallcomb_simple_fun(signame, *params)
-      when :pure
+      when :pure, :transport
         risefallcomb_pure_fun(signame)
       else
         risefallcomb_simple_fun(signame, *params)

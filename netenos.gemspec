@@ -16,6 +16,8 @@ Gem::Specification.new do |spec|
   spec.files += Dir['lib/converter/**/*.erb']
   spec.files += Dir['lib/converter/gtech.genlib']
   spec.files += Dir['lib/*.json']
+  spec.files += Dir['lib/librelane/template_env/*']
+  spec.files += Dir['lib/librelane/template_env/**/*']
 
   spec.add_runtime_dependency 'oj', '>= 3.0.0'
   spec.add_runtime_dependency 'sxp'

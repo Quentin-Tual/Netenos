@@ -80,8 +80,8 @@ module <%=tb_entity_name%>;
   // DUT port map
   <%mapped_portmap = @mapped_nl_data[:inputs].collect do |ip|
       i=ip[1..].to_i
-      ri = nb_inputs - 1 - i # reversed word
-      ".#{ip}(i[#{ri}])"
+      # ri = nb_inputs - 1 - i # reversed word
+      ".#{ip}(i[#{i}])"
     end
     mapped_portmap += @mapped_nl_data[:outputs].collect do |op|
       i=op[1..]
@@ -91,8 +91,8 @@ module <%=tb_entity_name%>;
 
   <%pnr_portmap = @pnr_nl_data[:inputs].collect{|ip|
       i=ip[1..].to_i
-      ri = nb_inputs - 1 - i # reversed word
-      ".#{ip}(i[#{ri}])"
+      # ri = nb_inputs - 1 - i # reversed word
+      ".#{ip}(i[#{i}])"
     }
     pnr_portmap += @pnr_nl_data[:outputs].collect{|op|
       i=op[1..]
@@ -102,8 +102,8 @@ module <%=tb_entity_name%>;
 
   <%apnr_portmap = @apnr_nl_data[:inputs].collect{|ip|
       i=ip[1..].to_i
-      ri = nb_inputs - 1 - i # reversed word
-      ".#{ip}(i[#{ri}])"
+      #ri = nb_inputs - 1 - i # reversed word
+      ".#{ip}(i[#{i}])"
     }
     apnr_portmap += @apnr_nl_data[:outputs].collect{|op|
       i=op[1..]

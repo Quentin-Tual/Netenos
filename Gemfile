@@ -11,4 +11,5 @@ end
 group :development do
   gem "ruby-lsp-rspec", require: false
   gem 'rspec'
+  gem 'rubocop'
 end
