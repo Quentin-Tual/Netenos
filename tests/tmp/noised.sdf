@@ -1,0 +1,61 @@
+(DELAYFILE
+ (DESIGN "xor5")
+ (TIMESCALE 1ns)
+ (CELL
+  (CELLTYPE "xor5")
+  (INSTANCE)
+  (DELAY
+   (ABSOLUTE
+    (INTERCONNECT i0 _3_.A (0.032:0.032:0.032) (0.014:0.014:0.014))
+    (INTERCONNECT i1 _4_.A (0.032:0.032:0.032) (0.014:0.014:0.014))
+    (INTERCONNECT i2 _3_.B (0.029:0.029:0.029) (0.013:0.013:0.013))
+    (INTERCONNECT i3 _4_.B (0.029:0.029:0.029) (0.013:0.013:0.013))
+    (INTERCONNECT i4 _5_.A (0.031:0.031:0.031) (0.013:0.013:0.013))
+    (INTERCONNECT _3_.X _6_.A (0.000:0.000:0.000) (0.000:0.000:0.000))
+    (INTERCONNECT _4_.X _5_.B (0.000:0.000:0.000) (0.000:0.000:0.000))
+    (INTERCONNECT _5_.Y _6_.B (0.000:0.000:0.000) (0.000:0.000:0.000))
+    (INTERCONNECT _6_.Y o0 (0.000:0.000:0.000) (0.000:0.000:0.000))
+   )
+  )
+ )
+ (CELL
+  (CELLTYPE "sky130_fd_sc_hd__xor2_2")
+  (INSTANCE _3_)
+  (DELAY
+   (ABSOLUTE
+    (IOPATH A X (0.157:0.157:0.157) (0.170:0.170:0.170))
+    (IOPATH B X (0.168:0.168:0.168) (0.144:0.144:0.144))
+   )
+  )
+ )
+ (CELL
+  (CELLTYPE "sky130_fd_sc_hd__xor2_2")
+  (INSTANCE _4_)
+  (DELAY
+   (ABSOLUTE
+    (IOPATH A X (0.152:0.152:0.152) (0.170:0.170:0.170))
+    (IOPATH B X (0.163:0.163:0.163) (0.143:0.143:0.143))
+   )
+  )
+ )
+ (CELL
+  (CELLTYPE "sky130_fd_sc_hd__xnor2_2")
+  (INSTANCE _5_)
+  (DELAY
+   (ABSOLUTE
+    (IOPATH A Y (0.172:0.172:0.172) (0.077:0.077:0.077))
+    (IOPATH B Y (0.156:0.160:0.160) (0.088:0.091:0.091))
+   )
+  )
+ )
+ (CELL
+  (CELLTYPE "sky130_fd_sc_hd__xnor2_2")
+  (INSTANCE _6_)
+  (DELAY
+   (ABSOLUTE
+    (IOPATH A Y (0.390:0.392:0.395) (0.181:0.185:0.186))
+    (IOPATH B Y (0.368:0.371:0.372) (0.151:0.175:0.178))
+   )
+  )
+ )
+)
