@@ -35,6 +35,28 @@ architecture netenos of <%="#{@netlist_data[:entity_name]}"%> is
     signal controllable_out : std_logic_vector(<%=@netlist_data[:ports][:out].length - 1%> downto 0) := (others => '0');
     signal all_outputs_controllable : std_logic := '0';
 
+    signal stop_sig_detect, stop_sig_end : boolean := false;
+    signal running : boolean := true;
+    signal phase_shift : boolean := false;
+
+    function char_to_std_logic(c: character) return std_logic is
+        variable sl: std_logic;
+        begin
+          case c is
+              when '0' => sl := '0';
+              when '1' => sl := '1';
+              when 'Z' => sl := 'Z';
+              when 'U' => sl := 'U';
+              when 'X' => sl := 'X';
+              when 'W' => sl := 'W';
+              when 'L' => sl := 'L';
+              when 'H' => sl := 'H';
+              when '-' => sl := '-';
+              when others => sl := 'X'; -- Valeur inconnue par défaut
+          end case;
+          return sl;
+    end function;
+
     signal nb_transi : n_array_t(<%=@netlist_data[:ports][:out].length - 1%> downto 0);
     signal tb_transi_distrib2 : n_matrix_t(tb_out'length-1 downto 0)((nat_nom_period)-1 downto 0);
 
@@ -44,9 +66,6 @@ architecture netenos of <%="#{@netlist_data[:entity_name]}"%> is
             a(k) <= 0;
         end loop;
     end procedure;
-
-    signal running : boolean := true;
-    signal phase_shift : boolean := false;
 
 begin
 
@@ -82,6 +101,14 @@ begin
         end if;
     end process;
 
+   process
+    begin
+        wait until stop_sig_detect = true or stop_sig_end = true;
+        wait until nom_clk'event;
+        running <= false;
+        wait;
+    end process; 
+
     process(obs_clk)
     begin
         if rising_edge(obs_clk) then
@@ -98,12 +125,20 @@ begin
     stim : process
         file text_file : text open read_mode is "<%=@stim_file_path%>";
         variable text_line : line;
-        variable stim_val : std_logic_vector(<%=@netlist_data[:ports][:in].length - 1%> downto 0);
-        variable text_val : natural;
+
+        <%=if bit_vec_stim
+            # Pour la lecture de bin
+            "variable char  : character;
+        variable index : integer;"
+        else
+            # Pour la lecture de décimaux
+            "variable text_val : natural;
+            variable stim_val : std_logic_vector(#{@netlist_data[:ports][:in].length - 1} downto 0);"
+        end%>
     begin
         -- report "Starting simulation...";
         
-        while not endfile(text_file) loop
+        while not endfile(text_file) and running loop
             
             readline(text_file, text_line);
            
@@ -112,24 +147,33 @@ begin
               next;
             end if;
             
-            read(text_line, text_val);
-            
-            stim_val := <%=bit_vec_stim ? "to_stdlogicvector(text_val)" : "std_logic_vector(to_unsigned(text_val, #{@netlist_data[:ports][:in].length}))"%>;
-            --read(text_line, stim_val);
-
-            for k in 0 to <%=@netlist_data[:ports][:in].length - 1%> loop
+            <%= if bit_vec_stim
+                #Pour la lecture de binaires
+                "index:=0;
+            while index <= #{@netlist_data[:ports][:in].length - 1} loop
+                read(text_line, char);
+                tb_in(index) <= char_to_std_logic(char);
+                index := index + 1;
+            end loop;"
+            else
+                #Pour la lecture de décimaux
+                "read(text_line, text_val);
+            stim_val := std_logic_vector(to_unsigned(text_val, #{@netlist_data[:ports][:in].length}));
+            for k in 0 to #{@netlist_data[:ports][:in].length - 1} loop
                 tb_in(k) <= stim_val(k);
-            end loop;
+            end loop;"
+            end%>
 
             wait until rising_edge(nom_clk);
             nb_cycle <= nb_cycle + 1;
         end loop;
 
-        wait for nom_period;
-        running <= false;
-        wait for nom_period*10;
+        wait for nom_period; -- ! Attendre une dizaine de cycles
+        stop_sig_end <= true;
+        -- running <= false;
         -- report "Stopping simulation";
         wait;
+        -- std.env.finish;
     end process;
 
     controllable : process(nom_clk)

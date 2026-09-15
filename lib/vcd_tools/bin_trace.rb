@@ -268,7 +268,13 @@ module VCD
         score << (local_score.to_f / (arr_size - tau)).round(3)
       end
       
-      score.each_with_index.max
+      res = score.each_with_index.max
+
+      if res[0] == score.first and res[0] == score.last
+        [score.first, 0]
+      else
+        res
+      end
     end
 
     # DTW (Dynamic Time Warping)

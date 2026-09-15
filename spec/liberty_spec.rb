@@ -1,54 +1,52 @@
-
-
 require_relative '../lib/netenos'
 
 describe Liberty::FunLexer do
   context 'Lexifying (A1&A2) | (!B1_N)' do
-    subject(:expr) {"(A1&A2) | (!B1_N)"}
-    subject(:tokens) {Liberty::FunLexer.new.tokenize(expr)}
-    subject(:expected) {
+    subject(:expr) { '(A1&A2) | (!B1_N)' }
+    subject(:tokens) { Liberty::FunLexer.new.tokenize(expr) }
+    subject(:expected) do
       [
-        Liberty::Token.new(:lpar,'('),
-        Liberty::Token.new(:ident,'A1'),
-        Liberty::Token.new(:and,'&'),
-        Liberty::Token.new(:ident,'A2'),
-        Liberty::Token.new(:rpar,')'),
-        Liberty::Token.new(:or,'|'),
-        Liberty::Token.new(:lpar,'('),
-        Liberty::Token.new(:not,'!'),
-        Liberty::Token.new(:ident,'B1_N'),
-        Liberty::Token.new(:rpar,')')
+        Liberty::Token.new(:lpar, '('),
+        Liberty::Token.new(:ident, 'A1'),
+        Liberty::Token.new(:and, '&'),
+        Liberty::Token.new(:ident, 'A2'),
+        Liberty::Token.new(:rpar, ')'),
+        Liberty::Token.new(:or, '|'),
+        Liberty::Token.new(:lpar, '('),
+        Liberty::Token.new(:not, '!'),
+        Liberty::Token.new(:ident, 'B1_N'),
+        Liberty::Token.new(:rpar, ')')
       ]
-    }
-    it "gives the correct lexems" do
+    end
+    it 'gives the correct lexems' do
       tokens == expected
     end
   end
 end
 
 describe Liberty::FunParser do
-  subject(:expr) {"(A1&A2) | (!B1_N)"}
-  subject(:ast) {Liberty::FunParser.new.parse(expr)}
-  subject(:expected) {
+  subject(:expr) { '(A1&A2) | (!B1_N)' }
+  subject(:ast) { Liberty::FunParser.new.parse(expr) }
+  subject(:expected) do
     Bexp::Or.new(
       Bexp::And.new(
-        Bexp::Operand.new("A1"),
-        Bexp::Operand.new("A2")
+        Bexp::Operand.new('A1'),
+        Bexp::Operand.new('A2')
       ),
       Bexp::Not.new(
-        Bexp::Operand.new("B1_N")
+        Bexp::Operand.new('B1_N')
       )
     )
-  }
-  describe "Parsing (A1&A2) | (!B1_N)" do
-    it "does not raise error" do
-      expect{uut = ast}.not_to raise_error
-      # expect(ast).to be_kind_of Liberty::Operator 
+  end
+  describe 'Parsing (A1&A2) | (!B1_N)' do
+    it 'does not raise error' do
+      expect { uut = ast }.not_to raise_error
+      # expect(ast).to be_kind_of Liberty::Operator
     end
-    it "gives the correct AST" do
+    it 'gives the correct AST' do
       obtained = ast
       ref = expected
-      
+
       expect(obtained.class).to eq(ref.class)
       expect(obtained.operands.length).to eq(ref.operands.length)
       expect(obtained.operands[0].class).to eq(ref.operands[0].class)
@@ -63,17 +61,27 @@ describe Liberty::FunParser do
     end
   end
 
-  context "Converting (A1&A2) | (!B1_N) to SMT" do
-
-    it "does not raise error" do 
-      expect{ast.accept(Bexp::SMTConverter.new)}.not_to raise_error
+  context 'Converting (A1&A2) | (!B1_N) to SMT' do
+    it 'does not raise error' do
+      expect { ast.accept(Bexp::SMTConverter.new) }.not_to raise_error
     end
 
-    it "gives (or (and A1 A2) not(B1_N))" do
+    it 'gives (or (and A1 A2) not(B1_N))' do
       expect(ast.accept(Bexp::SMTConverter.new)).to eq(
-        ['(','or','(','and','A1', 'A2',')','(','not','B1_N',')',')']
+        ['(', 'or', '(', 'and', 'A1', 'A2', ')', '(', 'not', 'B1_N', ')', ')']
+      )
+    end
+  end
+
+  context 'Converting (A1&A2) | (!B1_N) to Ruby' do
+    it 'does not raise error' do
+      expect { ast.accept(Bexp::RubyConverter.new) }.not_to raise_error
+    end
+
+    it 'gives ((i[0] && i[1]) || (! i[2]))' do
+      expect(ast.accept(Bexp::RubyConverter.new)).to eq(
+        '((i[0] && i[1]) || (! i[2]))'
       )
     end
   end
 end
-

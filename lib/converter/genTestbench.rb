@@ -1,6 +1,5 @@
 require 'erb'
 
-# require './lib/vhdl.rb'
 require_relative '../converter.rb'
 
 module Converter

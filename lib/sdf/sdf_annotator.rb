@@ -52,18 +52,18 @@ module SDF
     def visitCell(subject)
       celltype = visitCellType(subject.celltype)
       instance_name = visitInstance(subject.instance)
-      if celltype == @netlist.name and instance_name == ""  # interconnection delays
+      if (celltype == @netlist.name) && (instance_name == '') # interconnection delays
         interconnections = subject.delay.absolute.interconnects
         interconnections.each{|i| visitInterconnection(i)}
-      else                    # standard cells delays
+      else # standard cells delays
         comp = @netlist.get_component_named(instance_name)
-        # Check celltype of the comp 
+        # Check celltype of the comp
         netlist_comp_celltype = comp.class.name.split('::').last.downcase
         if netlist_comp_celltype != celltype
           raise "Error: instance #{instance_name} celltype #{celltype} is different than expected in the netlist #{netlist_comp_celltype}"
         end
         delay = visitDelay(subject.delay)
-        comp.propag_time[:sdf] = ((delay.to_f)*1000).to_i
+        comp.propag_time[:sdf] = (delay.to_f * 1000).to_i
       end
     end
     

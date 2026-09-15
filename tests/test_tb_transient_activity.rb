@@ -5,59 +5,7 @@ DELAY_MODEL = :int_multi
 COMPILER = :ghdl
 GTECH = "classic"
 MAX_GATES_INPUTS = 2
-
-def gen_gtech
-  # Generate the gtech
-  `mkdir gtech` unless File.exist?('gtech')
-  Dir.chdir('gtech') do
-    Netlist::generate_gtech(MAX_GATES_INPUTS)
-    @vhdl_converter = Converter::ConvNetlist2Vhdl.new
-    @vhdl_converter.gen_gtech(GTECH)
-
-    Converter::VhdlCompiler.new.gtech_makefile('.', COMPILER)
-
-    system('make -s')
-  end
-end
-
-def load_blif
-  # Load blif
-  blif_loader = Converter::ConvBlif2Netlist.new
-  blif_loader.gen_genlib
-  @circ = blif_loader.convert("../circ.blif", truth_table_format: false)
-  @circ.getNetlistInformations(DELAY_MODEL)
-  @circ.get_dot_graph
-end
-
-def write_vhdl_description
-  # Write vhdl description
-  vhdl_converter = Converter::ConvNetlist2Vhdl.new
-  vhdl_converter.generate(@circ, DELAY_MODEL)
-end
-
-def gen_stim_file 
-  # Generate an exhaustive stimulation file
-  stim_generator = Converter::GenStim.new(@circ)
-  stim_generator.gen_exhaustive_trans_stim
-  stim_generator.save_as_txt("stim.txt")
-end
-
-def gen_tb
-  tb_generator = Converter::GenTestbench.new(@circ, 1, @circ.get_exact_crit_path_length(DELAY_MODEL))
-  tb_generator.gen_testbench("stim.txt", 1, @circ.name, nil, transact: true)
-end
-
-def compile_sim_script
-  # Generate the compile and simulate script
-  script_generator = Converter::VhdlCompiler.new
-  script_generator.circ_compile_script('./', @circ.name, [1], [COMPILER, :minimal_sig], gtech_path: "gtech")
-end
-
-def check_activity
-  raise "Test failed: No \"activity\" file created !" unless File.exist?('activity')
-
-  activity = File.read('activity')
-  raise "Test failed: Incorrect activity obtained for test circuit !" unless activity == "1,1,1
+EXPECTED_ACTIVITY = "1,1,1
 2,0,0
 3,0,0
 4,0,0
@@ -115,21 +63,90 @@ def check_activity
 56,1,1
 57,0,1
 "
+EXPECTED_DISTRIB = "0,0,1
+0,1,0
+0,2,0
+0,3,25
+0,4,0
+0,5,0
+0,6,0
+0,7,12
+1,0,1
+1,1,0
+1,2,0
+1,3,0
+1,4,0
+1,5,0
+1,6,25
+1,7,0
+"
+
+def gen_gtech
+  # Generate the gtech
+  `mkdir gtech` unless File.exist?('gtech')
+  Dir.chdir('gtech') do
+    Netlist::generate_gtech(MAX_GATES_INPUTS)
+    @vhdl_converter = Converter::ConvNetlist2Vhdl.new
+    @vhdl_converter.gen_gtech(GTECH)
+
+    Converter::VhdlCompiler.new.gtech_makefile('.', COMPILER)
+
+    system('make -s')
+  end
+end
+
+def load_blif
+  # Load blif
+  blif_loader = Converter::ConvBlif2Netlist.new
+  blif_loader.gen_genlib
+  @circ = blif_loader.convert("../circ.blif", truth_table_format: false)
+  @circ.getNetlistInformations(DELAY_MODEL)
+  @circ.get_dot_graph
+end
+
+def write_vhdl_description
+  # Write vhdl description
+  vhdl_converter = Converter::ConvNetlist2Vhdl.new
+  vhdl_converter.generate(@circ, DELAY_MODEL)
+end
+
+def gen_stim_file 
+  # Generate an exhaustive stimulation file
+  stim_generator = Converter::GenStim.new(@circ)
+  stim_generator.gen_exhaustive_trans_stim
+  stim_generator.save_as_txt("stim.txt")
+end
+
+def gen_tb
+  tb_generator = Converter::GenTestbench.new(@circ, 1, @circ.get_exact_crit_path_length(DELAY_MODEL))
+  tb_generator.gen_testbench("stim.txt", 1, @circ.name, nil, transact: true)
+end
+
+def compile_sim_script
+  # Generate the compile and simulate script
+  script_generator = Converter::VhdlCompiler.new
+  script_generator.circ_compile_script('./', @circ.name, [1], [COMPILER, :minimal_sig], gtech_path: "gtech")
+end
+
+def check_activity
+  raise "Test failed: No \"activity\" file created !" unless File.exist?('activity')
+  activity = File.read('activity')
+  if activity != EXPECTED_ACTIVITY
+    File.write('/tmp/Netenos/test_activity_obtained',activity)
+    File.write('/tmp/Netenos/test_activity_expected',EXPECTED_ACTIVITY)
+    raise "Test failed: Incorrect activity obtained for test circuit !\n #{`diff /tmp/Netenos/test_activity_obtained /tmp/Netenos/test_activity_expected`}" 
+  end
 end
 
 def check_timing
   raise "Test failed: No \"timing\" file created !" unless File.exist?('timing')
 
   transi_distrib = File.read('timing')
-  raise "Test failed: Incorrect transition distribution obtained for test circuit !" unless transi_distrib == "0,2
-1,0
-2,0
-3,25
-4,0
-5,0
-6,25
-7,12
-"
+  unless transi_distrib == EXPECTED_DISTRIB
+    File.write('/tmp/Netenos/test_distrib_obtained',transi_distrib)
+    File.write('/tmp/Netenos/test_distrib_expected',EXPECTED_DISTRIB)
+    raise "Test failed: Incorrect transition distribution obtained for test circuit !\n#{`diff /tmp/Netenos/test_distrib_obtained /tmp/Netenos/test_distrib_expected`}" 
+  end
 end
 
 Dir.chdir("tests/tmp") do 

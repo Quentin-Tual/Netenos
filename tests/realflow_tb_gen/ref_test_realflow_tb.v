@@ -78,11 +78,11 @@ module tb_f51m;
   );
 
   // DUT port map
-  mapped_f51m mapped_dut (.i0(i[7]), .i1(i[6]), .i2(i[5]), .i3(i[4]), .i4(i[3]), .i5(i[2]), .i6(i[1]), .i7(i[0]), .o0(tb_mapped_o[0]), .o1(tb_mapped_o[1]), .o2(tb_mapped_o[2]), .o3(tb_mapped_o[3]), .o4(tb_mapped_o[4]), .o5(tb_mapped_o[5]), .o6(tb_mapped_o[6]), .o7(tb_mapped_o[7]));
+  mapped_f51m mapped_dut (.i0(i[0]), .i1(i[1]), .i2(i[2]), .i3(i[3]), .i4(i[4]), .i5(i[5]), .i6(i[6]), .i7(i[7]), .o0(tb_mapped_o[0]), .o1(tb_mapped_o[1]), .o2(tb_mapped_o[2]), .o3(tb_mapped_o[3]), .o4(tb_mapped_o[4]), .o5(tb_mapped_o[5]), .o6(tb_mapped_o[6]), .o7(tb_mapped_o[7]));
 
-  pnr_f51m pnr_dut (.i0(i[7]), .i1(i[6]), .i2(i[5]), .i3(i[4]), .i4(i[3]), .i5(i[2]), .i6(i[1]), .i7(i[0]), .o0(tb_pnr_o[0]), .o1(tb_pnr_o[1]), .o2(tb_pnr_o[2]), .o3(tb_pnr_o[3]), .o4(tb_pnr_o[4]), .o5(tb_pnr_o[5]), .o6(tb_pnr_o[6]), .o7(tb_pnr_o[7]));
+  pnr_f51m pnr_dut (.i0(i[0]), .i1(i[1]), .i2(i[2]), .i3(i[3]), .i4(i[4]), .i5(i[5]), .i6(i[6]), .i7(i[7]), .o0(tb_pnr_o[0]), .o1(tb_pnr_o[1]), .o2(tb_pnr_o[2]), .o3(tb_pnr_o[3]), .o4(tb_pnr_o[4]), .o5(tb_pnr_o[5]), .o6(tb_pnr_o[6]), .o7(tb_pnr_o[7]));
 
-  a_pnr_f51m a_pnr_dut (.i0(i[7]), .i1(i[6]), .i2(i[5]), .i3(i[4]), .i4(i[3]), .i5(i[2]), .i6(i[1]), .i7(i[0]), .o0(tb_apnr_o[0]), .o1(tb_apnr_o[1]), .o2(tb_apnr_o[2]), .o3(tb_apnr_o[3]), .o4(tb_apnr_o[4]), .o5(tb_apnr_o[5]), .o6(tb_apnr_o[6]), .o7(tb_apnr_o[7]));
+  a_pnr_f51m a_pnr_dut (.i0(i[0]), .i1(i[1]), .i2(i[2]), .i3(i[3]), .i4(i[4]), .i5(i[5]), .i6(i[6]), .i7(i[7]), .o0(tb_apnr_o[0]), .o1(tb_apnr_o[1]), .o2(tb_apnr_o[2]), .o3(tb_apnr_o[3]), .o4(tb_apnr_o[4]), .o5(tb_apnr_o[5]), .o6(tb_apnr_o[6]), .o7(tb_apnr_o[7]));
 
   // Instantiate the single global logger
   activity_logger logger(.reset_n(reset_n));

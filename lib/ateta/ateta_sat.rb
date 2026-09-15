@@ -11,15 +11,13 @@ module AtetaAddOn
     # !     - parsing des résultats de script smtlib
     # !     - conversion des résultats de script en couple de vecteurs de test
 
-    def initialize(initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer,
-                   payload_delay)
+    def initialize(initCirc, altCirc, insertPointName, targetedOutputName, delayModel, forbiddenVectors, memoizer, _)
       @initCirc = initCirc
       @altCirc = altCirc
       @insertPointName = insertPointName
       @targetedOutputName = targetedOutputName
       @delayModel = delayModel
       @forbiddenVectors = forbiddenVectors
-      @payload_delay = payload_delay
 
       if memoizer.exists?(targetedOutputName)
         @initExprExtractor = memoizer.get_back(targetedOutputName)
@@ -30,6 +28,8 @@ module AtetaAddOn
       @altExprExtractor = SmtlibConverter.new(altCirc, @delayModel)
 
       Dir.mkdir(TMP_SMT_PATH) unless Dir.exist?(TMP_SMT_PATH)
+      @SMTS_PATH = TMP_SMT_PATH + '/' + @initCirc.name
+      Dir.mkdir(@SMTS_PATH) unless Dir.exist?(@SMTS_PATH)
       # TODO : Check if z3 is installed and accessible (in the path)
     end
 
@@ -61,7 +61,7 @@ module AtetaAddOn
       # ! We miss a lot of solutions.
       # ! We want a transition instant before which values won't change from an instant to the other, and after which the values won't change anymore.
 
-      var_h.each do |input_name, sub_h|
+      var_h.each_value do |sub_h|
         next unless sub_h.length > 1 # No need if there is two elements or less
 
         sub_h.to_a.sort_by { |a| a[0].to_i }.each_cons(2) do |prev, curr|
@@ -387,7 +387,6 @@ end.join(' ')})"
       src << '(assert (forall ((t Int)) (=> (and (>= t t_a) (< t t_b)) (= (yp t) (y t)))))'
       src << '(assert (forall ((t Int)) (=> (and (>= t t_b) (< t t_c)) (= (yp t) (not (y t))))))'
       src << '(assert (forall ((t Int)) (=> (and (>= t t_c) (< t t_d)) (= (yp t) (y t)))))'
-      # src << "(assert (> (- t_c t_b) #{@payload_delay})) ; INERTIAL DELAY !"
 
       src.newline
 
@@ -401,7 +400,25 @@ end.join(' ')})"
     end
 
     def runSolvingScript(scriptName)
-      `z3 -smt2 #{scriptName}`
+      `z3 -smt2 #{scriptName} -memory:30000`
+    end
+
+    def parse_results3(results)
+      res_h = Hash.new { |h, k| h[k] = {} }
+      return nil if results.include?('unsat')
+
+      results.delete('sat')
+      input_values = results.scan(/\(define-fun\s\w+_[ad]\s\(\)\sBool\n\s+\w+\)/).sort
+      input_values.each do |input_value|
+        input_value.tr!("\n", '')
+        input_value = input_value.split(' ')
+        input_name, cycle = input_value[1].split('_')
+        value = input_value[4].delete_suffix(')')
+        res_h[input_name][cycle] = value
+      end
+      # instant_line = results.scan(/\(define-fun\st_[0-9]+\s\(\)\sInt\s+\w+\)/).last
+      # @transition_instant = instant_line.split[4]
+      res_h
     end
 
     def parse_results2(results)
@@ -435,7 +452,7 @@ end.join(' ')})"
           res_h[input_name][instant] = splitted_line[0][...-1] # register value, remove parenthesis
 
         else
-          raise 'z3 err output : ' + line if splitted_line[0] == '(error'
+          raise "z3 err output : #{line}" if splitted_line[0] == '(error'
 
           var = splitted_line[1]
           next if %w[y yp t_a].include?(var) # ignore cone expressions
@@ -449,12 +466,42 @@ end.join(' ')})"
       res_h.sort_by { |k, v| k[1..].to_i }.to_h
     end
 
+    def results2vec3(results)
+      raise 'Error: z3 returns empty string.' if results.empty?
+
+      res_h = parse_results3(results)
+
+      return nil if res_h.nil?
+
+      vd = []
+      va = []
+
+      @initCirc.get_inputs.each do |input_name|
+        vd << res_h[input_name]['d']
+        va << res_h[input_name]['a']
+      end
+
+      # tmp = res_h.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(var, sub_h), h|
+      #   sub_h.each do |k, val|
+      #     h[k] << val
+      #   end
+      # end
+
+      # vd = tmp['d']
+      # va = tmp['a']
+
+      vd.map! { |val| val == 'true' ? '1' : '0' }
+      va.map! { |val| val == 'true' ? '1' : '0' }
+
+      [vd.join, va.join]
+    end
+
     def results2vec2(results)
       raise 'Error: z3 returns empty string.' if results.empty?
 
-      results = results.split("\n")
+      # results = results.split("\n")
 
-      res_h = parse_results2(results)
+      res_h = parse_results3(results)
 
       return nil if res_h.nil?
 
@@ -507,21 +554,21 @@ end.join(' ')})"
     end
 
     def run
-      smt_path = "#{TMP_SMT_PATH}/#{@insertPointName.tr('/', '_')}.smt"
+      smt_path = "#{@SMTS_PATH}/#{@insertPointName.tr('/', '_')}.smt"
       genSolvingScript smt_path
       res = runSolvingScript smt_path
       results2vec2 res
     end
 
     def runMaximize(targeted_duration)
-      smt_path = "#{TMP_SMT_PATH}/#{@insertPointName.tr('/', '_')}.smt"
+      smt_path = "#{@SMTS_PATH}/#{@insertPointName.tr('/', '_')}.smt"
       genMaximizeSolvingScript smt_path, targeted_duration
       res = runSolvingScript smt_path
       results2vec2 res
     end
 
     def runGlitch
-      smt_path = "#{TMP_SMT_PATH}/#{@insertPointName.tr('/', '_')}.smt"
+      smt_path = "#{@SMTS_PATH}/#{@insertPointName.tr('/', '_')}.smt"
       genGlitchSolvingScript smt_path
       res = runSolvingScript smt_path
       results2vec2 res

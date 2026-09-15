@@ -10,3 +10,4 @@ require_relative "./converter/genCompTestbench.rb"
 require_relative "./converter/convBlif2Netlist.rb"
 require_relative "./converter/convNetlist2Blif.rb"
 require_relative "./converter/convNetlist2Bench.rb"
+require_relative 'converter/genVTestbench'

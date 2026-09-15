@@ -11,8 +11,7 @@ module AtetaAddOn
             @const_declarations = nil
             @delay_model = delay_model
 
-            
-            raise "Error : Current version is not compatible with Netlist::Wire usage !" unless @circ.constants.empty?
+            # raise "Error : Current version is not compatible with Netlist::Wire usage !" unless @circ.constants.empty?
         end
 
         def get_output_func_def targetedOutputName, func_name = "y" 
@@ -117,6 +116,16 @@ module AtetaAddOn
             return get_smtlib_expr_source(source, t)
         end
         
+        def get_smtlib_expr_constant const, t=0
+            if const.instance_of? Netlist::Zero
+                ['false']
+            elsif const.instance_of? Netlist::One
+                ['true']
+            else
+                raise "Error: source #{const} of unexpected class #{source.class} encountered."
+            end
+        end
+
         def get_smtlib_expr_source source, t
             if source.instance_of? Netlist::Wire
                 return get_smtlib_expr_wire(source,t)
@@ -129,7 +138,8 @@ module AtetaAddOn
                     raise "Error: The source #{source} can't be a global output or a component input." # The source can't be a global output or a component input
                 end
             else
-                raise "Error: Object #{source} of class #{source.class} is not handled." # Constants not handled, can't be anything else
+                # raise "Error: Object #{source} of class #{source.class} is not handled." # Constants not handled, can't be anything else
+                get_smtlib_expr_constant(source, t)
             end
         end
 
@@ -166,27 +176,6 @@ module AtetaAddOn
                 terms[input_nb]
               end
             end
-
-            # smt_fun_a.map! do |word|
-            #     if !word.is_a? String
-            #       raise "Error: String object is expected, obtained #{word} which is a #{word.class} class object. Check #{comp.name} object."
-            #     elsif $SMT_KEYWORDS.include? word
-            #         word
-            #     else # It is a port name
-            #         p = comp.get_port_named(word)
-            #         raise "Error: port #{word} not found in #{comp}" if p.nil?
-            #         source = p.get_source
-            #         begin
-            #             get_smtlib_expr_source(source, t + comp.propag_time[@delay_model])
-            #         rescue => e
-            #             puts t 
-            #             puts comp.propag_time[@delay_model]
-            #             puts comp
-            #             raise e
-            #         end
-            #     end
-            # end
-            # smt_fun_a.flatten
             expr.join
         end
 

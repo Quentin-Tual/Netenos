@@ -7,7 +7,10 @@ use ieee.math_real.uniform;
 use ieee.math_real.floor;
 
 entity <%=@src_parts[:entity_name]%> is
-  generic(delay_min, delay_max : time);
+  generic(
+    delay_min, delay_max : time;
+    seed1_init, seed2_init : integer := 999
+  );
   port (
 <%=@src_parts[:inputs_decl]%>
 <%=@src_parts[:outputs_decl].delete_suffix(';')%>
@@ -18,9 +21,12 @@ architecture bhv of <%=@src_parts[:entity_name]%> is
    
   impure function rand_time(min_val, max_val : time; unit : time)
     return time is
+    variable seed1 : integer := seed1_init; 
+    variable seed2 : integer := seed2_init;
     variable r, r_scaled, min_real, max_real : real;
-    variable seed1, seed2 : integer := 999;
   begin
+    uniform(seed1, seed2, r);
+    uniform(seed1, seed2, r);
     uniform(seed1, seed2, r);
     min_real := real(min_val / unit);
     max_real := real(max_val / unit);

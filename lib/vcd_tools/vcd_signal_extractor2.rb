@@ -224,9 +224,11 @@ module VCD
                 if line == "$enddefinitions $end\n" 
                     return i
                 else
-                    if opt.include? line.split(" ")[4] 
-                        line = line.split
-                        @id_tab[line[3]] = line[4] # * : The original signal name (line[4]) is associated to VCD ID (line[3]).
+                    # if opt.include? line.split(" ")[4] 
+                    opt.each do |sig|
+                        if line.include? sig
+                            @id_tab[line.split(' ')[3]] = sig # * : The original signal name (line[4]) is associated to VCD ID (line[3]).
+                        end
                     end    
                 end
             end
