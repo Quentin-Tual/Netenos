@@ -1,6 +1,7 @@
 module AtetaAddOn
-
-  def self.generate(nl, ht_delay, delay_model, path: "#{nl.name}.txt", forbidden_vectors: [], explicit: true, bin_stim_vec: false)
+  def self.generate(nl, ht_delay, delay_model, path: "#{nl.name}.txt", forbidden_vectors: [], explicit: true,
+                    bin_stim_vec: false)
+    # Params: netlist, ht_delay, delay_model, path: "#{nl.name}.txt", forbidden_vectors: [], explicit: true, bin_stim_vec: false
     generator = Ateta.new(nl, ht_delay, delay_model)
     vec_list = generator.generate_stim(forbidden_vectors)
     if explicit
@@ -10,7 +11,8 @@ module AtetaAddOn
     end
   end
 
-  def self.generateMax(nl, ht_delay, delay_model, path: "#{nl.name}.txt", forbidden_vectors: [], explicit: true, bin_stim_vec: false)
+  def self.generateMax(nl, ht_delay, delay_model, path: "#{nl.name}.txt", forbidden_vectors: [], explicit: true,
+                       bin_stim_vec: false)
     generator = Ateta.new(nl, ht_delay, delay_model)
     vec_list = generator.generate_maximized_stim(forbidden_vectors)
     if explicit
@@ -20,7 +22,8 @@ module AtetaAddOn
     end
   end
 
-  def self.generateGlitch(nl, ht_delay, delay_model, path: "#{nl.name}.txt", forbidden_vectors: [], explicit: true, bin_stim_vec: false)
+  def self.generateGlitch(nl, ht_delay, delay_model, path: "#{nl.name}.txt", forbidden_vectors: [], explicit: true,
+                          bin_stim_vec: false)
     generator = Ateta.new(nl, ht_delay, delay_model)
     vec_list = generator.generate_glitch_stim(forbidden_vectors)
     if explicit
@@ -29,5 +32,4 @@ module AtetaAddOn
       Converter::GenStim.new(nl).save_vec_list(path, vec_list, bin_stim_vec: bin_stim_vec)
     end
   end
-  
 end

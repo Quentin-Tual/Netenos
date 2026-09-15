@@ -2,7 +2,8 @@ module SMT
   class SMTExprExtractor < Netlist::BackwardUniqDFS
     attr_reader :expr
 
-    def initialize nl, delays, sdf_col: :typ, inserted_gates: [], write_constants: true, crit_path_delay: nil, smt_format: :rec
+    def initialize(nl, delays, sdf_col: :typ, inserted_gates: [], write_constants: true, crit_path_delay: nil,
+                   smt_format: :rec)
       super(nl)
       @delays = delays
       @gate_min_dly = @nl.get_comp_min_delay(:sdf, dly_db: @delays)
@@ -18,34 +19,30 @@ module SMT
       @smt_format = smt_format
     end
 
-    def save_as path 
+    def save_as(path)
       File.write(path, print, mode: 'a')
     end
 
-    def print 
-      @expr.join("\n") + "\n"
+    def print
+      "#{@expr.join("\n")}\n"
     end
 
-    def visit_Port p
-      super
-    end
-
-    def visit_Gate g
+    def visit_Gate(g)
       super # unless @inserted_gates.include?(g)
 
       sp_names = get_source_port_names(g)
       ioarcs = get_ioarcs(g)
-      
+
       # retrieve rise and fall delays for each ioarc
       rise_dlys, fall_dlys = get_rise_fall_dlys(g, ioarcs)
 
       # complete gate output expression with according delays for rise, fall and comb cases
       rise_expr = risefall_expr(g, sp_names, rise_dlys)
       fall_expr = risefall_expr(g, sp_names, fall_dlys)
-      comb_expr = comb_expr(g,sp_names)
+      comb_expr = comb_expr(g, sp_names)
 
       prefixed_name = @prefix + g.get_output.get_full_name
-      
+
       # store expressions
       @expr << rise_fun(prefixed_name, rise_expr.join(' '))
       @expr << fall_fun(prefixed_name, fall_expr.join(' '))
@@ -54,13 +51,13 @@ module SMT
       if @smt_format == :simple
         max_rise_dly = rise_dlys.max
         max_fall_dly = fall_dlys.max
-        @expr << risefallcomb_fun(prefixed_name, [max_rise_dly, max_fall_dly]) 
+        @expr << risefallcomb_fun(prefixed_name, [max_rise_dly, max_fall_dly])
       else
-        @expr << risefallcomb_fun(prefixed_name) 
+        @expr << risefallcomb_fun(prefixed_name)
       end
     end
 
-    def visit_Wire w
+    def visit_Wire(w)
       super
 
       prefixed_name = @prefix + w.name
@@ -73,7 +70,7 @@ module SMT
       comb_expr = "#{sname}C"
       zerod_expr = "(#{sname} t)"
 
-      if (rise_dly == fall_dly) and (fall_dly == 0)
+      if (rise_dly == fall_dly) && fall_dly.zero?
         @expr << comb_fun(prefixed_name, comb_expr)
         @expr << zerod_fun(prefixed_name, zerod_expr)
         @expr << wire_nodly_fun(prefixed_name)
@@ -84,11 +81,11 @@ module SMT
         @expr << fall_fun(prefixed_name, fall_expr)
         @expr << comb_fun(prefixed_name, comb_expr)
         @expr << zerod_fun(prefixed_name, zerod_expr)
-        if @smt_format == :simple
-          @expr << risefallcomb_fun(prefixed_name, [rise_dly, fall_dly])
-        else
-          @expr << risefallcomb_fun(prefixed_name) 
-        end
+        @expr << if @smt_format == :simple
+                   risefallcomb_fun(prefixed_name, [rise_dly, fall_dly])
+                 else
+                   risefallcomb_fun(prefixed_name)
+                 end
       end
     end
 
@@ -101,14 +98,10 @@ module SMT
       end
     end
 
-    def visit_gate_output(op)
-      super
-    end
-
     def declare_input_constant(name)
       @expr << "(declare-const #{name}_d Bool)"
       @expr << "(declare-const #{name}_a Bool)"
-    end 
+    end
 
     def visit_prim_input(ip)
       pip_name = ip.get_full_name
@@ -125,12 +118,12 @@ module SMT
       @expr << "(define-fun #{@prefix}#{op.name} ((t Int)) Bool (#{@prefix}#{source_name} t))"
     end
 
-    def get_source_port_names g
-      source_ports = g.get_inputs.collect{|ip| ip.get_source} # gate output or primary input sources
-      source_ports.collect do |sg| 
-        if sg.is_a?(Netlist::Gate) 
+    def get_source_port_names(g)
+      source_ports = g.get_inputs.collect { |ip| ip.get_source } # gate output or primary input sources
+      source_ports.collect do |sg|
+        if sg.is_a?(Netlist::Gate)
           @prefix + sg.get_output.get_full_name
-        else 
+        else
           @prefix + sg.get_full_name
         end
       end
@@ -143,19 +136,19 @@ module SMT
     end
 
     def get_rise_fall_dlys(g, ioarcs)
-      [:rise,:fall].collect do |transi|
-        ioarcs.collect do |ioarc| 
+      %i[rise fall].collect do |transi|
+        ioarcs.collect do |ioarc|
           @delays.get_gate_dly(
-            g, 
-            ioarc, 
-            transi, 
+            g,
+            ioarc,
+            transi,
             @sdf_col
           )
         end
       end
     end
 
-    def risefall_expr g, sp_names, risefall_dlys
+    def risefall_expr(g, sp_names, risefall_dlys)
       expr = g.class::SMT_EXPR.dup
       expr.map! do |w|
         if $SMT_KEYWORDS.include? w
@@ -168,7 +161,7 @@ module SMT
       end
     end
 
-    def comb_expr g, sp_names
+    def comb_expr(g, sp_names)
       expr = g.class::SMT_EXPR.dup
       expr.map! do |w|
         if $SMT_KEYWORDS.include? w
@@ -181,7 +174,7 @@ module SMT
       end
     end
 
-    def nodly_expr g, sp_names
+    def nodly_expr(g, sp_names)
       expr = g.class::SMT_EXPR.dup
       expr.map! do |w|
         if $SMT_KEYWORDS.include? w
@@ -194,7 +187,7 @@ module SMT
       end
     end
 
-    def risefallcomb_fun signame, params=nil
+    def risefallcomb_fun(signame, params = nil)
       case @smt_format
       when :rec
         risefallcomb_rec_fun(signame)
@@ -209,20 +202,20 @@ module SMT
       end
     end
 
-    def risefallcomb_pure_fun signame
-"(define-fun #{signame} ((t Int)) Bool
+    def risefallcomb_pure_fun(signame)
+      "(define-fun #{signame} ((t Int)) Bool
   (ite (<= t 0)
     #{signame}C
-    (ite (not (#{signame}0D t))
-      (#{signame}F t)
+    (ite (#{signame}0D t)
       (#{signame}R t)
+      (#{signame}F t)
     )
   )
 )"
     end
 
-    def risefallcomb_rec_fun signame
-"(define-fun-rec #{signame} ((t Int)) Bool
+    def risefallcomb_rec_fun(signame)
+      "(define-fun-rec #{signame} ((t Int)) Bool
   (ite (<= t 0)
     #{signame}C
     (ite (not (or (#{signame}0D t) (#{signame}F t) ))
@@ -236,9 +229,9 @@ module SMT
 )"
     end
 
-    # INACCURATE AND WRONG 
-    def risefallcomb_simple_fun signame, max_rise_delay, max_fall_delay
-"(define-fun #{signame} ((t Int)) Bool
+    # INACCURATE AND WRONG
+    def risefallcomb_simple_fun(signame, max_rise_delay, max_fall_delay)
+      "(define-fun #{signame} ((t Int)) Bool
   (ite (<= t 0)
     #{signame}C
     (ite (#{signame}0D t)
@@ -256,8 +249,8 @@ module SMT
     end
 
     # DOES NOT SPEED UP THE PROCESS
-    def risefallcomb_array_assert_fun signame
-"(declare-const #{signame}_arr (Array Int Bool))
+    def risefallcomb_array_assert_fun(signame)
+      "(declare-const #{signame}_arr (Array Int Bool))
 (assert (= (select #{signame}_arr #{@transition_instant}) #{signame}C))
 (assert (forall ((t Int))
   (=> (and (> t #{@transition_instant}) (< t #{@upper_bound}))
@@ -270,37 +263,37 @@ module SMT
     )
   )
 ))
-(define-fun #{signame} ((t Int)) Bool 
+(define-fun #{signame} ((t Int)) Bool
   (select #{signame}_arr t)
 )"
     end
 
-    def wire_nodly_fun signame
-"(define-fun #{signame} ((t Int)) Bool
+    def wire_nodly_fun(signame)
+      "(define-fun #{signame} ((t Int)) Bool
   (#{signame}0D t)
 )"
     end
 
-    def zerod_fun signame, nodly_expr
-"(define-fun #{signame}0D ((t Int)) Bool
+    def zerod_fun(signame, nodly_expr)
+      "(define-fun #{signame}0D ((t Int)) Bool
   #{nodly_expr}
 )"
     end
 
-    def rise_fun signame, rise_expr
-"(define-fun #{signame}R ((t Int)) Bool 
+    def rise_fun(signame, rise_expr)
+      "(define-fun #{signame}R ((t Int)) Bool
   #{rise_expr}
 )"
     end
 
-    def fall_fun signame, fall_expr
-"(define-fun #{signame}F ((t Int)) Bool 
+    def fall_fun(signame, fall_expr)
+      "(define-fun #{signame}F ((t Int)) Bool
   #{fall_expr}
-)"  
+)"
     end
 
-    def comb_fun signame, comb_expr
-"(define-fun #{signame}C () Bool 
+    def comb_fun(signame, comb_expr)
+      "(define-fun #{signame}C () Bool
   #{comb_expr}
 )"
     end

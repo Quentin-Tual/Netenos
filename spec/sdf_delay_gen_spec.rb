@@ -33,10 +33,10 @@ describe SDF::DelayGenerator do
       g = nl.components.first
       input = g.get_inputs.first.get_full_name
       output = g.get_output.get_full_name
-      ioarc = [input,output]
+      ioarc = [input, output]
       dly = subject.get_gate_dly(
         g,
-        ioarc, 
+        ioarc,
         :rise,
         :typ)
       expect(dly).to eq(157)

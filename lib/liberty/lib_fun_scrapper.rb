@@ -29,8 +29,7 @@ def extract_functions lib
       op_name = op.name.tr('"','')
       op_fun = op.function.tr('"','')
       if functions_h[cell_name][op_name]
-        if functions_h[cell_name][op_name] != op_fun 
-          pp functions_h[cell_name][op_name]
+        if functions_h[cell_name][op_name] != op_fun
           raise "Two different functions encountered for the same cell output #{cell_name}/#{op_name} : #{functions_h[cell_name][op_name]} =/= #{op_fun}"
         else
           next# Handle the situation when a StdCell has no given function (check when and if it can happen)

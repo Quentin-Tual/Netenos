@@ -2,29 +2,31 @@ Gem::Specification.new do |spec|
   spec.name        = 'Netenos'
   spec.version     = '0.5.13'
   spec.summary     = 'A Netlist modelisation and tools associated.'
-  spec.description = 'Netenos is a Netlist modelisation developped in order to learn and experiment. For the moment, it does not modelize registers, but can be used for combinatorial logic. Also it embbed some tools to convert in other format (json, graphviz .dot, vhdl93, ...), to generate random netlist or also to insert logic, ...'
+  spec.description = 'Netenos is a Netlist modelisation developped in order to learn and experiment. For the moment, it does not modelize registers, but can be used for combinatorial logic. Also it embbeds some tools to convert in other format (json, graphviz .dot, vhdl93, ...), to generate random netlist or also to insert logic, ...'
   spec.authors     = ['QuentinT']
   spec.email       = 'quentintual2@gmail.com'
   spec.homepage    = 'https://github.com/Quentin-Tual/Netenos'
   spec.license     = 'GPL-3.0-only'
 
   spec.bindir = 'bin'
-  spec.files = Dir['**/*.rb'] 
+  spec.files = Dir['**/*.rb']
   spec.files += Dir['[A-Z]*']
   spec.files += Dir['lib/converter/**/*.v']
   spec.files += Dir['lib/converter/**/*.vhdl']
   spec.files += Dir['lib/converter/**/*.erb']
   spec.files += Dir['lib/converter/gtech.genlib']
   spec.files += Dir['lib/*.json']
-  spec.files += Dir['lib/librelane/template_env/*']
-  spec.files += Dir['lib/librelane/template_env/**/*']
+  spec.files += Dir['lib/librelane/*']
+  spec.files += Dir['lib/librelane/*.tar']
 
-  spec.add_runtime_dependency 'oj', '>= 3.0.0'
-  spec.add_runtime_dependency 'sxp'
-  spec.add_runtime_dependency 'json'
-  spec.add_runtime_dependency 'pycall'
+  spec.add_runtime_dependency 'erb'
   spec.add_runtime_dependency 'fileutils'
+  spec.add_runtime_dependency 'json'
+  spec.add_runtime_dependency 'minitar'
+  spec.add_runtime_dependency 'oj', '>= 3.0.0'
+  spec.add_runtime_dependency 'pycall'
+  spec.add_runtime_dependency 'sxp'
 
   spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'rubocop'
 end
-  

@@ -1,25 +1,24 @@
 module SDF
-  
-  class Node 
+  class Node
     include ::Visitable
 
     attr_accessor :subnodes
 
-    def initialize 
+    def initialize
       @subnodes = []
     end
 
-    def add subnode
+    def add(subnode)
       @subnodes << subnode
     end
 
     def get_subnode(ntype)
-      @subnodes.find{|n| n.instance_of? ntype}
+      @subnodes.find { |n| n.instance_of? ntype }
     end
 
-    def contains_class? *klass
+    def contains_class?(*klass)
       klass.all? do |k|
-        @subnodes.any?{|obj| obj.instance_of? k}
+        @subnodes.any? { |obj| obj.instance_of? k }
       end
     end
 
@@ -29,7 +28,7 @@ module SDF
     end
 
     def valid?
-      @subnodes.all?{|n| n.valid?}
+      @subnodes.all? { |n| n.valid? }
     end
   end
 
@@ -38,7 +37,7 @@ module SDF
 
     attr_accessor :data
 
-    def initialize data
+    def initialize(data)
       @data = data
     end
 
@@ -56,40 +55,38 @@ module SDF
       @delays = delays
     end
 
-    def same_wire? w
-      @wire.identical? w
+    def same_wire?(n)
+      @wire.identical? n.wire
     end
 
-    def attr_flat_float_list 
-      @delays.attr_list.collect do |delayArr|
-        delayArr.attr_float_list
-      end.flatten
+    def attr_flat_float_list
+      @delays.attr_list.collect(&:attr_float_list).flatten
     end
 
-    def get_flat_float_list attr
+    def get_flat_float_list(attr)
       @delays.get_float_list(attr)
     end
 
-    def get_flat_float_list_rising attr
+    def get_flat_float_list_rising(attr)
       @delays.get_float_list_rising(attr)
     end
 
-    def get_flat_float_list_falling attr
+    def get_flat_float_list_falling(attr)
       @delays.get_float_list_falling(attr)
     end
 
-    def apply_fun fun
+    def apply_fun(fun)
       values = attr_flat_float_list
-      if fun == :avg or fun == :mean
+      if %i[avg mean].include?(fun)
         (values.sum / values.size).round(3)
       else # :min or :max
         values.send(fun)
       end
     end
 
-    def apply_fun_to_col fun, col
+    def apply_fun_to_col(fun, col)
       values = get_flat_float_list(col)
-      if fun == :avg or fun == :mean
+      if %i[avg mean].include?(fun)
         (values.sum / values.size).round(3)
       else # :min or :max
         values.send(fun)
@@ -101,25 +98,26 @@ module SDF
     end
   end
 
-  class Root < Node 
+  class Root < Node
     attr_reader :name
-    def initialize filename
+
+    def initialize(filename)
       super()
       @name = filename
     end
 
     def valid?
-      !@name.empty? and subnodes.length == 1 
+      !@name.empty? and subnodes.length == 1
       super
     end
   end
 
-  class DELAYFILE < Node; 
+  class DELAYFILE < Node
     def valid?
-      contains_class?(DESIGN,TIMESCALE,CELL) and super
-    end 
+      contains_class?(DESIGN, TIMESCALE, CELL) and super
+    end
 
-    def design 
+    def design
       get_subnode DESIGN
     end
 
@@ -128,7 +126,7 @@ module SDF
     end
 
     def cells
-      @subnodes.select{|n| n.instance_of? CELL}
+      @subnodes.select { |n| n.instance_of? CELL }
     end
   end
 
@@ -141,12 +139,14 @@ module SDF
       !(@data.nil? or @data.empty?)
     end
   end
+
   class TIMESCALE < EdgeNode
     def valid?
       @data.valid?
     end
   end
-  class CELL < Node; 
+
+  class CELL < Node
     def instance
       get_subnode INSTANCE
     end
@@ -164,8 +164,8 @@ module SDF
     # end
 
     def valid?
-      contains_class?(INSTANCE,CELLTYPE,DELAY) and super
-    end 
+      contains_class?(INSTANCE, CELLTYPE, DELAY) and super
+    end
   end
 
   class CELLTYPE < EdgeNode
@@ -179,7 +179,7 @@ module SDF
   end
 
   class INSTANCE < EdgeNode
-    # def accept visitor 
+    # def accept visitor
     #   visitor.accept(self)
     # end
 
@@ -190,7 +190,7 @@ module SDF
 
   class DELAY < Node
     def valid?
-      (contains_class?(ABSOLUTE)) and super
+      contains_class?(ABSOLUTE) and super
     end
 
     # def accept visitor
@@ -203,95 +203,97 @@ module SDF
   end
 
   class ABSOLUTE < Node
-    # def accept visitor
-    #   visitor.visitAbsolute(self)
-    # end
+    def add(subnode)
+      existing_node = @subnodes.find { |n| n.same_wire?(subnode) }
+      @subnodes.delete(existing_node) unless existing_node.nil?
+      super(subnode)
+    end
 
     def valid?
       (contains_class?(INTERCONNECT) or contains_class?(IOPATH)) and super
     end
 
     def interconnects
-      @subnodes.select{|n| n.instance_of? INTERCONNECT}
+      @subnodes.select { |n| n.instance_of? INTERCONNECT }
     end
 
     def iopaths
-      @subnodes.select{|n| n.instance_of? IOPATH}
+      @subnodes.select { |n| n.instance_of? IOPATH }
     end
 
-    def apply_fun fun
+    def apply_fun(fun)
       values = @subnodes.collect do |delayNode|
         delayNode.attr_flat_float_list
       end.flatten
-      if fun == :avg or fun == :mean
+      if %i[avg mean].include?(fun)
         (values.sum / values.size).round(3)
       else # :min or :max
         values.send(fun)
       end
     end
 
-    def apply_fun_to_col fun, col
+    def apply_fun_to_col(fun, col)
       values = @subnodes.collect do |dly_node|
         dly_node.get_flat_float_list(col)
       end.flatten
-      if fun == :avg or fun == :mean
+      if %i[avg mean].include?(fun)
         (values.sum / values.size).round(3)
       else # :min or :max
         values.send(fun)
       end
     end
 
-    def apply_fun_to_col_rising fun, col
+    def apply_fun_to_col_rising(fun, col)
       values = @subnodes.collect do |dly_node|
         dly_node.get_flat_float_list_rising(col)
       end.flatten
-      if fun == :avg or fun == :mean
+      if %i[avg mean].include?(fun)
         (values.sum / values.size).round(3)
       else # :min or :max
         values.send(fun)
       end
     end
 
-    def apply_fun_to_col_falling fun, col
+    def apply_fun_to_col_falling(fun, col)
       values = @subnodes.collect do |dly_node|
         dly_node.get_flat_float_list_falling(col)
       end.flatten
-      if fun == :avg or fun == :mean
-        (values.sum / values.size).round(3)
-      else # :min or :max
-        values.send(fun)
-      end
-    end
-  
-    def apply_fun_to_col_rising_ioarc fun, col, g
-      values = g.collect{|n| n.get_flat_float_list_rising(col)}
-      if fun == :avg or fun == :mean
-        (values.sum / values.size).round(3)
-      else # :min or :max
-        values.send(fun)
-      end
-    end
-    
-    def apply_fun_to_col_falling_ioarc fun, col, g
-      values = g.collect{|n| n.get_flat_float_list_falling(col)}
-      if fun == :avg or fun == :mean
+      if %i[avg mean].include?(fun)
         (values.sum / values.size).round(3)
       else # :min or :max
         values.send(fun)
       end
     end
 
+    def apply_fun_to_col_rising_ioarc(fun, col, g)
+      values = g.collect { |n| n.get_flat_float_list_rising(col) }
+      if %i[avg mean].include?(fun)
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
+
+    def apply_fun_to_col_falling_ioarc(fun, col, g)
+      values = g.collect { |n| n.get_flat_float_list_falling(col) }
+      if %i[avg mean].include?(fun)
+        (values.sum / values.size).round(3)
+      else # :min or :max
+        values.send(fun)
+      end
+    end
   end
 
   class INTERCONNECT < DelayNode
   end
 
-  class IOPATH < DelayNode;
-  end;
+  class IOPATH < DelayNode
+  end
+
   class Ident
     attr_reader :name
 
-    def initialize name
+    def initialize(name)
       @name = name
     end
 
@@ -307,7 +309,7 @@ module SDF
   class Time
     attr_reader :val
 
-    def initialize val
+    def initialize(val)
       @val = val
     end
 
@@ -315,24 +317,24 @@ module SDF
     #   visitor.visit_Time(self)
     # end
 
-
-    def valid? 
+    def valid?
       !@val.nil?
     end
   end
 
-  class Wire 
+  class Wire
     attr_reader :source_name, :sink_name
+
     def initialize(source_name, sink_name)
       @source_name = source_name
       @sink_name = sink_name
     end
 
-    def identical? w
-      (@source_name == w.source_name) and (@sink_name == w.sink_name)
+    def identical?(w)
+      (@source_name.name == w.source_name.name) && (@sink_name.name == w.sink_name.name)
     end
 
-    def valid? 
+    def valid?
       @source_name.valid? and @sink_name.valid? and @source_name != @sink_name
     end
   end
@@ -340,24 +342,24 @@ module SDF
   class DelayTable
     attr_accessor :rise, :fall
 
-    def initialize rise, fall
+    def initialize(rise, fall)
       @rise = rise
       @fall = fall
     end
 
     def attr_list
-      [@rise,@fall]
+      [@rise, @fall]
     end
 
-    def get_float_list attr
+    def get_float_list(attr)
       [@rise.send(attr).to_f, @fall.send(attr).to_f]
     end
 
-    def get_float_list_rising attr
+    def get_float_list_rising(attr)
       @rise.send(attr).to_f
     end
 
-    def get_float_list_falling attr
+    def get_float_list_falling(attr)
       @fall.send(attr).to_f
     end
 
@@ -372,21 +374,21 @@ module SDF
 
   class DelayArray
     attr_accessor :min, :typ, :max
-     
-    def initialize txt
-      txt.tr!('()','')  
+
+    def initialize(txt)
+      txt.tr!('()', '')
       @min, @typ, @max = txt.split(':')
     end
 
     def attr_list
-      [@min,@typ,@max]
+      [@min, @typ, @max]
     end
 
     def attr_float_list
-      [@min,@typ,@max].map(&:to_f)
+      [@min, @typ, @max].map(&:to_f)
     end
 
-    def accept visitor
+    def accept(visitor)
       visitor.visitDelayArray(self)
     end
 

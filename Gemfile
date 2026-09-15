@@ -1,15 +1,19 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-group :prod do 
-  gem 'oj'
+group :prod do
+  gem 'erb'
+  gem 'fileutils'
   gem 'json'
-  gem 'sxp'
+  gem 'minitar'
+  gem 'oj'
   gem 'pycall'
-  gem 'fileutils'  
+  gem 'sxp'
 end
 
 group :development do
-  gem "ruby-lsp-rspec", require: false
   gem 'rspec'
   gem 'rubocop'
+  gem 'ruby-lsp-rspec', require: false
 end

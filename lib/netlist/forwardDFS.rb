@@ -1,10 +1,10 @@
 module Netlist
   class ForwardDFS < Netlist::CircuitVisitor
-    def initialize nl
+    def initialize(nl)
       super
     end
 
-    def visit_Port p
+    def visit_Port(p)
       # return if visited?(p)
       print_obj_name(p) if $DEBUG
 
@@ -12,15 +12,15 @@ module Netlist
       input_port = p.is_input?
 
       # Plusieurs cas selon que p est :
-      #   - une sortie primaire 
+      #   - une sortie primaire
       #   - la sortie d'une porte
       #   - l'entrée d'une porte ?
       #   - une entrée primaire
-      
+
       case [primary_port, input_port]
       when [false, false] # sortie d'une porte (le + fréquent)
         visit_gate_output(p)
-      when [true, true]   # entrée primaire (le 2eme + fréquent) 
+      when [true, true]   # entrée primaire (le 2eme + fréquent)
         visit_prim_input(p)
       when [true, false]  # sortie primaire (le 3 eme + fréquent)
         visit_prim_output(p)
@@ -32,23 +32,23 @@ module Netlist
     end
 
     # Modulariser cette méthode
-    def visit_Gate g      
+    def visit_Gate(g)
       # return if visited?(g)
       print_obj_name(g) if $DEBUG
 
       # visit sink ports
-      # sps = g.get_output.get_sinks 
+      # sps = g.get_output.get_sinks
       # sps.collect do |sp|
       #   sp.accept(self)
       # end
-      
+
       # visit outputs
       g.get_outputs.collect do |go|
         go.accept(self)
       end
     end
 
-    def visit_Wire w
+    def visit_Wire(w)
       # return if visited?(w)
       print_obj_name(w) if $DEBUG
       w.get_sinks.collect do |sink|
@@ -60,7 +60,6 @@ module Netlist
 
     def print_obj_name(obj)
       obj_name = obj.is_a?(Netlist::Gate) ? obj.name : obj.get_full_name
-      puts obj_name if $DEBUG
     end
 
     def visit_gate_output(op)
