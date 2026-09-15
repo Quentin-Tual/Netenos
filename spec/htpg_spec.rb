@@ -5,13 +5,12 @@ require_relative '../lib/netenos'
 describe AtetaAddOn::Htpg do
   # TEST_SDF_FILE='tests/sdf/mapped_xor5__nom_tt_025C_1v80.sdf'
   # TEST_V_FILE='tests/verilog/xor5_prepnr.nl.v'
-  delay_model = :sdf
   smt_path = '/tmp/Netenos/htpg_smt'
 
   testfiles = [
-    # ['tests/verilog/pnr_pedagoExample.v', 'tests/sdf/pnr_pedagoExample.sdf'],
+    ['tests/verilog/pnr_pedagoExample.v', 'tests/sdf/pnr_pedagoExample.sdf']
     # ['tests/verilog/xor5_prepnr.nl.v',  'tests/sdf/mapped_xor5__nom_tt_025C_1v80.sdf'],
-    ['tests/verilog/f51m.nl.v', 'tests/sdf/f51m__nom_tt_025C_1v80.sdf']
+    # ['tests/verilog/f51m.nl.v', 'tests/sdf/f51m__nom_tt_025C_1v80.sdf']
   ]
   testfiles.each do |v_file, sdf_file|
     context "HTPG applied on #{v_file} Verilog netlist with #{sdf_file} SDF annotation" do
@@ -27,6 +26,7 @@ describe AtetaAddOn::Htpg do
 
       subject(:tvps_save_path) { 'tests/tmp/test_htpg.stim' }
       subject(:bin_tvps_save_path) { 'tests/tmp/test_bin_htpg.stim' }
+      subject(:htpg_time_report) { 'tests/tmp/' }
 
       # context "recursive SMT representation", :target  do
       #   subject(:htpg) {AtetaAddOn::Htpg.new(nl,payload_delay,dly_db)}
@@ -101,6 +101,7 @@ describe AtetaAddOn::Htpg do
           expect do
             uut = htpg
             uut.generate_stim
+            `mv htpg_time_report.txt #{htpg_time_report}`
             uut.save_explicit(tvps_save_path, binStimVec: true)
           end.not_to raise_error
         end
@@ -120,6 +121,7 @@ describe AtetaAddOn::Htpg do
           expect do
             uut = htpg
             uut.generate_stim
+            `mv htpg_time_report.txt #{htpg_time_report}`
             uut.save_explicit(tvps_save_path, binStimVec: true)
           end.not_to raise_error
         end

@@ -95,17 +95,17 @@ module ASP
       @signals << pip_name
     end
 
-    def get_ioarcs(g)
-      g.get_inputs.collect do |ip|
-        [ip.get_full_name, g.get_output.get_full_name]
+    def get_ioarcs(gate)
+      gate.get_inputs.collect do |ip|
+        [ip.get_full_name, gate.get_output.get_full_name]
       end
     end
 
-    def get_rise_fall_dlys(g, ioarcs)
+    def get_rise_fall_dlys(gate, ioarcs)
       %i[rise fall].collect do |transi|
         ioarcs.collect do |ioarc|
           @delays.get_gate_dly(
-            g,
+            gate,
             ioarc,
             transi,
             @sdf_col

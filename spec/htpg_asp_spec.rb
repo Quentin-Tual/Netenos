@@ -9,9 +9,9 @@ describe AtetaAddOn::Htpg do
   # asp_path = '/tmp/Netenos/htpg_smt'
 
   testfiles = [
-    # ['tests/verilog/pnr_pedagoExample.v', 'tests/sdf/pnr_pedagoExample.sdf']
+    ['tests/verilog/pnr_pedagoExample.v', 'tests/sdf/pnr_pedagoExample.sdf']
     # ['tests/verilog/xor5_prepnr.nl.v', 'tests/sdf/mapped_xor5__nom_tt_025C_1v80.sdf']
-    ['tests/verilog/f51m.nl.v', 'tests/sdf/f51m__nom_tt_025C_1v80.sdf']
+    # ['tests/verilog/f51m.nl.v', 'tests/sdf/f51m__nom_tt_025C_1v80.sdf']
   ]
   testfiles.each do |v_file, sdf_file|
     context "HTPG applied through ASP solving on #{v_file} Verilog netlist with #{sdf_file} SDF annotation" do

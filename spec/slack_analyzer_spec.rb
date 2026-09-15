@@ -4,10 +4,10 @@ require_relative '../lib/netenos'
 
 describe Delays::SlackAnalyzer do
   describe 'With a xor5 circuit and its associated SDF delays' do
-    # subject(:v_filepath) { 'tests/verilog/xor5_prepnr.nl.v' }
-    # subject(:sdf_filepath) { 'tests/sdf/mapped_xor5__nom_tt_025C_1v80.sdf' }
-    subject(:v_filepath) { 'tests/verilog/f51m.nl.v' }
-    subject(:sdf_filepath) { 'tests/sdf/f51m__nom_tt_025C_1v80.sdf' }
+    subject(:v_filepath) { 'tests/verilog/xor5_prepnr.nl.v' }
+    subject(:sdf_filepath) { 'tests/sdf/mapped_xor5__nom_tt_025C_1v80.sdf' }
+    # subject(:v_filepath) { 'tests/verilog/f51m.nl.v' }
+    # subject(:sdf_filepath) { 'tests/sdf/f51m__nom_tt_025C_1v80.sdf' }
     subject(:nl) { Verilog.load_netlist(v_filepath) }
     subject(:dly_db) { SDF.generate_dly_db(nl, sdf_filepath) }
     subject(:timings) { Delays::TimingAnalyzer.new(nl, dly_db).analyze }
