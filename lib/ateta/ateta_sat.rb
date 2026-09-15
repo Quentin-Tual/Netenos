@@ -59,7 +59,7 @@ module AtetaAddOn
       # ! We miss a lot of solutions.
       # ! We want a transition instant before which values won't change from an instant to the other, and after which the values won't change anymore.
 
-      var_h.each do |input_name, sub_h|
+      var_h.each_value do |sub_h|
         next unless sub_h.length > 1 # No need if there is two elements or less
 
         sub_h.to_a.sort_by { |a| a[0].to_i }.each_cons(2) do |prev, curr|
