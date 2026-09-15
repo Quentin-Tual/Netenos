@@ -419,8 +419,6 @@ module AtetaAddOn
         def parse_results2 results
             res_h = Hash.new { |h, k| h[k] = Hash.new}
             if results[0] == "sat"
-                state = :init
-                last_id = nil
                 results[1..].each_cons(2) do |prev_line,line|
                     splitted_prev_line = prev_line.split
                     if splitted_prev_line[0] == "(define-fun"
