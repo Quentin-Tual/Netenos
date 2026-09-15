@@ -1,1 +1,1 @@
-require_relative "./interface/wrapper.rb"
+require_relative './interface/wrapper'

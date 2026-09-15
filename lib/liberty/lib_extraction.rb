@@ -9,7 +9,7 @@ pyimport 'liberty.types', as: :liberty_types
 # --------------------------
 
 module Liberty
-  class ASTNode 
+  class ASTNode
     ::Visitable
   end
 
@@ -22,20 +22,20 @@ module Liberty
     end
 
     def time_unit
-      @pyobj['time_unit'].to_s.tr('"','')
+      @pyobj['time_unit'].to_s.tr('"', '')
     end
 
     def cells
       @pyobj.get_groups('cell').map { |c| LibertyCell.new(c) }
     end
 
-    def get_cell cell_name
+    def get_cell(cell_name)
       LibertyCell.new(liberty_types.select_cell(@pyobj, cell_name))
     end
 
-    def get_cell_timings cell_name
+    def get_cell_timings(cell_name)
       c = get_cell(cell_name)
-      outputs = c.pins.select{|p| p.direction == 'output'}
+      outputs = c.pins.select { |p| p.direction == 'output' }
       rise_max_a = []
       fall_max_a = []
       rise_mean_a = []
@@ -45,7 +45,7 @@ module Liberty
         o_timing_arcs.each do |table|
           t_cell_rise = table.cell_rise.flatten
           t_cell_fall = table.cell_fall.flatten
-          
+
           rise_max_a << t_cell_rise.max
           fall_max_a << t_cell_fall.max
           rise_mean_a << (t_cell_rise.sum / t_cell_rise.length.to_f).round(10)
@@ -75,10 +75,10 @@ module Liberty
     end
 
     def outputs
-      pins.select{|p| p.direction == 'output'}
+      pins.select { |p| p.direction == 'output' }
     end
 
-    def get_pin_named pin_name
+    def get_pin_named(pin_name)
       LibertyPin.new(liberty_types.select_cell(@pyobj, pin_name))
     end
   end
@@ -138,15 +138,15 @@ module Liberty
 
     def extract_table(groups)
       return nil if groups.length == 0
+
       group = groups.first
       values = group['values'].to_a
       return nil if values.length == 0
 
       # Convert Liberty table string into nested float arrays
       values.map! do |row|
-        row.to_s.tr('"','').split(',').map(&:to_f)
+        row.to_s.tr('"', '').split(',').map(&:to_f)
       end
     end
   end
-
 end

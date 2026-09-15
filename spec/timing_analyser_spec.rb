@@ -58,7 +58,7 @@ describe Delays::TimingAnalyzer do
       uut = subject
       uut.analyze
       obtained = {}
-      uut.timings.each { |sig, t| obtained[sig.get_full_name] = uut.timings[sig] }
+      uut.timings.each { |sig, _t| obtained[sig.get_full_name] = uut.timings[sig] }
       expect(obtained).to eq(expected)
     end
 

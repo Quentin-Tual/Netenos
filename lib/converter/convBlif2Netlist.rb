@@ -84,7 +84,7 @@ module Converter
       circ_name = File.basename(path).delete_suffix('.blif')
       @TMP_BLIF_PATH = $TMP_PATH + circ_name
       Dir.mkdir(@TMP_BLIF_PATH) unless File.exist? @TMP_BLIF_PATH
-      std_o = `yosys-abc -c "read_blif #{path}; read_library #{@genlib_path}/gtech.genlib; strash; map; write_blif #{@TMP_BLIF_PATH}/~#{File.basename(path)}"`
+      `yosys-abc -c "read_blif #{path}; read_library #{@genlib_path}/gtech.genlib; strash; map; write_blif #{@TMP_BLIF_PATH}/~#{File.basename(path)}"`
 
       # puts std_o if $VERBOSE
       "#{@TMP_BLIF_PATH}/~#{File.basename(path)}"

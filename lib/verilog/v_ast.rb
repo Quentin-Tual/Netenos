@@ -6,7 +6,7 @@ module Verilog
   end
 
   class Root < AstNode
-    attr_reader :filepath,:mod
+    attr_reader :filepath, :mod
 
     def initialize(filepath, mod)
       super()
@@ -16,9 +16,9 @@ module Verilog
   end
 
   class Module < AstNode
-    attr_reader :name,:wires,:inputs,:outputs,:instances
+    attr_reader :name, :wires, :inputs, :outputs, :instances
 
-    def initialize name
+    def initialize(name)
       super()
       @name = name
       @wires = []
@@ -27,7 +27,7 @@ module Verilog
       @instances = []
     end
 
-    def add node 
+    def add(node)
       case node
       when Wire
         @wires << node
@@ -35,9 +35,9 @@ module Verilog
         @inputs << node
       when Output
         @outputs << node
-      when Instance 
+      when Instance
         @instances << node
-      else 
+      else
         raise "Error: Unknown type #{node.class} to add in a #{self.class}"
       end
     end
@@ -99,7 +99,7 @@ module Verilog
       @wire = wire
     end
 
-    def attr_list 
+    def attr_list
       [@port, @wire]
     end
   end

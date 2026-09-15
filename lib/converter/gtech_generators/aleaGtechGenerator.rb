@@ -33,6 +33,4 @@ module Converter
       "#{assign_lhs} <= #{assign_rhs} after rand_time(delay_min, delay_max, 1000 fs);"
     end
   end
-
-
 end

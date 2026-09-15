@@ -1,18 +1,18 @@
 module SDF
   class Deparser < Visitor
-    def initialize path
+    def initialize(path)
       @path = path
-      @txt = Code.new(indent_sym: " ")
+      @txt = Code.new(indent_sym: ' ')
     end
 
     def visit(subject)
       case subject
-      when SDF::Root 
+      when SDF::Root
         visit(subject.subnodes.first)
         @txt.save_as(@path)
       when SDF::Node
         visit_node(subject)
-      when SDF::DelayNode 
+      when SDF::DelayNode
         visit_delaynode(subject)
       when SDF::EdgeNode
         visit_edgenode(subject)
@@ -30,30 +30,30 @@ module SDF
       keyword = subject.class.name.split('::')[1]
       @txt << "(#{keyword}"
       @txt.indent += 1
-      subject.subnodes.each{|n| visit(n)}
+      subject.subnodes.each { |n| visit(n) }
       @txt.indent -= 1
       @txt << ')'
     end
-    
+
     def visit_edgenode(subject)
       keyword = subject.class.name.split('::')[1]
       value = format_data(subject.data)
-      sep_space = ((value == "") ? "" : " ") 
+      sep_space = (value == '' ? '' : ' ')
       @txt << "(#{keyword}#{sep_space}#{value})"
     end
 
     def visit_delaynode(subject)
       keyword = subject.class.name.split('::')[1]
-      source,sink = visit_wire(subject.wire)
+      source, sink = visit_wire(subject.wire)
       formatted_delays = visit_delaytable(subject.delays)
 
       @txt << "(#{keyword} #{source} #{sink} #{formatted_delays})"
     end
 
     def visit_wire(subject)
-      return subject.source_name.name, subject.sink_name.name
+      [subject.source_name.name, subject.sink_name.name]
     end
-    
+
     def visit_delaytable(subject)
       "(#{visit_delayarray(subject.rise)}) (#{visit_delayarray(subject.fall)})"
     end
@@ -62,8 +62,8 @@ module SDF
       subject.attr_list.join(':')
     end
 
-    def format_data d
-      case d 
+    def format_data(d)
+      case d
       when Ident
         d.name
       when Time

@@ -120,14 +120,14 @@ module Netlist
 
       if slack_db.nil?
         slack_h = get_slack_hash
-        res = slack_h.select { |slack, nodes| slack >= payload_delay }.values.flatten.select do |node|
+        res = slack_h.select { |slack, _nodes| slack >= payload_delay }.values.flatten.select do |node|
           valid_insert_point?(node)
         end
       else
-        slack_db = slack_db.select do |sig, slack|
+        slack_db = slack_db.select do |sig, _slack|
           valid_insert_point?(sig)
         end
-        res = slack_db.select { |sig, slack| slack >= payload_delay }.keys
+        res = slack_db.select { |_sig, slack| slack >= payload_delay }.keys
       end
 
       if topo_sort
@@ -222,7 +222,7 @@ module Netlist
       # end
 
       # ! ERROR : with some benchmark circuits (x2.blif from LGsynth91), 'sort' : comparison of Array with Array failed (ArgumentError)
-      tmp.sort_by do |key, value|
+      tmp.sort_by do |key, _value|
         key
       end.to_h
     end
@@ -704,7 +704,6 @@ module Netlist
         sink <= w
       end
       # Plug the wire to source
-      w <= source
       w
     end
 
@@ -803,7 +802,7 @@ module Netlist
         no_double_wiring?
     end
 
-    def get_cone_outputs(signalName)
+    def get_cone_outputs(_signalName)
       # * search the output from the given signal (last gate of the path)
 
       if sigName.include? $FULL_PORT_NAME_SEP

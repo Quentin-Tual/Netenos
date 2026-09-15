@@ -1,10 +1,10 @@
-require_relative '../lib/netenos.rb'
+require_relative '../lib/netenos'
 
 runner = Interface::Wrapper.new
 runner.randgen(['test_matrix'])
 
 circ_generator = Netlist::RandomGenComb.new 5, 2, 3
-circ =  circ_generator.getRandomNetlist
+circ = circ_generator.getRandomNetlist
 
 visualizer = Converter::DotGen.new
 path = visualizer.dot circ
@@ -16,8 +16,8 @@ adj_mat = matrix_converter.start
 # pp adj_mat
 
 adj_mat.each do |row|
-    print row
-    puts
+  print row
+  puts
 end
 
 pp matrix_converter.getAdjList

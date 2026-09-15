@@ -151,7 +151,7 @@ module AtetaAddOn
           line = "(define-fun fv_#{vecId} () Bool (or "
           @instants.each do |t|
             line << '(and'
-            @signals.each_with_index do |s, i|
+            @signals.each_with_index do |s, _i|
               line << ' '
               line << "(= #{s}_#{t} #{fv[s[1..].to_i] == '0' ? 'false' : 'true'})"
             end
@@ -177,7 +177,7 @@ module AtetaAddOn
           line = "(define-fun fv_#{vecId}_d () Bool (and"
           # line << "(and "
           # @signals.each do |sigName|
-          @signals.each_with_index do |s, i|
+          @signals.each_with_index do |s, _i|
             line << ' '
             line << "(= #{s}_d #{fv[s[1..].to_i] == '0' ? 'false' : 'true'})"
           end
@@ -189,7 +189,7 @@ module AtetaAddOn
           line = "(define-fun fv_#{vecId}_a () Bool (and"
           # line << "(and "
           # @signals.each do |sigName|
-          @signals.each_with_index do |s, i|
+          @signals.each_with_index do |s, _i|
             line << ' '
             line << "(= #{s}_a #{fv[s[1..].to_i] == '0' ? 'false' : 'true'})"
           end
@@ -208,7 +208,7 @@ module AtetaAddOn
         line = ''
       else # @forbiddenVectors.length > 1
         line = '(assert (not (or'
-        @forbiddenVectors.each_with_index do |fv, vecId|
+        @forbiddenVectors.each_with_index do |_fv, vecId|
           line << ' '
           line << "fv_#{vecId}_d"
           line << ' '
@@ -435,7 +435,7 @@ end.join(' ')})"
         end
         @transition_instant = line.split[0][...-1] if splitted_prev_line[1] == 't_a'
       end
-      res_h.sort_by { |k, v| k[1..].to_i }.to_h
+      res_h.sort_by { |k, _v| k[1..].to_i }.to_h
     end
 
     def parse_results(results)
@@ -463,7 +463,7 @@ end.join(' ')})"
 
         end
       end
-      res_h.sort_by { |k, v| k[1..].to_i }.to_h
+      res_h.sort_by { |k, _v| k[1..].to_i }.to_h
     end
 
     def results2vec3(results)
@@ -505,7 +505,7 @@ end.join(' ')})"
 
       return nil if res_h.nil?
 
-      tmp = res_h.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(var, sub_h), h|
+      tmp = res_h.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(_var, sub_h), h|
         sub_h.each do |k, val|
           h[k] << val
         end
@@ -530,12 +530,12 @@ end.join(' ')})"
       return nil if res_h.nil?
 
       # Convertir le hash associant des valeurs booléenne à des variables en deux vecteurs de test
-      vo = Array.new(@initCirc.get_inputs.length, nil)
-      va = Array.new(@initCirc.get_inputs.length, nil)
+      Array.new(@initCirc.get_inputs.length, nil)
+      Array.new(@initCirc.get_inputs.length, nil)
 
-      tmp = res_h.sort_by { |k, v| k[1..].to_i }.to_h
-      tmp = tmp.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(var, sub_h), h|
-        sub_h.sort_by { |k, v| k.to_i }.each do |k, val|
+      tmp = res_h.sort_by { |k, _v| k[1..].to_i }.to_h
+      tmp = tmp.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(_var, sub_h), h|
+        sub_h.sort_by { |k, _v| k.to_i }.each do |k, val|
           h[k] << val
         end
       end

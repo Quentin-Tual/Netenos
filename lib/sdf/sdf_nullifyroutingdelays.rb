@@ -1,6 +1,5 @@
 module SDF
   class NullifyRoutingDelays < Visitor
-
     # def initialize
     #   super
     # end
@@ -17,7 +16,7 @@ module SDF
 
     def visit_Root(subject)
       visit_node(subject)
-      return subject
+      subject
     end
 
     def visit_DelayNode(subject)
@@ -42,7 +41,7 @@ module SDF
       is_a_buffer = subject.celltype.data.include?('buf')
       is_a_delay = subject.celltype.data.include?('dly')
 
-      if (!(is_eco_buffer) and (is_a_buffer or is_a_delay)) or is_top_module # is not an ECO inserted buffer but is a buffer
+      if (!is_eco_buffer and (is_a_buffer or is_a_delay)) or is_top_module # is not an ECO inserted buffer but is a buffer
         subject.delay.accept(self)
       else
         ignore(subject)

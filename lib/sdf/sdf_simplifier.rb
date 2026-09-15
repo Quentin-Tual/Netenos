@@ -1,6 +1,6 @@
 module SDF
   class SimplifierVisitor < Visitor
-    SDF_COLS = [:min, :typ, :max]
+    SDF_COLS = %i[min typ max]
 
     def initialize(function = :max)
       @fun = function
@@ -49,13 +49,17 @@ module SDF
     end
 
     def visit_ABSOLUTE(subject)
-      min_values, typ_values, max_values = SDF_COLS.collect{|col| subject.iopaths.collect{|dly_node| dly_node.apply_fun_to_col(@fun,col)}}
-      @new_min, @new_typ, @new_max = [min_values, typ_values, max_values].collect{|arr| apply_fun_to_arr(arr)}
+      min_values, typ_values, max_values = SDF_COLS.collect do |col|
+        subject.iopaths.collect do |dly_node|
+          dly_node.apply_fun_to_col(@fun, col)
+        end
+      end
+      @new_min, @new_typ, @new_max = [min_values, typ_values, max_values].collect { |arr| apply_fun_to_arr(arr) }
       visit_node(subject)
     end
 
     def visit_INTERCONNECT(subject)
-      @new_min, @new_typ, @new_max = SDF_COLS.collect{|col| subject.apply_fun_to_col(@fun,col)}
+      @new_min, @new_typ, @new_max = SDF_COLS.collect { |col| subject.apply_fun_to_col(@fun, col) }
       subject.delays.accept(self)
     end
 
@@ -66,21 +70,20 @@ module SDF
     def visit_DelayTable(subject)
       subject.rise.accept(self)
       subject.fall.accept(self)
-    end 
-
-    def visit_DelayArray(subject)
-      subject.min = "%.3f" % @new_min
-      subject.typ = "%.3f" % @new_typ
-      subject.max = "%.3f" % @new_max
     end
 
-    def apply_fun_to_arr values
+    def visit_DelayArray(subject)
+      subject.min = format('%.3f', @new_min)
+      subject.typ = format('%.3f', @new_typ)
+      subject.max = format('%.3f', @new_max)
+    end
+
+    def apply_fun_to_arr(values)
       if @fun == :avg or @fun == :mean
         (values.sum / values.size).round(3)
       else # :min or :max
         values.send(@fun)
       end
     end
-
   end
 end

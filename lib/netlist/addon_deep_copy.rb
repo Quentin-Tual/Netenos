@@ -3,7 +3,7 @@ module Netlist
     def deep_copy(new_name = "#{@name}_copy")
       @deep_copy_cache = {}
       new_circuit = Circuit.new(new_name)
-      @deep_copy_cache[self.object_id] = new_circuit
+      @deep_copy_cache[object_id] = new_circuit
       new_circuit.crit_path_length = @crit_path_length
 
       # Copy ports and cache them immediately
@@ -60,17 +60,15 @@ module Netlist
     def cache_port_and_connections(old_port, new_port)
       @deep_copy_cache[old_port.object_id] = new_port
       # Cache any existing connections
-      if old_port.fanin
-        @deep_copy_cache[old_port.fanin.object_id] ||= new_port.fanin if new_port.fanin
-      end
+      @deep_copy_cache[old_port.fanin.object_id] ||= new_port.fanin if old_port.fanin && new_port.fanin
       old_port.fanout.each_with_index do |sink, i|
         @deep_copy_cache[sink.object_id] ||= new_port.fanout[i] if new_port.fanout[i]
       end
     end
 
-    def reconnect_all(new_circuit)
+    def reconnect_all(_new_circuit)
       # Reconnect using cache
-      reconnect_elements = @constants + @ports.values.flatten + @components.flat_map{|c| c.get_ports} + @wires
+      reconnect_elements = @constants + @ports.values.flatten + @components.flat_map { |c| c.get_ports } + @wires
       reconnect_elements.each do |obj|
         new_obj = @deep_copy_cache[obj.object_id]
         # next unless new_obj # can happen ?
@@ -95,12 +93,12 @@ module Netlist
       new_gate = self.class.new(@name.dup)
       new_gate.instance_variable_set(:@propag_time, @propag_time)
       new_gate.instance_variable_set(:@cumulated_propag_time, @cumulated_propag_time)
-      
+
       # Copy ports immediately and maintain connections
       new_inputs = @ports[:in].map { |p| p.dup.tap { |np| np.partof = new_gate } }
       new_outputs = @ports[:out].map { |p| p.dup.tap { |np| np.partof = new_gate } }
       new_gate.instance_variable_set(:@ports, { in: new_inputs, out: new_outputs })
-      
+
       new_gate
     end
   end

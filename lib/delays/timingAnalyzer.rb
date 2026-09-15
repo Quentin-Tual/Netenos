@@ -24,7 +24,7 @@ module Delays
     end
 
     def crit_path
-      @timings.max_by { |sig, val| val }
+      @timings.max_by { |_sig, val| val }
     end
 
     def visit_Wire(w)

@@ -40,7 +40,7 @@ describe Liberty::FunParser do
   end
   describe 'Parsing (A1&A2) | (!B1_N)' do
     it 'does not raise error' do
-      expect { uut = ast }.not_to raise_error
+      expect { ast }.not_to raise_error
       # expect(ast).to be_kind_of Liberty::Operator
     end
     it 'gives the correct AST' do

@@ -1,5 +1,5 @@
-class Visitor 
-  def visit(subject)
+class Visitor
+  def visit(_subject)
     raise NotImplementedError.new
   end
 
@@ -8,7 +8,7 @@ class Visitor
   end
 end
 
-module Visitable 
+module Visitable
   def accept(visitor)
     visitor.visit(self)
   end

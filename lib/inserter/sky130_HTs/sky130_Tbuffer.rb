@@ -2,25 +2,25 @@ require_relative '../ht'
 
 module Inserter
   class Sky130_Tbuffer < HT
-    def initialize delay, delay_model, scl
+    def initialize(delay, delay_model, scl)
       super()
-      @stdcell = "#{scl}__dlygate4sd1_1" # CHECK if ok  
+      @stdcell = "#{scl}__dlygate4sd1_1" # CHECK if ok
       # Should act as a gate with a identity function
-      @delay=delay
+      @delay = delay
       @delay_model = delay_model
       @netlist = gen_netlist
     end
 
-    def gen_netlist 
+    def gen_netlist
       # Create a class using json extracted from the PDK
       klassname = @stdcell.capitalize
       pdk_ios = JSON.parse(File.read($PDK_IOS_JSON))
       pdk_fun = JSON.parse(File.read($PDK_FUN_JSON))
       klass = Netlist.create_pdk_class(klassname, pdk_fun, pdk_ios)
-      # Instanciate the buffer 
-      payload = klass.new("HTpayload")
-      payload.propag_time = {@delay_model => @delay}
-      # Set payload_out 
+      # Instanciate the buffer
+      payload = klass.new('HTpayload')
+      payload.propag_time = { @delay_model => @delay }
+      # Set payload_out
       @payload_out = payload.get_free_output
       # Set payload_in
       @payload_in = payload.get_free_input
@@ -29,6 +29,5 @@ module Inserter
       # Set propag_time
       @propag_time = @delay
     end
-
   end
 end

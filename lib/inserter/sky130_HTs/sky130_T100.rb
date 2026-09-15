@@ -2,26 +2,21 @@ require_relative '../ht'
 
 module Inserter
   class Sky130_T100
-    def initialize nb_trigger = 4
-      super 
+    def initialize(nb_trigger = 4)
+      super
       @netlist = gen_netlist(nb_trigger)
-      
-      raise "WIP"
+
+      raise 'WIP'
     end
 
-    def gen_netlist nb_trigger
+    def gen_netlist(_nb_trigger)
       gen_payload
-      
+
       # ...
     end
 
-    def gen_payload
-      
-    end
-    
-    def gen_triggers nb_trigger
-      
-    end
+    def gen_payload; end
 
+    def gen_triggers(nb_trigger); end
   end
 end

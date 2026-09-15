@@ -137,24 +137,24 @@ class Deserializer
   end
 
   def parse_constant(sexp)
-    constant, name, clazzname, sexp_ref = *sexp
-    ref, id = sexp_ref
+    _, name, clazzname, sexp_ref = *sexp
+    _, id = sexp_ref
     clazz = Object.const_get(clazzname)
-    @refs[id] = constant = clazz.new(name)
+    @refs[id] = clazz.new(name)
   end
 
   def parse_input(sexp)
     puts 'parsing input' if $VERBOSE
     _, name, sexp_ref = *sexp
     _, id = sexp_ref
-    @refs[id] = port = Netlist::Port.new(name, :in, nil)
+    @refs[id] = Netlist::Port.new(name, :in, nil)
   end
 
   def parse_output(sexp)
     puts 'parsing output' if $VERBOSE
     _, name, sexp_ref = *sexp
     _, id = sexp_ref
-    @refs[id] = port = Netlist::Port.new(name, :out, nil)
+    @refs[id] = Netlist::Port.new(name, :out, nil)
   end
 
   def parse_port(sexp, comp)
@@ -201,7 +201,7 @@ class Deserializer
   end
 
   def fix_port_partof(comp)
-    comp.ports.each do |dir, ports|
+    comp.ports.each do |_dir, ports|
       ports.each do |port|
         port.partof = comp
       end

@@ -1,11 +1,10 @@
-require_relative "../lib/netenos.rb"
+require_relative '../lib/netenos'
 
-generator = Netlist::RandomGenComb.new 6,2,3
-circ = generator.getRandomNetlist "test_netson_circ"
+generator = Netlist::RandomGenComb.new 6, 2, 3
+circ = generator.getRandomNetlist 'test_netson_circ'
 
-Converter::DotGen.new.dot circ, "./test_netson_circ.dot"
+Converter::DotGen.new.dot circ, './test_netson_circ.dot'
 Converter::ConvNetlist2Vhdl.new.generate circ
 
 foo = Converter::Netson.new
-foo.save_as_json(circ, "./test_netson_circ.json")
-
+foo.save_as_json(circ, './test_netson_circ.json')

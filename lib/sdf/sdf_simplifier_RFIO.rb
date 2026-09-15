@@ -1,6 +1,6 @@
 module SDF
   class SimplifierRFIOVisitor < Visitor
-    SDF_COLS = [:min, :typ, :max]
+    SDF_COLS = %i[min typ max]
 
     def initialize(function = :max)
       @fun = function
@@ -49,55 +49,55 @@ module SDF
     end
 
     def get_rise_values(g)
-      SDF_COLS.collect do |col| 
-        g.collect do |iopath| 
+      SDF_COLS.collect do |col|
+        g.collect do |iopath|
           iopath.get_flat_float_list_rising(col)
         end.flatten
       end
     end
 
-    def get_fall_values g
-      SDF_COLS.collect do |col| 
-        g.collect do |iopath| 
+    def get_fall_values(g)
+      SDF_COLS.collect do |col|
+        g.collect do |iopath|
           iopath.get_flat_float_list_falling(col)
         end.flatten
       end
     end
-  
-    def get_ioarcs_group absolute_node
-      absolute_node.subnodes.group_by{|n| n.wire.source_name.name + n.wire.sink_name.name}.values
+
+    def get_ioarcs_group(absolute_node)
+      absolute_node.subnodes.group_by { |n| n.wire.source_name.name + n.wire.sink_name.name }.values
     end
 
     def simplify_ioarc_group_by_fun(subject)
       groups = get_ioarcs_group(subject)
       groups.each do |g|
-      # Pour chaque colonne (min, typ, max)
-        # Récupérer toutes les valeurs RISE des éléments de g 
+        # Pour chaque colonne (min, typ, max)
+        # Récupérer toutes les valeurs RISE des éléments de g
         # Récupérer toutes les valeurs FALL des éléments de g
         # Appliquer la fonction @fun pour conserver une seule valeur
-        @rise_values = get_rise_values(g).collect{|col_values| apply_fun_to_arr(col_values)}
-        @fall_values = get_fall_values(g).collect{|col_values| apply_fun_to_arr(col_values)}
+        @rise_values = get_rise_values(g).collect { |col_values| apply_fun_to_arr(col_values) }
+        @fall_values = get_fall_values(g).collect { |col_values| apply_fun_to_arr(col_values) }
         # Fixer toutes les valeurs RISE à la valeur obtenue
         # Idem pour les valeurs FALL
-        g.each{|iopath_node| iopath_node.accept(self)} 
-      end
-    end 
-
-    def visit_ABSOLUTE(subject)
-      unless subject.contains_class? INTERCONNECT
-        simplify_ioarc_group_by_fun(subject)
+        g.each { |iopath_node| iopath_node.accept(self) }
       end
     end
 
+    def visit_ABSOLUTE(subject)
+      return if subject.contains_class? INTERCONNECT
+
+      simplify_ioarc_group_by_fun(subject)
+    end
+
     # def get_last_rise_value g
-    #   SDF_COLS.collect do |col| 
+    #   SDF_COLS.collect do |col|
     #     iopath = g.last
     #     iopath.get_flat_float_list_rising(col)
     #   end
     # end
 
     # def get_last_fall_value g
-    #   SDF_COLS.collect do |col| 
+    #   SDF_COLS.collect do |col|
     #     iopath = g.last
     #     iopath.get_flat_float_list_falling(col)
     #   end
@@ -107,15 +107,15 @@ module SDF
     #   groups = get_ioarcs_group(subject)
     #   groups.each do |g|
     #   # Pour chaque colonne (min, typ, max)
-    #     # Récupérer toutes les valeurs RISE des éléments de g 
+    #     # Récupérer toutes les valeurs RISE des éléments de g
     #     # Récupérer toutes les valeurs FALL des éléments de g
     #     # Appliquer la fonction @fun pour conserver une seule valeur
-        
+
     #     @rise_values = get_last_rise_values(g)#.collect{|col_values| apply_fun_to_arr(col_values)}
     #     @fall_values = get_last_fall_values(g)#.collect{|col_values| apply_fun_to_arr(col_values)}
     #     # Fixer toutes les valeurs RISE à la valeur obtenue
     #     # Idem pour les valeurs FALL
-    #     g.each{|iopath_node| iopath_node.accept(self)} 
+    #     g.each{|iopath_node| iopath_node.accept(self)}
     #   end
     # end
 
@@ -130,24 +130,23 @@ module SDF
     def visit_DelayTable(subject)
       @new_min, @new_typ, @new_max = @rise_values
       subject.rise.accept(self)
-      
+
       @new_min, @new_typ, @new_max = @fall_values
       subject.fall.accept(self)
-    end 
-
-    def visit_DelayArray(subject)
-      subject.min = "%.3f" % @new_min
-      subject.typ = "%.3f" % @new_typ
-      subject.max = "%.3f" % @new_max
     end
 
-    def apply_fun_to_arr values
+    def visit_DelayArray(subject)
+      subject.min = format('%.3f', @new_min)
+      subject.typ = format('%.3f', @new_typ)
+      subject.max = format('%.3f', @new_max)
+    end
+
+    def apply_fun_to_arr(values)
       if @fun == :avg or @fun == :mean
         (values.sum / values.size).round(3)
       else # :min or :max
         values.send(@fun)
       end
     end
-
   end
 end

@@ -76,11 +76,9 @@ module SDF
         end
       end
 
-      if subject.contains_class? IOPATH
-        Delays::ArcDelays.new(*comp_delays)
-      else
-        nil
-      end
+      return unless subject.contains_class? IOPATH
+
+      Delays::ArcDelays.new(*comp_delays)
     end
 
     # Possible de traiter les interconnexions comme les iopath ? \

@@ -18,7 +18,7 @@ RSpec.describe SDF::Parser do
   context 'Parsing then deparsing the tests/sdf/ref_test_sdf.sdf file' do
     it 'Valid SDF matches the parsed then deparsed file' do
       parse_deparse
-      
+
       # Read test_sdf file
       expected = ref_test_file
       # Read obtained file

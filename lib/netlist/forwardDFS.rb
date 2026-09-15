@@ -59,7 +59,7 @@ module Netlist
     private
 
     def print_obj_name(obj)
-      obj_name = obj.is_a?(Netlist::Gate) ? obj.name : obj.get_full_name
+      obj.is_a?(Netlist::Gate) ? obj.name : obj.get_full_name
     end
 
     def visit_gate_output(op)

@@ -4,7 +4,7 @@ module Converter
   # generate the vhdl description for each component/gate of the gtech
   class GtechGenerator
     def initialize
-      @gtech = Netlist::get_gtech
+      @gtech = Netlist.get_gtech
       @src_parts = {}
     end
 
@@ -43,8 +43,8 @@ module Converter
       end.join("\n")
     end
 
-    def func_code(klass, klass_instance)
-      raise("Error: gtechGenerator is not supposed to be instantiated, use one of its subclasses instead.")
+    def func_code(_klass, _klass_instance)
+      raise('Error: gtechGenerator is not supposed to be instantiated, use one of its subclasses instead.')
     end
   end
 end

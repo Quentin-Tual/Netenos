@@ -2,18 +2,18 @@ module Liberty
   Token = Struct.new(:kind, :data)
 
   class FunLexer
-    def initialize 
+    def initialize
       @tokens = []
     end
 
-    def tokenize expr
-      while !expr.empty?
+    def tokenize(expr)
+      until expr.empty?
         case expr
         when /\A\(/
           @tokens << Token.new(:lpar, ::Regexp.last_match(0))
         when /\A\)/
-          @tokens << Token.new(:rpar, ::Regexp.last_match(0)) 
-        when /\A\&/
+          @tokens << Token.new(:rpar, ::Regexp.last_match(0))
+        when /\A&/
           @tokens << Token.new(:and, ::Regexp.last_match(0))
         when /\A\|/
           @tokens << Token.new(:or, ::Regexp.last_match(0))
@@ -30,13 +30,13 @@ module Liberty
       end
       @tokens
     end
-  end 
+  end
 
   class FunParser
     def acceptIt
       @tokens.shift
     end
-    
+
     def showNext
       lookAhead 1
     end
@@ -46,9 +46,7 @@ module Liberty
     end
 
     def accept_empty_lines
-      until showNext.kind != :new_line
-        acceptIt
-      end
+      acceptIt until showNext.kind != :new_line
     end
 
     def show_next_line_kinds
@@ -56,26 +54,24 @@ module Liberty
       i = 1
       until lookAhead(i).kind == :semicolon
         ret << lookAhead(i).kind
-        i+=1
+        i += 1
       end
       last_tok = lookAhead(i)
       ret << last_tok.kind
 
-      return ret
-    end
-    
-    def expect(*kind)
-      if kind.include?(actual = showNext.kind)
-        acceptIt
-      else
-        raise "ERROR: Expecting #{kind}. Got #{actual} with #{showNext}"
-      end
+      ret
     end
 
-    def maybe kind # same as expect but without error raised, for new_line token that does not change the structure or information contained in the file 
-      if showNext.kind == kind 
-        acceptIt
-      end
+    def expect(*kind)
+      raise "ERROR: Expecting #{kind}. Got #{actual} with #{showNext}" unless kind.include?(showNext.kind)
+
+      acceptIt
+    end
+
+    def maybe(kind) # same as expect but without error raised, for new_line token that does not change the structure or information contained in the file
+      return unless showNext.kind == kind
+
+      acceptIt
     end
 
     def parse(expr)
@@ -84,18 +80,18 @@ module Liberty
       terms = []
       operators = []
 
-      while !@tokens.empty?
-        #Can be a :lpar, :not or a :ident
-        tok = expect(:lpar,:not,:ident)
-        case tok.kind 
-        when :lpar 
+      until @tokens.empty?
+        # Can be a :lpar, :not or a :ident
+        tok = expect(:lpar, :not, :ident)
+        case tok.kind
+        when :lpar
           terms << parse_block
         when :not
           terms << parse_not
         when :ident
           terms << parse_ident(tok)
-        else 
-          raise "Error: Internal error."
+        else
+          raise 'Error: Internal error.'
         end
 
         break if @tokens.empty?
@@ -103,11 +99,10 @@ module Liberty
         operators << expect(:and, :or)
       end
 
-      
       if operators.length == 0 # No sum, only one term
         return terms.first
       elsif operators.uniq.length != 1
-        raise "Error: Unexpected token sequence during parsing."
+        raise 'Error: Unexpected token sequence during parsing.'
       end
 
       case operators.first.kind
@@ -115,8 +110,8 @@ module Liberty
         Bexp::And.new(*terms)
       when :or
         Bexp::Or.new(*terms)
-      else 
-        raise "Error: Internal error."
+      else
+        raise 'Error: Internal error.'
       end
     end
 
@@ -124,9 +119,9 @@ module Liberty
       operands = []
       operators = []
       while showNext.kind != :rpar
-        tok = expect :lpar,:ident,:not
+        tok = expect :lpar, :ident, :not
         case tok.kind
-        when :lpar 
+        when :lpar
           operands << parse_block
         when :not
           operands << parse_not
@@ -135,7 +130,7 @@ module Liberty
         else
           raise "Error: Unexpected token encountered #{tok}."
         end
-        
+
         break if showNext.kind == :rpar
 
         operators << expect(:and, :or)
@@ -145,7 +140,7 @@ module Liberty
       if operators.length == 0 # No sum, only one term
         return operands.first
       elsif operators.uniq.length != 1
-        raise "Error: Unexpected token sequence during parsing."
+        raise 'Error: Unexpected token sequence during parsing.'
       end
 
       case operators.first.kind
@@ -153,8 +148,8 @@ module Liberty
         Bexp::And.new(*operands)
       when :or
         Bexp::Or.new(*operands)
-      else 
-        raise "Error: Internal error."
+      else
+        raise 'Error: Internal error.'
       end
     end
 
@@ -165,12 +160,12 @@ module Liberty
         Bexp::Not.new(parse_block)
       when :ident
         Bexp::Not.new(parse_ident(tok))
-      else 
-        raise "Error: Internal error."
+      else
+        raise 'Error: Internal error.'
       end
     end
 
-    def parse_ident tok
+    def parse_ident(tok)
       Bexp::Operand.new(tok.data)
     end
   end

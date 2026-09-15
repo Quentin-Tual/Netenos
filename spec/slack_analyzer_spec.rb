@@ -65,7 +65,7 @@ describe Delays::SlackAnalyzer do
       uut = subject
       uut.analyze
       obtained = {}
-      uut.slack.each { |sig, t| obtained[sig.get_full_name] = uut.slack[sig] unless sig.is_a? Netlist::Gate }
+      uut.slack.each { |sig, _t| obtained[sig.get_full_name] = uut.slack[sig] unless sig.is_a? Netlist::Gate }
 
       expect(obtained).to eq(expected)
     end

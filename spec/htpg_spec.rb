@@ -5,7 +5,6 @@ require_relative '../lib/netenos'
 describe AtetaAddOn::Htpg do
   # TEST_SDF_FILE='tests/sdf/mapped_xor5__nom_tt_025C_1v80.sdf'
   # TEST_V_FILE='tests/verilog/xor5_prepnr.nl.v'
-  delay_model = :sdf
   smt_path = '/tmp/Netenos/htpg_smt'
 
   testfiles = [

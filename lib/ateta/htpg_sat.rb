@@ -59,7 +59,7 @@ module AtetaAddOn
 
     def soft_constraint_insert_point
       # Récupérer le port "sink" et sa porte qui est sur le chemin entre le point d'insertion et la sortie ciblée
-      g_name, ip_name = @insertPointName.split('/')
+      g_name, = @insertPointName.split('/')
       g = @initCirc.get_component_named(g_name)
       # ip = g.get_port_named(ip_name)
       op_name = g.get_output.get_full_name
@@ -207,7 +207,7 @@ module AtetaAddOn
         end
         @transition_instant = line.split[0][...-1] if splitted_prev_line[1] == 't_a'
       end
-      res_h.sort_by { |k, v| k[1..].to_i }.to_h
+      res_h.sort_by { |k, _v| k[1..].to_i }.to_h
     end
 
     def results2vec(results)
@@ -221,7 +221,7 @@ module AtetaAddOn
 
       return nil if res_h.nil?
 
-      tmp = res_h.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(var, sub_h), h|
+      tmp = res_h.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(_var, sub_h), h|
         sub_h.each do |k, val|
           h[k] << val
         end

@@ -1,86 +1,86 @@
 require_relative '../lib/netlist'
 
 RSpec.describe Netlist::And do
+  context 'After instanciation' do
+    # * : On considère que si les tests sont validés sur cette classe, ils le sont aussi sur les classes similaires dont seul le nom de la classe change (OR, XOR, ...).
 
-    context "After instanciation" do
-    # * : On considère que si les tests sont validés sur cette classe, ils le sont aussi sur les classes similaires dont seul le nom de la classe change (OR, XOR, ...). 
-        
-        subject{Netlist::And2.new "g1"}
+    subject { Netlist::And2.new 'g1' }
 
-        before(:all) do
-            @in_port1 = Netlist::Port.new("i1", :in)
-            @out_port = Netlist::Port.new("o1", :out)
-        end 
-
-        it "is a Gate class object" do
-            expect(subject.ports).to be_kind_of Hash
-            expect(subject.ports[:in]).not_to be_empty
-            expect(subject.ports[:out]).not_to be_empty
-            expect(subject.ports[:in].length).to eq(2)
-            expect(subject.ports[:out].length).to eq(1)
-        end
-
-        it "can't have more than 2 input ports and 1 output port" do
-            subject.get_inputs.each{|p| expect(p.partof).to eq(subject)}
-            subject.get_outputs.each{|p| expect(p.partof).to eq(subject)}
-
-            expect{subject << @in_port1}.to raise_error
-            expect{subject << @out_port}.to raise_error
-        end
-
+    before(:all) do
+      @in_port1 = Netlist::Port.new('i1', :in)
+      @out_port = Netlist::Port.new('o1', :out)
     end
+
+    it 'is a Gate class object' do
+      expect(subject.ports).to be_kind_of Hash
+      expect(subject.ports[:in]).not_to be_empty
+      expect(subject.ports[:out]).not_to be_empty
+      expect(subject.ports[:in].length).to eq(2)
+      expect(subject.ports[:out].length).to eq(1)
+    end
+
+    it "can't have more than 2 input ports and 1 output port" do
+      subject.get_inputs.each { |p| expect(p.partof).to eq(subject) }
+      subject.get_outputs.each { |p| expect(p.partof).to eq(subject) }
+
+      expect { subject << @in_port1 }.to raise_error
+      expect { subject << @out_port }.to raise_error
+    end
+  end
 end
 
 RSpec.describe Netlist::Not do
+  subject { Netlist::Not.new 'g1' }
 
-    subject{Netlist::Not.new "g1"}
+  before(:all) do
+    @in_port1 = Netlist::Port.new('i1', :in)
+    @in_port2 = Netlist::Port.new('i2', :in)
+    @out_port = Netlist::Port.new('o1', :out)
+  end
 
-        before(:all) do
-            @in_port1 = Netlist::Port.new("i1", :in)
-            @in_port2 = Netlist::Port.new("i2", :in)
-            @out_port = Netlist::Port.new("o1", :out)
-        end 
+  it 'is a Gate class object' do
+    expect(subject.ports).to be_kind_of Hash
+    expect(subject.ports[:in]).not_to be_empty
+    expect(subject.ports[:out]).not_to be_empty
+    expect(subject.ports[:in].length).to eq(1)
+    expect(subject.ports[:out].length).to eq(1)
+  end
 
-        it "is a Gate class object" do
-            expect(subject.ports).to be_kind_of Hash
-            expect(subject.ports[:in]).not_to be_empty
-            expect(subject.ports[:out]).not_to be_empty
-            expect(subject.ports[:in].length).to eq(1)
-            expect(subject.ports[:out].length).to eq(1)
-        end
+  it "can't have more than 1 port in and 1 port out" do
+    subject.get_inputs.each { |p| expect(p.partof).to eq(subject) }
+    subject.get_outputs.each { |p| expect(p.partof).to eq(subject) }
 
-        it "can't have more than 1 port in and 1 port out" do
-            subject.get_inputs.each{|p| expect(p.partof).to eq(subject)}
-            subject.get_outputs.each{|p| expect(p.partof).to eq(subject)}
-
-            expect {subject << @in_port1}.to raise_error
-            expect {subject << @out_port}.to raise_error
-        end
+    expect { subject << @in_port1 }.to raise_error
+    expect { subject << @out_port }.to raise_error
+  end
 end
 
-RSpec.describe "Creating the Sky130_fd_sc_hd__xor2_2 PDK class" do 
-    subject(:pdk_ios) {JSON.parse(File.read($PDK_IOS_JSON))}
-    subject(:pdk_fun) {JSON.parse(File.read($PDK_FUN_JSON))}
-    subject(:class_name) {"Sky130_fd_sc_hd__xor2_2"}
-    subject(:create_class) {Netlist.create_pdk_class(class_name, pdk_fun, pdk_ios)}
-    subject(:expected_SMT_fun) {["(", "or", "(", "and", "A", "(", "not", "B", ")", ")", "(", "and", "(", "not", "A", ")", "B", ")", ")"]}
+RSpec.describe 'Creating the Sky130_fd_sc_hd__xor2_2 PDK class' do
+  subject(:pdk_ios) { JSON.parse(File.read($PDK_IOS_JSON)) }
+  subject(:pdk_fun) { JSON.parse(File.read($PDK_FUN_JSON)) }
+  subject(:class_name) { 'Sky130_fd_sc_hd__xor2_2' }
+  subject(:create_class) { Netlist.create_pdk_class(class_name, pdk_fun, pdk_ios) }
+  subject(:expected_SMT_fun) do
+    ['(', 'or', '(', 'and', 'A', '(', 'not', 'B', ')', ')', '(', 'and', '(', 'not', 'A', ')', 'B', ')', ')']
+  end
 
-    it 'does not raise error' do
-        expect{create_class}.not_to raise_error 
-    end
+  it 'does not raise error' do
+    expect { create_class }.not_to raise_error
+  end
 
-    it 'creates the right amount of ios with valid netenos names' do 
-        g = create_class.new('test_gate')
-        expect(g.get_inputs.length).to eq(2)
-        expect(g.get_outputs.length).to eq(1)
+  it 'creates the right amount of ios with valid netenos names' do
+    g = create_class.new('test_gate')
+    expect(g.get_inputs.length).to eq(2)
+    expect(g.get_outputs.length).to eq(1)
 
-        expect(g.get_inputs[0].name).to eq('i0')
-        expect(g.get_inputs[1].name).to eq('i1')
-        expect(g.get_outputs[0].name).to eq('o0')
-    end
+    expect(g.get_inputs[0].name).to eq('i0')
+    expect(g.get_inputs[1].name).to eq('i1')
+    expect(g.get_outputs[0].name).to eq('o0')
+  end
 
-    it 'stores the valid SMT_EXPR constant' do 
-        g = create_class.new('test_gate')
-        expect(g.class::SMT_EXPR).to eq(["(", "or", "(", "and", "i0", "(", "not", "i1", ")", ")", "(", "and", "(", "not", "i0", ")", "i1", ")", ")"])
-    end
+  it 'stores the valid SMT_EXPR constant' do
+    g = create_class.new('test_gate')
+    expect(g.class::SMT_EXPR).to eq(['(', 'or', '(', 'and', 'i0', '(', 'not', 'i1', ')', ')', '(', 'and', '(',
+                                     'not', 'i0', ')', 'i1', ')', ')'])
+  end
 end

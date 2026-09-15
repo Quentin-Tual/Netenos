@@ -177,17 +177,17 @@ module SDF
         Ident.new(data[0]),
         Ident.new(data[1])
       )
-      if data[3].nil? # same delays for rising and falling transitions 
-         d = DelayTable.new(
-          DelayArray.new(data[2]),
-          DelayArray.new(data[2])
-        )
-      else
-        d = DelayTable.new(
-          DelayArray.new(data[2]),
-          DelayArray.new(data[3])
-        )
-      end
+      d = if data[3].nil? # same delays for rising and falling transitions
+            DelayTable.new(
+              DelayArray.new(data[2]),
+              DelayArray.new(data[2])
+            )
+          else
+            DelayTable.new(
+              DelayArray.new(data[2]),
+              DelayArray.new(data[3])
+            )
+          end
 
       [w, d]
     end

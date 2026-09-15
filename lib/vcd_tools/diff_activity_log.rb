@@ -99,7 +99,7 @@ module ActivityLog
       anomaly_distrib = []
 
       @nb_outputs.times do |op_i|
-        @stim_targets.each do |stim_i, (targets, v0, v1)|
+        @stim_targets.each do |stim_i, (_targets, _v0, _v1)|
           anomaly_distrib << "#{op_i} #{stim_i} #{@log.anomaly_length((stim_i + 1) * 2, "o#{op_i}")}"
         end
         anomaly_distrib << ''
@@ -127,7 +127,7 @@ module ActivityLog
       File.write("#{path}_filtered.data", txt)
     end
 
-    def gen_gnuplot_script(path = @log.filepath)
+    def gen_gnuplot_script(_path = @log.filepath)
       "set title \"Anomaly length for each output, through an HTPG test.\"
       set xyplane at 0
       set xlabel \"Output ID\"
@@ -150,7 +150,7 @@ module ActivityLog
       anomaly_distrib = []
 
       @nb_outputs.times do |op_i|
-        @stim_targets.each do |stim_i, (targets, v0, v1)|
+        @stim_targets.each do |stim_i, (targets, _v0, _v1)|
           if targets.any? { |t| t.last == "o#{op_i}" }
             anomaly_distrib << @log.anomaly_length((stim_i + 1) * 2, "o#{op_i}")
           end
@@ -164,8 +164,8 @@ module ActivityLog
       anomaly_distrib = Hash.new { |h, k| h[k] = [] }
 
       @nb_outputs.times do |op_i|
-        @stim_targets.each do |stim_i, (targets, v0, v1)|
-          targets.select { |s, o| o == "o#{op_i}" }.each do |s, o|
+        @stim_targets.each do |stim_i, (targets, _v0, _v1)|
+          targets.select { |_s, o| o == "o#{op_i}" }.each do |_s, o|
             anomaly_distrib[o] << [@log.anomaly_length((stim_i + 1) * 2, "o#{op_i}"), stim_i]
           end
         end

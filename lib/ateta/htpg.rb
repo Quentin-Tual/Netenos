@@ -15,7 +15,7 @@ module AtetaAddOn
 
       # initCirc.get_exact_crit_path_length(delayModel)
       timings_db = Delays::TimingAnalyzer.new(initCirc, dly_db).analyze
-      @crit_path = timings_db.max_by { |sig, val| val }.last
+      @crit_path = timings_db.max_by { |_sig, val| val }.last
       slack_db = Delays::SlackAnalyzer.new(initCirc, timings_db).analyze
       @insertionPoints = initCirc.get_insertion_points(payloadDelay, slack_db)
       @insertionPoints.collect! { |ip| ip.get_full_name }
@@ -231,7 +231,7 @@ module AtetaAddOn
       s.each do |vecCouple, target|
         src << '# ' + target.collect { |insert_point, output| "s=#{insert_point}, o=#{output}" }.join('; ')
 
-        repetition.times do |i|
+        repetition.times do |_i|
           vecCouple.each do |v|
             src << if binStimVec
                      v

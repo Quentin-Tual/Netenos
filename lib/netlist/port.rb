@@ -155,8 +155,8 @@ module Netlist
                    nil
                  else
                    (
-                                                 @fanin.class == Wire ? @fanin.to_hash : @fanin.name
-                                               )
+                     @fanin.class == Wire ? @fanin.to_hash : @fanin.name
+                   )
                  end,
           fanout: if @fanout == []
                     nil

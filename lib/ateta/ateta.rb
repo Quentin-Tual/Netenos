@@ -258,7 +258,7 @@ module AtetaAddOn
       s.each do |vecCouple, target|
         src << '# ' + target.collect { |insert_point, output| "s=#{insert_point}, o=#{output}" }.join('; ')
 
-        repetition.times do |i|
+        repetition.times do |_i|
           vecCouple.each do |v|
             src << if binStimVec
                      v

@@ -7,11 +7,11 @@ module Verilog
     #   # @level = 0
     #   @line = 0
     # end
-    
+
     def acceptIt
       @tokens.shift
     end
-    
+
     def showNext
       lookAhead 1
     end
@@ -21,9 +21,7 @@ module Verilog
     end
 
     def accept_empty_lines
-      until showNext.kind != :new_line
-        acceptIt
-      end
+      acceptIt until showNext.kind != :new_line
     end
 
     def show_next_line_kinds
@@ -31,28 +29,28 @@ module Verilog
       i = 1
       until lookAhead(i).kind == :semicolon
         ret << lookAhead(i).kind
-        i+=1
+        i += 1
       end
       last_tok = lookAhead(i)
       ret << last_tok.kind
 
-      return ret, last_tok.num_line
-    end
-    
-    def expect(*kind)
-      if kind.include?(actual = showNext.kind)
-        acceptIt
-      else
-        raise "ERROR at #{showNext.num_line}. Expecting #{kind}. Got #{actual}"
-      end
+      [ret, last_tok.num_line]
     end
 
-    def maybe kind # same as expect but without error raised, for new_line token that does not change the structure or information contained in the file 
-      if showNext.kind == kind 
-        acceptIt
+    def expect(*kind)
+      unless kind.include?(actual = showNext.kind)
+        raise "ERROR at #{showNext.num_line}. Expecting #{kind}. Got #{actual}"
       end
+
+      acceptIt
     end
-    
+
+    def maybe(kind) # same as expect but without error raised, for new_line token that does not change the structure or information contained in the file
+      return unless showNext.kind == kind
+
+      acceptIt
+    end
+
     def parse(path)
       @tokens = Lexer.new.lexify(path)
 
@@ -60,11 +58,10 @@ module Verilog
       maybe :comment
       accept_empty_lines
       # Verify if next token is module, if it is parse it
-      if showNext.kind == :module
-        Root.new(path,parse_module)
-      else
-        raise "Error: No module found in the file #{path}"
-      end
+      raise "Error: No module found in the file #{path}" unless showNext.kind == :module
+
+      Root.new(path, parse_module)
+
       # else raise an error
     end
 
@@ -150,9 +147,7 @@ module Verilog
         expect :rpar
         maybe :new_line
         last = expect :coma, :rpar
-        if last.kind == :coma 
-          maybe :new_line
-        end
+        maybe :new_line if last.kind == :coma
         elements << PortMapElement.new(port_inst, sig_mod)
       end
       expect :semicolon

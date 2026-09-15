@@ -1,11 +1,10 @@
 module AtetaAddOn
-  
   class AtetaMemoizer
     def initialize
       @data = {}
     end
 
-    def memoize(targeted_output,smtlib_converter)
+    def memoize(targeted_output, smtlib_converter)
       @data[targeted_output] = smtlib_converter
     end
 

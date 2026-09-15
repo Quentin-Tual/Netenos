@@ -1,20 +1,18 @@
-require_relative '../lib/converter/genTestbench.rb'
-require_relative '../lib/netenos.rb'
-require_relative '../lib/converter/convNetlist2Vhdl copy.rb'
-require_relative '../lib/converter/vhdlCompileScript.rb'
+require_relative '../lib/converter/genTestbench'
+require_relative '../lib/netenos'
+require_relative '../lib/converter/convNetlist2Vhdl copy'
+require_relative '../lib/converter/vhdlCompileScript'
 
-name = "rand_circ"
+name = 'rand_circ'
 path = "./#{name}"
 
-generator = Netlist::RandomGenComb.new #100, 20, 20, 25
+generator = Netlist::RandomGenComb.new # 100, 20, 20, 25
 rand_circ = generator.getRandomNetlist name
-
 
 Converter::DotGen.new.dot generator.netlist, "#{path}.dot"
 
 tb_generator = Converter::GenTestbench.new(rand_circ)
 File.write("#{path}_tb.vhd", tb_generator.gen_testbench)
-
 
 vhdl_converter = Converter::ConvNetlist2Vhdl_refactor.new
 vhdl_converter.gen_gtech

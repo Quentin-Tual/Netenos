@@ -2,7 +2,7 @@ module SDF
   class NoiseAdder < Visitor
     attr_reader :history
 
-    def initialize#(variation_rate)
+    def initialize # (variation_rate)
       # @variation_rate = variation_rate
       @prng = Random.new
       @history = []
@@ -20,7 +20,7 @@ module SDF
 
     def visit_Root(subject)
       visit_node(subject)
-      return subject
+      subject
     end
 
     def visit_DelayNode(subject)
@@ -84,11 +84,11 @@ module SDF
       # new_typ = [new_typ, subject.max.to_f].min
       min = subject.min.to_f
       max = subject.max.to_f
-      unless min >= max 
-        new_val = rand(min..max).round(3)
-        @history << new_val - subject.typ.to_f
-        subject.typ = format('%<num>1.3f', num: new_val)
-      end
+      return if min >= max
+
+      new_val = rand(min..max).round(3)
+      @history << new_val - subject.typ.to_f
+      subject.typ = format('%<num>1.3f', num: new_val)
     end
   end
 end

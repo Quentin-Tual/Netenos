@@ -1,18 +1,15 @@
-require_relative '../lib/reverse/invertedNetlist.rb'
-require_relative '../lib/netenos.rb'
-
-
+require_relative '../lib/reverse/invertedNetlist'
+require_relative '../lib/netenos'
 
 class Test_InvertedNetlist
   def initialize
-    circ = Converter::ConvBlif2Netlist.new.convert("../C17.blif")
-    Converter::DotGen.new.dot circ, "./test_initialNetlist.dot"
+    circ = Converter::ConvBlif2Netlist.new.convert('../C17.blif')
+    Converter::DotGen.new.dot circ, './test_initialNetlist.dot'
     @uut = Reverse::InvertedCircuit.new(circ)
-    Converter::DotGen.new.dot circ, "./test_invertedNetlist.dot"
+    Converter::DotGen.new.dot circ, './test_invertedNetlist.dot'
   end
-  
-  def run
 
+  def run
     # circ = @uut.convert "../xparc.blif"
     # circ = @uut.convert "../p82.blif"
     # grid = circ.get_netlist_precedence_grid
@@ -21,17 +18,16 @@ class Test_InvertedNetlist
 end
 
 if __FILE__ == $0
-    # $CIRC_CARAC = [6, 3, 10, [:even, 0.70]]
-    $DELAY_MODEL = :int_multi
-    $COMPILER = :ghdl3
-    # $FREQ = 1
+  # $CIRC_CARAC = [6, 3, 10, [:even, 0.70]]
+  $DELAY_MODEL = :int_multi
+  $COMPILER = :ghdl3
+  # $FREQ = 1
 
-    Dir.chdir("tests/tmp") do
-        puts "Lancement #{__FILE__}" 
-        'rm *'
-        # print(self.class)
-        env = Test_InvertedNetlist.new 
-        env.run
-        puts "Fin #{__FILE__}"
-    end
+  Dir.chdir('tests/tmp') do
+    puts "Lancement #{__FILE__}"
+    # print(self.class)
+    env = Test_InvertedNetlist.new
+    env.run
+    puts "Fin #{__FILE__}"
+  end
 end.convert

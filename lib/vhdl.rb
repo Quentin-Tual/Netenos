@@ -1,1 +1,1 @@
-require_relative "../Hyle/lib/vhdl.rb"
+require_relative '../Hyle/lib/vhdl'

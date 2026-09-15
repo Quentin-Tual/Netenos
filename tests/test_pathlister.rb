@@ -4,7 +4,7 @@ require_relative '../lib/netlist/path_lister'
 
 # $DEBUG = true
 
-# nl_path = 'tests/verilog/xor5_prepnr.nl.v' 
+# nl_path = 'tests/verilog/xor5_prepnr.nl.v'
 nl_path = 'tests/verilog/f51m.nl.v'
 nl = Verilog.load_netlist(nl_path)
 nl.get_dot_graph
@@ -22,13 +22,13 @@ res = start_point.accept(uut)
 
 res.each do |path|
   path.each do |obj|
-    name = obj.is_a?(Netlist::Gate) ? obj.name : obj.get_full_name 
+    name = obj.is_a?(Netlist::Gate) ? obj.name : obj.get_full_name
     pp name
   end
-  puts 
+  puts
 end
 
-puts "Profondeur : #{res.depth}  Attendue : 2" 
+puts "Profondeur : #{res.depth}  Attendue : 2"
 puts "Nb paths : #{res.length}"
 # res.each do |path|
 #   path.each do |obj|

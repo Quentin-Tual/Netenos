@@ -4,29 +4,27 @@
 require_relative '../lib/netenos'
 
 describe Netlist::BackwardUniqDFS do
-  describe "Applied on xor5 circuit" do
-    subject(:v_filepath) {'tests/verilog/xor5_prepnr.nl.v'}
-    subject(:nl) {Verilog.load_netlist(v_filepath)}
-    subject {Netlist::BackwardUniqDFS.new(nl)}
+  describe 'Applied on xor5 circuit' do
+    subject(:v_filepath) { 'tests/verilog/xor5_prepnr.nl.v' }
+    subject(:nl) { Verilog.load_netlist(v_filepath) }
+    subject { Netlist::BackwardUniqDFS.new(nl) }
 
     before(:all) do
       $DEBUG = true
     end
 
-    it "raises no error" do
-      expect{
-        begin
-          nl.get_outputs.first.accept(subject)
-        rescue NotImplementedError => e 
-        end
-      }.not_to raise_error
+    it 'raises no error' do
+      expect do
+        nl.get_outputs.first.accept(subject)
+      rescue NotImplementedError
+      end.not_to raise_error
     end
 
-    it "follows the expecting exploration sequence" do
+    it 'follows the expecting exploration sequence' do
       uut = subject
       begin
         nl.get_outputs.first.accept(uut)
-      rescue NotImplementedError => e 
+      rescue NotImplementedError
       end
       expected = "o0
 w8
@@ -51,9 +49,8 @@ w2
 i1
 w3
 i3"
-      obtained = uut.visited.collect{|node| node.is_a?(Netlist::Gate) ? node.name : node.get_full_name}.join("\n")
+      obtained = uut.visited.collect { |node| node.is_a?(Netlist::Gate) ? node.name : node.get_full_name }.join("\n")
       expect(obtained).to eq(expected)
     end
-
   end
 end

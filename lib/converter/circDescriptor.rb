@@ -2,18 +2,18 @@
 
 module Converter
   # Generates a VHDl description of a given circuit
-  class CircDescriptor 
-    VHDL_IN_NAME_SEP='_'
-    
-    def initialize(netlist, delay_model, opts={})
+  class CircDescriptor
+    VHDL_IN_NAME_SEP = '_'
+
+    def initialize(netlist, delay_model, opts = {})
       @netlist = netlist
       @delay_model = delay_model
       @src_parts = {}
       @opts = opts
     end
 
-    def vhdl_full_name p
-      p.get_full_name.tr($FULL_PORT_NAME_SEP,VHDL_IN_NAME_SEP)
+    def vhdl_full_name(p)
+      p.get_full_name.tr($FULL_PORT_NAME_SEP, VHDL_IN_NAME_SEP)
     end
 
     def gen_description
@@ -46,29 +46,29 @@ module Converter
 
     def signals_decl
       txt = []
-      wires = @netlist.wires.collect{|wire| wire.get_full_name}
+      wires = @netlist.wires.collect { |wire| wire.get_full_name }
       wires.each do |wire_name|
-          txt << "\tsignal #{wire_name} : std_logic;"
+        txt << "\tsignal #{wire_name} : std_logic;"
       end
-      signals = @netlist.components.collect{|comp| comp.get_outputs}.flatten
+      signals = @netlist.components.collect { |comp| comp.get_outputs }.flatten
       signals.each do |sig|
-          txt << "\tsignal #{vhdl_full_name(sig)} : std_logic;"
+        txt << "\tsignal #{vhdl_full_name(sig)} : std_logic;"
       end
       txt.join("\n")
     end
 
     def components_interconnect
-      raise("Error: gtechGenerator is not supposed to be instantiated, use one of its subclasses instead.")
+      raise('Error: gtechGenerator is not supposed to be instantiated, use one of its subclasses instead.')
     end
 
-    def outputs_wiring 
+    def outputs_wiring
       txt = []
       @netlist.get_outputs.each do |output|
-          if output.get_source.is_a? Netlist::Constant
-              txt << "#{output.name} <= #{output.get_source.is_a?(Netlist::Zero) ? "'0'" : "'1'"};"
-          else
-              txt << "#{output.name} <= #{vhdl_full_name(output.get_source)};"
-          end
+        txt << if output.get_source.is_a? Netlist::Constant
+                 "#{output.name} <= #{output.get_source.is_a?(Netlist::Zero) ? "'0'" : "'1'"};"
+               else
+                 "#{output.name} <= #{vhdl_full_name(output.get_source)};"
+               end
       end
       txt.join("\n\t")
     end

@@ -129,7 +129,7 @@ module Netlist
     Netlist.const_get(class_name)
   end
 
-  def self.create_gate(type, nb_inputs, partof = nil)
+  def self.create_gate(type, nb_inputs, _partof = nil)
     raise "Error: Unknown gate type #{type} encountered." unless %i[and or not nand nor xor buf].include? type
 
     type_classname = type.to_s.capitalize

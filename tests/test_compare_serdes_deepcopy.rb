@@ -1,16 +1,16 @@
 require 'test/unit'
 require 'benchmark'
-require_relative '../lib/netenos.rb' 
+require_relative '../lib/netenos'
 
 class TestSerializationVsDeepCopy < Test::Unit::TestCase
   def setup
     # Create a moderately complex test circuit
     # @circuit = create_test_circuit(1000)  # 100 gates
-    blifPath = "/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/clip.blif"
+    blifPath = '/home/quentint/Workspace/Benchmarks/Favorites/LGSynth91/MCNC/Combinational/blif/clip.blif'
     @circuit = Converter::ConvBlif2Netlist.new.convert(blifPath, truth_table_format: true)
     @serializer = Serializer.new
     @deserializer = Deserializer.new
-    @tempfile = "test_circuit.sexp"
+    @tempfile = 'test_circuit.sexp'
   end
 
   def teardown
@@ -31,47 +31,47 @@ class TestSerializationVsDeepCopy < Test::Unit::TestCase
 
     # Measure performance
     Benchmark.bm(20) do |x|
-      x.report("Serialization:") { serialization_time = measure_serialization }
-      x.report("Deserialization:") { deserialization_time = measure_deserialization }
-      x.report("Deep Copy:") { deep_copy_time = measure_deep_copy }
+      x.report('Serialization:') { serialization_time = measure_serialization }
+      x.report('Deserialization:') { deserialization_time = measure_deserialization }
+      x.report('Deep Copy:') { deep_copy_time = measure_deep_copy }
     end
 
     total_serdes_time = serialization_time + deserialization_time
     puts "\nComparison Results:"
     puts "  Serialization + Deserialization: #{total_serdes_time.round(6)}s"
     puts "  Deep Copy: #{deep_copy_time.round(6)}s"
-    puts "  Difference: #{(total_serdes_time - deep_copy_time).round(6)}s (#{(total_serdes_time/deep_copy_time).round(2)}x)"
+    puts "  Difference: #{(total_serdes_time - deep_copy_time).round(6)}s (#{(total_serdes_time / deep_copy_time).round(2)}x)"
 
     # For CI/CD systems, we might want an assertion
     # This is just for demonstration - actual thresholds depend on your requirements
     assert_operator deep_copy_time, :<, total_serdes_time * 2,
-      "Deep copy shouldn't be more than 2x slower than serialization/deserialization"
+                    "Deep copy shouldn't be more than 2x slower than serialization/deserialization"
   end
 
   private
 
   def measure_serialization
-    Benchmark.measure {
+    Benchmark.measure do
       @serializer.serialize(@circuit)
       @serializer.save_as(@tempfile)
-    }.real
+    end.real
   end
 
   def measure_deserialization
-    Benchmark.measure {
+    Benchmark.measure do
       @deserializer.deserialize(@tempfile)
-    }.real
+    end.real
   end
 
   def measure_deep_copy
-    Benchmark.measure {
+    Benchmark.measure do
       @circuit.deep_copy
-    }.real
+    end.real
   end
 
   def create_test_circuit(gate_count)
-    circuit = Netlist::Circuit.new("perf_test")
-    
+    circuit = Netlist::Circuit.new('perf_test')
+
     # Add inputs
     inputs = []
     10.times do |i|
@@ -98,11 +98,11 @@ class TestSerializationVsDeepCopy < Test::Unit::TestCase
       gates << gate
 
       # Connect to random input or previous gate
-      if i < 10
-        source = inputs.sample
-      else
-        source = gates[rand(i)].get_output
-      end
+      source = if i < 10
+                 inputs.sample
+               else
+                 gates[rand(i)].get_output
+               end
       gate.get_inputs[0] <= source
     end
 
