@@ -6,13 +6,13 @@
 <title>
   Class: AtetaAddOn::Ateta
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "AtetaAddOn::Ateta";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,23 +96,30 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/ateta/ateta.rb</dd>
+    <dd>lib/ateta/ateta.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>! One object for one circuit ! Allows to : !     - Identify all insertion points for a given payload delay !     - Insert a Buffer on an insertion point, returning a netlist !     - Apply Ateta_sat on each insertion point, aggregating test vector couples</p>
-
+    <p>! One object for one circuit
+! Allows to :
+!     - Identify all insertion points for a given payload delay
+!     - Insert a Buffer on an insertion point, returning a netlist
+!     - Apply Ateta_sat on each insertion point, aggregating test vector couples</p>
 
   </div>
 </div>
 <div class="tags">
   
 
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="AtetaLibrelane.html" title="AtetaAddOn::AtetaLibrelane (class)">AtetaLibrelane</a></span></p>
 </div>
+
 
 
 
@@ -139,9 +148,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute observables.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute observables.</p></div></span>
   
 </li>
 
@@ -168,9 +175,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute unobservables.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute unobservables.</p></div></span>
   
 </li>
 
@@ -192,6 +197,28 @@
   <span class="summary_signature">
     
       <a href="#generate_glitch_stim-instance_method" title="#generate_glitch_stim (instance method)">#<strong>generate_glitch_stim</strong>(forbiddenVectors = [])  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_maximized_stim-instance_method" title="#generate_maximized_stim (instance method)">#<strong>generate_maximized_stim</strong>(forbiddenVectors = [], targeted_duration = @initCirc.get_comp_max_delay(@delayModel))  &#x21d2; Object </a>
     
 
     
@@ -295,9 +322,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Ateta.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Ateta.</p></div></span>
   
 </li>
 
@@ -369,6 +394,7 @@
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -385,9 +411,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Ateta.</p>
-
+    <p>Returns a new instance of Ateta.</p>
 
   </div>
 </div>
@@ -413,28 +437,24 @@
 21
 22
 23
-24
-25
-26</pre>
+24</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 11</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_initCirc'>initCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_payloadDelay'>payloadDelay</span><span class='comma'>,</span> <span class='id identifier rubyid_delayModel'>delayModel</span>
-    <span class='ivar'>@initCirc</span> <span class='op'>=</span> <span class='id identifier rubyid_initCirc'>initCirc</span>
-    <span class='ivar'>@payloadDelay</span> <span class='op'>=</span> <span class='id identifier rubyid_payloadDelay'>payloadDelay</span>
-    <span class='ivar'>@delayModel</span> <span class='op'>=</span> <span class='id identifier rubyid_delayModel'>delayModel</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_initCirc'>initCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_payloadDelay'>payloadDelay</span><span class='comma'>,</span> <span class='id identifier rubyid_delayModel'>delayModel</span><span class='rparen'>)</span>
+  <span class='ivar'>@initCirc</span> <span class='op'>=</span> <span class='id identifier rubyid_initCirc'>initCirc</span>
+  <span class='ivar'>@payloadDelay</span> <span class='op'>=</span> <span class='id identifier rubyid_payloadDelay'>payloadDelay</span>
+  <span class='ivar'>@delayModel</span> <span class='op'>=</span> <span class='id identifier rubyid_delayModel'>delayModel</span>
 
-    <span class='id identifier rubyid_initCirc'>initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_exact_crit_path_length'>get_exact_crit_path_length</span><span class='lparen'>(</span><span class='id identifier rubyid_delayModel'>delayModel</span><span class='rparen'>)</span>
-    <span class='ivar'>@insertionPoints</span> <span class='op'>=</span> <span class='id identifier rubyid_initCirc'>initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_insertion_points'>get_insertion_points</span><span class='lparen'>(</span><span class='id identifier rubyid_payloadDelay'>payloadDelay</span><span class='rparen'>)</span>
-    <span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_collect!'>collect!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_ip'>ip</span><span class='op'>|</span> <span class='id identifier rubyid_ip'>ip</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='rbrace'>}</span>
-    <span class='ivar'>@altCirc</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_initCirc'>initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_exact_crit_path_length'>get_exact_crit_path_length</span><span class='lparen'>(</span><span class='id identifier rubyid_delayModel'>delayModel</span><span class='rparen'>)</span>
+  <span class='ivar'>@insertionPoints</span> <span class='op'>=</span> <span class='id identifier rubyid_initCirc'>initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_insertion_points'>get_insertion_points</span><span class='lparen'>(</span><span class='id identifier rubyid_payloadDelay'>payloadDelay</span><span class='rparen'>)</span>
+  <span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_collect!'>collect!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ip'>ip</span><span class='op'>|</span> <span class='id identifier rubyid_ip'>ip</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@altCirc</span> <span class='op'>=</span> <span class='kw'>nil</span>
 
-    <span class='ivar'>@unobservables</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='ivar'>@observables</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='ivar'>@memoizer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AtetaMemoizer.html" title="AtetaAddOn::AtetaMemoizer (class)">AtetaMemoizer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="AtetaMemoizer.html#initialize-instance_method" title="AtetaAddOn::AtetaMemoizer#initialize (method)">new</a></span></span>
-
-    <span class='backtick'>`</span><span class='tstring_content'>mkdir htpg_smts</span><span class='tstring_end'>`</span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>htpg_smts</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> 
+  <span class='ivar'>@unobservables</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@observables</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@memoizer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AtetaMemoizer.html" title="AtetaAddOn::AtetaMemoizer (class)">AtetaMemoizer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="AtetaMemoizer.html#initialize-instance_method" title="AtetaAddOn::AtetaMemoizer#initialize (method)">new</a></span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -459,9 +479,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute observables.</p>
-
+    <p>Returns the value of attribute observables.</p>
 
   </div>
 </div>
@@ -502,9 +520,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute unobservables.</p>
-
+    <p>Returns the value of attribute unobservables.</p>
 
   </div>
 </div>
@@ -554,8 +570,120 @@
       <pre class="lines">
 
 
-80
-81
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_glitch_stim'>generate_glitch_stim</span><span class='lparen'>(</span><span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Generating stim for </span><span class='embexpr_beg'>#{</span><span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insertion points to go.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+  <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+
+  <span class='ivar'>@solutions</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='rbrace'>}</span>
+  <span class='comment'># @vec_list = []
+</span>  <span class='comment'># Pour chaque point d&#39;insertion dans le circuit initial
+</span>  <span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='op'>|</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: &#39;nil&#39; insert point name encountered.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |-- </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insert point.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+    <span class='comment'># Créer une version altérée du circuit initial
+</span>    <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span> <span class='op'>=</span> <span class='id identifier rubyid_get_cone_outputs'>get_cone_outputs</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_getAlteredCircuit'>getAlteredCircuit</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='comment'># Pour chaque sortie du cone de sortie, jusqu&#39;à ce qu&#39;une solution soit trouvée
+</span>    <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='op'>|</span>
+      <span class='comment'># Appliquer Ateta_sat
+</span>      <span class='id identifier rubyid_solver'>solver</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AtetaSat.html" title="AtetaAddOn::AtetaSat (class)">AtetaSat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="AtetaSat.html#initialize-instance_method" title="AtetaAddOn::AtetaSat#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@initCirc</span><span class='comma'>,</span> <span class='ivar'>@altCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='comma'>,</span> <span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='comma'>,</span>
+                                        <span class='ivar'>@delayModel</span><span class='comma'>,</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='comma'>,</span> <span class='ivar'>@memoizer</span><span class='comma'>,</span> <span class='ivar'>@payloadDelay</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_solver'>solver</span><span class='period'>.</span><span class='id identifier rubyid_runGlitch'>runGlitch</span>
+      <span class='comment'># Stocker les couples de test générés dans un tableau
+</span>      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+      <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='comment'># ! Stocker le nom et non l&#39;objet (insertPoint ET targetedOutput)
+</span>      <span class='ivar'>@solutions</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span>
+      <span class='ivar'>@observables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span> <span class='comment'># ! Stocker le nom et non l&#39;objet
+</span>      <span class='kw'>break</span>
+    <span class='kw'>end</span>
+
+    <span class='ivar'>@unobservables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span> <span class='kw'>unless</span> <span class='id identifier rubyid_solution_found'>solution_found</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Renvoyer les vecteurs de test générés
+</span>
+  <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='ivar'>@solutions</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+
+  <span class='id identifier rubyid_fvSet'>fvSet</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_res'>res</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Error: Forbidden Vector generated.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_fvSet'>fvSet</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="generate_maximized_stim-instance_method">
+  
+    #<strong>generate_maximized_stim</strong>(forbiddenVectors = [], targeted_duration = @initCirc.get_comp_max_delay(@delayModel))  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
 82
 83
 84
@@ -600,65 +728,55 @@
 123
 124
 125
-126
-127
-128
-129
-130</pre>
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 82</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_generate_glitch_stim'>generate_glitch_stim</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Generating stim for </span><span class='embexpr_beg'>#{</span><span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insertion points to go.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
-    <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_maximized_stim'>generate_maximized_stim</span><span class='lparen'>(</span><span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_targeted_duration'>targeted_duration</span> <span class='op'>=</span> <span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_comp_max_delay'>get_comp_max_delay</span><span class='lparen'>(</span><span class='ivar'>@delayModel</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Generating stim for </span><span class='embexpr_beg'>#{</span><span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insertion points to go.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+  <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
 
-    <span class='ivar'>@solutions</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rbrace'>}</span>
-    <span class='comment'># @vec_list = []
-</span>    <span class='comment'># Pour chaque point d&#39;insertion dans le circuit initial
-</span>    <span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='op'>|</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: &#39;nil&#39; insert point name encountered.</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>end</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |-- </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insert point.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
-        <span class='comment'># Créer une version altérée du circuit initial
-</span>        <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span> <span class='op'>=</span> <span class='id identifier rubyid_get_cone_outputs'>get_cone_outputs</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_getAlteredCircuit'>getAlteredCircuit</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>false</span>
-        <span class='comment'># Pour chaque sortie du cone de sortie, jusqu&#39;à ce qu&#39;une solution soit trouvée
-</span>        <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='op'>|</span>
-            <span class='comment'># Appliquer Ateta_sat
-</span>            <span class='id identifier rubyid_solver'>solver</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AtetaSat.html" title="AtetaAddOn::AtetaSat (class)">AtetaSat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="AtetaSat.html#initialize-instance_method" title="AtetaAddOn::AtetaSat#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@initCirc</span><span class='comma'>,</span> <span class='ivar'>@altCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='comma'>,</span> <span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='comma'>,</span> <span class='ivar'>@delayModel</span><span class='comma'>,</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='comma'>,</span> <span class='ivar'>@memoizer</span><span class='comma'>,</span> <span class='ivar'>@payloadDelay</span><span class='rparen'>)</span>
-            <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_solver'>solver</span><span class='period'>.</span><span class='id identifier rubyid_runGlitch'>runGlitch</span>
-            <span class='comment'># Stocker les couples de test générés dans un tableau
-</span>            <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> 
-                <span class='kw'>next</span>
-            <span class='kw'>else</span>
-                <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>true</span>
-                <span class='comment'># ! Stocker le nom et non l&#39;objet (insertPoint ET targetedOutput)
-</span>                <span class='ivar'>@solutions</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span>
-                <span class='ivar'>@observables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span> <span class='comment'># ! Stocker le nom et non l&#39;objet
-</span>                <span class='kw'>break</span>
-            <span class='kw'>end</span>
-        <span class='kw'>end</span>
+  <span class='ivar'>@solutions</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='rbrace'>}</span>
+  <span class='comment'># @vec_list = []
+</span>  <span class='comment'># Pour chaque point d&#39;insertion dans le circuit initial
+</span>  <span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='op'>|</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: &#39;nil&#39; insert point name encountered.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
 
-        <span class='kw'>unless</span> <span class='id identifier rubyid_solution_found'>solution_found</span>
-            <span class='ivar'>@unobservables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span>
-        <span class='kw'>end</span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |-- </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insert point.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+    <span class='comment'># Créer une version altérée du circuit initial
+</span>    <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span> <span class='op'>=</span> <span class='id identifier rubyid_get_cone_outputs'>get_cone_outputs</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_getAlteredCircuit'>getAlteredCircuit</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='comment'># Pour chaque sortie du cone de sortie, jusqu&#39;à ce qu&#39;une solution soit trouvée
+</span>    <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='op'>|</span>
+      <span class='comment'># Appliquer Ateta_sat
+</span>      <span class='id identifier rubyid_solver'>solver</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AtetaSat.html" title="AtetaAddOn::AtetaSat (class)">AtetaSat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="AtetaSat.html#initialize-instance_method" title="AtetaAddOn::AtetaSat#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@initCirc</span><span class='comma'>,</span> <span class='ivar'>@altCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='comma'>,</span> <span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='comma'>,</span>
+                                        <span class='ivar'>@delayModel</span><span class='comma'>,</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='comma'>,</span> <span class='ivar'>@memoizer</span><span class='comma'>,</span> <span class='ivar'>@payload_delay</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_solver'>solver</span><span class='period'>.</span><span class='id identifier rubyid_runMaximize'>runMaximize</span><span class='lparen'>(</span><span class='id identifier rubyid_targeted_duration'>targeted_duration</span><span class='rparen'>)</span>
+      <span class='comment'># Stocker les couples de test générés dans un tableau
+</span>      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+      <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='comment'># ! Stocker le nom et non l&#39;objet (insertPoint ET targetedOutput)
+</span>      <span class='ivar'>@solutions</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span>
+      <span class='ivar'>@observables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span> <span class='comment'># ! Stocker le nom et non l&#39;objet
+</span>      <span class='kw'>break</span>
     <span class='kw'>end</span>
-    
-    <span class='comment'># Renvoyer les vecteurs de test générés
+
+    <span class='ivar'>@unobservables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span> <span class='kw'>unless</span> <span class='id identifier rubyid_solution_found'>solution_found</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Renvoyer les vecteurs de test générés
 </span>
-    <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='ivar'>@solutions</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='ivar'>@solutions</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
 
-    <span class='id identifier rubyid_fvSet'>fvSet</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_res'>res</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_fvSet'>fvSet</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
-            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Forbidden Vector generated.</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>end</span>
-    <span class='kw'>end</span>
+  <span class='id identifier rubyid_fvSet'>fvSet</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_res'>res</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Error: Forbidden Vector generated.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_fvSet'>fvSet</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
+  <span class='kw'>end</span>
 
-    <span class='kw'>return</span> <span class='id identifier rubyid_res'>res</span>
+  <span class='id identifier rubyid_res'>res</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -680,6 +798,8 @@
       <pre class="lines">
 
 
+26
+27
 28
 29
 30
@@ -730,61 +850,67 @@
 75
 76
 77
-78</pre>
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 26</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_generate_stim'>generate_stim</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Generating stim for </span><span class='embexpr_beg'>#{</span><span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insertion points to go.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
-    <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_generate_stim'>generate_stim</span><span class='lparen'>(</span><span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[+] Generating stim for </span><span class='embexpr_beg'>#{</span><span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insertion points to go.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+  <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+  <span class='id identifier rubyid_cumulated_altering_time'>cumulated_altering_time</span> <span class='op'>=</span> <span class='float'>0.0</span>
+  <span class='id identifier rubyid_cumulated_solving_time'>cumulated_solving_time</span> <span class='op'>=</span> <span class='float'>0.0</span>
 
-    <span class='ivar'>@solutions</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rbrace'>}</span>
-    <span class='comment'># @vec_list = []
-</span>    <span class='comment'># Pour chaque point d&#39;insertion dans le circuit initial
-</span>    <span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='op'>|</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: &#39;nil&#39; insert point name encountered.</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>end</span>
-        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |-- </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insert point.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
-        <span class='comment'># Créer une version altérée du circuit initial
-</span>        <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span> <span class='op'>=</span> <span class='id identifier rubyid_get_cone_outputs'>get_cone_outputs</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_getAlteredCircuit'>getAlteredCircuit</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>false</span>
-        <span class='comment'># Pour chaque sortie du cone de sortie, jusqu&#39;à ce qu&#39;une solution soit trouvée
-</span>        <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='op'>|</span>
-            <span class='comment'># Appliquer Ateta_sat
-</span>            <span class='id identifier rubyid_solver'>solver</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AtetaSat.html" title="AtetaAddOn::AtetaSat (class)">AtetaSat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="AtetaSat.html#initialize-instance_method" title="AtetaAddOn::AtetaSat#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@initCirc</span><span class='comma'>,</span> <span class='ivar'>@altCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='comma'>,</span> <span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='comma'>,</span> <span class='ivar'>@delayModel</span><span class='comma'>,</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='comma'>,</span> <span class='ivar'>@memoizer</span><span class='comma'>,</span> <span class='ivar'>@payload_delay</span><span class='rparen'>)</span>
-            <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_solver'>solver</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
-            <span class='comment'># Stocker les couples de test générés dans un tableau
-</span>            <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> 
-                <span class='kw'>next</span>
-            <span class='kw'>else</span>
-                <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>true</span>
-                <span class='comment'># ! Stocker le nom et non l&#39;objet (insertPoint ET targetedOutput)
-</span>                <span class='ivar'>@solutions</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span>
-                <span class='ivar'>@observables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span> <span class='comment'># ! Stocker le nom et non l&#39;objet
-</span>                <span class='kw'>break</span>
-            <span class='kw'>end</span>
-        <span class='kw'>end</span>
+  <span class='ivar'>@solutions</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='rbrace'>}</span>
+  <span class='comment'># Pour chaque point d&#39;insertion dans le circuit initial
+</span>  <span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='op'>|</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: &#39;nil&#39; insert point name encountered.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
 
-        <span class='kw'>unless</span> <span class='id identifier rubyid_solution_found'>solution_found</span>
-            <span class='ivar'>@unobservables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span>
-        <span class='kw'>end</span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> |-- </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@insertionPoints</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> insert point.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
+    <span class='comment'># Créer une version altérée du circuit initial
+</span>    <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span> <span class='op'>=</span> <span class='id identifier rubyid_get_cone_outputs'>get_cone_outputs</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_altering_start_time'>altering_start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+    <span class='id identifier rubyid_getAlteredCircuit'>getAlteredCircuit</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_altering_finish_time'>altering_finish_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+    <span class='id identifier rubyid_cumulated_altering_time'>cumulated_altering_time</span> <span class='op'>+=</span> <span class='id identifier rubyid_altering_finish_time'>altering_finish_time</span> <span class='op'>-</span> <span class='id identifier rubyid_altering_start_time'>altering_start_time</span>
+    <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='comment'># Pour chaque sortie du cone de sortie, jusqu&#39;à ce qu&#39;une solution soit trouvée
+</span>    <span class='id identifier rubyid_downstreamOuputs'>downstreamOuputs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='op'>|</span>
+      <span class='comment'># Appliquer Ateta_sat
+</span>      <span class='id identifier rubyid_solver'>solver</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AtetaSat.html" title="AtetaAddOn::AtetaSat (class)">AtetaSat</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="AtetaSat.html#initialize-instance_method" title="AtetaAddOn::AtetaSat#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@initCirc</span><span class='comma'>,</span> <span class='ivar'>@altCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='comma'>,</span> <span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='comma'>,</span>
+                                        <span class='ivar'>@delayModel</span><span class='comma'>,</span> <span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='comma'>,</span> <span class='ivar'>@memoizer</span><span class='comma'>,</span> <span class='ivar'>@payload_delay</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_solving_start_time'>solving_start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+      <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_solver'>solver</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span>
+      <span class='id identifier rubyid_solving_finish_time'>solving_finish_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+      <span class='id identifier rubyid_cumulated_solving_time'>cumulated_solving_time</span> <span class='op'>+=</span> <span class='id identifier rubyid_solving_finish_time'>solving_finish_time</span> <span class='op'>-</span> <span class='id identifier rubyid_solving_start_time'>solving_start_time</span>
+      <span class='comment'># Stocker les couples de test générés dans un tableau
+</span>      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+      <span class='id identifier rubyid_solution_found'>solution_found</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='comment'># ! Stocker le nom et non l&#39;objet (insertPoint ET targetedOutput)
+</span>      <span class='ivar'>@solutions</span><span class='lbracket'>[</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_targetedOutputName'>targetedOutputName</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span>
+      <span class='ivar'>@observables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span> <span class='comment'># ! Stocker le nom et non l&#39;objet
+</span>      <span class='kw'>break</span>
     <span class='kw'>end</span>
-    
-    <span class='comment'># Renvoyer les vecteurs de test générés
+
+    <span class='ivar'>@unobservables</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span> <span class='kw'>unless</span> <span class='id identifier rubyid_solution_found'>solution_found</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Renvoyer les vecteurs de test générés
 </span>
-    <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='ivar'>@solutions</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='ivar'>@solutions</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
 
-    <span class='id identifier rubyid_fvSet'>fvSet</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_res'>res</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_fvSet'>fvSet</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
-            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Forbidden Vector generated.</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>end</span>
-    <span class='kw'>end</span>
+  <span class='id identifier rubyid_fvSet'>fvSet</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_forbiddenVectors'>forbiddenVectors</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_res'>res</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Error: Forbidden Vector generated.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_fvSet'>fvSet</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
+  <span class='kw'>end</span>
 
-    <span class='kw'>return</span> <span class='id identifier rubyid_res'>res</span>
+  <span class='id identifier rubyid_reporting'>reporting</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cumulated altering time : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cumulated_altering_time'>cumulated_altering_time</span><span class='embexpr_end'>}</span><span class='tstring_content'>\nCumulated solving time : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cumulated_solving_time'>cumulated_solving_time</span><span class='embexpr_end'>}</span><span class='tstring_content'>\nTotal : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_cumulated_altering_time'>cumulated_altering_time</span> <span class='op'>+</span> <span class='id identifier rubyid_cumulated_solving_time'>cumulated_solving_time</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>htpg_time_report.txt</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_reporting'>reporting</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_res'>res</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -806,22 +932,126 @@
       <pre class="lines">
 
 
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 198</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_cone_outputs'>get_cone_outputs</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+  <span class='comment'># * search the output from the given insertPoint (last gate of the path)
+</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='gvar'>$FULL_PORT_NAME_SEP</span>
+    <span class='id identifier rubyid_compName'>compName</span><span class='comma'>,</span> <span class='id identifier rubyid_portName'>portName</span> <span class='op'>=</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='gvar'>$FULL_PORT_NAME_SEP</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: &#39;nil&#39; value encountered for insert point </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_compName'>compName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_portName'>portName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+    <span class='id identifier rubyid_insertPoint'>insertPoint</span> <span class='op'>=</span> <span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_component_named'>get_component_named</span><span class='lparen'>(</span><span class='id identifier rubyid_compName'>compName</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get_port_named'>get_port_named</span><span class='lparen'>(</span><span class='id identifier rubyid_portName'>portName</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_insertPoint'>insertPoint</span> <span class='op'>=</span> <span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_port_named'>get_port_named</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_next_gates'>next_gates</span> <span class='op'>=</span> <span class='kw'>nil</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_is_input?'>is_input?</span>
+      <span class='id identifier rubyid_next_gates'>next_gates</span> <span class='op'>=</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_get_sink_gates'>get_sink_gates</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_is_output?'>is_output?</span>
+      <span class='kw'>return</span> <span class='lbracket'>[</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Error: Internal error, unexpected state reached</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_next_gates'>next_gates</span> <span class='op'>=</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_get_sink_gates'>get_sink_gates</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_cone_outputs'>cone_outputs</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+
+  <span class='kw'>until</span> <span class='id identifier rubyid_next_gates'>next_gates</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_current_gate'>current_gate</span> <span class='op'>=</span> <span class='id identifier rubyid_next_gates'>next_gates</span><span class='period'>.</span><span class='id identifier rubyid_shift'>shift</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_current_gate'>current_gate</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_current_gate'>current_gate</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span> <span class='comment'># * If insertion point is the last gate before a primary output
+</span>      <span class='id identifier rubyid_cone_outputs'>cone_outputs</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_current_gate'>current_gate</span>
+      <span class='kw'>next</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_primary_outputs'>primary_outputs</span><span class='comma'>,</span> <span class='id identifier rubyid_current_gate_sinks'>current_gate_sinks</span> <span class='op'>=</span> <span class='id identifier rubyid_current_gate'>current_gate</span><span class='period'>.</span><span class='id identifier rubyid_get_sink_gates'>get_sink_gates</span><span class='period'>.</span><span class='id identifier rubyid_partition'>partition</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_g'>g</span><span class='op'>|</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span> <span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_cone_outputs'>cone_outputs</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_primary_outputs'>primary_outputs</span> <span class='kw'>unless</span> <span class='id identifier rubyid_primary_outputs'>primary_outputs</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_cone_outputs'>cone_outputs</span><span class='period'>.</span><span class='id identifier rubyid_flatten!'>flatten!</span>
+    <span class='id identifier rubyid_next_gates'>next_gates</span> <span class='op'>+=</span> <span class='id identifier rubyid_current_gate_sinks'>current_gate_sinks</span> <span class='kw'>unless</span> <span class='id identifier rubyid_next_gates'>next_gates</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_current_gate'>current_gate</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># * Filter primary outputs plugged to a constant
+</span>  <span class='id identifier rubyid_cone_outputs'>cone_outputs</span> <span class='op'>=</span> <span class='id identifier rubyid_cone_outputs'>cone_outputs</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_g'>g</span><span class='op'>|</span> <span class='op'>!</span><span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Constant.html" title="Netlist::Constant (class)">Constant</a></span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_cone_outputs'>cone_outputs</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:get_full_name</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_cone_outputs'>cone_outputs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="getAlteredCircuit-instance_method">
+  
+    #<strong>getAlteredCircuit</strong>(insertPointName)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
 174
 175
 176
@@ -844,141 +1074,33 @@
 193
 194
 195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206</pre>
+196</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 174</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_cone_outputs'>get_cone_outputs</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span>
-    <span class='comment'># * search the output from the given insertPoint (last gate of the path) 
-</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='gvar'>$FULL_PORT_NAME_SEP</span> 
-        <span class='id identifier rubyid_compName'>compName</span><span class='comma'>,</span> <span class='id identifier rubyid_portName'>portName</span> <span class='op'>=</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='gvar'>$FULL_PORT_NAME_SEP</span><span class='rparen'>)</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_compName'>compName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_portName'>portName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: &#39;nil&#39; value encountered for insert point </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>end</span>
-        <span class='id identifier rubyid_insertPoint'>insertPoint</span> <span class='op'>=</span> <span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_component_named'>get_component_named</span><span class='lparen'>(</span><span class='id identifier rubyid_compName'>compName</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get_port_named'>get_port_named</span><span class='lparen'>(</span><span class='id identifier rubyid_portName'>portName</span><span class='rparen'>)</span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_insertPoint'>insertPoint</span> <span class='op'>=</span> <span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_port_named'>get_port_named</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-    
-    <span class='id identifier rubyid_next_gates'>next_gates</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_getAlteredCircuit'>getAlteredCircuit</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+  <span class='ivar'>@altCirc</span> <span class='op'>=</span> <span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_deep_copy'>deep_copy</span>
 
-    <span class='kw'>if</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_is_input?'>is_input?</span>
-            <span class='id identifier rubyid_next_gates'>next_gates</span> <span class='op'>=</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_get_sink_gates'>get_sink_gates</span>
-        <span class='kw'>elsif</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_is_output?'>is_output?</span>
-            <span class='kw'>return</span> <span class='lbracket'>[</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='rbracket'>]</span>
-        <span class='kw'>else</span> 
-            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Internal error, unexpected state reached</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>end</span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_next_gates'>next_gates</span> <span class='op'>=</span> <span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_get_sink_gates'>get_sink_gates</span>
-    <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='gvar'>$FULL_PORT_NAME_SEP</span>
+    <span class='id identifier rubyid_compName'>compName</span><span class='comma'>,</span> <span class='id identifier rubyid_portName'>portName</span> <span class='op'>=</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='gvar'>$FULL_PORT_NAME_SEP</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: &#39;nil&#39; value encountered for insert point </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_compName'>compName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_portName'>portName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
 
-    <span class='id identifier rubyid_cone_outputs'>cone_outputs</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='id identifier rubyid_insertPoint'>insertPoint</span> <span class='op'>=</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_component_named'>get_component_named</span><span class='lparen'>(</span><span class='id identifier rubyid_compName'>compName</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get_port_named'>get_port_named</span><span class='lparen'>(</span><span class='id identifier rubyid_portName'>portName</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_insertPoint'>insertPoint</span> <span class='op'>=</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_port_named'>get_port_named</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 
-    <span class='kw'>until</span> <span class='id identifier rubyid_next_gates'>next_gates</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-        <span class='id identifier rubyid_current_gate'>current_gate</span> <span class='op'>=</span> <span class='id identifier rubyid_next_gates'>next_gates</span><span class='period'>.</span><span class='id identifier rubyid_shift'>shift</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_current_gate'>current_gate</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_current_gate'>current_gate</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span> <span class='comment'># * If insertion point is the last gate before a primary output
-</span>            <span class='id identifier rubyid_cone_outputs'>cone_outputs</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_current_gate'>current_gate</span>
-            <span class='kw'>next</span>
-        <span class='kw'>end</span>
-
-        <span class='id identifier rubyid_primary_outputs'>primary_outputs</span><span class='comma'>,</span> <span class='id identifier rubyid_current_gate_sinks'>current_gate_sinks</span> <span class='op'>=</span> <span class='id identifier rubyid_current_gate'>current_gate</span><span class='period'>.</span><span class='id identifier rubyid_get_sink_gates'>get_sink_gates</span><span class='period'>.</span><span class='id identifier rubyid_partition'>partition</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_g'>g</span><span class='op'>|</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span><span class='rbrace'>}</span>
-        
-        <span class='id identifier rubyid_cone_outputs'>cone_outputs</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_primary_outputs'>primary_outputs</span> <span class='kw'>unless</span> <span class='id identifier rubyid_primary_outputs'>primary_outputs</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-        <span class='id identifier rubyid_cone_outputs'>cone_outputs</span><span class='period'>.</span><span class='id identifier rubyid_flatten!'>flatten!</span>
-        <span class='id identifier rubyid_next_gates'>next_gates</span> <span class='op'>+=</span> <span class='id identifier rubyid_current_gate_sinks'>current_gate_sinks</span> <span class='kw'>unless</span> <span class='id identifier rubyid_next_gates'>next_gates</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_current_gate'>current_gate</span>
-    <span class='kw'>end</span>
-
-    <span class='comment'># * Filter primary outputs plugged to a constant
-</span>    <span class='id identifier rubyid_cone_outputs'>cone_outputs</span> <span class='op'>=</span> <span class='id identifier rubyid_cone_outputs'>cone_outputs</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_g'>g</span><span class='op'>|</span> <span class='op'>!</span><span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Constant.html" title="Netlist::Constant (class)">Constant</a></span></span><span class='rparen'>)</span><span class='rbrace'>}</span>
-    <span class='id identifier rubyid_cone_outputs'>cone_outputs</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:get_full_name</span><span class='rparen'>)</span>
-
-    <span class='kw'>return</span> <span class='id identifier rubyid_cone_outputs'>cone_outputs</span> 
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="getAlteredCircuit-instance_method">
-  
-    #<strong>getAlteredCircuit</strong>(insertPointName)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 133</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_getAlteredCircuit'>getAlteredCircuit</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span>
-    <span class='ivar'>@altCirc</span> <span class='op'>=</span> <span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_deep_copy'>deep_copy</span>
-
-    <span class='kw'>if</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='gvar'>$FULL_PORT_NAME_SEP</span> 
-        <span class='id identifier rubyid_compName'>compName</span><span class='comma'>,</span> <span class='id identifier rubyid_portName'>portName</span> <span class='op'>=</span> <span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='gvar'>$FULL_PORT_NAME_SEP</span><span class='rparen'>)</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_compName'>compName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_portName'>portName</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: &#39;nil&#39; value encountered for insert point </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>end</span>
-        <span class='id identifier rubyid_insertPoint'>insertPoint</span> <span class='op'>=</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_component_named'>get_component_named</span><span class='lparen'>(</span><span class='id identifier rubyid_compName'>compName</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_get_port_named'>get_port_named</span><span class='lparen'>(</span><span class='id identifier rubyid_portName'>portName</span><span class='rparen'>)</span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_insertPoint'>insertPoint</span> <span class='op'>=</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_port_named'>get_port_named</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPointName'>insertPointName</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-
-    <span class='id identifier rubyid_precedenceGrid'>precedenceGrid</span> <span class='op'>=</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_netlist_precedence_grid'>get_netlist_precedence_grid</span>
-    <span class='id identifier rubyid_timings_h'>timings_h</span> <span class='op'>=</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_timings_hash'>get_timings_hash</span><span class='lparen'>(</span><span class='ivar'>@delayModel</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_tamperer'>tamperer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Inserter.html" title="Inserter (module)">Inserter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Inserter/Tamperer.html" title="Inserter::Tamperer (class)">Tamperer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Inserter/Tamperer.html#initialize-instance_method" title="Inserter::Tamperer#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@altCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_precedenceGrid'>precedenceGrid</span><span class='comma'>,</span> <span class='id identifier rubyid_timings_h'>timings_h</span><span class='comma'>,</span> <span class='ivar'>@delayModel</span><span class='rparen'>)</span>
-    <span class='kw'>if</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_g'>g</span><span class='op'>|</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/STDCell.html" title="Netlist::STDCell (class)">STDCell</a></span></span><span class='rbrace'>}</span>
-        <span class='id identifier rubyid_tamperer'>tamperer</span><span class='period'>.</span><span class='id identifier rubyid_insert_sky130_buffer_at'>insert_sky130_buffer_at</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='comma'>,</span><span class='ivar'>@payloadDelay</span><span class='rparen'>)</span>
-    <span class='kw'>elsif</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_none?'>none?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_g'>g</span><span class='op'>|</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/STDCell.html" title="Netlist::STDCell (class)">STDCell</a></span></span><span class='rbrace'>}</span>
-        <span class='id identifier rubyid_tamperer'>tamperer</span><span class='period'>.</span><span class='id identifier rubyid_insert_buffer_at'>insert_buffer_at</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='comma'>,</span> <span class='ivar'>@payloadDelay</span><span class='rparen'>)</span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Non homogeneous circuit encountered, expected all components to be STDCell class objects or GTECH Gate class objects.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
+  <span class='id identifier rubyid_precedenceGrid'>precedenceGrid</span> <span class='op'>=</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_netlist_precedence_grid'>get_netlist_precedence_grid</span>
+  <span class='id identifier rubyid_timings_h'>timings_h</span> <span class='op'>=</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_timings_hash'>get_timings_hash</span><span class='lparen'>(</span><span class='ivar'>@delayModel</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_tamperer'>tamperer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Inserter.html" title="Inserter (module)">Inserter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Inserter/Tamperer.html" title="Inserter::Tamperer (class)">Tamperer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Inserter/Tamperer.html#initialize-instance_method" title="Inserter::Tamperer#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@altCirc</span><span class='comma'>,</span> <span class='id identifier rubyid_precedenceGrid'>precedenceGrid</span><span class='comma'>,</span> <span class='id identifier rubyid_timings_h'>timings_h</span><span class='comma'>,</span> <span class='ivar'>@delayModel</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_g'>g</span><span class='op'>|</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/STDCell.html" title="Netlist::STDCell (class)">STDCell</a></span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_tamperer'>tamperer</span><span class='period'>.</span><span class='id identifier rubyid_insert_sky130_buffer_at'>insert_sky130_buffer_at</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='comma'>,</span> <span class='ivar'>@payloadDelay</span><span class='rparen'>)</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@altCirc</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_none?'>none?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_g'>g</span><span class='op'>|</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/STDCell.html" title="Netlist::STDCell (class)">STDCell</a></span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_tamperer'>tamperer</span><span class='period'>.</span><span class='id identifier rubyid_insert_buffer_at'>insert_buffer_at</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='comma'>,</span> <span class='ivar'>@payloadDelay</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Error: Non homogeneous circuit encountered, expected all components to be STDCell class objects or GTECH Gate class objects.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1000,35 +1122,31 @@
       <pre class="lines">
 
 
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248</pre>
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 275</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_save_explicit'>save_explicit</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>binStimVec:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>repetition:</span> <span class='int'>1</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>4</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='op'>!=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.txt</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>5</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='op'>!=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.stim</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.txt</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_save_explicit'>save_explicit</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>binStimVec:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>repetition:</span> <span class='int'>1</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.txt</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>4</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.txt</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_path'>path</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>5</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.stim</span><span class='tstring_end'>&#39;</span></span>
+
+  <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='ivar'>@solutions</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='comma'>,</span> <span class='id identifier rubyid_solution'>solution</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_result_h'>result_h</span><span class='op'>|</span>
+    <span class='id identifier rubyid_solution'>solution</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_targetedOutput'>targetedOutput</span><span class='comma'>,</span> <span class='id identifier rubyid_vecCouple'>vecCouple</span><span class='op'>|</span>
+      <span class='id identifier rubyid_result_h'>result_h</span><span class='lbracket'>[</span><span class='id identifier rubyid_vecCouple'>vecCouple</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='comma'>,</span> <span class='id identifier rubyid_targetedOutput'>targetedOutput</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
+  <span class='kw'>end</span>
 
-    <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='ivar'>@solutions</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_h'>h</span><span class='comma'>,</span> <span class='id identifier rubyid_k'>k</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='lparen'>(</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='comma'>,</span> <span class='id identifier rubyid_solution'>solution</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_result_h'>result_h</span><span class='op'>|</span>
-        <span class='id identifier rubyid_solution'>solution</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_targetedOutput'>targetedOutput</span><span class='comma'>,</span> <span class='id identifier rubyid_vecCouple'>vecCouple</span><span class='op'>|</span>
-            <span class='id identifier rubyid_result_h'>result_h</span><span class='lbracket'>[</span><span class='id identifier rubyid_vecCouple'>vecCouple</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_insertPoint'>insertPoint</span><span class='comma'>,</span> <span class='id identifier rubyid_targetedOutput'>targetedOutput</span><span class='rbracket'>]</span>
-        <span class='kw'>end</span>
-    <span class='kw'>end</span>
-
-    <span class='id identifier rubyid_save_explicit_util'>save_explicit_util</span><span class='lparen'>(</span><span class='id identifier rubyid_binStimVec'>binStimVec</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_repetition'>repetition</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_save_explicit_util'>save_explicit_util</span><span class='lparen'>(</span><span class='id identifier rubyid_binStimVec'>binStimVec</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_repetition'>repetition</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1050,17 +1168,17 @@
       <pre class="lines">
 
 
-208
-209
-210
-211</pre>
+247
+248
+249
+250</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 247</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_explicit_add_headers'>save_explicit_add_headers</span><span class='lparen'>(</span><span class='id identifier rubyid_src'>src</span><span class='comma'>,</span> <span class='id identifier rubyid_binStimVec'>binStimVec</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'># Stimuli sequence;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_binStimVec'>binStimVec</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bin</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>dec</span><span class='tstring_end'>&quot;</span></span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'>;explicit</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'># Unobservables : </span><span class='embexpr_beg'>#{</span><span class='ivar'>@unobservables</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> 
+  <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'># Stimuli sequence;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_binStimVec'>binStimVec</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>bin</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>dec</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_content'>;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@initCirc</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'>;explicit</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'># Unobservables : </span><span class='embexpr_beg'>#{</span><span class='ivar'>@unobservables</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1082,53 +1200,53 @@
       <pre class="lines">
 
 
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234</pre>
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 213</span>
+      <pre class="code"><span class="info file"># File 'lib/ateta/ateta.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_explicit_util'>save_explicit_util</span><span class='lparen'>(</span><span class='id identifier rubyid_binStimVec'>binStimVec</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_repetition'>repetition</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_src'>src</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span>
-    <span class='id identifier rubyid_save_explicit_add_headers'>save_explicit_add_headers</span><span class='lparen'>(</span><span class='id identifier rubyid_src'>src</span><span class='comma'>,</span> <span class='id identifier rubyid_binStimVec'>binStimVec</span><span class='rparen'>)</span>
-    <span class='comment'># src &lt;&lt; &quot;# Stimuli sequence;#{binStimVec ? &quot;bin&quot; : &quot;dec&quot;};#{@initCirc.get_inputs.length};explicit&quot;
-</span>    <span class='comment'># src &lt;&lt; &quot;# Unobservables : #{@unobservables.length}&quot; 
+  <span class='id identifier rubyid_src'>src</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span>
+  <span class='id identifier rubyid_save_explicit_add_headers'>save_explicit_add_headers</span><span class='lparen'>(</span><span class='id identifier rubyid_src'>src</span><span class='comma'>,</span> <span class='id identifier rubyid_binStimVec'>binStimVec</span><span class='rparen'>)</span>
+  <span class='comment'># src &lt;&lt; &quot;# Stimuli sequence;#{binStimVec ? &quot;bin&quot; : &quot;dec&quot;};#{@initCirc.get_inputs.length};explicit&quot;
+</span>  <span class='comment'># src &lt;&lt; &quot;# Unobservables : #{@unobservables.length}&quot;
 </span>
-    <span class='id identifier rubyid_s'>s</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_vecCouple'>vecCouple</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span><span class='op'>|</span>
-        <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'># </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id identifier rubyid_target'>target</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_insert_point'>insert_point</span><span class='comma'>,</span> <span class='id identifier rubyid_output'>output</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>s=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insert_point'>insert_point</span><span class='embexpr_end'>}</span><span class='tstring_content'>, o=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_output'>output</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>; </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
-        
-        <span class='id identifier rubyid_repetition'>repetition</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
-            <span class='id identifier rubyid_vecCouple'>vecCouple</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
-                <span class='kw'>if</span> <span class='id identifier rubyid_binStimVec'>binStimVec</span>
-                    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_v'>v</span>
-                <span class='kw'>else</span>
-                    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_reverse'>reverse</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
-                <span class='kw'>end</span>
-            <span class='kw'>end</span>
-        <span class='kw'>end</span>
-    <span class='kw'>end</span>
+  <span class='id identifier rubyid_s'>s</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_vecCouple'>vecCouple</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span><span class='op'>|</span>
+    <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'># </span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_target'>target</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_insert_point'>insert_point</span><span class='comma'>,</span> <span class='id identifier rubyid_output'>output</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>s=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_insert_point'>insert_point</span><span class='embexpr_end'>}</span><span class='tstring_content'>, o=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_output'>output</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>; </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 
-    <span class='id identifier rubyid_src'>src</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span> <span class='id identifier rubyid_path'>path</span>
+    <span class='id identifier rubyid_repetition'>repetition</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+      <span class='id identifier rubyid_vecCouple'>vecCouple</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
+        <span class='id identifier rubyid_src'>src</span> <span class='op'>&lt;&lt;</span> <span class='kw'>if</span> <span class='id identifier rubyid_binStimVec'>binStimVec</span>
+                 <span class='id identifier rubyid_v'>v</span>
+               <span class='kw'>else</span>
+                 <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_reverse'>reverse</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
+               <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_src'>src</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span> <span class='id identifier rubyid_path'>path</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1140,9 +1258,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:19 2025 by
+  Generated on Tue Sep 15 17:08:13 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

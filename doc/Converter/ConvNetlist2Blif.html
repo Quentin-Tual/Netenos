@@ -6,13 +6,13 @@
 <title>
   Class: Converter::ConvNetlist2Blif
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Converter::ConvNetlist2Blif";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/converter/convNetlist2Blif.rb</dd>
+    <dd>lib/converter/convNetlist2Blif.rb
+</dd>
   </dl>
   
 </div>
@@ -235,9 +238,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>gate.sinks.select{|sink| !sink.component.instance_of?(Circuit)}.each do |sink|       propag_precedence(sink.component, rank+1)     end   end  end.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>gate.sinks.select{|sink| !sink.component.instance_of?(Circuit)}.each do |sink|       propag_precedence(sink.component, rank+1)     end   end  end.</p></div></span>
   
 </li>
 
@@ -283,9 +284,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of ConvNetlist2Blif.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of ConvNetlist2Blif.</p></div></span>
   
 </li>
 
@@ -357,6 +356,7 @@
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -373,9 +373,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of ConvNetlist2Blif.</p>
-
+    <p>Returns a new instance of ConvNetlist2Blif.</p>
 
   </div>
 </div>
@@ -587,16 +585,11 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>gate.sinks.select{|sink| !sink.component.instance_of?(Circuit)}.each do |sink|</p>
-
-<pre class="code ruby"><code class="ruby">    propag_precedence(sink.component, rank+1)
-  end
+    <p>gate.sinks.select{|sink| !sink.component.instance_of?(Circuit)}.each do |sink|
+propag_precedence(sink.component, rank+1)
 end
-</code></pre>
-
-<p>end</p>
-
+end
+end</p>
 
   </div>
 </div>
@@ -817,9 +810,9 @@ end
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:26 2025 by
+  Generated on Tue Sep 15 17:08:22 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

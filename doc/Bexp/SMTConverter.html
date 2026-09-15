@@ -6,13 +6,13 @@
 <title>
   Class: Bexp::SMTConverter
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Bexp::SMTConverter";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,7 +98,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/bexp/bexp.rb</dd>
+    <dd>lib/bexp/bexp.rb
+</dd>
   </dl>
   
 </div>
@@ -119,7 +122,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#visit-instance_method" title="#visit (instance method)">#<strong>visit</strong>(node)  &#x21d2; Object </a>
+      <a href="#visit_and-instance_method" title="#visit_and (instance method)">#<strong>visit_and</strong>(node)  &#x21d2; Object </a>
     
 
     
@@ -133,9 +136,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Allow to visit each node of a Bexp and to return a SMTLIB boolean expression in the form of an array def initialize    @smt_exp = [] end.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Allow to visit each node of a Bexp and to return a SMTLIB boolean expression in the form of an array.</p></div></span>
   
 </li>
 
@@ -143,29 +144,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#visitAnd-instance_method" title="#visitAnd (instance method)">#<strong>visitAnd</strong>(node)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#visitNot-instance_method" title="#visitNot (instance method)">#<strong>visitNot</strong>(node)  &#x21d2; Object </a>
+      <a href="#visit_not-instance_method" title="#visit_not (instance method)">#<strong>visit_not</strong>(node)  &#x21d2; Object </a>
     
 
     
@@ -187,7 +166,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#visitOperand-instance_method" title="#visitOperand (instance method)">#<strong>visitOperand</strong>(node)  &#x21d2; Object </a>
+      <a href="#visit_operand-instance_method" title="#visit_operand (instance method)">#<strong>visit_operand</strong>(node)  &#x21d2; Object </a>
     
 
     
@@ -209,7 +188,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#visitOr-instance_method" title="#visitOr (instance method)">#<strong>visitOr</strong>(node)  &#x21d2; Object </a>
+      <a href="#visit_or-instance_method" title="#visit_or (instance method)">#<strong>visit_or</strong>(node)  &#x21d2; Object </a>
     
 
     
@@ -229,6 +208,7 @@
 
       
     </ul>
+    
   
 
 
@@ -238,15 +218,21 @@
   
   
   
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Visitor.html" title="Visitor (class)">Visitor</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Visitor.html#raise_not_implemented-instance_method" title="Visitor#raise_not_implemented (method)">#raise_not_implemented</a></span>, <span class='object_link'><a href="../Visitor.html#visit-instance_method" title="Visitor#visit (method)">#visit</a></span></p>
+
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="visit-instance_method">
+  <h3 class="signature first" id="visit_and-instance_method">
   
-    #<strong>visit</strong>(node)  &#x21d2; <tt>Object</tt> 
+    #<strong>visit_and</strong>(node)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -254,14 +240,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Allow to visit each node of a Bexp and to return a SMTLIB boolean expression in the form of an array def initialize</p>
-
-<pre class="code ruby"><code class="ruby"><span class='ivar'>@smt_exp</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-</code></pre>
-
-<p>end</p>
-
+    <p>Allow to visit each node of a Bexp and to return a SMTLIB boolean expression in the form of an array</p>
 
   </div>
 </div>
@@ -274,73 +253,21 @@
       <pre class="lines">
 
 
-33
-34
-35
-36
-37
-38
-39
-40
-41
 42
 43
 44
 45
-46</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/bexp/bexp.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/bexp/bexp.rb', line 42</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_visit'>visit</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
-  <span class='kw'>case</span> <span class='id identifier rubyid_node'>node</span>
-  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="And.html" title="Bexp::And (class)">And</a></span></span>
-    <span class='id identifier rubyid_visitAnd'>visitAnd</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
-  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="Or.html" title="Bexp::Or (class)">Or</a></span></span>
-    <span class='id identifier rubyid_visitOr'>visitOr</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
-  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="Not.html" title="Bexp::Not (class)">Not</a></span></span>
-    <span class='id identifier rubyid_visitNot'>visitNot</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
-  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="Operand.html" title="Bexp::Operand (class)">Operand</a></span></span>
-    <span class='id identifier rubyid_visitOperand'>visitOperand</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Unexpected class encountered </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_content'> during visit.</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="visitAnd-instance_method">
-  
-    #<strong>visitAnd</strong>(node)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-48
-49
-50
-51
-52
-53
-54</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/bexp/bexp.rb', line 48</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_visitAnd'>visitAnd</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_exp'>exp</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>and</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_visit_and'>visit_and</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_exp'>exp</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>and</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_op'>op</span><span class='op'>|</span>
-    <span class='id identifier rubyid_exp'>exp</span> <span class='op'>+=</span> <span class='id identifier rubyid_visit'>visit</span><span class='lparen'>(</span><span class='id identifier rubyid_op'>op</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_exp'>exp</span> <span class='op'>+=</span> <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_accept'>accept</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_exp'>exp</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>)</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
@@ -350,9 +277,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="visitNot-instance_method">
+  <h3 class="signature " id="visit_not-instance_method">
   
-    #<strong>visitNot</strong>(node)  &#x21d2; <tt>Object</tt> 
+    #<strong>visit_not</strong>(node)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -364,52 +291,52 @@
       <pre class="lines">
 
 
-64
-65
+58
+59
+60
+61
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/bexp/bexp.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_visit_not'>visit_not</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_exp'>exp</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>not</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_op'>op</span><span class='op'>|</span>
+    <span class='id identifier rubyid_exp'>exp</span> <span class='op'>+=</span> <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_accept'>accept</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_exp'>exp</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>)</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="visit_operand-instance_method">
+  
+    #<strong>visit_operand</strong>(node)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
 66
 67
-68
-69
-70</pre>
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/bexp/bexp.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/bexp/bexp.rb', line 66</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_visitNot'>visitNot</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_exp'>exp</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>not</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_op'>op</span><span class='op'>|</span>
-    <span class='id identifier rubyid_exp'>exp</span> <span class='op'>+=</span> <span class='id identifier rubyid_visit'>visit</span><span class='lparen'>(</span><span class='id identifier rubyid_op'>op</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_exp'>exp</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>)</span><span class='tstring_end'>&#39;</span></span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="visitOperand-instance_method">
-  
-    #<strong>visitOperand</strong>(node)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-72
-73
-74</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/bexp/bexp.rb', line 72</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_visitOperand'>visitOperand</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_visit_operand'>visit_operand</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -418,9 +345,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="visitOr-instance_method">
+  <h3 class="signature " id="visit_or-instance_method">
   
-    #<strong>visitOr</strong>(node)  &#x21d2; <tt>Object</tt> 
+    #<strong>visit_or</strong>(node)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -432,21 +359,21 @@
       <pre class="lines">
 
 
-56
-57
-58
-59
-60
-61
-62</pre>
+50
+51
+52
+53
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/bexp/bexp.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/bexp/bexp.rb', line 50</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_visitOr'>visitOr</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_exp'>exp</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>or</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_visit_or'>visit_or</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_exp'>exp</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>or</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_op'>op</span><span class='op'>|</span>
-    <span class='id identifier rubyid_exp'>exp</span> <span class='op'>+=</span> <span class='id identifier rubyid_visit'>visit</span><span class='lparen'>(</span><span class='id identifier rubyid_op'>op</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_exp'>exp</span> <span class='op'>+=</span> <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_accept'>accept</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_exp'>exp</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>)</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
@@ -460,9 +387,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:19 2025 by
+  Generated on Tue Sep 15 17:08:13 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

@@ -6,13 +6,13 @@
 <title>
   Class: SDF::Root
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "SDF::Root";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,7 +98,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/sdf/sdf_ast.rb</dd>
+    <dd>lib/sdf/sdf_ast.rb
+</dd>
   </dl>
   
 </div>
@@ -130,9 +133,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute name.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute name.</p></div></span>
   
 </li>
 
@@ -174,9 +175,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Root.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Root.</p></div></span>
   
 </li>
 
@@ -204,9 +203,11 @@
 
       
     </ul>
+    
   
 
 
+  
   
   
   
@@ -216,8 +217,9 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Node.html" title="SDF::Node (class)">Node</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Node.html#add-instance_method" title="SDF::Node#add (method)">#add</a></span>, <span class='object_link'><a href="Node.html#contains_class%3F-instance_method" title="SDF::Node#contains_class? (method)">#contains_class?</a></span>, <span class='object_link'><a href="Node.html#get_subnode-instance_method" title="SDF::Node#get_subnode (method)">#get_subnode</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Node.html#accept-instance_method" title="SDF::Node#accept (method)">#accept</a></span>, <span class='object_link'><a href="Node.html#add-instance_method" title="SDF::Node#add (method)">#add</a></span>, <span class='object_link'><a href="Node.html#contains_class%3F-instance_method" title="SDF::Node#contains_class? (method)">#contains_class?</a></span>, <span class='object_link'><a href="Node.html#get_subnode-instance_method" title="SDF::Node#get_subnode (method)">#get_subnode</a></span></p>
 
+  
   
   
   
@@ -242,9 +244,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Root.</p>
-
+    <p>Returns a new instance of Root.</p>
 
   </div>
 </div>
@@ -257,15 +257,15 @@
       <pre class="lines">
 
 
-54
-55
-56
-57</pre>
+104
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 104</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_filename'>filename</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
   <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span>
 <span class='kw'>end</span></pre>
@@ -292,9 +292,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute name.</p>
-
+    <p>Returns the value of attribute name.</p>
 
   </div>
 </div>
@@ -307,12 +305,12 @@
       <pre class="lines">
 
 
-53
-54
-55</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@name</span>
@@ -366,15 +364,17 @@
       <pre class="lines">
 
 
-59
-60
-61</pre>
+109
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
   <span class='op'>!</span><span class='ivar'>@name</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='kw'>and</span> <span class='id identifier rubyid_subnodes'>subnodes</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>1</span>
+  <span class='kw'>super</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -386,9 +386,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:20 2025 by
+  Generated on Tue Sep 15 17:08:14 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

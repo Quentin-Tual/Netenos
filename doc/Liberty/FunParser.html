@@ -6,13 +6,13 @@
 <title>
   Class: Liberty::FunParser
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Liberty::FunParser";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/liberty/lib_fun_parser.rb</dd>
+    <dd>lib/liberty/lib_fun_parser.rb
+</dd>
   </dl>
   
 </div>
@@ -219,9 +222,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>same as expect but without error raised, for new_line token that does not change the structure or information contained in the file.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>same as expect but without error raised, for new_line token that does not change the structure or information contained in the file.</p></div></span>
   
 </li>
 
@@ -359,6 +360,7 @@
 
       
     </ul>
+    
   
 
 
@@ -510,9 +512,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>same as expect but without error raised, for new_line token that does not change the structure or information contained in the file</p>
-
+    <p>same as expect but without error raised, for new_line token that does not change the structure or information contained in the file</p>
 
   </div>
 </div>
@@ -812,9 +812,9 @@
   <span class='id identifier rubyid_tok'>tok</span> <span class='op'>=</span> <span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='symbol'>:lpar</span><span class='comma'>,</span> <span class='symbol'>:ident</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_tok'>tok</span><span class='period'>.</span><span class='id identifier rubyid_kind'>kind</span>
   <span class='kw'>when</span> <span class='symbol'>:lpar</span>
-    <span class='const'><span class='object_link'><a href="../Bexp.html" title="Bexp (module)">Bexp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bexp/Not.html" title="Bexp::Not (class)">Not</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Bexp/Operator.html#initialize-instance_method" title="Bexp::Operator#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_parse_block'>parse_block</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="../Bexp.html" title="Bexp (module)">Bexp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bexp/Not.html" title="Bexp::Not (class)">Not</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Bexp/Not.html#initialize-instance_method" title="Bexp::Not#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_parse_block'>parse_block</span><span class='rparen'>)</span>
   <span class='kw'>when</span> <span class='symbol'>:ident</span>
-    <span class='const'><span class='object_link'><a href="../Bexp.html" title="Bexp (module)">Bexp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bexp/Not.html" title="Bexp::Not (class)">Not</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Bexp/Operator.html#initialize-instance_method" title="Bexp::Operator#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_parse_ident'>parse_ident</span><span class='lparen'>(</span><span class='id identifier rubyid_tok'>tok</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="../Bexp.html" title="Bexp (module)">Bexp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Bexp/Not.html" title="Bexp::Not (class)">Not</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Bexp/Not.html#initialize-instance_method" title="Bexp::Not#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_parse_ident'>parse_ident</span><span class='lparen'>(</span><span class='id identifier rubyid_tok'>tok</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='kw'>else</span> 
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Internal error.</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
@@ -907,9 +907,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:25 2025 by
+  Generated on Tue Sep 15 17:08:21 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

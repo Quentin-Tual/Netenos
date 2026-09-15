@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Librelane::LibrelaneEnv
+  
+    &mdash; Documentation by YARD 0.9.45
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "Librelane::LibrelaneEnv";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (L)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Librelane.html" title="Librelane (module)">Librelane</a></span></span>
+     &raquo; 
+    <span class="title">LibrelaneEnv</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Librelane::LibrelaneEnv
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Librelane::LibrelaneEnv</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/librelane/librelane_env.rb
+</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#analyze_logs-instance_method" title="#analyze_logs (instance method)">#<strong>analyze_logs</strong>(circ_name, stim_path, nb_outputs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_last_run-instance_method" title="#delete_last_run (instance method)">#<strong>delete_last_run</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_ateta_stim-instance_method" title="#gen_ateta_stim (instance method)">#<strong>gen_ateta_stim</strong>(inserted_std_cell: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_htpg_rec_stim-instance_method" title="#gen_htpg_rec_stim (instance method)">#<strong>gen_htpg_rec_stim</strong>(inserted_std_cell: nil, risky_signals: [])  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gen_htpg_transport_dly_stim-instance_method" title="#gen_htpg_transport_dly_stim (instance method)">#<strong>gen_htpg_transport_dly_stim</strong>(inserted_std_cell: nil, risky_signals: [])  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_last_run_path-instance_method" title="#get_last_run_path (instance method)">#<strong>get_last_run_path</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>end.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_last_run_sdf-instance_method" title="#get_last_run_sdf (instance method)">#<strong>get_last_run_sdf</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_last_run_v-instance_method" title="#get_last_run_v (instance method)">#<strong>get_last_run_v</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_pnr_sdf-instance_method" title="#get_pnr_sdf (instance method)">#<strong>get_pnr_sdf</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_pnr_v-instance_method" title="#get_pnr_v (instance method)">#<strong>get_pnr_v</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(pwd = &#39;.&#39;, scl_target: &#39;sky130_fd_sc_hd&#39;, excluded_cells: [])  &#x21d2; LibrelaneEnv </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of LibrelaneEnv.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#insert_buf_and_finalize-instance_method" title="#insert_buf_and_finalize (instance method)">#<strong>insert_buf_and_finalize</strong>(attacked_sig, inserted_std_cell = &quot;#{@SCL_TARGET}__buf_8&quot;)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process_blif_input-instance_method" title="#process_blif_input (instance method)">#<strong>process_blif_input</strong>(blif_path)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_sim-instance_method" title="#run_sim (instance method)">#<strong>run_sim</strong>(circ_name, mapped, ref_pnr, ut_pnr, tb_path, full_traces: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sim_all_apnr-instance_method" title="#sim_all_apnr (instance method)">#<strong>sim_all_apnr</strong>(circ_name = @circ_name, stim_path: &quot;made/#{circ_name}/#{circ_name}.stim&quot;, period: 100)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sim_only-instance_method" title="#sim_only (instance method)">#<strong>sim_only</strong>(pnr_path, apnr_path, stim_path, period: 10)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#synth_n_pnr-instance_method" title="#synth_n_pnr (instance method)">#<strong>synth_n_pnr</strong>(blif_path)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#synth_only-instance_method" title="#synth_only (instance method)">#<strong>synth_only</strong>(blif_path)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+    
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(pwd = &#39;.&#39;, scl_target: &#39;sky130_fd_sc_hd&#39;, excluded_cells: [])  &#x21d2; <tt><span class='object_link'><a href="" title="Librelane::LibrelaneEnv (class)">LibrelaneEnv</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of LibrelaneEnv.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 4</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_pwd'>pwd</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scl_target:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sky130_fd_sc_hd</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>excluded_cells:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@PWD</span> <span class='op'>=</span> <span class='id identifier rubyid_pwd'>pwd</span>
+  <span class='ivar'>@DLY_MDL</span> <span class='op'>=</span> <span class='symbol'>:sdf</span>
+
+  <span class='comment'># Check if librelane is accessible through nix
+</span>  <span class='comment'># if yes fetch all paths required (pdk, librelane .nix file)
+</span>  <span class='id identifier rubyid_check_install'>check_install</span>
+  <span class='comment'># Check if required directories are existing, else create them
+</span>  <span class='id identifier rubyid_check_dirs'>check_dirs</span>
+
+  <span class='id identifier rubyid_excluded_cells'>excluded_cells</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_excluded_cells'>excluded_cells</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>,\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
+  <span class='ivar'>@env</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SCL_TARGET</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='ivar'>@SCL_TARGET</span> <span class='op'>=</span> <span class='id identifier rubyid_scl_target'>scl_target</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>LB_LANE</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='ivar'>@LB_LANE</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>librelane/runs</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PDK</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='ivar'>@PDK</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EXTRA_EXCLUDED_CELLS</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='ivar'>@EXCLUDED_CELLS</span> <span class='op'>=</span> <span class='id identifier rubyid_excluded_cells'>excluded_cells</span><span class='rparen'>)</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="analyze_logs-instance_method">
+  
+    #<strong>analyze_logs</strong>(circ_name, stim_path, nb_outputs)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 193</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_analyze_logs'>analyze_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='comma'>,</span> <span class='id identifier rubyid_stim_path'>stim_path</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_outputs'>nb_outputs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_log'>log</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ActivityLog.html" title="ActivityLog (module)">ActivityLog</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ActivityLog/Log.html" title="ActivityLog::Log (class)">Log</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../ActivityLog/Log.html#initialize-instance_method" title="ActivityLog::Log#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>activity.log</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_detector'>detector</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../ActivityLog.html" title="ActivityLog (module)">ActivityLog</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ActivityLog/LogDetector.html" title="ActivityLog::LogDetector (class)">LogDetector</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../ActivityLog/LogDetector.html#initialize-instance_method" title="ActivityLog::LogDetector#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_log'>log</span><span class='comma'>,</span> <span class='id identifier rubyid_stim_path'>stim_path</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_outputs'>nb_outputs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_detector'>detector</span><span class='period'>.</span><span class='id identifier rubyid_generate_gnuplot_data'>generate_gnuplot_data</span>
+  <span class='id identifier rubyid_detector'>detector</span><span class='period'>.</span><span class='id identifier rubyid_generate_filtered_gnuplot_data'>generate_filtered_gnuplot_data</span>
+
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_rename'>rename</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>activity.log</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>activity_pnr1Xapnr.log</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_rename'>rename</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>activity.log.data</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>activity_pnr1Xapnr.log.data</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_rename'>rename</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>activity.log_filtered.data</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>activity_pnr1Xapnr.log_filtered.data</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_rename'>rename</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tb_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vcd</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tb_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_pnr1Xapnr.vcd</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_last_run-instance_method">
+  
+    #<strong>delete_last_run</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+162
+163
+164
+165</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 162</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_last_run'>delete_last_run</span>
+  <span class='id identifier rubyid_last_run_dir'>last_run_dir</span> <span class='op'>=</span> <span class='id identifier rubyid_get_last_run_path'>get_last_run_path</span>
+  <span class='backtick'>`</span><span class='tstring_content'>rm -r </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_last_run_dir'>last_run_dir</span><span class='embexpr_end'>}</span><span class='tstring_end'>`</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_ateta_stim-instance_method">
+  
+    #<strong>gen_ateta_stim</strong>(inserted_std_cell: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_ateta_stim'>gen_ateta_stim</span><span class='lparen'>(</span><span class='label'>inserted_std_cell:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>librelane_env</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_init_circ'>init_circ</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Verilog.html" title="Verilog (module)">Verilog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load_netlist'><span class='object_link'><a href="../Verilog.html#load_netlist-class_method" title="Verilog.load_netlist (method)">load_netlist</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_get_pnr_v'>get_pnr_v</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="../SDF.html" title="SDF (module)">SDF</a></span></span><span class='period'>.</span><span class='id identifier rubyid_annotate'><span class='object_link'><a href="../SDF.html#annotate-class_method" title="SDF.annotate (method)">annotate</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_init_circ'>init_circ</span><span class='comma'>,</span> <span class='id identifier rubyid_get_pnr_sdf'>get_pnr_sdf</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_ht_dly'>ht_dly</span> <span class='op'>=</span> <span class='id identifier rubyid_init_circ'>init_circ</span><span class='period'>.</span><span class='id identifier rubyid_get_comp_min_delay'>get_comp_min_delay</span><span class='lparen'>(</span><span class='ivar'>@DLY_MDL</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_generator'>generator</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AtetaAddOn/AtetaLibrelane.html" title="AtetaAddOn::AtetaLibrelane (class)">AtetaLibrelane</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../AtetaAddOn/AtetaLibrelane.html#initialize-instance_method" title="AtetaAddOn::AtetaLibrelane#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_init_circ'>init_circ</span><span class='comma'>,</span> <span class='id identifier rubyid_ht_dly'>ht_dly</span><span class='comma'>,</span> <span class='ivar'>@DLY_MDL</span><span class='comma'>,</span>
+                                               <span class='label'>inserted_std_cell:</span> <span class='id identifier rubyid_inserted_std_cell'>inserted_std_cell</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_generate_stim'>generate_stim</span>
+    <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_save_explicit'>save_explicit</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.stim</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>binStimVec:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_htpg_rec_stim-instance_method">
+  
+    #<strong>gen_htpg_rec_stim</strong>(inserted_std_cell: nil, risky_signals: [])  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 82</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_htpg_rec_stim'>gen_htpg_rec_stim</span><span class='lparen'>(</span><span class='label'>inserted_std_cell:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>risky_signals:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>librelane_env</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_init_circ'>init_circ</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Verilog.html" title="Verilog (module)">Verilog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load_netlist'><span class='object_link'><a href="../Verilog.html#load_netlist-class_method" title="Verilog.load_netlist (method)">load_netlist</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_get_pnr_v'>get_pnr_v</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_init_dly_db'>init_dly_db</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDF.html" title="SDF (module)">SDF</a></span></span><span class='period'>.</span><span class='id identifier rubyid_generate_dly_db'><span class='object_link'><a href="../SDF.html#generate_dly_db-class_method" title="SDF.generate_dly_db (method)">generate_dly_db</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_init_circ'>init_circ</span><span class='comma'>,</span> <span class='id identifier rubyid_get_pnr_sdf'>get_pnr_sdf</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_ht_dly'>ht_dly</span> <span class='op'>=</span> <span class='id identifier rubyid_init_circ'>init_circ</span><span class='period'>.</span><span class='id identifier rubyid_get_comp_min_delay'>get_comp_min_delay</span><span class='lparen'>(</span><span class='symbol'>:sdf</span><span class='comma'>,</span> <span class='label'>dly_db:</span> <span class='id identifier rubyid_init_dly_db'>init_dly_db</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_generator'>generator</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AtetaAddOn/HtpgLibrelane.html" title="AtetaAddOn::HtpgLibrelane (class)">HtpgLibrelane</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../AtetaAddOn/HtpgLibrelane.html#initialize-instance_method" title="AtetaAddOn::HtpgLibrelane#initialize (method)">new</a></span></span><span class='lparen'>(</span>
+      <span class='kw'>self</span><span class='comma'>,</span>
+      <span class='id identifier rubyid_init_circ'>init_circ</span><span class='comma'>,</span>
+      <span class='id identifier rubyid_ht_dly'>ht_dly</span><span class='comma'>,</span>
+      <span class='id identifier rubyid_init_dly_db'>init_dly_db</span><span class='comma'>,</span>
+      <span class='label'>smt_format:</span> <span class='symbol'>:rec</span><span class='comma'>,</span>
+      <span class='label'>inserted_std_cell:</span> <span class='id identifier rubyid_inserted_std_cell'>inserted_std_cell</span><span class='comma'>,</span>
+      <span class='label'>risky_signals:</span> <span class='id identifier rubyid_risky_signals'>risky_signals</span>
+    <span class='rparen'>)</span>
+    <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_generate_stim'>generate_stim</span>
+    <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_save_explicit'>save_explicit</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.stim</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>binStimVec:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gen_htpg_transport_dly_stim-instance_method">
+  
+    #<strong>gen_htpg_transport_dly_stim</strong>(inserted_std_cell: nil, risky_signals: [])  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gen_htpg_transport_dly_stim'>gen_htpg_transport_dly_stim</span><span class='lparen'>(</span><span class='label'>inserted_std_cell:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>risky_signals:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>librelane_env</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_init_circ'>init_circ</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Verilog.html" title="Verilog (module)">Verilog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load_netlist'><span class='object_link'><a href="../Verilog.html#load_netlist-class_method" title="Verilog.load_netlist (method)">load_netlist</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_get_pnr_v'>get_pnr_v</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_init_dly_db'>init_dly_db</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDF.html" title="SDF (module)">SDF</a></span></span><span class='period'>.</span><span class='id identifier rubyid_generate_dly_db'><span class='object_link'><a href="../SDF.html#generate_dly_db-class_method" title="SDF.generate_dly_db (method)">generate_dly_db</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_init_circ'>init_circ</span><span class='comma'>,</span> <span class='id identifier rubyid_get_pnr_sdf'>get_pnr_sdf</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_ht_dly'>ht_dly</span> <span class='op'>=</span> <span class='id identifier rubyid_init_circ'>init_circ</span><span class='period'>.</span><span class='id identifier rubyid_get_comp_min_delay'>get_comp_min_delay</span><span class='lparen'>(</span><span class='symbol'>:sdf</span><span class='comma'>,</span> <span class='label'>dly_db:</span> <span class='id identifier rubyid_init_dly_db'>init_dly_db</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_generator'>generator</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../AtetaAddOn.html" title="AtetaAddOn (module)">AtetaAddOn</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../AtetaAddOn/HtpgLibrelane.html" title="AtetaAddOn::HtpgLibrelane (class)">HtpgLibrelane</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../AtetaAddOn/HtpgLibrelane.html#initialize-instance_method" title="AtetaAddOn::HtpgLibrelane#initialize (method)">new</a></span></span><span class='lparen'>(</span>
+      <span class='kw'>self</span><span class='comma'>,</span>
+      <span class='id identifier rubyid_init_circ'>init_circ</span><span class='comma'>,</span>
+      <span class='id identifier rubyid_ht_dly'>ht_dly</span><span class='comma'>,</span>
+      <span class='id identifier rubyid_init_dly_db'>init_dly_db</span><span class='comma'>,</span>
+      <span class='label'>smt_format:</span> <span class='symbol'>:pure</span><span class='comma'>,</span>
+      <span class='label'>inserted_std_cell:</span> <span class='id identifier rubyid_inserted_std_cell'>inserted_std_cell</span><span class='comma'>,</span>
+      <span class='label'>risky_signals:</span> <span class='id identifier rubyid_risky_signals'>risky_signals</span>
+    <span class='rparen'>)</span>
+    <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_generate_stim'>generate_stim</span>
+    <span class='id identifier rubyid_generator'>generator</span><span class='period'>.</span><span class='id identifier rubyid_save_explicit'>save_explicit</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.stim</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>binStimVec:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_last_run_path-instance_method">
+  
+    #<strong>get_last_run_path</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>end</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 149</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_last_run_path'>get_last_run_path</span>
+  <span class='id identifier rubyid_last_run_dir'>last_run_dir</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>ls -t </span><span class='embexpr_beg'>#{</span><span class='ivar'>@LB_LANE</span><span class='embexpr_end'>}</span><span class='tstring_content'> | head -1 | tr -d &#39;\n&#39;</span><span class='tstring_end'>`</span></span>
+  <span class='ivar'>@LB_LANE</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_last_run_dir'>last_run_dir</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_last_run_sdf-instance_method">
+  
+    #<strong>get_last_run_sdf</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 158</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_last_run_sdf'>get_last_run_sdf</span>
+  <span class='id identifier rubyid_get_last_run_path'>get_last_run_path</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/final/sdf/nom_tt_025C_1v80/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>__nom_tt_025C_1v80.sdf</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_last_run_v-instance_method">
+  
+    #<strong>get_last_run_v</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 154</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_last_run_v'>get_last_run_v</span>
+  <span class='id identifier rubyid_get_last_run_path'>get_last_run_path</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/final/nl/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.nl.v</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_pnr_sdf-instance_method">
+  
+    #<strong>get_pnr_sdf</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+137
+138
+139</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 137</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_pnr_sdf'>get_pnr_sdf</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_pnr.sdf</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_pnr_v-instance_method">
+  
+    #<strong>get_pnr_v</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_pnr_v'>get_pnr_v</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_pnr.v</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="insert_buf_and_finalize-instance_method">
+  
+    #<strong>insert_buf_and_finalize</strong>(attacked_sig, inserted_std_cell = &quot;#{@SCL_TARGET}__buf_8&quot;)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_insert_buf_and_finalize'>insert_buf_and_finalize</span><span class='lparen'>(</span><span class='id identifier rubyid_attacked_sig'>attacked_sig</span><span class='comma'>,</span> <span class='id identifier rubyid_inserted_std_cell'>inserted_std_cell</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@SCL_TARGET</span><span class='embexpr_end'>}</span><span class='tstring_content'>__buf_8</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> &gt; Attack place and route</span><span class='tstring_end'>&#39;</span></span>
+
+  <span class='id identifier rubyid_inserted_std_cell'>inserted_std_cell</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@SCL_TARGET</span><span class='embexpr_end'>}</span><span class='tstring_content'>__buf_8</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_inserted_std_cell'>inserted_std_cell</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='comment'># Dir.chdir(&#39;librelane_env&#39;) do
+</span>  <span class='id identifier rubyid_last_run_path'>last_run_path</span> <span class='op'>=</span> <span class='id identifier rubyid_get_last_run_path'>get_last_run_path</span>
+  <span class='id identifier rubyid_last_drt_path'>last_drt_path</span> <span class='op'>=</span> <span class='const'>Dir</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_last_run_path'>last_run_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/*detailedrouting*</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_last_drt_path'>last_drt_path</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No detailed routing step found in last run directory, previous run was not a pnr run or it was no fully completed</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ATTACKED_SIG</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_attacked_sig'>attacked_sig</span>
+  <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>INSERTED_STD_CELL</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_inserted_std_cell'>inserted_std_cell</span>
+
+  <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>envsubst &lt; librelane/template_insert_config.json &gt; librelane/insert_config.json</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_system'>system</span><span class='lparen'>(</span><span class='ivar'>@env</span><span class='comma'>,</span> <span class='id identifier rubyid_cmd'>cmd</span><span class='rparen'>)</span>
+
+  <span class='const'>STDOUT</span><span class='period'>.</span><span class='id identifier rubyid_sync'>sync</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_popen'>popen</span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nix-shell </span><span class='embexpr_beg'>#{</span><span class='ivar'>@LBLANE_NIX</span><span class='embexpr_end'>}</span><span class='tstring_content'> --run \&quot;librelane ./librelane/insert_config.json --with-initial-state </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_last_drt_path'>last_drt_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/state_out.json --from Odb.InsertECOBuffers\&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r+</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+    <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_gets'>gets</span> <span class='kw'>until</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_eof?'>eof?</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_attacked_sig_name'>attacked_sig_name</span> <span class='op'>=</span> <span class='id identifier rubyid_attacked_sig'>attacked_sig</span><span class='period'>.</span><span class='id identifier rubyid_tr'>tr</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_save_last_run_files'>save_last_run_files</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_apnr_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attacked_sig_name'>attacked_sig_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='comment'># end
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="process_blif_input-instance_method">
+  
+    #<strong>process_blif_input</strong>(blif_path)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36
+37
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_process_blif_input'>process_blif_input</span><span class='lparen'>(</span><span class='id identifier rubyid_blif_path'>blif_path</span><span class='rparen'>)</span>
+  <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>BLIF_NAME</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@blif_name</span> <span class='op'>=</span> <span class='id identifier rubyid_blif_path'>blif_path</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+  <span class='const'>FileUtils</span><span class='period'>.</span><span class='id identifier rubyid_cp'>cp</span><span class='lparen'>(</span><span class='id identifier rubyid_blif_path'>blif_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>netlist/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@blif_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>BLIF_PATH</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@blif_path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>netlist/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@blif_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='ivar'>@env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CIRC_NAME</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@circ_name</span> <span class='op'>=</span> <span class='ivar'>@blif_name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+  <span class='const'><span class='object_link'><a href="BlifRenamer.html" title="Librelane::BlifRenamer (class)">BlifRenamer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="BlifRenamer.html#initialize-instance_method" title="Librelane::BlifRenamer#initialize (method)">new</a></span></span><span class='period'>.</span><span class='id identifier rubyid_rename'><span class='object_link'><a href="BlifRenamer.html#rename-instance_method" title="Librelane::BlifRenamer#rename (method)">rename</a></span></span><span class='lparen'>(</span><span class='ivar'>@blif_path</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@blif_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>.bak</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_sim-instance_method">
+  
+    #<strong>run_sim</strong>(circ_name, mapped, ref_pnr, ut_pnr, tb_path, full_traces: false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 167</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_run_sim'>run_sim</span><span class='lparen'>(</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='comma'>,</span> <span class='id identifier rubyid_mapped'>mapped</span><span class='comma'>,</span> <span class='id identifier rubyid_ref_pnr'>ref_pnr</span><span class='comma'>,</span> <span class='id identifier rubyid_ut_pnr'>ut_pnr</span><span class='comma'>,</span> <span class='id identifier rubyid_tb_path'>tb_path</span><span class='comma'>,</span> <span class='label'>full_traces:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_opt'>opt</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_full_traces'>full_traces</span>
+          <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-voptargs=&quot;+acc&quot;</span><span class='tstring_end'>&#39;</span></span>
+        <span class='kw'>else</span>
+          <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+        <span class='kw'>end</span>
+  <span class='id identifier rubyid_cmds'>cmds</span> <span class='op'>=</span> <span class='lbracket'>[</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>vlib sky130</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vlog -work sky130 </span><span class='embexpr_beg'>#{</span><span class='ivar'>@PDK_V_FILES</span><span class='embexpr_end'>}</span><span class='tstring_content'>/primitives_fixed.v</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vlog -work sky130 </span><span class='embexpr_beg'>#{</span><span class='ivar'>@PDK_V_FILES</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@SCL_TARGET</span><span class='embexpr_end'>}</span><span class='tstring_content'>_fixed.v</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vlog -work sky130 </span><span class='embexpr_beg'>#{</span><span class='ivar'>@PDK_V_FILES2</span><span class='embexpr_end'>}</span><span class='tstring_content'>/sky130_ef_io_fixed.v</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vlog -work sky130 </span><span class='embexpr_beg'>#{</span><span class='ivar'>@PDK_V_FILES2</span><span class='embexpr_end'>}</span><span class='tstring_content'>/sky130_fd_io_fixed.v</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>vlog work</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vlog </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_mapped'>mapped</span><span class='embexpr_end'>}</span><span class='tstring_content'>.v</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vlog </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ref_pnr'>ref_pnr</span><span class='embexpr_end'>}</span><span class='tstring_content'>.v</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vlog </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ut_pnr'>ut_pnr</span><span class='embexpr_end'>}</span><span class='tstring_content'>.v</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vlog -v </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tb_path'>tb_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vsim </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_opt'>opt</span><span class='embexpr_end'>}</span><span class='tstring_content'> -c -L sky130 +transport_int_delays -sdftyp mapped_dut=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_mapped'>mapped</span><span class='embexpr_end'>}</span><span class='tstring_content'>.sdf -sdftyp pnr_dut=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ref_pnr'>ref_pnr</span><span class='embexpr_end'>}</span><span class='tstring_content'>.sdf -sdftyp a_pnr_dut=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ut_pnr'>ut_pnr</span><span class='embexpr_end'>}</span><span class='tstring_content'>.sdf tb_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> -sdfnoerror +sdf_report_unannotated_insts -do \&quot;run -all\&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># rubocop:disable Layout/LineLength
+</span>  <span class='rbracket'>]</span>
+  <span class='id identifier rubyid_cmds'>cmds</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_cmd'>cmd</span><span class='op'>|</span>
+    <span class='id identifier rubyid_system'>system</span><span class='lparen'>(</span><span class='id identifier rubyid_cmd'>cmd</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error encountered during simulation : &#39;</span><span class='embexpr_beg'>#{</span><span class='gvar'>$?</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='gvar'>$CHILD_STATUS</span><span class='period'>.</span><span class='id identifier rubyid_existatus'>existatus</span><span class='period'>.</span><span class='id identifier rubyid_positive?'>positive?</span>
+    <span class='comment'># correspond à $?.existatus &gt; 0
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sim_all_apnr-instance_method">
+  
+    #<strong>sim_all_apnr</strong>(circ_name = @circ_name, stim_path: &quot;made/#{circ_name}/#{circ_name}.stim&quot;, period: 100)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 221</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sim_all_apnr'>sim_all_apnr</span><span class='lparen'>(</span><span class='id identifier rubyid_circ_name'>circ_name</span> <span class='op'>=</span> <span class='ivar'>@circ_name</span><span class='comma'>,</span> <span class='label'>stim_path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.stim</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>period:</span> <span class='int'>100</span><span class='rparen'>)</span>
+  <span class='comment'># Check if pwd is a dir named &quot;librelane_env&quot; if not chdir in it, raise if an error occurs
+</span>
+  <span class='id identifier rubyid_altered_circuits'>altered_circuits</span> <span class='op'>=</span> <span class='const'>Dir</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/apnr_*.v</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_path'>path</span><span class='op'>|</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_delete_suffix'>delete_suffix</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.v</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_pnr'>pnr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_pnr</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_stim_path'>stim_path</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_stim_path'>stim_path</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>File </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_stim_path'>stim_path</span><span class='embexpr_end'>}</span><span class='tstring_content'> does not exist.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_stim_path'>stim_path</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_altered_circuits'>altered_circuits</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_apnr'>apnr</span><span class='op'>|</span>
+    <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mkdir'>mkdir</span><span class='lparen'>(</span><span class='id identifier rubyid_apnr'>apnr</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_apnr'>apnr</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_sim_only'>sim_only</span><span class='lparen'>(</span><span class='id identifier rubyid_pnr'>pnr</span><span class='comma'>,</span> <span class='id identifier rubyid_apnr'>apnr</span><span class='comma'>,</span> <span class='id identifier rubyid_stim_path'>stim_path</span><span class='comma'>,</span> <span class='id identifier rubyid_period'>period</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sim_only-instance_method">
+  
+    #<strong>sim_only</strong>(pnr_path, apnr_path, stim_path, period: 10)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 205</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sim_only'>sim_only</span><span class='lparen'>(</span><span class='id identifier rubyid_pnr_path'>pnr_path</span><span class='comma'>,</span> <span class='id identifier rubyid_apnr_path'>apnr_path</span><span class='comma'>,</span> <span class='id identifier rubyid_stim_path'>stim_path</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='int'>10</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pnr'>pnr</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Verilog.html" title="Verilog (module)">Verilog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load_netlist'><span class='object_link'><a href="../Verilog.html#load_netlist-class_method" title="Verilog.load_netlist (method)">load_netlist</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pnr_path'>pnr_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>.v</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_apnr'>apnr</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Verilog.html" title="Verilog (module)">Verilog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_load_netlist'><span class='object_link'><a href="../Verilog.html#load_netlist-class_method" title="Verilog.load_netlist (method)">load_netlist</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_apnr_path'>apnr_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>.v</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_tb_path'>tb_path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tb/tb_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pnr'>pnr</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.v</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_circ_name'>circ_name</span> <span class='op'>=</span> <span class='id identifier rubyid_pnr'>pnr</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+
+  <span class='id identifier rubyid_tb_generator'>tb_generator</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Converter.html" title="Converter (module)">Converter</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Converter/GenRealflowTestbench.html" title="Converter::GenRealflowTestbench (class)">GenRealflowTestbench</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Converter/GenRealflowTestbench.html#initialize-instance_method" title="Converter::GenRealflowTestbench#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_pnr'>pnr</span><span class='comma'>,</span> <span class='id identifier rubyid_pnr'>pnr</span><span class='comma'>,</span> <span class='id identifier rubyid_apnr'>apnr</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_tb_generator'>tb_generator</span><span class='period'>.</span><span class='id identifier rubyid_gen_testbench'>gen_testbench</span><span class='lparen'>(</span><span class='id identifier rubyid_pnr'>pnr</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_stim_path'>stim_path</span><span class='comma'>,</span> <span class='id identifier rubyid_period'>period</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='id identifier rubyid_tb_path'>tb_path</span><span class='comma'>,</span> <span class='label'>full_traces:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_run_sim'>run_sim</span><span class='lparen'>(</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='comma'>,</span> <span class='id identifier rubyid_pnr_path'>pnr_path</span><span class='comma'>,</span> <span class='id identifier rubyid_pnr_path'>pnr_path</span><span class='comma'>,</span> <span class='id identifier rubyid_apnr_path'>apnr_path</span><span class='comma'>,</span> <span class='id identifier rubyid_tb_path'>tb_path</span><span class='comma'>,</span> <span class='label'>full_traces:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='backtick'>`</span><span class='tstring_content'>mv activity.log </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_apnr_path'>apnr_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/activity.log</span><span class='tstring_end'>`</span></span>
+  <span class='backtick'>`</span><span class='tstring_content'>mv tb_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vcd </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_apnr'>apnr</span><span class='embexpr_end'>}</span><span class='tstring_content'>/tb_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>.vcd</span><span class='tstring_end'>`</span></span>
+
+  <span class='id identifier rubyid_analyze_logs'>analyze_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='comma'>,</span> <span class='id identifier rubyid_stim_path'>stim_path</span><span class='comma'>,</span> <span class='id identifier rubyid_pnr'>pnr</span><span class='period'>.</span><span class='id identifier rubyid_nb_outputs'>nb_outputs</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="synth_n_pnr-instance_method">
+  
+    #<strong>synth_n_pnr</strong>(blif_path)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_synth_n_pnr'>synth_n_pnr</span><span class='lparen'>(</span><span class='id identifier rubyid_blif_path'>blif_path</span><span class='rparen'>)</span>
+  <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>librelane_env</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_process_blif_input'>process_blif_input</span><span class='lparen'>(</span><span class='id identifier rubyid_blif_path'>blif_path</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_synth'>synth</span>
+    <span class='id identifier rubyid_pnr'>pnr</span>
+    <span class='id identifier rubyid_save_last_run_files'>save_last_run_files</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_pnr</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='ivar'>@v_pnr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_pnr.v</span><span class='tstring_end'>&quot;</span></span>
+    <span class='ivar'>@sdf_pnr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>made/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@circ_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_pnr.sdf</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="synth_only-instance_method">
+  
+    #<strong>synth_only</strong>(blif_path)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/librelane/librelane_env.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_synth_only'>synth_only</span><span class='lparen'>(</span><span class='id identifier rubyid_blif_path'>blif_path</span><span class='rparen'>)</span>
+  <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_chdir'>chdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>librelane_env</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_process_blif_input'>process_blif_input</span><span class='lparen'>(</span><span class='id identifier rubyid_blif_path'>blif_path</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_synth'>synth</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Sep 15 17:08:21 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.4.4).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Delays::SDFDelays
+  
+    &mdash; Documentation by YARD 0.9.45
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "Delays::SDFDelays";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Delays.html" title="Delays (module)">Delays</a></span></span>
+     &raquo; 
+    <span class="title">SDFDelays</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Delays::SDFDelays
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="CircuitDelays.html" title="Delays::CircuitDelays (class)">CircuitDelays</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="CircuitDelays.html" title="Delays::CircuitDelays (class)">CircuitDelays</a></span></li>
+          
+            <li class="next">Delays::SDFDelays</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/delays/delay.rb
+</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delays-instance_method" title="#delays (instance method)">#<strong>delays</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Object containing a hash associating each circuit component/gate or wire to a delay object.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#nl-instance_method" title="#nl (instance method)">#<strong>nl</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Object containing a hash associating each circuit component/gate or wire to a delay object.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sdf_filepath-instance_method" title="#sdf_filepath (instance method)">#<strong>sdf_filepath</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Object containing a hash associating each circuit component/gate or wire to a delay object.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add-instance_method" title="#add (instance method)">#<strong>add</strong>(obj, dly)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Associates a dly to an object.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_add-instance_method" title="#create_add (instance method)">#<strong>create_add</strong>(obj, dly_val)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gate_min_dly-instance_method" title="#gate_min_dly (instance method)">#<strong>gate_min_dly</strong>(g)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gate_worst_dly-instance_method" title="#gate_worst_dly (instance method)">#<strong>gate_worst_dly</strong>(g)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_gate_dly-instance_method" title="#get_gate_dly (instance method)">#<strong>get_gate_dly</strong>(g, ioarc, transi, col)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_wire_dly-instance_method" title="#get_wire_dly (instance method)">#<strong>get_wire_dly</strong>(w, transi, col)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(nl, sdf_filepath)  &#x21d2; SDFDelays </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of SDFDelays.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid%3F-instance_method" title="#valid? (instance method)">#<strong>valid?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wire_worst_dly-instance_method" title="#wire_worst_dly (instance method)">#<strong>wire_worst_dly</strong>(w)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+    
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="CircuitDelays.html" title="Delays::CircuitDelays (class)">CircuitDelays</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="CircuitDelays.html#all_obj_in_nl%3F-instance_method" title="Delays::CircuitDelays#all_obj_in_nl? (method)">#all_obj_in_nl?</a></span>, <span class='object_link'><a href="CircuitDelays.html#obj_in_nl%3F-instance_method" title="Delays::CircuitDelays#obj_in_nl? (method)">#obj_in_nl?</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(nl, sdf_filepath)  &#x21d2; <tt><span class='object_link'><a href="" title="Delays::SDFDelays (class)">SDFDelays</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of SDFDelays.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+160
+161
+162
+163</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 160</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_nl'>nl</span><span class='comma'>,</span> <span class='id identifier rubyid_sdf_filepath'>sdf_filepath</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_nl'>nl</span><span class='rparen'>)</span>
+  <span class='ivar'>@sdf_filepath</span> <span class='op'>=</span> <span class='id identifier rubyid_sdf_filepath'>sdf_filepath</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="delays-instance_method">
+  
+    #<strong>delays</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Object containing a hash associating each circuit component/gate or wire to a delay object</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 158</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delays'>delays</span>
+  <span class='ivar'>@delays</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="nl-instance_method">
+  
+    #<strong>nl</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Object containing a hash associating each circuit component/gate or wire to a delay object</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 158</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_nl'>nl</span>
+  <span class='ivar'>@nl</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="sdf_filepath-instance_method">
+  
+    #<strong>sdf_filepath</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Object containing a hash associating each circuit component/gate or wire to a delay object</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 158</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sdf_filepath'>sdf_filepath</span>
+  <span class='ivar'>@sdf_filepath</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add-instance_method">
+  
+    #<strong>add</strong>(obj, dly)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Associates a dly to an object</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_dly'>dly</span> <span class='comment'># Expecting a ArcDelays
+</span>  <span class='ivar'>@delays</span><span class='lbracket'>[</span><span class='id identifier rubyid_obj'>obj</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_dly'>dly</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_add-instance_method">
+  
+    #<strong>create_add</strong>(obj, dly_val)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 190</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_add'>create_add</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_dly_val'>dly_val</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Gate.html" title="Netlist::Gate (class)">Gate</a></span></span>
+    <span class='id identifier rubyid_io_dlys'>io_dlys</span> <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ip'>ip</span><span class='op'>|</span>
+      <span class='lbracket'>[</span> <span class='id identifier rubyid_ip'>ip</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='comma'>,</span> 
+        <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_get_output'>get_output</span><span class='period'>.</span><span class='id identifier rubyid_get_full_name'>get_full_name</span><span class='comma'>,</span>
+        <span class='const'><span class='object_link'><a href="RiseFallDelay.html" title="Delays::RiseFallDelay (class)">RiseFallDelay</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RiseFallDelay.html#initialize-instance_method" title="Delays::RiseFallDelay#initialize (method)">new</a></span></span><span class='lparen'>(</span>
+          <span class='const'><span class='object_link'><a href="MinTypMaxDelay.html" title="Delays::MinTypMaxDelay (class)">MinTypMaxDelay</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MinTypMaxDelay.html#initialize-instance_method" title="Delays::MinTypMaxDelay#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='comma'>,</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='comma'>,</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='rparen'>)</span><span class='comma'>,</span>
+          <span class='const'><span class='object_link'><a href="MinTypMaxDelay.html" title="Delays::MinTypMaxDelay (class)">MinTypMaxDelay</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MinTypMaxDelay.html#initialize-instance_method" title="Delays::MinTypMaxDelay#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='comma'>,</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='comma'>,</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='rparen'>)</span>
+        <span class='rparen'>)</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="ArcDelays.html" title="Delays::ArcDelays (class)">ArcDelays</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ArcDelays.html#initialize-instance_method" title="Delays::ArcDelays#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_io_dlys'>io_dlys</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Wire.html" title="Netlist::Wire (class)">Wire</a></span></span>
+    <span class='id identifier rubyid_rf_dly'>rf_dly</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RiseFallDelay.html" title="Delays::RiseFallDelay (class)">RiseFallDelay</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RiseFallDelay.html#initialize-instance_method" title="Delays::RiseFallDelay#initialize (method)">new</a></span></span><span class='lparen'>(</span>
+      <span class='const'><span class='object_link'><a href="MinTypMaxDelay.html" title="Delays::MinTypMaxDelay (class)">MinTypMaxDelay</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MinTypMaxDelay.html#initialize-instance_method" title="Delays::MinTypMaxDelay#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='comma'>,</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='comma'>,</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='rparen'>)</span><span class='comma'>,</span>
+      <span class='const'><span class='object_link'><a href="MinTypMaxDelay.html" title="Delays::MinTypMaxDelay (class)">MinTypMaxDelay</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MinTypMaxDelay.html#initialize-instance_method" title="Delays::MinTypMaxDelay#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='comma'>,</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='comma'>,</span><span class='id identifier rubyid_dly_val'>dly_val</span><span class='rparen'>)</span>
+    <span class='rparen'>)</span>
+    <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_rf_dly'>rf_dly</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Unexpected class </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_content'> encountered for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gate_min_dly-instance_method">
+  
+    #<strong>gate_min_dly</strong>(g)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+186
+187
+188</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 186</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gate_min_dly'>gate_min_dly</span><span class='lparen'>(</span><span class='id identifier rubyid_g'>g</span><span class='rparen'>)</span>
+  <span class='ivar'>@delays</span><span class='lbracket'>[</span><span class='id identifier rubyid_g'>g</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="gate_worst_dly-instance_method">
+  
+    #<strong>gate_worst_dly</strong>(g)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+182
+183
+184</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 182</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gate_worst_dly'>gate_worst_dly</span><span class='lparen'>(</span><span class='id identifier rubyid_g'>g</span><span class='rparen'>)</span>
+  <span class='ivar'>@delays</span><span class='lbracket'>[</span><span class='id identifier rubyid_g'>g</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_gate_dly-instance_method">
+  
+    #<strong>get_gate_dly</strong>(g, ioarc, transi, col)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 174</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_gate_dly'>get_gate_dly</span><span class='lparen'>(</span><span class='id identifier rubyid_g'>g</span><span class='comma'>,</span> <span class='id identifier rubyid_ioarc'>ioarc</span><span class='comma'>,</span> <span class='id identifier rubyid_transi'>transi</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='ivar'>@delays</span><span class='lbracket'>[</span><span class='id identifier rubyid_g'>g</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_ioarc_dly'>ioarc_dly</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_ioarc'>ioarc</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_transi'>transi</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_wire_dly-instance_method">
+  
+    #<strong>get_wire_dly</strong>(w, transi, col)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_wire_dly'>get_wire_dly</span><span class='lparen'>(</span><span class='id identifier rubyid_w'>w</span><span class='comma'>,</span> <span class='id identifier rubyid_transi'>transi</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='ivar'>@delays</span><span class='lbracket'>[</span><span class='id identifier rubyid_w'>w</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_transi'>transi</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid?-instance_method">
+  
+    #<strong>valid?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+212
+213
+214</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 212</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span> 
+  <span class='kw'>super</span> <span class='comment'>#and only_one_values? 
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="wire_worst_dly-instance_method">
+  
+    #<strong>wire_worst_dly</strong>(w)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/delays/delay.rb', line 178</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_wire_worst_dly'>wire_worst_dly</span><span class='lparen'>(</span><span class='id identifier rubyid_w'>w</span><span class='rparen'>)</span>
+  <span class='ivar'>@delays</span><span class='lbracket'>[</span><span class='id identifier rubyid_w'>w</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>  
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Sep 15 17:08:14 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.45 (ruby-3.4.4).
+</div>
+
+    </div>
+  </body>
+</html>

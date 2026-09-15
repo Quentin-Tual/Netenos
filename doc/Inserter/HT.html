@@ -6,13 +6,13 @@
 <title>
   Class: Inserter::HT
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Inserter::HT";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/inserter/ht.rb</dd>
+    <dd>lib/inserter/ht.rb
+</dd>
   </dl>
   
 </div>
@@ -132,9 +135,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute components.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute components.</p></div></span>
   
 </li>
 
@@ -161,9 +162,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute netlist.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute netlist.</p></div></span>
   
 </li>
 
@@ -190,9 +189,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute payload_in.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute payload_in.</p></div></span>
   
 </li>
 
@@ -219,9 +216,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute propag_time.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute propag_time.</p></div></span>
   
 </li>
 
@@ -248,9 +243,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute triggers.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute triggers.</p></div></span>
   
 </li>
 
@@ -485,10 +478,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><ul><li>
-<p>: An HT netlist is considered as the reference pointing on its payload instance.</p>
-</li></ul>
-</div></span>
+    <span class="summary_desc"><div class='inline'><ul>
+<li>: An HT netlist is considered as the reference pointing on its payload instance.</li>
+</ul></div></span>
   
 </li>
 
@@ -516,6 +508,7 @@
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -532,10 +525,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <ul><li>
-<p>: An HT netlist is considered as the reference pointing on its payload instance</p>
-</li></ul>
-
+    <ul>
+<li>: An HT netlist is considered as the reference pointing on its payload instance</li>
+</ul>
 
   </div>
 </div>
@@ -591,9 +583,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute components.</p>
-
+    <p>Returns the value of attribute components.</p>
 
   </div>
 </div>
@@ -634,9 +624,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute netlist.</p>
-
+    <p>Returns the value of attribute netlist.</p>
 
   </div>
 </div>
@@ -677,9 +665,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute payload_in.</p>
-
+    <p>Returns the value of attribute payload_in.</p>
 
   </div>
 </div>
@@ -720,9 +706,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute propag_time.</p>
-
+    <p>Returns the value of attribute propag_time.</p>
 
   </div>
 </div>
@@ -763,9 +747,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute triggers.</p>
-
+    <p>Returns the value of attribute triggers.</p>
 
   </div>
 </div>
@@ -1086,7 +1068,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/inserter/ht.rb', line 57</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_trigger_transition_proba'>get_trigger_transition_proba</span> <span class='id identifier rubyid_proba_input_sig'>proba_input_sig</span> <span class='op'>=</span> <span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@triggers</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='comma'>,</span> <span class='float'>0.5</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_trigger_transition_proba'>get_trigger_transition_proba</span> <span class='id identifier rubyid_proba_input_sig'>proba_input_sig</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@triggers</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='comma'>,</span> <span class='float'>0.5</span><span class='rparen'>)</span>
     <span class='ivar'>@trigger_sigs_proba</span> <span class='op'>=</span> <span class='ivar'>@triggers</span><span class='period'>.</span><span class='id identifier rubyid_each_with_object'>each_with_object</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span><span class='lbrace'>{</span><span class='op'>|</span><span class='lparen'>(</span><span class='id identifier rubyid_trig'>trig</span><span class='comma'>,</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span><span class='comma'>,</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_h'>h</span><span class='lbracket'>[</span><span class='id identifier rubyid_trig'>trig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_proba_input_sig'>proba_input_sig</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
 
     <span class='id identifier rubyid_get_transition_probability'>get_transition_probability</span><span class='lparen'>(</span><span class='ivar'>@payload_in</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_get_inputs'>get_inputs</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='rparen'>)</span>
@@ -1239,9 +1221,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:20 2025 by
+  Generated on Tue Sep 15 17:08:13 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

@@ -6,13 +6,13 @@
 <title>
   Class: VCD::WordArrayTrace
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "VCD::WordArrayTrace";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,7 +98,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/vcd_tools/word_trace.rb</dd>
+    <dd>lib/vcd_tools/word_trace.rb
+</dd>
   </dl>
   
 </div>
@@ -130,9 +133,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute clk_period.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute clk_period.</p></div></span>
   
 </li>
 
@@ -159,9 +160,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute signal_names.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute signal_names.</p></div></span>
   
 </li>
 
@@ -188,9 +187,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute values.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute values.</p></div></span>
   
 </li>
 
@@ -225,9 +222,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DTW (Dynamic Time Warping).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DTW (Dynamic Time Warping).</p></div></span>
   
 </li>
 
@@ -249,9 +244,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>CROSS-CORRELATION.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>CROSS-CORRELATION.</p></div></span>
   
 </li>
 
@@ -297,9 +290,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of WordArrayTrace.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of WordArrayTrace.</p></div></span>
   
 </li>
 
@@ -321,17 +312,17 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>score.each_with_index.max end.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>score.each_with_index.max end.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
+  
   
   
   
@@ -356,9 +347,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of WordArrayTrace.</p>
-
+    <p>Returns a new instance of WordArrayTrace.</p>
 
   </div>
 </div>
@@ -404,9 +393,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute clk_period.</p>
-
+    <p>Returns the value of attribute clk_period.</p>
 
   </div>
 </div>
@@ -447,9 +434,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute signal_names.</p>
-
+    <p>Returns the value of attribute signal_names.</p>
 
   </div>
 </div>
@@ -490,9 +475,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute values.</p>
-
+    <p>Returns the value of attribute values.</p>
 
   </div>
 </div>
@@ -538,9 +521,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DTW (Dynamic Time Warping)</p>
-
+    <p>DTW (Dynamic Time Warping)</p>
 
   </div>
 </div>
@@ -605,9 +586,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>CROSS-CORRELATION</p>
-
+    <p>CROSS-CORRELATION</p>
 
   </div>
 </div>
@@ -710,7 +689,7 @@
   <span class='id identifier rubyid_m'>m</span> <span class='op'>=</span> <span class='id identifier rubyid_arr_b'>arr_b</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
   <span class='id identifier rubyid_w'>w</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_w'>w</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='op'>-</span><span class='id identifier rubyid_m'>m</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_abs'>abs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
 
-  <span class='id identifier rubyid_dtw'>dtw</span> <span class='op'>=</span> <span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span> <span class='const'>Float</span><span class='op'>::</span><span class='const'>INFINITY</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_dtw'>dtw</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span> <span class='const'>Float</span><span class='op'>::</span><span class='const'>INFINITY</span><span class='rparen'>)</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_dtw'>dtw</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>0</span>
   
   <span class='id identifier rubyid_arr_a'>arr_a</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_va'>va</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
@@ -744,9 +723,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>score.each_with_index.max end</p>
-
+    <p>score.each_with_index.max
+end</p>
 
   </div>
 </div>
@@ -837,9 +815,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:24 2025 by
+  Generated on Tue Sep 15 17:08:19 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

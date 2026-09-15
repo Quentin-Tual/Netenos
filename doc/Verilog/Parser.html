@@ -6,13 +6,13 @@
 <title>
   Class: Verilog::Parser
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Verilog::Parser";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/verilog/v_parser.rb</dd>
+    <dd>lib/verilog/v_parser.rb
+</dd>
   </dl>
   
 </div>
@@ -153,9 +156,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>def initialize   @h = Hash.new   @current_pos = h   @block_stack = [] # Stack   # @level = 0   @line = 0 end.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>def initialize   @h = Hash.new   @current_pos = h   @block_stack = [] # Stack   # @level = 0   @line = 0 end.</p></div></span>
   
 </li>
 
@@ -221,9 +222,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>same as expect but without error raised, for new_line token that does not change the structure or information contained in the file.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>same as expect but without error raised, for new_line token that does not change the structure or information contained in the file.</p></div></span>
   
 </li>
 
@@ -383,6 +382,7 @@
 
       
     </ul>
+    
   
 
 
@@ -436,18 +436,13 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>def initialize</p>
-
-<pre class="code ruby"><code class="ruby"><span class='ivar'>@h</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-<span class='ivar'>@current_pos</span> <span class='op'>=</span> <span class='id identifier rubyid_h'>h</span>
-<span class='ivar'>@block_stack</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='comment'># Stack
-</span><span class='comment'># @level = 0
-</span><span class='ivar'>@line</span> <span class='op'>=</span> <span class='int'>0</span>
-</code></pre>
-
-<p>end</p>
-
+    <p>def initialize
+@h = Hash.new
+@current_pos = h
+@block_stack = [] # Stack</p>
+<h1 id="_level___0">@level = 0</h1>
+<p>@line = 0
+end</p>
 
   </div>
 </div>
@@ -554,9 +549,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>same as expect but without error raised, for new_line token that does not change the structure or information contained in the file</p>
-
+    <p>same as expect but without error raised, for new_line token that does not change the structure or information contained in the file</p>
 
   </div>
 </div>
@@ -655,7 +648,6 @@
       <pre class="lines">
 
 
-106
 107
 108
 109
@@ -671,10 +663,11 @@
 119
 120
 121
-122</pre>
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/v_parser.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/v_parser.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_decl'>parse_decl</span>
   <span class='id identifier rubyid_tok'>tok</span> <span class='op'>=</span> <span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='symbol'>:input</span><span class='comma'>,</span> <span class='symbol'>:output</span><span class='comma'>,</span> <span class='symbol'>:wire</span><span class='rparen'>)</span>
@@ -713,7 +706,6 @@
       <pre class="lines">
 
 
-124
 125
 126
 127
@@ -729,10 +721,11 @@
 137
 138
 139
-140</pre>
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/v_parser.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/v_parser.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_inst'>parse_inst</span>
   <span class='id identifier rubyid_module_name'>module_name</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Ident.html" title="Verilog::Ident (class)">Ident</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Ident.html#initialize-instance_method" title="Verilog::Ident#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='symbol'>:ident</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
@@ -804,7 +797,8 @@
 101
 102
 103
-104</pre>
+104
+105</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/verilog/v_parser.rb', line 71</span>
@@ -819,6 +813,7 @@
   <span class='kw'>else</span>
     <span class='kw'>until</span> <span class='id identifier rubyid_showNext'>showNext</span><span class='period'>.</span><span class='id identifier rubyid_kind'>kind</span> <span class='op'>==</span> <span class='symbol'>:semicolon</span>
       <span class='id identifier rubyid_ios'>ios</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="Ident.html" title="Verilog::Ident (class)">Ident</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Ident.html#initialize-instance_method" title="Verilog::Ident#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='symbol'>:ident</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_maybe'>maybe</span> <span class='symbol'>:new_line</span>
       <span class='id identifier rubyid_expect'>expect</span> <span class='symbol'>:coma</span><span class='comma'>,</span> <span class='symbol'>:rpar</span>
       <span class='id identifier rubyid_maybe'>maybe</span> <span class='symbol'>:new_line</span>
     <span class='kw'>end</span>
@@ -863,7 +858,6 @@
       <pre class="lines">
 
 
-142
 143
 144
 145
@@ -882,10 +876,11 @@
 158
 159
 160
-161</pre>
+161
+162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/verilog/v_parser.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'lib/verilog/v_parser.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_portmap'>parse_portmap</span>
   <span class='id identifier rubyid_elements'>elements</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -995,9 +990,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:23 2025 by
+  Generated on Tue Sep 15 17:08:18 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

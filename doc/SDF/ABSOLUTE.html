@@ -6,13 +6,13 @@
 <title>
   Class: SDF::ABSOLUTE
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "SDF::ABSOLUTE";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,7 +98,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/sdf/sdf_ast.rb</dd>
+    <dd>lib/sdf/sdf_ast.rb
+</dd>
   </dl>
   
 </div>
@@ -124,7 +127,139 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#add-instance_method" title="#add (instance method)">#<strong>add</strong>(subnode)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#apply_fun-instance_method" title="#apply_fun (instance method)">#<strong>apply_fun</strong>(fun)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_fun_to_col-instance_method" title="#apply_fun_to_col (instance method)">#<strong>apply_fun_to_col</strong>(fun, col)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_fun_to_col_falling-instance_method" title="#apply_fun_to_col_falling (instance method)">#<strong>apply_fun_to_col_falling</strong>(fun, col)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_fun_to_col_falling_ioarc-instance_method" title="#apply_fun_to_col_falling_ioarc (instance method)">#<strong>apply_fun_to_col_falling_ioarc</strong>(fun, col, g)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_fun_to_col_rising-instance_method" title="#apply_fun_to_col_rising (instance method)">#<strong>apply_fun_to_col_rising</strong>(fun, col)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_fun_to_col_rising_ioarc-instance_method" title="#apply_fun_to_col_rising_ioarc (instance method)">#<strong>apply_fun_to_col_rising_ioarc</strong>(fun, col, g)  &#x21d2; Object </a>
     
 
     
@@ -210,9 +345,11 @@
 
       
     </ul>
+    
   
 
 
+  
   
   
   
@@ -222,8 +359,9 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Node.html" title="SDF::Node (class)">Node</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Node.html#add-instance_method" title="SDF::Node#add (method)">#add</a></span>, <span class='object_link'><a href="Node.html#contains_class%3F-instance_method" title="SDF::Node#contains_class? (method)">#contains_class?</a></span>, <span class='object_link'><a href="Node.html#get_subnode-instance_method" title="SDF::Node#get_subnode (method)">#get_subnode</a></span>, <span class='object_link'><a href="Node.html#initialize-instance_method" title="SDF::Node#initialize (method)">#initialize</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Node.html#accept-instance_method" title="SDF::Node#accept (method)">#accept</a></span>, <span class='object_link'><a href="Node.html#contains_class%3F-instance_method" title="SDF::Node#contains_class? (method)">#contains_class?</a></span>, <span class='object_link'><a href="Node.html#get_subnode-instance_method" title="SDF::Node#get_subnode (method)">#get_subnode</a></span>, <span class='object_link'><a href="Node.html#initialize-instance_method" title="SDF::Node#initialize (method)">#initialize</a></span></p>
 
+  
   
   
   
@@ -247,7 +385,41 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="apply_fun-instance_method">
+  <h3 class="signature first" id="add-instance_method">
+  
+    #<strong>add</strong>(subnode)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+206
+207
+208
+209
+210</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 206</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_subnode'>subnode</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_existing_node'>existing_node</span> <span class='op'>=</span> <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_same_wire?'>same_wire?</span><span class='lparen'>(</span><span class='id identifier rubyid_subnode'>subnode</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_existing_node'>existing_node</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_existing_node'>existing_node</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_subnode'>subnode</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_fun-instance_method">
   
     #<strong>apply_fun</strong>(fun)  &#x21d2; <tt>Object</tt> 
   
@@ -261,25 +433,237 @@
       <pre class="lines">
 
 
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131</pre>
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 224</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_apply_fun'>apply_fun</span> <span class='id identifier rubyid_fun'>fun</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_apply_fun'>apply_fun</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_delayNode'>delayNode</span><span class='op'>|</span>
     <span class='id identifier rubyid_delayNode'>delayNode</span><span class='period'>.</span><span class='id identifier rubyid_attr_flat_float_list'>attr_flat_float_list</span>
   <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_fun'>fun</span> <span class='op'>==</span> <span class='symbol'>:avg</span> <span class='kw'>or</span> <span class='id identifier rubyid_fun'>fun</span> <span class='op'>==</span> <span class='symbol'>:mean</span>
+  <span class='kw'>if</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>avg</span><span class='words_sep'> </span><span class='tstring_content'>mean</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span> <span class='op'>/</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
+  <span class='kw'>else</span> <span class='comment'># :min or :max
+</span>    <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_fun_to_col-instance_method">
+  
+    #<strong>apply_fun_to_col</strong>(fun, col)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 235</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_apply_fun_to_col'>apply_fun_to_col</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dly_node'>dly_node</span><span class='op'>|</span>
+    <span class='id identifier rubyid_dly_node'>dly_node</span><span class='period'>.</span><span class='id identifier rubyid_get_flat_float_list'>get_flat_float_list</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='kw'>if</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>avg</span><span class='words_sep'> </span><span class='tstring_content'>mean</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span> <span class='op'>/</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
+  <span class='kw'>else</span> <span class='comment'># :min or :max
+</span>    <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_fun_to_col_falling-instance_method">
+  
+    #<strong>apply_fun_to_col_falling</strong>(fun, col)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 257</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_apply_fun_to_col_falling'>apply_fun_to_col_falling</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dly_node'>dly_node</span><span class='op'>|</span>
+    <span class='id identifier rubyid_dly_node'>dly_node</span><span class='period'>.</span><span class='id identifier rubyid_get_flat_float_list_falling'>get_flat_float_list_falling</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='kw'>if</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>avg</span><span class='words_sep'> </span><span class='tstring_content'>mean</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span> <span class='op'>/</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
+  <span class='kw'>else</span> <span class='comment'># :min or :max
+</span>    <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_fun_to_col_falling_ioarc-instance_method">
+  
+    #<strong>apply_fun_to_col_falling_ioarc</strong>(fun, col, g)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+277
+278
+279
+280
+281
+282
+283
+284</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 277</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_apply_fun_to_col_falling_ioarc'>apply_fun_to_col_falling_ioarc</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='comma'>,</span> <span class='id identifier rubyid_g'>g</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_get_flat_float_list_falling'>get_flat_float_list_falling</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>avg</span><span class='words_sep'> </span><span class='tstring_content'>mean</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span> <span class='op'>/</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
+  <span class='kw'>else</span> <span class='comment'># :min or :max
+</span>    <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_fun_to_col_rising-instance_method">
+  
+    #<strong>apply_fun_to_col_rising</strong>(fun, col)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 246</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_apply_fun_to_col_rising'>apply_fun_to_col_rising</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dly_node'>dly_node</span><span class='op'>|</span>
+    <span class='id identifier rubyid_dly_node'>dly_node</span><span class='period'>.</span><span class='id identifier rubyid_get_flat_float_list_rising'>get_flat_float_list_rising</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='kw'>if</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>avg</span><span class='words_sep'> </span><span class='tstring_content'>mean</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span> <span class='op'>/</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
+  <span class='kw'>else</span> <span class='comment'># :min or :max
+</span>    <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_fun_to_col_rising_ioarc-instance_method">
+  
+    #<strong>apply_fun_to_col_rising_ioarc</strong>(fun, col, g)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270
+271
+272
+273
+274
+275</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 268</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_apply_fun_to_col_rising_ioarc'>apply_fun_to_col_rising_ioarc</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='comma'>,</span> <span class='id identifier rubyid_g'>g</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='id identifier rubyid_g'>g</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_get_flat_float_list_rising'>get_flat_float_list_rising</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>avg</span><span class='words_sep'> </span><span class='tstring_content'>mean</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
     <span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span> <span class='op'>/</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
   <span class='kw'>else</span> <span class='comment'># :min or :max
 </span>    <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
@@ -305,15 +689,15 @@
       <pre class="lines">
 
 
-114
-115
-116</pre>
+216
+217
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_interconnects'>interconnects</span>
-  <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="INTERCONNECT.html" title="SDF::INTERCONNECT (class)">INTERCONNECT</a></span></span><span class='rbrace'>}</span>
+  <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="INTERCONNECT.html" title="SDF::INTERCONNECT (class)">INTERCONNECT</a></span></span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -335,15 +719,15 @@
       <pre class="lines">
 
 
-118
-119
-120</pre>
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 220</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_iopaths'>iopaths</span>
-  <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="IOPATH.html" title="SDF::IOPATH (class)">IOPATH</a></span></span><span class='rbrace'>}</span>
+  <span class='ivar'>@subnodes</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="IOPATH.html" title="SDF::IOPATH (class)">IOPATH</a></span></span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -387,15 +771,15 @@
       <pre class="lines">
 
 
-110
-111
-112</pre>
+212
+213
+214</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 212</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
-  <span class='id identifier rubyid_contains_class?'>contains_class?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="INTERCONNECT.html" title="SDF::INTERCONNECT (class)">INTERCONNECT</a></span></span><span class='rparen'>)</span>
+  <span class='lparen'>(</span><span class='id identifier rubyid_contains_class?'>contains_class?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="INTERCONNECT.html" title="SDF::INTERCONNECT (class)">INTERCONNECT</a></span></span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_contains_class?'>contains_class?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="IOPATH.html" title="SDF::IOPATH (class)">IOPATH</a></span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='kw'>super</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -407,9 +791,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:20 2025 by
+  Generated on Tue Sep 15 17:08:14 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

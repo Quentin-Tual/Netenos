@@ -6,13 +6,13 @@
 <title>
   Class: SDF::Parser
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "SDF::Parser";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/sdf/sdf_parser.rb</dd>
+    <dd>lib/sdf/sdf_parser.rb
+</dd>
   </dl>
   
 </div>
@@ -197,9 +200,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>def initialize   @h = Hash.new   @current_pos = h   @block_stack = [] # Stack   # @level = 0   @line = 0 end.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>def initialize   @h = Hash.new   @current_pos = h   @block_stack = [] # Stack   # @level = 0   @line = 0 end.</p></div></span>
   
 </li>
 
@@ -491,6 +492,7 @@
 
       
     </ul>
+    
   
 
 
@@ -608,18 +610,13 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>def initialize</p>
-
-<pre class="code ruby"><code class="ruby"><span class='ivar'>@h</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-<span class='ivar'>@current_pos</span> <span class='op'>=</span> <span class='id identifier rubyid_h'>h</span>
-<span class='ivar'>@block_stack</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='comment'># Stack
-</span><span class='comment'># @level = 0
-</span><span class='ivar'>@line</span> <span class='op'>=</span> <span class='int'>0</span>
-</code></pre>
-
-<p>end</p>
-
+    <p>def initialize
+@h = Hash.new
+@current_pos = h
+@block_stack = [] # Stack</p>
+<h1 id="_level___0">@level = 0</h1>
+<p>@line = 0
+end</p>
 
   </div>
 </div>
@@ -1266,9 +1263,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:21 2025 by
+  Generated on Tue Sep 15 17:08:16 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

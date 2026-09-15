@@ -6,13 +6,13 @@
 <title>
   Class: SDF::Time
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "SDF::Time";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/sdf/sdf_ast.rb</dd>
+    <dd>lib/sdf/sdf_ast.rb
+</dd>
   </dl>
   
 </div>
@@ -128,9 +131,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute val.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute val.</p></div></span>
   
 </li>
 
@@ -167,14 +168,35 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Time.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Time.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid%3F-instance_method" title="#valid? (instance method)">#<strong>valid?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>def accept visitor   visitor.visit_Time(self) end.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -191,9 +213,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Time.</p>
-
+    <p>Returns a new instance of Time.</p>
 
   </div>
 </div>
@@ -206,14 +226,14 @@
       <pre class="lines">
 
 
-157
-158
-159</pre>
+312
+313
+314</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 312</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='ivar'>@val</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -239,9 +259,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute val.</p>
-
+    <p>Returns the value of attribute val.</p>
 
   </div>
 </div>
@@ -254,12 +272,12 @@
       <pre class="lines">
 
 
-155
-156
-157</pre>
+310
+311
+312</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 310</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_val'>val</span>
   <span class='ivar'>@val</span>
@@ -272,12 +290,72 @@
   </div>
 
 
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="valid?-instance_method">
+  
+    #<strong>valid?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>def accept visitor
+visitor.visit_Time(self)
+end</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+320
+321
+322</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 320</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
+  <span class='op'>!</span><span class='ivar'>@val</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:20 2025 by
+  Generated on Tue Sep 15 17:08:14 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

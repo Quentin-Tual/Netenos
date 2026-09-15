@@ -6,13 +6,13 @@
 <title>
   Class: Converter::ConvBlif2Netlist
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Converter::ConvBlif2Netlist";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,16 +96,15 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/converter/convBlif2Netlist.rb</dd>
+    <dd>lib/converter/convBlif2Netlist.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>! Legacy / associated to Hyle parser, not used and not maintained</p>
-
+    <p>! Legacy / associated to Hyle parser, not used and not maintained</p>
 
   </div>
 </div>
@@ -216,7 +217,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(genlib_path = &quot;.&quot;)  &#x21d2; ConvBlif2Netlist </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(genlib_path = &#39;.&#39;)  &#x21d2; ConvBlif2Netlist </a>
     
 
     
@@ -232,9 +233,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of ConvBlif2Netlist.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of ConvBlif2Netlist.</p></div></span>
   
 </li>
 
@@ -278,9 +277,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>lexer.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>lexer.</p></div></span>
   
 </li>
 
@@ -418,6 +415,7 @@
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -426,7 +424,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(genlib_path = &quot;.&quot;)  &#x21d2; <tt><span class='object_link'><a href="" title="Converter::ConvBlif2Netlist (class)">ConvBlif2Netlist</a></span></tt> 
+    #<strong>initialize</strong>(genlib_path = &#39;.&#39;)  &#x21d2; <tt><span class='object_link'><a href="" title="Converter::ConvBlif2Netlist (class)">ConvBlif2Netlist</a></span></tt> 
   
 
   
@@ -434,9 +432,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of ConvBlif2Netlist.</p>
-
+    <p>Returns a new instance of ConvBlif2Netlist.</p>
 
   </div>
 </div>
@@ -449,27 +445,27 @@
       <pre class="lines">
 
 
+3
+4
 5
 6
 7
 8
 9
 10
-11
-12
-13</pre>
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 3</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_genlib_path'>genlib_path</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='kw'>nil</span>
-    <span class='ivar'>@nb_inputs</span> <span class='op'>=</span> <span class='int'>0</span>
-    <span class='ivar'>@nb_outputs</span> <span class='op'>=</span> <span class='int'>0</span>
-    <span class='ivar'>@sym_tab</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:p_in</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='symbol'>:p_out</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='symbol'>:g_out</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rbrace'>}</span>
-    <span class='ivar'>@genlib_path</span> <span class='op'>=</span> <span class='id identifier rubyid_genlib_path'>genlib_path</span>
-    <span class='id identifier rubyid_gen_genlib'>gen_genlib</span>
-    <span class='comment'># TODO : check if yosys-abc is installed, raise exception if its not 
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_genlib_path'>genlib_path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@nb_inputs</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='ivar'>@nb_outputs</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='ivar'>@sym_tab</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>p_in:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>p_out:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>g_out:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@genlib_path</span> <span class='op'>=</span> <span class='id identifier rubyid_genlib_path'>genlib_path</span>
+  <span class='id identifier rubyid_gen_genlib'>gen_genlib</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='ivar'>@genlib_path</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/gtech.genlib</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='comment'># TODO : check if yosys-abc is installed, raise exception if its not
 </span><span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -498,6 +494,9 @@
       <pre class="lines">
 
 
+71
+72
+73
 74
 75
 76
@@ -505,24 +504,21 @@
 78
 79
 80
-81
-82
-83
-84</pre>
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 71</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_convert'>convert</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>truth_table_format:</span> <span class='kw'>true</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_truth_table_format'>truth_table_format</span>
-        <span class='id identifier rubyid_file_path'>file_path</span> <span class='op'>=</span> <span class='id identifier rubyid_truth_table_2_gates'>truth_table_2_gates</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_file_path'>file_path</span> <span class='op'>=</span> <span class='id identifier rubyid_path'>path</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_file_path'>file_path</span><span class='rparen'>)</span>
-    <span class='comment'># delete_unlinked_outputs
-</span>    <span class='comment'># retrieve_wires
-</span>    <span class='kw'>return</span> <span class='ivar'>@netlist</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_convert'>convert</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>truth_table_format:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_file_path'>file_path</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_truth_table_format'>truth_table_format</span>
+                <span class='id identifier rubyid_truth_table_2_gates'>truth_table_2_gates</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+              <span class='kw'>else</span>
+                <span class='id identifier rubyid_path'>path</span>
+              <span class='kw'>end</span>
+  <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_file_path'>file_path</span><span class='rparen'>)</span>
+  <span class='comment'># delete_unlinked_outputs
+</span>  <span class='comment'># retrieve_wires
+</span>  <span class='ivar'>@netlist</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -544,6 +540,8 @@
       <pre class="lines">
 
 
+13
+14
 15
 16
 17
@@ -556,27 +554,25 @@
 24
 25
 26
-27
-28
-29</pre>
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gen_genlib'>gen_genlib</span>
-    <span class='id identifier rubyid_txt'>txt</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE ZERO0\t0  Y=CONST0;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE ONE0\t0  Y=CONST1;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE INV1\t2  Y=!A;\tPIN * INV 1 999 2 0 2 0</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-            <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE BUF1\t4  Y=A;\tPIN * NONINV 1 999 1 0 1 0</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_txt'>txt</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE ZERO0\t0  Y=CONST0;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE ONE0\t0  Y=CONST1;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE INV1\t2  Y=!A;\tPIN * INV 1 999 2 0 2 0</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>GATE BUF1\t4  Y=A;\tPIN * NONINV 1 999 1 0 1 0</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
 
-    <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='id identifier rubyid_get_gtech'><span class='object_link'><a href="../Netlist.html#get_gtech-class_method" title="Netlist.get_gtech (method)">get_gtech</a></span></span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='op'>|</span>
-        <span class='id identifier rubyid_class_shortname'>class_shortname</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>::</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
-        <span class='kw'>unless</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Buffer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_class_shortname'>class_shortname</span>
-            <span class='id identifier rubyid_txt'>txt</span> <span class='op'>&lt;&lt;</span> <span class='backtick'>`</span><span class='tstring_content'>grep \&quot; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_class_shortname'>class_shortname</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; </span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib</span><span class='tstring_end'>`</span></span>
-        <span class='kw'>end</span>
+  <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='period'>.</span><span class='id identifier rubyid_get_gtech'><span class='object_link'><a href="../Netlist.html#get_gtech-class_method" title="Netlist.get_gtech (method)">get_gtech</a></span></span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_klass'>klass</span><span class='op'>|</span>
+    <span class='id identifier rubyid_class_shortname'>class_shortname</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>::</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+    <span class='kw'>unless</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>Buffer</span><span class='words_sep'> </span><span class='tstring_content'>Not</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_class_shortname'>class_shortname</span>
+      <span class='id identifier rubyid_txt'>txt</span> <span class='op'>&lt;&lt;</span> <span class='backtick'>`</span><span class='tstring_content'>grep \&quot; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_class_shortname'>class_shortname</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; </span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib</span><span class='tstring_end'>`</span></span>
     <span class='kw'>end</span>
+  <span class='kw'>end</span>
 
-    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@genlib_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='id identifier rubyid_txt'>txt</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@genlib_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_txt'>txt</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -598,6 +594,8 @@
       <pre class="lines">
 
 
+29
+30
 31
 32
 33
@@ -618,35 +616,33 @@
 48
 49
 50
-51
-52
-53</pre>
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 29</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_nb_inputs'>get_nb_inputs</span> <span class='id identifier rubyid_path'>path</span>
-    <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_nb_inputs'>get_nb_inputs</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='int'>0</span>
 
-    <span class='comment'># multiline_declaration = false
-</span>    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_foreach'>foreach</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
-        <span class='id identifier rubyid_line'>line</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.model</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>and</span> <span class='op'>!</span><span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-            <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.inputs</span><span class='tstring_end'>&quot;</span></span> 
-                <span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>-</span> <span class='int'>1</span>
-            <span class='kw'>elsif</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.outputs</span><span class='tstring_end'>&quot;</span></span>
-                <span class='kw'>return</span> <span class='id identifier rubyid_count'>count</span>
-            <span class='kw'>else</span>
-                <span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> 
-            <span class='kw'>end</span>
+  <span class='comment'># multiline_declaration = false
+</span>  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_foreach'>foreach</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
+    <span class='id identifier rubyid_line'>line</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.model</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>and</span> <span class='op'>!</span><span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.inputs</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>-</span> <span class='int'>1</span>
+      <span class='kw'>elsif</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.outputs</span><span class='tstring_end'>&#39;</span></span>
+        <span class='kw'>return</span> <span class='id identifier rubyid_count'>count</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_count'>count</span> <span class='op'>+=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
+      <span class='kw'>end</span>
 
-            <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&quot;</span></span>
-                <span class='id identifier rubyid_count'>count</span> <span class='op'>-=</span> <span class='int'>1</span>
-            <span class='comment'># else
-</span>            <span class='comment'>#     return count + line.length
-</span>            <span class='kw'>end</span>
-        <span class='kw'>end</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_line'>line</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_count'>count</span> <span class='op'>-=</span> <span class='int'>1</span>
+        <span class='comment'># else
+</span>        <span class='comment'>#     return count + line.length
+</span>      <span class='kw'>end</span>
     <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -668,6 +664,8 @@
       <pre class="lines">
 
 
+53
+54
 55
 56
 57
@@ -682,31 +680,27 @@
 66
 67
 68
-69
-70
-71
-72</pre>
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 53</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_nb_inputs2'>get_nb_inputs2</span> <span class='id identifier rubyid_path'>path</span>
-    <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_foreach'>foreach</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
-        <span class='id identifier rubyid_splitted_line'>splitted_line</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.model</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>and</span> <span class='op'>!</span><span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-            <span class='kw'>if</span> <span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.inputs</span><span class='tstring_end'>&quot;</span></span> 
-                <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
-            <span class='kw'>elsif</span> <span class='ivar'>@continued_line</span> <span class='op'>==</span> <span class='symbol'>:inputs</span>
-                <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
-            <span class='kw'>elsif</span> <span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.outputs</span><span class='tstring_end'>&quot;</span></span>
-                <span class='kw'>return</span> <span class='ivar'>@nb_inputs</span>
-            <span class='kw'>else</span>
-                <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: unknown state during parsing, verify format of the file </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>.\nLine : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_line'>line</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-            <span class='kw'>end</span>
-        <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_nb_inputs2'>get_nb_inputs2</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_foreach'>foreach</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
+    <span class='id identifier rubyid_splitted_line'>splitted_line</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.model</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>and</span> <span class='op'>!</span><span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.inputs</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+      <span class='kw'>elsif</span> <span class='ivar'>@continued_line</span> <span class='op'>==</span> <span class='symbol'>:inputs</span>
+        <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+      <span class='kw'>elsif</span> <span class='id identifier rubyid_splitted_line'>splitted_line</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.outputs</span><span class='tstring_end'>&#39;</span></span>
+        <span class='kw'>return</span> <span class='ivar'>@nb_inputs</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: unknown state during parsing, verify format of the file </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>.\nLine : </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_line'>line</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
-    
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -728,6 +722,13 @@
       <pre class="lines">
 
 
+200
+201
+202
+203
+204
+205
+206
 207
 208
 209
@@ -737,34 +738,27 @@
 213
 214
 215
-216
-217
-218
-219
-220
-221
-222
-223</pre>
+216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 200</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_instantiateGate'>instantiateGate</span> <span class='id identifier rubyid_gate_type'>gate_type</span>
-    <span class='kw'>case</span> <span class='id identifier rubyid_gate_type'>gate_type</span>
-    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>INV1</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html" title="Netlist::Not (class)">Not</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Not.html#initialize-instance_method" title="Netlist::Not#initialize (method)">new</a></span></span>
-    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>BUF1</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Buffer.html#initialize-instance_method" title="Netlist::Buffer#initialize (method)">new</a></span></span>
-    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ZERO0</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Zero.html" title="Netlist::Zero (class)">Zero</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Constant.html#initialize-instance_method" title="Netlist::Constant#initialize (method)">new</a></span></span> <span class='comment'># ! Prendre en charge les constantes dans le circuit
-</span>    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ONE0</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/One.html" title="Netlist::One (class)">One</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Constant.html#initialize-instance_method" title="Netlist::Constant#initialize (method)">new</a></span></span> <span class='comment'># ! Idem
-</span>    <span class='kw'>else</span>
-        <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_gate_type'>gate_type</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='lbracket'>[</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-        <span class='id identifier rubyid_nb_inputs'>nb_inputs</span> <span class='op'>=</span> <span class='id identifier rubyid_gate_type'>gate_type</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-        <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='id identifier rubyid_create_gate'><span class='object_link'><a href="../Netlist.html#create_gate-class_method" title="Netlist.create_gate (method)">create_gate</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span><span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='rparen'>)</span>
-        <span class='comment'># raise &quot;Error : Unknown operator #{gate_type} encountered.&quot;
-</span>    <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_instantiateGate'>instantiateGate</span><span class='lparen'>(</span><span class='id identifier rubyid_gate_type'>gate_type</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_gate_type'>gate_type</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>INV1</span><span class='tstring_end'>&#39;</span></span>
+    <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Not.html" title="Netlist::Not (class)">Not</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Not.html#initialize-instance_method" title="Netlist::Not#initialize (method)">new</a></span></span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>BUF1</span><span class='tstring_end'>&#39;</span></span>
+    <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Buffer.html" title="Netlist::Buffer (class)">Buffer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Buffer.html#initialize-instance_method" title="Netlist::Buffer#initialize (method)">new</a></span></span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ZERO0</span><span class='tstring_end'>&#39;</span></span>
+    <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Zero.html" title="Netlist::Zero (class)">Zero</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Constant.html#initialize-instance_method" title="Netlist::Constant#initialize (method)">new</a></span></span> <span class='comment'># ! Prendre en charge les constantes dans le circuit
+</span>  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ONE0</span><span class='tstring_end'>&#39;</span></span>
+    <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/One.html" title="Netlist::One (class)">One</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Constant.html#initialize-instance_method" title="Netlist::Constant#initialize (method)">new</a></span></span> <span class='comment'># ! Idem
+</span>  <span class='kw'>else</span>
+    <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_gate_type'>gate_type</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='lbracket'>[</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+    <span class='id identifier rubyid_nb_inputs'>nb_inputs</span> <span class='op'>=</span> <span class='id identifier rubyid_gate_type'>gate_type</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+    <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_gate'><span class='object_link'><a href="../Netlist.html#create_gate-class_method" title="Netlist.create_gate (method)">create_gate</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='rparen'>)</span>
+    <span class='comment'># raise &quot;Error : Unknown operator #{gate_type} encountered.&quot;
+</span>  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -782,9 +776,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>lexer</p>
-
+    <p>lexer</p>
 
   </div>
 </div>
@@ -797,6 +789,13 @@
       <pre class="lines">
 
 
+160
+161
+162
+163
+164
+165
+166
 167
 168
 169
@@ -828,56 +827,49 @@
 195
 196
 197
-198
-199
-200
-201
-202
-203
-204
-205</pre>
+198</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 160</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_path'>path</span> <span class='comment'># lexer
-</span>    <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='kw'>nil</span>
-    <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_foreach'>foreach</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
-        <span class='kw'>case</span> <span class='id identifier rubyid_line'>line</span>
-        <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A#</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A\n</span><span class='regexp_end'>/</span></span>
-            <span class='kw'>next</span>
-        <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.model</span><span class='regexp_end'>/</span></span>
-            <span class='comment'># begin
-</span>                <span class='comment'># circ_name = line.split[-1].split(&quot;.&quot;)[0]
-</span>                <span class='comment'># circ_name.tr!(&quot;/&quot;, &quot;&quot;)
-</span>                <span class='comment'># if circ_name.empty? or circ_name == &quot;source&quot;
-</span>                    <span class='id identifier rubyid_circ_name'>circ_name</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
-                    <span class='id identifier rubyid_circ_name'>circ_name</span><span class='period'>.</span><span class='id identifier rubyid_tr!'>tr!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>~</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-                <span class='comment'># end
-</span>                <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Circuit.html#initialize-instance_method" title="Netlist::Circuit#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>circ_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-            <span class='comment'># rescue =&gt; e
-</span>            <span class='comment'>#     raise &quot;Error : circuit name not found in line #{i} in file #{path}.\n-&gt; \&quot;#{line}\&quot;&quot;
-</span>            <span class='comment'># end
-</span>        <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.inputs</span><span class='regexp_end'>/</span></span>
-            <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
-        <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.outputs</span><span class='regexp_end'>/</span></span>
-            <span class='id identifier rubyid_parse_outputs_line'>parse_outputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
-        <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.gate</span><span class='regexp_end'>/</span></span>
-            <span class='id identifier rubyid_parse_gate_line'>parse_gate_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
-        <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.end</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.exdc</span><span class='regexp_end'>/</span></span>
-            <span class='kw'>return</span> <span class='ivar'>@netlist</span>
-        <span class='kw'>else</span>
-            <span class='kw'>case</span> <span class='ivar'>@continued_line</span>
-            <span class='kw'>when</span> <span class='symbol'>:inputs</span>
-                <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
-            <span class='kw'>when</span> <span class='symbol'>:outputs</span>
-                <span class='id identifier rubyid_parse_outputs_line'>parse_outputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
-            <span class='kw'>else</span>
-                <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Warning : line </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_i'>i</span><span class='embexpr_end'>}</span><span class='tstring_content'> in file </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'> not parsed and ignored.</span><span class='tstring_end'>&quot;</span></span>
-                <span class='comment'># raise &quot;Error : Unexpected keyword encountered #{line.split[0]} on line #{i} in file #{path}.&quot;
-</span>            <span class='kw'>end</span>
-        <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='comment'># lexer
+</span>  <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_foreach'>foreach</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+    <span class='kw'>case</span> <span class='id identifier rubyid_line'>line</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A#</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A\n</span><span class='regexp_end'>/</span></span>
+      <span class='kw'>next</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.model</span><span class='regexp_end'>/</span></span>
+      <span class='comment'># begin
+</span>      <span class='comment'># circ_name = line.split[-1].split(&quot;.&quot;)[0]
+</span>      <span class='comment'># circ_name.tr!(&quot;/&quot;, &quot;&quot;)
+</span>      <span class='comment'># if circ_name.empty? or circ_name == &quot;source&quot;
+</span>      <span class='id identifier rubyid_circ_name'>circ_name</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+      <span class='id identifier rubyid_circ_name'>circ_name</span><span class='period'>.</span><span class='id identifier rubyid_tr!'>tr!</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>~</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+      <span class='comment'># end
+</span>      <span class='ivar'>@netlist</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Circuit.html" title="Netlist::Circuit (class)">Circuit</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Circuit.html#initialize-instance_method" title="Netlist::Circuit#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>circ_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_circ_name'>circ_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='comment'># rescue =&gt; e
+</span>    <span class='comment'>#     raise &quot;Error : circuit name not found in line #{i} in file #{path}.\n-&gt; \&quot;#{line}\&quot;&quot;
+</span>    <span class='comment'># end
+</span>    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.inputs</span><span class='regexp_end'>/</span></span>
+      <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.outputs</span><span class='regexp_end'>/</span></span>
+      <span class='id identifier rubyid_parse_outputs_line'>parse_outputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.gate</span><span class='regexp_end'>/</span></span>
+      <span class='id identifier rubyid_parse_gate_line'>parse_gate_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+    <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.end</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A.exdc</span><span class='regexp_end'>/</span></span>
+      <span class='kw'>return</span> <span class='ivar'>@netlist</span>
+    <span class='kw'>else</span>
+      <span class='kw'>case</span> <span class='ivar'>@continued_line</span>
+      <span class='kw'>when</span> <span class='symbol'>:inputs</span>
+        <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+      <span class='kw'>when</span> <span class='symbol'>:outputs</span>
+        <span class='id identifier rubyid_parse_outputs_line'>parse_outputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Warning : line </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_i'>i</span><span class='embexpr_end'>}</span><span class='tstring_content'> in file </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'> not parsed and ignored.</span><span class='tstring_end'>&quot;</span></span>
+        <span class='comment'># raise &quot;Error : Unexpected keyword encountered #{line.split[0]} on line #{i} in file #{path}.&quot;
+</span>      <span class='kw'>end</span>
     <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -899,6 +891,13 @@
       <pre class="lines">
 
 
+143
+144
+145
+146
+147
+148
+149
 150
 151
 152
@@ -907,33 +906,26 @@
 155
 156
 157
-158
-159
-160
-161
-162
-163
-164
-165</pre>
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 143</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_parse_gate_line'>parse_gate_line</span> <span class='id identifier rubyid_line'>line</span>
-    <span class='id identifier rubyid_splitted'>splitted</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
-    <span class='id identifier rubyid_gate_type'>gate_type</span> <span class='op'>=</span> <span class='id identifier rubyid_splitted'>splitted</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_new_gate'>new_gate</span> <span class='op'>=</span> <span class='id identifier rubyid_instantiateGate'>instantiateGate</span><span class='lparen'>(</span><span class='id identifier rubyid_gate_type'>gate_type</span><span class='rparen'>)</span>
-    <span class='ivar'>@netlist</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_new_gate'>new_gate</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_gate_line'>parse_gate_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_splitted'>splitted</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
+  <span class='id identifier rubyid_gate_type'>gate_type</span> <span class='op'>=</span> <span class='id identifier rubyid_splitted'>splitted</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_new_gate'>new_gate</span> <span class='op'>=</span> <span class='id identifier rubyid_instantiateGate'>instantiateGate</span><span class='lparen'>(</span><span class='id identifier rubyid_gate_type'>gate_type</span><span class='rparen'>)</span>
+  <span class='ivar'>@netlist</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_new_gate'>new_gate</span>
 
-    <span class='id identifier rubyid_nb_inputs'>nb_inputs</span> <span class='op'>=</span> <span class='id identifier rubyid_gate_type'>gate_type</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_nb_inputs'>nb_inputs</span> <span class='op'>=</span> <span class='id identifier rubyid_gate_type'>gate_type</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
 
-    <span class='id identifier rubyid_source_signals'>source_signals</span> <span class='op'>=</span> <span class='id identifier rubyid_splitted'>splitted</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>...</span><span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='op'>+</span><span class='int'>2</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_source_signals'>source_signals</span> <span class='op'>=</span> <span class='id identifier rubyid_source_signals'>source_signals</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_w'>w</span><span class='op'>|</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
-    <span class='id identifier rubyid_process_source_sig'>process_source_sig</span><span class='lparen'>(</span><span class='id identifier rubyid_source_signals'>source_signals</span><span class='comma'>,</span> <span class='id identifier rubyid_new_gate'>new_gate</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_source_signals'>source_signals</span> <span class='op'>=</span> <span class='id identifier rubyid_splitted'>splitted</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>...</span><span class='id identifier rubyid_nb_inputs'>nb_inputs</span> <span class='op'>+</span> <span class='int'>2</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_source_signals'>source_signals</span> <span class='op'>=</span> <span class='id identifier rubyid_source_signals'>source_signals</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_w'>w</span><span class='op'>|</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>=</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_process_source_sig'>process_source_sig</span><span class='lparen'>(</span><span class='id identifier rubyid_source_signals'>source_signals</span><span class='comma'>,</span> <span class='id identifier rubyid_new_gate'>new_gate</span><span class='rparen'>)</span>
 
-    <span class='id identifier rubyid_sink_signals'>sink_signals</span> <span class='op'>=</span> <span class='id identifier rubyid_splitted'>splitted</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>+</span><span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='op'>..</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_sink_signals'>sink_signals</span> <span class='op'>=</span> <span class='id identifier rubyid_sink_signals'>sink_signals</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_w'>w</span><span class='op'>|</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
-    <span class='id identifier rubyid_process_sink_sig'>process_sink_sig</span><span class='lparen'>(</span><span class='id identifier rubyid_sink_signals'>sink_signals</span><span class='comma'>,</span> <span class='id identifier rubyid_new_gate'>new_gate</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sink_signals'>sink_signals</span> <span class='op'>=</span> <span class='id identifier rubyid_splitted'>splitted</span><span class='lbracket'>[</span><span class='int'>2</span> <span class='op'>+</span> <span class='id identifier rubyid_nb_inputs'>nb_inputs</span><span class='op'>..</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_sink_signals'>sink_signals</span> <span class='op'>=</span> <span class='id identifier rubyid_sink_signals'>sink_signals</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_w'>w</span><span class='op'>|</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>=</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_process_sink_sig'>process_sink_sig</span><span class='lparen'>(</span><span class='id identifier rubyid_sink_signals'>sink_signals</span><span class='comma'>,</span> <span class='id identifier rubyid_new_gate'>new_gate</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -955,6 +947,13 @@
       <pre class="lines">
 
 
+93
+94
+95
+96
+97
+98
+99
 100
 101
 102
@@ -970,38 +969,33 @@
 112
 113
 114
-115
-116
-117
-118
-119
-120
-121</pre>
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 93</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span> <span class='id identifier rubyid_line'>line</span>
-    <span class='kw'>if</span> <span class='ivar'>@continued_line</span> <span class='op'>==</span> <span class='symbol'>:inputs</span> 
-        <span class='id identifier rubyid_input_names'>input_names</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
-        <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='kw'>nil</span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_input_names'>input_names</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span> <span class='comment'># Ignore &quot;.inputs&quot;
-</span>    <span class='kw'>end</span>
-    
-    <span class='kw'>if</span> <span class='id identifier rubyid_input_names'>input_names</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># Inputs declaration continues on the next line
-</span>        <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='symbol'>:inputs</span>
-        <span class='id identifier rubyid_input_names'>input_names</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
-    <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_inputs_line'>parse_inputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@continued_line</span> <span class='op'>==</span> <span class='symbol'>:inputs</span>
+    <span class='id identifier rubyid_input_names'>input_names</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
+    <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_input_names'>input_names</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span> <span class='comment'># Ignore &quot;.inputs&quot;
+</span>  <span class='kw'>end</span>
 
-    <span class='id identifier rubyid_input_names'>input_names</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_n'>n</span><span class='op'>|</span> 
-        <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># ! Should never be true cause it is popped just before
-</span>        <span class='id identifier rubyid_new_port'>new_port</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Port.html#initialize-instance_method" title="Netlist::Port#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span> <span class='op'>+</span> <span class='ivar'>@nb_inputs</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:in</span><span class='rparen'>)</span>
-        <span class='ivar'>@netlist</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_new_port'>new_port</span>
-        <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_port'>new_port</span>
-    <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_input_names'>input_names</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># Inputs declaration continues on the next line
+</span>    <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='symbol'>:inputs</span>
+    <span class='id identifier rubyid_input_names'>input_names</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
+  <span class='kw'>end</span>
 
-    <span class='ivar'>@nb_inputs</span> <span class='op'>+=</span> <span class='id identifier rubyid_input_names'>input_names</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
+  <span class='id identifier rubyid_input_names'>input_names</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_n'>n</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># ! Should never be true cause it is popped just before
+</span>
+    <span class='id identifier rubyid_new_port'>new_port</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Port.html#initialize-instance_method" title="Netlist::Port#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span> <span class='op'>+</span> <span class='ivar'>@nb_inputs</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:in</span><span class='rparen'>)</span>
+    <span class='ivar'>@netlist</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_new_port'>new_port</span>
+    <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_port'>new_port</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@nb_inputs</span> <span class='op'>+=</span> <span class='id identifier rubyid_input_names'>input_names</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1023,6 +1017,12 @@
       <pre class="lines">
 
 
+117
+118
+119
+120
+121
+122
 123
 124
 125
@@ -1041,43 +1041,35 @@
 138
 139
 140
-141
-142
-143
-144
-145
-146
-147
-148</pre>
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 117</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_parse_outputs_line'>parse_outputs_line</span> <span class='id identifier rubyid_line'>line</span> 
-    <span class='kw'>if</span> <span class='ivar'>@continued_line</span> <span class='op'>==</span> <span class='symbol'>:outputs</span> 
-        <span class='id identifier rubyid_output_names'>output_names</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
-        <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='kw'>nil</span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_output_names'>output_names</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span>
-    <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_parse_outputs_line'>parse_outputs_line</span><span class='lparen'>(</span><span class='id identifier rubyid_line'>line</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@continued_line</span> <span class='op'>==</span> <span class='symbol'>:outputs</span>
+    <span class='id identifier rubyid_output_names'>output_names</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
+    <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_output_names'>output_names</span> <span class='op'>=</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
 
-    <span class='kw'>if</span> <span class='id identifier rubyid_output_names'>output_names</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&quot;</span></span>
-        <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='symbol'>:outputs</span>
-        <span class='id identifier rubyid_output_names'>output_names</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
-    <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_output_names'>output_names</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&#39;</span></span>
+    <span class='ivar'>@continued_line</span> <span class='op'>=</span> <span class='symbol'>:outputs</span>
+    <span class='id identifier rubyid_output_names'>output_names</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
+  <span class='kw'>end</span>
 
-    <span class='id identifier rubyid_output_names'>output_names</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_n'>n</span><span class='op'>|</span> 
-        <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&quot;</span></span>
-        <span class='id identifier rubyid_new_port'>new_port</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Port.html#initialize-instance_method" title="Netlist::Port#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>o</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span> <span class='op'>+</span> <span class='ivar'>@nb_outputs</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:out</span><span class='rparen'>)</span>
-        <span class='ivar'>@netlist</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_new_port'>new_port</span>
-        <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_port'>new_port</span>
+  <span class='id identifier rubyid_output_names'>output_names</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_n'>n</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&#39;</span></span>
 
-        <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-            <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
-        <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='id identifier rubyid_new_port'>new_port</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Port.html" title="Netlist::Port (class)">Port</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Netlist/Port.html#initialize-instance_method" title="Netlist::Port#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>o</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span> <span class='op'>+</span> <span class='ivar'>@nb_outputs</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:out</span><span class='rparen'>)</span>
+    <span class='ivar'>@netlist</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_new_port'>new_port</span>
+    <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_port'>new_port</span>
 
-    <span class='ivar'>@nb_outputs</span> <span class='op'>+=</span> <span class='id identifier rubyid_output_names'>output_names</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
+    <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@nb_outputs</span> <span class='op'>+=</span> <span class='id identifier rubyid_output_names'>output_names</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1099,33 +1091,31 @@
       <pre class="lines">
 
 
+237
+238
+239
+240
+241
+242
+243
 244
 245
 246
-247
-248
-249
-250
-251
-252
-253
-254
-255</pre>
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 244</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 237</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_process_sink_sig'>process_sink_sig</span> <span class='id identifier rubyid_sink_list'>sink_list</span><span class='comma'>,</span> <span class='id identifier rubyid_gate'>gate</span>
-    <span class='id identifier rubyid_sink_list'>sink_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='op'>|</span>
-
-        <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='rparen'>)</span>
-            <span class='comment'># TODO : relier la sortie de gate à la sortie primaire
-</span>            <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_output'>get_output</span>
-        <span class='kw'>else</span>
-            <span class='comment'># TODO : Ajouter la sortie de la porte g_out
-</span>            <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:g_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_output'>get_output</span>
-        <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_process_sink_sig'>process_sink_sig</span><span class='lparen'>(</span><span class='id identifier rubyid_sink_list'>sink_list</span><span class='comma'>,</span> <span class='id identifier rubyid_gate'>gate</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sink_list'>sink_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='rparen'>)</span>
+      <span class='comment'># TODO : relier la sortie de gate à la sortie primaire
+</span>      <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_output'>get_output</span>
+    <span class='kw'>else</span>
+      <span class='comment'># TODO : Ajouter la sortie de la porte g_out
+</span>      <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:g_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_sink_sig'>sink_sig</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_output'>get_output</span>
     <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1147,6 +1137,13 @@
       <pre class="lines">
 
 
+218
+219
+220
+221
+222
+223
+224
 225
 226
 227
@@ -1157,35 +1154,28 @@
 232
 233
 234
-235
-236
-237
-238
-239
-240
-241
-242</pre>
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 218</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_process_source_sig'>process_source_sig</span> <span class='id identifier rubyid_source_list'>source_list</span><span class='comma'>,</span> <span class='id identifier rubyid_gate'>gate</span>
-    <span class='id identifier rubyid_source_list'>source_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='op'>|</span>
-        <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rparen'>)</span>
-            <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_free_input'>get_free_input</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rbracket'>]</span>
-        <span class='kw'>elsif</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:g_out</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rparen'>)</span>
-            <span class='comment'># * Create a wire, add it to @sym_tab
-</span>            <span class='comment'># @sym_tab[source_sig] = Netlist::Wire.new(source_sig)
-</span>            <span class='comment'># @netlist.wires &lt;&lt; @sym_tab[:source][source_sig]
+<span class='kw'>def</span> <span class='id identifier rubyid_process_source_sig'>process_source_sig</span><span class='lparen'>(</span><span class='id identifier rubyid_source_list'>source_list</span><span class='comma'>,</span> <span class='id identifier rubyid_gate'>gate</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_source_list'>source_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_free_input'>get_free_input</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_in</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rbracket'>]</span>
+    <span class='kw'>elsif</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:g_out</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rparen'>)</span>
+      <span class='comment'># * Create a wire, add it to @sym_tab
+</span>      <span class='comment'># @sym_tab[source_sig] = Netlist::Wire.new(source_sig)
+</span>      <span class='comment'># @netlist.wires &lt;&lt; @sym_tab[:source][source_sig]
 </span>
-            <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_free_input'>get_free_input</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:g_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rbracket'>]</span> 
-        <span class='kw'>elsif</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rparen'>)</span>
-            <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_free_input'>get_free_input</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span>
-        <span class='kw'>else</span>
-            <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Unknown signal </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='embexpr_end'>}</span><span class='tstring_content'> encountered during blif to netlist conversion.</span><span class='tstring_end'>&quot;</span></span>
-        <span class='kw'>end</span>
-        <span class='comment'># Relier au signal source
-</span>    <span class='kw'>end</span>
+      <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_free_input'>get_free_input</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:g_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rbracket'>]</span>
+    <span class='kw'>elsif</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_gate'>gate</span><span class='period'>.</span><span class='id identifier rubyid_get_free_input'>get_free_input</span> <span class='op'>&lt;=</span> <span class='ivar'>@sym_tab</span><span class='lbracket'>[</span><span class='symbol'>:p_out</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: Unknown signal </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source_sig'>source_sig</span><span class='embexpr_end'>}</span><span class='tstring_content'> encountered during blif to netlist conversion.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='comment'># Relier au signal source
+</span>  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1207,35 +1197,27 @@
       <pre class="lines">
 
 
+83
+84
+85
 86
 87
 88
 89
 90
-91
-92
-93
-94
-95
-96
-97
-98</pre>
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/convBlif2Netlist.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_truth_table_2_gates'>truth_table_2_gates</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
-    <span class='kw'>if</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/tmp/netenos</span><span class='tstring_end'>&quot;</span></span>
-        <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mkdir'>mkdir</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/tmp/netenos</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_std_o'>std_o</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>yosys-abc -c &quot;read_blif </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>; read_library </span><span class='embexpr_beg'>#{</span><span class='ivar'>@genlib_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib; strash; map; write_blif /tmp/netenos/~</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>&quot;</span><span class='tstring_end'>`</span></span>
-    <span class='comment'># std_o = `yosys-abc -c &quot;read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; dretime; map {D}; write_blif /tmp/netenos/~#{File.basename(path)}&quot;`
-</span>    <span class='comment'># std_o = `yosys-abc -c &quot;read_blif #{path}; read_library #{File.dirname(__FILE__)}/gtech.genlib; strash; &amp;get -n; &amp;fraig -x; &amp;put; scorr; dc2; dretime; strash; &amp;get -n; &amp;dch -f; &amp;nf {D}; &amp;put; write_blif /tmp/netenos/~#{File.basename(path)}&quot;`
-</span>    <span class='comment'># if File.exist?(&quot;/tmp/netenos/~#{File.basename(path)}&quot;)
-</span>    <span class='comment'>#     raise &quot;Error: File #{path} not converted correctly. &quot;
-</span>    <span class='comment'># end
-</span>    <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_std_o'>std_o</span> <span class='kw'>if</span> <span class='gvar'>$VERBOSE</span>
-    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/tmp/netenos/~</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_circ_name'>circ_name</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_delete_suffix'>delete_suffix</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.blif</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@TMP_BLIF_PATH</span> <span class='op'>=</span> <span class='gvar'>$TMP_PATH</span> <span class='op'>+</span> <span class='id identifier rubyid_circ_name'>circ_name</span>
+  <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mkdir'>mkdir</span><span class='lparen'>(</span><span class='ivar'>@TMP_BLIF_PATH</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span> <span class='ivar'>@TMP_BLIF_PATH</span>
+  <span class='id identifier rubyid_std_o'>std_o</span> <span class='op'>=</span> <span class='backtick'>`</span><span class='tstring_content'>yosys-abc -c &quot;read_blif </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_content'>; read_library </span><span class='embexpr_beg'>#{</span><span class='ivar'>@genlib_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/gtech.genlib; strash; map; write_blif </span><span class='embexpr_beg'>#{</span><span class='ivar'>@TMP_BLIF_PATH</span><span class='embexpr_end'>}</span><span class='tstring_content'>/~</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>&quot;</span><span class='tstring_end'>`</span></span>
+
+  <span class='comment'># puts std_o if $VERBOSE
+</span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@TMP_BLIF_PATH</span><span class='embexpr_end'>}</span><span class='tstring_content'>/~</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1247,9 +1229,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:26 2025 by
+  Generated on Tue Sep 15 17:08:22 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

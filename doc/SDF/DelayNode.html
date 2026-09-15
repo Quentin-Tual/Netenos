@@ -6,13 +6,13 @@
 <title>
   Class: SDF::DelayNode
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "SDF::DelayNode";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,7 +98,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/sdf/sdf_ast.rb</dd>
+    <dd>lib/sdf/sdf_ast.rb
+</dd>
   </dl>
   
 </div>
@@ -134,9 +137,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute delays.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute delays.</p></div></span>
   
 </li>
 
@@ -163,9 +164,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute wire.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute wire.</p></div></span>
   
 </li>
 
@@ -191,7 +190,117 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#apply_fun-instance_method" title="#apply_fun (instance method)">#<strong>apply_fun</strong>(fun)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_fun_to_col-instance_method" title="#apply_fun_to_col (instance method)">#<strong>apply_fun_to_col</strong>(fun, col)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#attr_flat_float_list-instance_method" title="#attr_flat_float_list (instance method)">#<strong>attr_flat_float_list</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_flat_float_list-instance_method" title="#get_flat_float_list (instance method)">#<strong>get_flat_float_list</strong>(attr)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_flat_float_list_falling-instance_method" title="#get_flat_float_list_falling (instance method)">#<strong>get_flat_float_list_falling</strong>(attr)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_flat_float_list_rising-instance_method" title="#get_flat_float_list_rising (instance method)">#<strong>get_flat_float_list_rising</strong>(attr)  &#x21d2; Object </a>
     
 
     
@@ -229,14 +338,57 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of DelayNode.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of DelayNode.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#same_wire%3F-instance_method" title="#same_wire? (instance method)">#<strong>same_wire?</strong>(n)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid%3F-instance_method" title="#valid? (instance method)">#<strong>valid?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -245,6 +397,13 @@
   
   
   
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="EdgeNode.html" title="SDF::EdgeNode (class)">EdgeNode</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="EdgeNode.html#accept-instance_method" title="SDF::EdgeNode#accept (method)">#accept</a></span></p>
+
   
   
   
@@ -270,9 +429,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of DelayNode.</p>
-
+    <p>Returns a new instance of DelayNode.</p>
 
   </div>
 </div>
@@ -285,13 +442,13 @@
       <pre class="lines">
 
 
-40
-41
-42
-43</pre>
+53
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_wire'>wire</span><span class='comma'>,</span> <span class='id identifier rubyid_delays'>delays</span><span class='rparen'>)</span>
   <span class='ivar'>@wire</span> <span class='op'>=</span> <span class='id identifier rubyid_wire'>wire</span>
@@ -320,9 +477,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute delays.</p>
-
+    <p>Returns the value of attribute delays.</p>
 
   </div>
 </div>
@@ -335,12 +490,12 @@
       <pre class="lines">
 
 
-38
-39
-40</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delays'>delays</span>
   <span class='ivar'>@delays</span>
@@ -363,9 +518,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute wire.</p>
-
+    <p>Returns the value of attribute wire.</p>
 
   </div>
 </div>
@@ -378,12 +531,12 @@
       <pre class="lines">
 
 
-38
-39
-40</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wire'>wire</span>
   <span class='ivar'>@wire</span>
@@ -401,7 +554,87 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="attr_flat_float_list-instance_method">
+  <h3 class="signature first" id="apply_fun-instance_method">
+  
+    #<strong>apply_fun</strong>(fun)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_apply_fun'>apply_fun</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='id identifier rubyid_attr_flat_float_list'>attr_flat_float_list</span>
+  <span class='kw'>if</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>avg</span><span class='words_sep'> </span><span class='tstring_content'>mean</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span> <span class='op'>/</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
+  <span class='kw'>else</span> <span class='comment'># :min or :max
+</span>    <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="apply_fun_to_col-instance_method">
+  
+    #<strong>apply_fun_to_col</strong>(fun, col)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+87
+88
+89
+90
+91
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 87</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_apply_fun_to_col'>apply_fun_to_col</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='comma'>,</span> <span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='id identifier rubyid_get_flat_float_list'>get_flat_float_list</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>avg</span><span class='words_sep'> </span><span class='tstring_content'>mean</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+    <span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_sum'>sum</span> <span class='op'>/</span> <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_round'>round</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span>
+  <span class='kw'>else</span> <span class='comment'># :min or :max
+</span>    <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="attr_flat_float_list-instance_method">
   
     #<strong>attr_flat_float_list</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -415,19 +648,209 @@
       <pre class="lines">
 
 
-45
-46
-47
-48
-49</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 62</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_attr_flat_float_list'>attr_flat_float_list</span> 
-  <span class='ivar'>@delays</span><span class='period'>.</span><span class='id identifier rubyid_attr_list'>attr_list</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_delayArr'>delayArr</span><span class='op'>|</span>
-    <span class='id identifier rubyid_delayArr'>delayArr</span><span class='period'>.</span><span class='id identifier rubyid_attr_float_list'>attr_float_list</span>
-  <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_attr_flat_float_list'>attr_flat_float_list</span>
+  <span class='ivar'>@delays</span><span class='period'>.</span><span class='id identifier rubyid_attr_list'>attr_list</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:attr_float_list</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_flat_float_list-instance_method">
+  
+    #<strong>get_flat_float_list</strong>(attr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_flat_float_list'>get_flat_float_list</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+  <span class='ivar'>@delays</span><span class='period'>.</span><span class='id identifier rubyid_get_float_list'>get_float_list</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_flat_float_list_falling-instance_method">
+  
+    #<strong>get_flat_float_list_falling</strong>(attr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_flat_float_list_falling'>get_flat_float_list_falling</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+  <span class='ivar'>@delays</span><span class='period'>.</span><span class='id identifier rubyid_get_float_list_falling'>get_float_list_falling</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_flat_float_list_rising-instance_method">
+  
+    #<strong>get_flat_float_list_rising</strong>(attr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_flat_float_list_rising'>get_flat_float_list_rising</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+  <span class='ivar'>@delays</span><span class='period'>.</span><span class='id identifier rubyid_get_float_list_rising'>get_float_list_rising</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="same_wire?-instance_method">
+  
+    #<strong>same_wire?</strong>(n)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_same_wire?'>same_wire?</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
+  <span class='ivar'>@wire</span><span class='period'>.</span><span class='id identifier rubyid_identical?'>identical?</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_wire'>wire</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid?-instance_method">
+  
+    #<strong>valid?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 96</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
+  <span class='ivar'>@wire</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span> <span class='kw'>and</span> <span class='ivar'>@delays</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -439,9 +862,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:20 2025 by
+  Generated on Tue Sep 15 17:08:14 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

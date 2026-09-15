@@ -6,13 +6,13 @@
 <title>
   Class: Converter::GenStim
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Converter::GenStim";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,8 +96,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/converter/genStim.rb<span class="defines">,<br />
+    <dd>lib/converter/genStim.rb<span class="defines">,<br>
   lib/converter/genStim2.rb</span>
+
 </dd>
   </dl>
   
@@ -128,9 +131,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute inputs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute inputs.</p></div></span>
   
 </li>
 
@@ -155,9 +156,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute stim.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute stim.</p></div></span>
   
 </li>
 
@@ -258,9 +257,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>, binary_text: false.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>, binary_text: false.</p></div></span>
   
 </li>
 
@@ -458,9 +455,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>def delete_cycles cycle_list     @stim.keys.each do |sig|         cycle_list.each do |i|             @<a href="sig">stim</a>.delete_at(i)         end     end     return @stim end.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>def delete_cycles cycle_list     @stim.keys.each do |sig|         cycle_list.each do |i|             @<a href="sig">stim</a>.delete_at(i)         end     end     return @stim end.</p></div></span>
   
 </li>
 
@@ -550,9 +545,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of GenStim.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of GenStim.</p></div></span>
   
 </li>
 
@@ -574,9 +567,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>, binary_text: false.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>, binary_text: false.</p></div></span>
   
 </li>
 
@@ -692,6 +683,7 @@
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -708,9 +700,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of GenStim.</p>
-
+    <p>Returns a new instance of GenStim.</p>
 
   </div>
 </div>
@@ -766,9 +756,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute inputs.</p>
-
+    <p>Returns the value of attribute inputs.</p>
 
   </div>
 </div>
@@ -809,9 +797,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute stim.</p>
-
+    <p>Returns the value of attribute stim.</p>
 
   </div>
 </div>
@@ -995,9 +981,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>, binary_text: false</p>
-
+    <p>, binary_text: false</p>
 
   </div>
 </div>
@@ -1518,19 +1502,14 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>def delete_cycles cycle_list</p>
-
-<pre class="code ruby"><code class="ruby"><span class='ivar'>@stim</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sig'>sig</span><span class='op'>|</span>
-    <span class='id identifier rubyid_cycle_list'>cycle_list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
-        <span class='ivar'>@stim</span><span class='lbracket'>[</span><span class='id identifier rubyid_sig'>sig</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_delete_at'>delete_at</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
-<span class='kw'>end</span>
-<span class='kw'>return</span> <span class='ivar'>@stim</span>
-</code></pre>
-
-<p>end</p>
-
+    <p>def delete_cycles cycle_list
+@stim.keys.each do |sig|
+cycle_list.each do |i|
+@<a href="sig">stim</a>.delete_at(i)
+end
+end
+return @stim
+end</p>
 
   </div>
 </div>
@@ -1807,9 +1786,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>, binary_text: false</p>
-
+    <p>, binary_text: false</p>
 
   </div>
 </div>
@@ -2152,7 +2129,7 @@
    
     <span class='comment'># Replace name by bool value -&gt; move it into another function
 </span>    <span class='id identifier rubyid_trig_cond'>trig_cond</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>!=</span> <span class='const'>Array</span> 
+        <span class='kw'>if</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>!=</span> <span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span> 
             <span class='kw'>if</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>xor</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>and</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>or</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nand</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nor</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
                 <span class='id identifier rubyid_trig_eval'>trig_eval</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
             <span class='kw'>else</span> 
@@ -2212,9 +2189,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:23 2025 by
+  Generated on Tue Sep 15 17:08:18 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

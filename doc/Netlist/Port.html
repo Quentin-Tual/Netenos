@@ -6,13 +6,13 @@
 <title>
   Class: Netlist::Port
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Netlist::Port";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,8 +98,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/netlist/port.rb<span class="defines">,<br />
+    <dd>lib/netlist/port.rb<span class="defines">,<br>
   lib/netlist/addon_deep_copy.rb</span>
+
 </dd>
   </dl>
   
@@ -134,9 +137,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute decisions.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute decisions.</p></div></span>
   
 </li>
 
@@ -161,9 +162,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute direction.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute direction.</p></div></span>
   
 </li>
 
@@ -188,9 +187,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute fanin.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute fanin.</p></div></span>
   
 </li>
 
@@ -215,9 +212,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute fanout.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute fanout.</p></div></span>
   
 </li>
 
@@ -242,9 +237,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute forbidden_transitions.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute forbidden_transitions.</p></div></span>
   
 </li>
 
@@ -269,9 +262,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute name.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute name.</p></div></span>
   
 </li>
 
@@ -296,9 +287,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute partof.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute partof.</p></div></span>
   
 </li>
 
@@ -323,9 +312,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute slack.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute slack.</p></div></span>
   
 </li>
 
@@ -350,9 +337,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute tag.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute tag.</p></div></span>
   
 </li>
 
@@ -374,6 +359,28 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#accept-instance_method" title="#accept (instance method)">#<strong>accept</strong>(visitor)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -445,6 +452,28 @@
   <span class="summary_signature">
     
       <a href="#dup-instance_method" title="#dup (instance method)">#<strong>dup</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_asp_name-instance_method" title="#get_asp_name (instance method)">#<strong>get_asp_name</strong>  &#x21d2; Object </a>
     
 
     
@@ -592,9 +621,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Port.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Port.</p></div></span>
   
 </li>
 
@@ -638,9 +665,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>force = false.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>force = false.</p></div></span>
   
 </li>
 
@@ -750,17 +775,17 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>def get_source_cum_propag_time     return get_source.class.name == “Netlist::Wire” ? source.@cumulated_propag_time : source.partof.cumulated_propag_time end.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>def get_source_cum_propag_time     return get_source.class.name == &quot;Netlist::Wire&quot; ? source.@cumulated_propag_time : source.partof.cumulated_propag_time end.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
+  
   
   
   
@@ -785,9 +810,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Port.</p>
-
+    <p>Returns a new instance of Port.</p>
 
   </div>
 </div>
@@ -816,17 +839,17 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 6</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_partof'>partof</span> <span class='op'>=</span> <span class='kw'>nil</span>
-    <span class='kw'>super</span> <span class='id identifier rubyid_name'>name</span>
-    <span class='ivar'>@partof</span> <span class='op'>=</span> <span class='id identifier rubyid_partof'>partof</span>
-    <span class='ivar'>@direction</span> <span class='op'>=</span> <span class='id identifier rubyid_direction'>direction</span>
-    <span class='ivar'>@slack</span> <span class='op'>=</span> <span class='kw'>nil</span>
-    <span class='ivar'>@cumulated_propag_time</span> <span class='op'>=</span> <span class='int'>0</span>
-    <span class='comment'># @capacitance = 0.0
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_direction'>direction</span><span class='comma'>,</span> <span class='id identifier rubyid_partof'>partof</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>super</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='ivar'>@partof</span> <span class='op'>=</span> <span class='id identifier rubyid_partof'>partof</span>
+  <span class='ivar'>@direction</span> <span class='op'>=</span> <span class='id identifier rubyid_direction'>direction</span>
+  <span class='ivar'>@slack</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@cumulated_propag_time</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='comment'># @capacitance = 0.0
 </span>
-    <span class='ivar'>@transitions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='ivar'>@forbidden_transitions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='ivar'>@tag</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@transitions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@forbidden_transitions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@tag</span> <span class='op'>=</span> <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -851,9 +874,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute decisions.</p>
-
+    <p>Returns the value of attribute decisions.</p>
 
   </div>
 </div>
@@ -894,9 +915,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute direction.</p>
-
+    <p>Returns the value of attribute direction.</p>
 
   </div>
 </div>
@@ -937,9 +956,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute fanin.</p>
-
+    <p>Returns the value of attribute fanin.</p>
 
   </div>
 </div>
@@ -980,9 +997,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute fanout.</p>
-
+    <p>Returns the value of attribute fanout.</p>
 
   </div>
 </div>
@@ -1023,9 +1038,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute forbidden_transitions.</p>
-
+    <p>Returns the value of attribute forbidden_transitions.</p>
 
   </div>
 </div>
@@ -1066,9 +1079,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute name.</p>
-
+    <p>Returns the value of attribute name.</p>
 
   </div>
 </div>
@@ -1109,9 +1120,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute partof.</p>
-
+    <p>Returns the value of attribute partof.</p>
 
   </div>
 </div>
@@ -1152,9 +1161,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute slack.</p>
-
+    <p>Returns the value of attribute slack.</p>
 
   </div>
 </div>
@@ -1195,9 +1202,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute tag.</p>
-
+    <p>Returns the value of attribute tag.</p>
 
   </div>
 </div>
@@ -1233,7 +1238,37 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="check_link?-instance_method">
+  <h3 class="signature first" id="accept-instance_method">
+  
+    #<strong>accept</strong>(visitor)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_accept'>accept</span><span class='lparen'>(</span><span class='id identifier rubyid_visitor'>visitor</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_visitor'>visitor</span><span class='period'>.</span><span class='id identifier rubyid_visit_Port'>visit_Port</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_link?-instance_method">
   
     #<strong>check_link?</strong>  &#x21d2; <tt>Boolean</tt> 
   
@@ -1269,10 +1304,6 @@
       <pre class="lines">
 
 
-27
-28
-29
-30
 31
 32
 33
@@ -1283,25 +1314,29 @@
 38
 39
 40
-41</pre>
+41
+42
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_link?'>check_link?</span>
-    <span class='kw'>if</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:in</span> 
-        <span class='kw'>if</span> <span class='id identifier rubyid_is_global?'>is_global?</span> 
-            <span class='id identifier rubyid_check_link_fanout?'>check_link_fanout?</span>
-        <span class='kw'>else</span> 
-            <span class='id identifier rubyid_check_link_fanin?'>check_link_fanin?</span>
-        <span class='kw'>end</span>
-    <span class='kw'>else</span> <span class='comment'># direction is :out
-</span>        <span class='kw'>if</span> <span class='id identifier rubyid_is_global?'>is_global?</span>
-            <span class='id identifier rubyid_check_link_fanin?'>check_link_fanin?</span>
-        <span class='kw'>else</span>
-            <span class='id identifier rubyid_check_link_fanout?'>check_link_fanout?</span>
-        <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:in</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_is_global?'>is_global?</span>
+      <span class='id identifier rubyid_check_link_fanout?'>check_link_fanout?</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_check_link_fanin?'>check_link_fanin?</span>
     <span class='kw'>end</span>
+  <span class='kw'>else</span> <span class='comment'># direction is :out
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_is_global?'>is_global?</span>
+      <span class='id identifier rubyid_check_link_fanin?'>check_link_fanin?</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_check_link_fanout?'>check_link_fanout?</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1345,15 +1380,15 @@
       <pre class="lines">
 
 
-23
-24
-25</pre>
+27
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_link_fanin?'>check_link_fanin?</span>
-    <span class='op'>!</span><span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_get_sinks'>get_sinks</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='op'>!</span><span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_get_sinks'>get_sinks</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1397,15 +1432,15 @@
       <pre class="lines">
 
 
-19
-20
-21</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_link_fanout?'>check_link_fanout?</span>
-    <span class='op'>!</span><span class='ivar'>@fanout</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='kw'>and</span> <span class='ivar'>@fanout</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sink'>sink</span><span class='op'>|</span> <span class='id identifier rubyid_sink'>sink</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_sink_source'>sink_source</span><span class='op'>|</span> <span class='id identifier rubyid_sink_source'>sink_source</span> <span class='op'>==</span> <span class='kw'>self</span><span class='rbrace'>}</span>
+  <span class='op'>!</span><span class='ivar'>@fanout</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='kw'>and</span> <span class='ivar'>@fanout</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_sink'>sink</span><span class='op'>|</span> <span class='id identifier rubyid_sink'>sink</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_sink_source'>sink_source</span><span class='op'>|</span> <span class='id identifier rubyid_sink_source'>sink_source</span> <span class='op'>==</span> <span class='kw'>self</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1443,9 +1478,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="get_dot_name-instance_method">
+  <h3 class="signature " id="get_asp_name-instance_method">
   
-    #<strong>get_dot_name</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>get_asp_name</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1463,17 +1498,53 @@
 94
 95
 96
-97</pre>
+97
+98</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 91</span>
 
+<span class='kw'>def</span> <span class='id identifier rubyid_get_asp_name'>get_asp_name</span>
+  <span class='comment'># return @name if is_global?
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_is_input?'>is_input?</span>
+    <span class='ivar'>@name</span>
+  <span class='kw'>else</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_get_asp_name'>get_asp_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_dot_name-instance_method">
+  
+    #<strong>get_dot_name</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 100</span>
+
 <span class='kw'>def</span> <span class='id identifier rubyid_get_dot_name'>get_dot_name</span>
-    <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
-        <span class='kw'>return</span> <span class='ivar'>@name</span>
-    <span class='kw'>else</span>
-        <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='ivar'>@name</span> <span class='kw'>if</span> <span class='id identifier rubyid_is_global?'>is_global?</span>
+
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1495,8 +1566,6 @@
       <pre class="lines">
 
 
-83
-84
 85
 86
 87
@@ -1504,14 +1573,12 @@
 89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 85</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_full_name'>get_full_name</span>
-    <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
-        <span class='kw'>return</span> <span class='ivar'>@name</span>
-    <span class='kw'>else</span>
-        <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='gvar'>$FULL_PORT_NAME_SEP</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>     
-    <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='ivar'>@name</span> <span class='kw'>if</span> <span class='id identifier rubyid_is_global?'>is_global?</span>
+
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='gvar'>$FULL_PORT_NAME_SEP</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1533,23 +1600,19 @@
       <pre class="lines">
 
 
-99
-100
-101
-102
-103
-104
-105</pre>
+106
+107
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_pdk_name'>get_pdk_name</span>
-    <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="STDCell.html" title="Netlist::STDCell (class)">STDCell</a></span></span>
-        <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='gvar'>$FULL_PORT_NAME_SEP</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_scl_ios'>scl_ios</span><span class='lbracket'>[</span><span class='ivar'>@name</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: no PDK name for a port in an object which is not a STDCell class object.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='gvar'>$FULL_PORT_NAME_SEP</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_scl_ios'>scl_ios</span><span class='lbracket'>[</span><span class='ivar'>@name</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="STDCell.html" title="Netlist::STDCell (class)">STDCell</a></span></span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Error: no PDK name for a port in an object which is not a STDCell class object.</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1571,27 +1634,27 @@
       <pre class="lines">
 
 
-119
-120
-121
-122
-123
 124
 125
 126
-127</pre>
+127
+128
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 124</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_source_comp'>get_source_comp</span>
-    <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_is_global?'>is_global?</span> <span class='kw'>and</span> <span class='id identifier rubyid_is_input?'>is_input?</span><span class='rparen'>)</span> 
-        <span class='kw'>return</span> <span class='kw'>self</span>
-    <span class='kw'>elsif</span> <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span> 
-        <span class='ivar'>@fanin</span>
-    <span class='kw'>else</span> 
-        <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span>
-    <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_is_global?'>is_global?</span> <span class='kw'>and</span> <span class='id identifier rubyid_is_input?'>is_input?</span>
+    <span class='kw'>self</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
+    <span class='ivar'>@fanin</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1613,31 +1676,31 @@
       <pre class="lines">
 
 
-107
-108
-109
-110
-111
 112
 113
 114
 115
 116
-117</pre>
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 112</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_source_gates'>get_source_gates</span>
-    <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_source'>get_source</span> 
-    
-    <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Netlist::Port (class)">Port</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span><span class='rparen'>)</span> 
-        <span class='id identifier rubyid_source'>source</span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Wire.html" title="Netlist::Wire (class)">Wire</a></span></span>
-        <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_fanin'>fanin</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span>
-    <span class='kw'>else</span>
-        <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span>
-    <span class='kw'>end</span>
+  <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='id identifier rubyid_get_source'>get_source</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Netlist::Port (class)">Port</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_is_global?'>is_global?</span>
+    <span class='id identifier rubyid_source'>source</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Wire.html" title="Netlist::Wire (class)">Wire</a></span></span>
+    <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_fanin'>fanin</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1681,10 +1744,6 @@
       <pre class="lines">
 
 
-43
-44
-45
-46
 47
 48
 49
@@ -1695,25 +1754,25 @@
 54
 55
 56
-57</pre>
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_free?'>is_free?</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_is_global?'>is_global?</span> <span class='comment'># true
-</span>        <span class='kw'>if</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:in</span> 
-            <span class='kw'>return</span> <span class='id identifier rubyid_fanout'>fanout</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-        <span class='kw'>else</span>
-            <span class='kw'>return</span> <span class='id identifier rubyid_fanin'>fanin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-        <span class='kw'>end</span>
-    <span class='kw'>else</span>
-        <span class='kw'>if</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:in</span>
-            <span class='kw'>return</span> <span class='id identifier rubyid_fanin'>fanin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> 
-        <span class='kw'>else</span>
-            <span class='kw'>return</span> <span class='id identifier rubyid_fanout'>fanout</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-        <span class='kw'>end</span>
-    <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_is_global?'>is_global?</span> <span class='comment'># true
+</span>    <span class='kw'>return</span> <span class='id identifier rubyid_fanout'>fanout</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='kw'>if</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:in</span>
+
+    <span class='id identifier rubyid_fanin'>fanin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='kw'>else</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_fanin'>fanin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>if</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:in</span>
+
+    <span class='id identifier rubyid_fanout'>fanout</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1731,9 +1790,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>force = false</p>
-
+    <p>force = false</p>
 
   </div>
 </div>
@@ -1759,23 +1816,23 @@
       <pre class="lines">
 
 
-67
-68
 69
 70
 71
 72
-73</pre>
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 69</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_is_global?'>is_global?</span> <span class='comment'>#force = false
-</span>    <span class='comment'>#if @global.nil? or force
-</span>        <span class='ivar'>@global</span> <span class='op'>=</span> <span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='comment'># else
-</span>        <span class='comment'># @global
-</span>    <span class='comment'># end
+<span class='kw'>def</span> <span class='id identifier rubyid_is_global?'>is_global?</span> <span class='comment'># force = false
+</span>  <span class='comment'># if @global.nil? or force
+</span>  <span class='ivar'>@global</span> <span class='op'>=</span> <span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='comment'># else
+</span>  <span class='comment'># @global
+</span>  <span class='comment'># end
 </span><span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1819,15 +1876,15 @@
       <pre class="lines">
 
 
-63
-64
-65</pre>
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_input?'>is_input?</span>
-    <span class='kw'>return</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:in</span>
+  <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:in</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1871,15 +1928,15 @@
       <pre class="lines">
 
 
-75
-76
-77</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_output?'>is_output?</span>
-    <span class='kw'>return</span> <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:out</span>
+  <span class='ivar'>@direction</span> <span class='op'>==</span> <span class='symbol'>:out</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1923,15 +1980,15 @@
       <pre class="lines">
 
 
-59
-60
-61</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_partof?'>is_partof?</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> 
+  <span class='id identifier rubyid_partof'>partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1975,15 +2032,15 @@
       <pre class="lines">
 
 
-79
-80
-81</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_wire?'>is_wire?</span>
-    <span class='kw'>return</span> <span class='kw'>false</span>
+  <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2001,14 +2058,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>def get_source_cum_propag_time</p>
-
-<pre class="code ruby"><code class="ruby">return get_source.class.name == &quot;Netlist::Wire&quot; ? source.@cumulated_propag_time : source.partof.cumulated_propag_time
-</code></pre>
-
-<p>end</p>
-
+    <p>def get_source_cum_propag_time
+return get_source.class.name == &quot;Netlist::Wire&quot; ? source.@cumulated_propag_time : source.partof.cumulated_propag_time
+end</p>
 
   </div>
 </div>
@@ -2021,11 +2073,6 @@
       <pre class="lines">
 
 
-143
-144
-145
-146
-147
 148
 149
 150
@@ -2038,28 +2085,43 @@
 157
 158
 159
-160</pre>
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'lib/netlist/port.rb', line 148</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_hash'>to_hash</span>
-    <span class='lbrace'>{</span>
-        <span class='symbol'>:port</span> <span class='op'>=&gt;</span>    <span class='lbrace'>{</span>   
-                        <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='ivar'>@name</span><span class='comma'>,</span> 
-                        <span class='symbol'>:partof</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='ivar'>@partof</span> <span class='op'>==</span> <span class='kw'>nil</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='comma'>,</span> 
-                        <span class='symbol'>:direction</span> <span class='op'>=&gt;</span> <span class='ivar'>@direction</span><span class='comma'>,</span> 
-                        <span class='symbol'>:fanin</span> <span class='op'>=&gt;</span> <span class='ivar'>@fanin</span> <span class='op'>==</span> <span class='kw'>nil</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='lparen'>(</span>
-                            <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Wire.html" title="Netlist::Wire (class)">Wire</a></span></span> <span class='op'>?</span> <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span> <span class='op'>:</span> <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
-                        <span class='rparen'>)</span><span class='comma'>,</span>
-                        <span class='symbol'>:fanout</span> <span class='op'>=&gt;</span> <span class='ivar'>@fanout</span> <span class='op'>==</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='lparen'>(</span>
-                            <span class='ivar'>@fanout</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_interface'>interface</span><span class='op'>|</span>
-                                <span class='id identifier rubyid_interface'>interface</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Wire.html" title="Netlist::Wire (class)">Wire</a></span></span> <span class='op'>?</span> <span class='id identifier rubyid_interface'>interface</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span> <span class='op'>:</span> <span class='id identifier rubyid_interface'>interface</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
-                            <span class='rbrace'>}</span>
-                            
-                        <span class='rparen'>)</span>
-                    <span class='rbrace'>}</span>
+  <span class='lbrace'>{</span>
+    <span class='label'>port:</span> <span class='lbrace'>{</span>
+      <span class='label'>name:</span> <span class='ivar'>@name</span><span class='comma'>,</span>
+      <span class='label'>partof:</span> <span class='lparen'>(</span><span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='ivar'>@partof</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='comma'>,</span>
+      <span class='label'>direction:</span> <span class='ivar'>@direction</span><span class='comma'>,</span>
+      <span class='label'>fanin:</span> <span class='kw'>if</span> <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+               <span class='kw'>nil</span>
+             <span class='kw'>else</span>
+               <span class='lparen'>(</span>
+                                             <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Wire.html" title="Netlist::Wire (class)">Wire</a></span></span> <span class='op'>?</span> <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span> <span class='op'>:</span> <span class='ivar'>@fanin</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+                                           <span class='rparen'>)</span>
+             <span class='kw'>end</span><span class='comma'>,</span>
+      <span class='label'>fanout:</span> <span class='kw'>if</span> <span class='ivar'>@fanout</span> <span class='op'>==</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+                <span class='kw'>nil</span>
+              <span class='kw'>else</span>
+                <span class='ivar'>@fanout</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_interface'>interface</span><span class='op'>|</span>
+                  <span class='id identifier rubyid_interface'>interface</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Wire.html" title="Netlist::Wire (class)">Wire</a></span></span> <span class='op'>?</span> <span class='id identifier rubyid_interface'>interface</span><span class='period'>.</span><span class='id identifier rubyid_to_hash'>to_hash</span> <span class='op'>:</span> <span class='id identifier rubyid_interface'>interface</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+                <span class='kw'>end</span>
+              <span class='kw'>end</span>
     <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2071,9 +2133,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:21 2025 by
+  Generated on Tue Sep 15 17:08:15 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

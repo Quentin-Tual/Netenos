@@ -6,13 +6,13 @@
 <title>
   Class: Code
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Code";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/code.rb</dd>
+    <dd>lib/code.rb
+</dd>
   </dl>
   
 </div>
@@ -126,9 +129,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute indent.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute indent.</p></div></span>
   
 </li>
 
@@ -153,9 +154,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute lines.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute lines.</p></div></span>
   
 </li>
 
@@ -236,9 +235,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Code.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Code.</p></div></span>
   
 </li>
 
@@ -332,6 +329,7 @@
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -348,9 +346,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Code.</p>
-
+    <p>Returns a new instance of Code.</p>
 
   </div>
 </div>
@@ -402,9 +398,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute indent.</p>
-
+    <p>Returns the value of attribute indent.</p>
 
   </div>
 </div>
@@ -445,9 +439,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute lines.</p>
-
+    <p>Returns the value of attribute lines.</p>
 
   </div>
 </div>
@@ -520,7 +512,7 @@
     <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_lines'>lines</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
       <span class='ivar'>@lines</span> <span class='op'>&lt;&lt;</span> <span class='ivar'>@indent_sym</span><span class='op'>*</span><span class='ivar'>@indent</span><span class='op'>+</span><span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
     <span class='kw'>end</span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_thing'>thing</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_thing'>thing</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="Array.html" title="Array (class)">Array</a></span></span>
     <span class='id identifier rubyid_thing'>thing</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_kode'>kode</span><span class='op'>|</span>
       <span class='ivar'>@lines</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_kode'>kode</span>
     <span class='kw'>end</span>
@@ -707,9 +699,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:19 2025 by
+  Generated on Tue Sep 15 17:08:13 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

@@ -6,13 +6,13 @@
 <title>
   Class: SDF::Wire
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "SDF::Wire";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/sdf/sdf_ast.rb</dd>
+    <dd>lib/sdf/sdf_ast.rb
+</dd>
   </dl>
   
 </div>
@@ -128,9 +131,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute sink_name.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute sink_name.</p></div></span>
   
 </li>
 
@@ -157,9 +158,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute source_name.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute source_name.</p></div></span>
   
 </li>
 
@@ -180,6 +179,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#identical%3F-instance_method" title="#identical? (instance method)">#<strong>identical?</strong>(w)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(source_name, sink_name)  &#x21d2; Wire </a>
     
 
@@ -196,14 +217,35 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Wire.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Wire.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid%3F-instance_method" title="#valid? (instance method)">#<strong>valid?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -220,9 +262,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Wire.</p>
-
+    <p>Returns a new instance of Wire.</p>
 
   </div>
 </div>
@@ -235,13 +275,13 @@
       <pre class="lines">
 
 
-164
-165
-166
-167</pre>
+328
+329
+330
+331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 328</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_source_name'>source_name</span><span class='comma'>,</span> <span class='id identifier rubyid_sink_name'>sink_name</span><span class='rparen'>)</span>
   <span class='ivar'>@source_name</span> <span class='op'>=</span> <span class='id identifier rubyid_source_name'>source_name</span>
@@ -270,9 +310,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute sink_name.</p>
-
+    <p>Returns the value of attribute sink_name.</p>
 
   </div>
 </div>
@@ -285,12 +323,12 @@
       <pre class="lines">
 
 
-163
-164
-165</pre>
+326
+327
+328</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 326</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sink_name'>sink_name</span>
   <span class='ivar'>@sink_name</span>
@@ -313,9 +351,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute source_name.</p>
-
+    <p>Returns the value of attribute source_name.</p>
 
   </div>
 </div>
@@ -328,12 +364,12 @@
       <pre class="lines">
 
 
-163
-164
-165</pre>
+326
+327
+328</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 326</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_source_name'>source_name</span>
   <span class='ivar'>@source_name</span>
@@ -346,12 +382,122 @@
   </div>
 
 
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="identical?-instance_method">
+  
+    #<strong>identical?</strong>(w)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+333
+334
+335</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 333</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_identical?'>identical?</span><span class='lparen'>(</span><span class='id identifier rubyid_w'>w</span><span class='rparen'>)</span>
+  <span class='lparen'>(</span><span class='ivar'>@source_name</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_source_name'>source_name</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='ivar'>@sink_name</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_w'>w</span><span class='period'>.</span><span class='id identifier rubyid_sink_name'>sink_name</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid?-instance_method">
+  
+    #<strong>valid?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+337
+338
+339</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 337</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
+  <span class='ivar'>@source_name</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span> <span class='kw'>and</span> <span class='ivar'>@sink_name</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span> <span class='kw'>and</span> <span class='ivar'>@source_name</span> <span class='op'>!=</span> <span class='ivar'>@sink_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:20 2025 by
+  Generated on Tue Sep 15 17:08:14 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

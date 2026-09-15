@@ -6,13 +6,13 @@
 <title>
   Class: Converter::AleaCircDescriptor
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Converter::AleaCircDescriptor";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -98,7 +100,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/converter/circ_descriptors/aleaCircDescriptor.rb</dd>
+    <dd>lib/converter/circ_descriptors/aleaCircDescriptor.rb
+</dd>
   </dl>
   
 </div>
@@ -165,17 +168,17 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of AleaCircDescriptor.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of AleaCircDescriptor.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
+  
   
   
   
@@ -187,6 +190,7 @@
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ClassicCircDescriptor.html" title="Converter::ClassicCircDescriptor (class)">ClassicCircDescriptor</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="ClassicCircDescriptor.html#components_interconnect_inputs-instance_method" title="Converter::ClassicCircDescriptor#components_interconnect_inputs (method)">#components_interconnect_inputs</a></span>, <span class='object_link'><a href="ClassicCircDescriptor.html#components_interconnect_outputs-instance_method" title="Converter::ClassicCircDescriptor#components_interconnect_outputs (method)">#components_interconnect_outputs</a></span></p>
 
+  
   
   
   
@@ -211,9 +215,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of AleaCircDescriptor.</p>
-
+    <p>Returns a new instance of AleaCircDescriptor.</p>
 
   </div>
 </div>
@@ -229,13 +231,17 @@
 7
 8
 9
-10</pre>
+10
+11
+12</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/converter/circ_descriptors/aleaCircDescriptor.rb', line 7</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: expecting :noise_rate option for initialization</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@opts</span><span class='lbracket'>[</span><span class='symbol'>:noise_rate</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: expecting real value associated to :noise_rate option</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@opts</span><span class='lbracket'>[</span><span class='symbol'>:noise_rate</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Float</span>
   <span class='ivar'>@engine</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>/circ_template.erb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -265,8 +271,6 @@
       <pre class="lines">
 
 
-12
-13
 14
 15
 16
@@ -286,10 +290,11 @@
 30
 31
 32
-33</pre>
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/converter/circ_descriptors/aleaCircDescriptor.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/converter/circ_descriptors/aleaCircDescriptor.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_components_interconnect'>components_interconnect</span>
   <span class='id identifier rubyid_code'>code</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Code.html" title="Code (class)">Code</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Code.html#initialize-instance_method" title="Code#initialize (method)">new</a></span></span>
@@ -299,10 +304,9 @@
     <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_indent'>indent</span><span class='op'>=</span><span class='int'>2</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Netlist.html" title="Netlist (module)">Netlist</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Netlist/Gate.html" title="Netlist::Gate (class)">Gate</a></span></span>
       <span class='id identifier rubyid_delay'>delay</span> <span class='op'>=</span> <span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_propag_time'>propag_time</span><span class='lbracket'>[</span><span class='ivar'>@delay_model</span><span class='rbracket'>]</span><span class='op'>*</span><span class='int'>1000</span>
-      <span class='id identifier rubyid_delay_min'>delay_min</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_delay'>delay</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='int'>1</span> <span class='op'>-</span> <span class='ivar'>@opts</span><span class='lbracket'>[</span><span class='symbol'>:noise_rate</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-      <span class='comment'># delay_max = (delay * (1 + @opts[:noise_rate])).to_i
-</span>      <span class='id identifier rubyid_delay_max'>delay_max</span> <span class='op'>=</span> <span class='id identifier rubyid_delay'>delay</span>
-      <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>generic map(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_delay_min'>delay_min</span><span class='embexpr_end'>}</span><span class='tstring_content'> fs, </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_delay_max'>delay_max</span><span class='embexpr_end'>}</span><span class='tstring_content'> fs)</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_delay_min'>delay_min</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_delay'>delay</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='float'>1.0</span> <span class='op'>-</span> <span class='ivar'>@opts</span><span class='lbracket'>[</span><span class='symbol'>:noise_rate</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+      <span class='id identifier rubyid_delay_max'>delay_max</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_delay'>delay</span> <span class='op'>*</span> <span class='lparen'>(</span><span class='float'>1.0</span> <span class='op'>+</span> <span class='ivar'>@opts</span><span class='lbracket'>[</span><span class='symbol'>:noise_rate</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+      <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>generic map(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_delay_min'>delay_min</span><span class='embexpr_end'>}</span><span class='tstring_content'> fs, </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_delay_max'>delay_max</span><span class='embexpr_end'>}</span><span class='tstring_content'> fs, </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='int'>100000</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rand'>rand</span><span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='int'>100000</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
     <span class='id identifier rubyid_code'>code</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>port map(</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_indent'>indent</span><span class='op'>=</span><span class='int'>3</span>
@@ -323,9 +327,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:27 2025 by
+  Generated on Tue Sep 15 17:08:24 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>

@@ -6,13 +6,13 @@
 <title>
   Class: SDF::DelayTable
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.45
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "SDF::DelayTable";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,7 +96,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/sdf/sdf_ast.rb</dd>
+    <dd>lib/sdf/sdf_ast.rb
+</dd>
   </dl>
   
 </div>
@@ -126,9 +129,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute fall.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute fall.</p></div></span>
   
 </li>
 
@@ -153,9 +154,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute rise.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute rise.</p></div></span>
   
 </li>
 
@@ -176,7 +175,95 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#accept-instance_method" title="#accept (instance method)">#<strong>accept</strong>(visitor)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#attr_list-instance_method" title="#attr_list (instance method)">#<strong>attr_list</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_float_list-instance_method" title="#get_float_list (instance method)">#<strong>get_float_list</strong>(attr)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_float_list_falling-instance_method" title="#get_float_list_falling (instance method)">#<strong>get_float_list_falling</strong>(attr)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_float_list_rising-instance_method" title="#get_float_list_rising (instance method)">#<strong>get_float_list_rising</strong>(attr)  &#x21d2; Object </a>
     
 
     
@@ -214,14 +301,35 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of DelayTable.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of DelayTable.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid%3F-instance_method" title="#valid? (instance method)">#<strong>valid?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -238,9 +346,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of DelayTable.</p>
-
+    <p>Returns a new instance of DelayTable.</p>
 
   </div>
 </div>
@@ -253,15 +359,15 @@
       <pre class="lines">
 
 
-173
-174
-175
-176</pre>
+345
+346
+347
+348</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 345</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_rise'>rise</span><span class='comma'>,</span> <span class='id identifier rubyid_fall'>fall</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_rise'>rise</span><span class='comma'>,</span> <span class='id identifier rubyid_fall'>fall</span><span class='rparen'>)</span>
   <span class='ivar'>@rise</span> <span class='op'>=</span> <span class='id identifier rubyid_rise'>rise</span>
   <span class='ivar'>@fall</span> <span class='op'>=</span> <span class='id identifier rubyid_fall'>fall</span>
 <span class='kw'>end</span></pre>
@@ -288,9 +394,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute fall.</p>
-
+    <p>Returns the value of attribute fall.</p>
 
   </div>
 </div>
@@ -303,12 +407,12 @@
       <pre class="lines">
 
 
-171
-172
-173</pre>
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 343</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fall'>fall</span>
   <span class='ivar'>@fall</span>
@@ -331,9 +435,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute rise.</p>
-
+    <p>Returns the value of attribute rise.</p>
 
   </div>
 </div>
@@ -346,12 +448,12 @@
       <pre class="lines">
 
 
-171
-172
-173</pre>
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 343</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rise'>rise</span>
   <span class='ivar'>@rise</span>
@@ -369,7 +471,37 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="attr_list-instance_method">
+  <h3 class="signature first" id="accept-instance_method">
+  
+    #<strong>accept</strong>(visitor)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+370
+371
+372</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 370</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_accept'>accept</span><span class='lparen'>(</span><span class='id identifier rubyid_visitor'>visitor</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_visitor'>visitor</span><span class='period'>.</span><span class='id identifier rubyid_visit_DelayTable'>visit_DelayTable</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="attr_list-instance_method">
   
     #<strong>attr_list</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -383,15 +515,157 @@
       <pre class="lines">
 
 
-178
-179
-180</pre>
+350
+351
+352</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 178</span>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 350</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_attr_list'>attr_list</span> 
-  <span class='lbracket'>[</span><span class='ivar'>@rise</span><span class='comma'>,</span><span class='ivar'>@fall</span><span class='rbracket'>]</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_attr_list'>attr_list</span>
+  <span class='lbracket'>[</span><span class='ivar'>@rise</span><span class='comma'>,</span> <span class='ivar'>@fall</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_float_list-instance_method">
+  
+    #<strong>get_float_list</strong>(attr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+354
+355
+356</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 354</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_float_list'>get_float_list</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+  <span class='lbracket'>[</span><span class='ivar'>@rise</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='comma'>,</span> <span class='ivar'>@fall</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_float_list_falling-instance_method">
+  
+    #<strong>get_float_list_falling</strong>(attr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+362
+363
+364</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 362</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_float_list_falling'>get_float_list_falling</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+  <span class='ivar'>@fall</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_float_list_rising-instance_method">
+  
+    #<strong>get_float_list_rising</strong>(attr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+358
+359
+360</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 358</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_float_list_rising'>get_float_list_rising</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span>
+  <span class='ivar'>@rise</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_attr'>attr</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid?-instance_method">
+  
+    #<strong>valid?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+366
+367
+368</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sdf/sdf_ast.rb', line 366</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
+  <span class='ivar'>@rise</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span> <span class='kw'>and</span> <span class='ivar'>@fall</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -403,9 +677,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:56:20 2025 by
+  Generated on Tue Sep 15 17:08:14 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.4).
+  0.9.45 (ruby-3.4.4).
 </div>
 
     </div>
