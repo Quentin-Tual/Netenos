@@ -542,8 +542,8 @@ module Inserter
 
       source = loc.get_source
       loc.unplug2 source.get_full_name
-      @ht.get_payload_out
-      @ht.get_payload_in
+      loc <= @ht.get_payload_out # rubocop:disable Lint/Void
+      @ht.get_payload_in <= source # rubocop:disable Lint/Void
 
       @ht.components.each do |c|
         c.tag = :ht
@@ -558,8 +558,8 @@ module Inserter
 
       source = loc.get_source
       loc.unplug2 source.get_full_name
-      @ht.get_payload_out
-      @ht.get_payload_in
+      loc <= @ht.get_payload_out # rubocop:disable Lint/Void
+      @ht.get_payload_in <= source # rubocop:disable Lint/Void
 
       @ht.components.each do |c|
         c.tag = :ht
@@ -601,8 +601,8 @@ module Inserter
 
       source = attacked_sig.get_source
       attacked_sig.unplug2(source.get_full_name)
-      @ht.get_payload_out
-      @ht.get_payload_in
+      attacked_sig <= @ht.get_payload_out # rubocop:disable Lint/Void
+      @ht.get_payload_in <= source # rubocop:disable Lint/Void
 
       max_delay = source.cumulated_propag_time + attacked_sig.slack
       @location = (max_delay.to_f / @timings_h.keys.last).round(3)
@@ -627,8 +627,8 @@ module Inserter
         # * : Payload insertion (removing old links and creating new ones)
         source = loc.get_source
         loc.unplug2 source.get_full_name
-        @ht.get_payload_out
-        @ht.get_payload_in
+        loc <= @ht.get_payload_out # rubocop:disable Lint/Void
+        @ht.get_payload_in <= source # rubocop:disable Lint/Void
 
         max_delay = if source.is_global?
                       source.cumulated_propag_time + loc.slack
@@ -645,6 +645,7 @@ module Inserter
         @trigger_pool.clear
         @ht.get_payload_in.unplug2 source.get_full_name
         loc.unplug2 loc.get_source.get_full_name
+        loc <= source # rubocop:disable Lint/Void
 
         attempts += 1
         retry
@@ -680,7 +681,7 @@ module Inserter
         sink.unplug sink.get_source.get_full_name
         sink <= @ht.get_payload_out
       end
-      @ht.get_payload_in
+      @ht.get_payload_in <= loc # rubocop:disable Lint/Void
 
       trig = select_triggers_sig(@ht.get_triggers_nb, max_stage)
 

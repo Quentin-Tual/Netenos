@@ -1,4 +1,4 @@
-require 'bigdecimal'
+require 'bigdecimal' # rubocop:disable Style/FrozenStringLiteralComment
 require_relative 'port'
 
 module Netlist
@@ -704,6 +704,7 @@ module Netlist
         sink <= w
       end
       # Plug the wire to source
+      w <= source # rubocop:disable Lint/Void
       w
     end
 

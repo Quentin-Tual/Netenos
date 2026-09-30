@@ -85,12 +85,12 @@ RSpec.describe Netlist::Circuit do
 
       g1.get_ports.each { |p| expect(p.partof).to eq(g1) }
       g2.get_ports.each { |p| expect(p.partof).to eq(g2) }
-      g2.get_port_named('i0')
-      g1.get_port_named('i0')
-      g1.get_port_named('i1')
-      g2.get_port_named('o0')
-      g1.get_port_named('o0')
-      g2.get_port_named('i1')
+
+      in1 <= g2.get_port_named('i0') # rubocop:disable Lint/Void
+      in2 <= g1.get_port_named('i0') # rubocop:disable Lint/Void
+      in3 <= g1.get_port_named('i1') # rubocop:disable Lint/Void
+      out <= g2.get_port_named('o0') # rubocop:disable Lint/Void
+      g1.get_port_named('o0') <= g2.get_port_named('i1') # rubocop:disable Lint/Void
 
       @circ << g1
       @circ << g2
@@ -130,12 +130,17 @@ RSpec.describe Netlist::Circuit do
       circ << w3
       circ << w4
       circ << w5
-      g2.get_port_named('i0')
-      g1.get_port_named('i0')
-      g1.get_port_named('i1')
-      g2.get_port_named('o0')
-      g1.get_port_named('o0')
-      g2.get_port_named('i1')
+      
+      w1 <= in1 # rubocop:disable Lint/Void
+      g2.get_port_named('i0') <= w1 # rubocop:disable Lint/Void
+      w2 <= in2 # rubocop:disable Lint/Void
+      g1.get_port_named('i0') <= w2 # rubocop:disable Lint/Void
+      w3 <= in3 # rubocop:disable Lint/Void
+      g1.get_port_named('i1') <= w3 # rubocop:disable Lint/Void
+      out <= w4 # rubocop:disable Lint/Void
+      w4 <= g2.get_port_named('o0') # rubocop:disable Lint/Void
+      w5 <= g1.get_port_named('o0') # rubocop:disable Lint/Void
+      g2.get_port_named('i1') <= w5 # rubocop:disable Lint/Void
 
       circ
     end
@@ -198,12 +203,17 @@ RSpec.describe Netlist::Circuit do
       circ << w3
       circ << w4
       circ << w5
-      g2.get_port_named('i0')
-      g1.get_port_named('i0')
-      g1.get_port_named('i1')
-      g2.get_port_named('o0')
-      g1.get_port_named('o0')
-      g2.get_port_named('i1')
+
+      w1 <= in1 # rubocop:disable Lint/Void
+      g2.get_port_named('i0') <= w1 # rubocop:disable Lint/Void
+      w2 <= in2 # rubocop:disable Lint/Void
+      g1.get_port_named('i0') <= w2 # rubocop:disable Lint/Void
+      w3 <= in3 # rubocop:disable Lint/Void
+      g1.get_port_named('i1') <= w3 # rubocop:disable Lint/Void
+      out <= w4 # rubocop:disable Lint/Void
+      w4 <= g2.get_port_named('o0') # rubocop:disable Lint/Void
+      w5 <= g1.get_port_named('o0') # rubocop:disable Lint/Void
+      g2.get_port_named('i1') <= w5 # rubocop:disable Lint/Void
 
       circ
     end

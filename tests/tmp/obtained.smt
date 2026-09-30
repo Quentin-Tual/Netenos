@@ -22,15 +22,12 @@
 (define-fun xor5/w00D ((t Int)) Bool
   (xor5/i0 t)
 )
-(define-fun-rec xor5/w0 ((t Int)) Bool
+(define-fun xor5/w0 ((t Int)) Bool
   (ite (<= t 0)
     xor5/w0C
-    (ite (not (or (xor5/w00D t) (xor5/w0F t) ))
-      false
-      (ite (and (xor5/w00D t) (xor5/w0R t) )
-        true
-        (xor5/w0 (- t 77)) ; not an ideal resolution, speeds up calculations with inertial delay
-      )
+    (ite (xor5/w00D t)
+      (xor5/w0R t)
+      (xor5/w0F t)
     )
   )
 )
@@ -48,15 +45,12 @@
 (define-fun xor5/w10D ((t Int)) Bool
   (xor5/i2 t)
 )
-(define-fun-rec xor5/w1 ((t Int)) Bool
+(define-fun xor5/w1 ((t Int)) Bool
   (ite (<= t 0)
     xor5/w1C
-    (ite (not (or (xor5/w10D t) (xor5/w1F t) ))
-      false
-      (ite (and (xor5/w10D t) (xor5/w1R t) )
-        true
-        (xor5/w1 (- t 77)) ; not an ideal resolution, speeds up calculations with inertial delay
-      )
+    (ite (xor5/w10D t)
+      (xor5/w1R t)
+      (xor5/w1F t)
     )
   )
 )
@@ -72,15 +66,12 @@
 (define-fun xor5/_3_/o00D ((t Int)) Bool
   ( or ( and (xor5/w0 t) ( not (xor5/w1 t) ) ) ( and ( not (xor5/w0 t) ) (xor5/w1 t) ) )
 )
-(define-fun-rec xor5/_3_/o0 ((t Int)) Bool
+(define-fun xor5/_3_/o0 ((t Int)) Bool
   (ite (<= t 0)
     xor5/_3_/o0C
-    (ite (not (or (xor5/_3_/o00D t) (xor5/_3_/o0F t) ))
-      false
-      (ite (and (xor5/_3_/o00D t) (xor5/_3_/o0R t) )
-        true
-        (xor5/_3_/o0 (- t 77)) ; not an ideal resolution, speeds up calculations with inertial delay
-      )
+    (ite (xor5/_3_/o00D t)
+      (xor5/_3_/o0R t)
+      (xor5/_3_/o0F t)
     )
   )
 )
@@ -107,15 +98,12 @@
 (define-fun xor5/w40D ((t Int)) Bool
   (xor5/i4 t)
 )
-(define-fun-rec xor5/w4 ((t Int)) Bool
+(define-fun xor5/w4 ((t Int)) Bool
   (ite (<= t 0)
     xor5/w4C
-    (ite (not (or (xor5/w40D t) (xor5/w4F t) ))
-      false
-      (ite (and (xor5/w40D t) (xor5/w4R t) )
-        true
-        (xor5/w4 (- t 77)) ; not an ideal resolution, speeds up calculations with inertial delay
-      )
+    (ite (xor5/w40D t)
+      (xor5/w4R t)
+      (xor5/w4F t)
     )
   )
 )
@@ -133,15 +121,12 @@
 (define-fun xor5/w20D ((t Int)) Bool
   (xor5/i1 t)
 )
-(define-fun-rec xor5/w2 ((t Int)) Bool
+(define-fun xor5/w2 ((t Int)) Bool
   (ite (<= t 0)
     xor5/w2C
-    (ite (not (or (xor5/w20D t) (xor5/w2F t) ))
-      false
-      (ite (and (xor5/w20D t) (xor5/w2R t) )
-        true
-        (xor5/w2 (- t 77)) ; not an ideal resolution, speeds up calculations with inertial delay
-      )
+    (ite (xor5/w20D t)
+      (xor5/w2R t)
+      (xor5/w2F t)
     )
   )
 )
@@ -159,15 +144,12 @@
 (define-fun xor5/w30D ((t Int)) Bool
   (xor5/i3 t)
 )
-(define-fun-rec xor5/w3 ((t Int)) Bool
+(define-fun xor5/w3 ((t Int)) Bool
   (ite (<= t 0)
     xor5/w3C
-    (ite (not (or (xor5/w30D t) (xor5/w3F t) ))
-      false
-      (ite (and (xor5/w30D t) (xor5/w3R t) )
-        true
-        (xor5/w3 (- t 77)) ; not an ideal resolution, speeds up calculations with inertial delay
-      )
+    (ite (xor5/w30D t)
+      (xor5/w3R t)
+      (xor5/w3F t)
     )
   )
 )
@@ -183,15 +165,12 @@
 (define-fun xor5/_4_/o00D ((t Int)) Bool
   ( or ( and (xor5/w2 t) ( not (xor5/w3 t) ) ) ( and ( not (xor5/w2 t) ) (xor5/w3 t) ) )
 )
-(define-fun-rec xor5/_4_/o0 ((t Int)) Bool
+(define-fun xor5/_4_/o0 ((t Int)) Bool
   (ite (<= t 0)
     xor5/_4_/o0C
-    (ite (not (or (xor5/_4_/o00D t) (xor5/_4_/o0F t) ))
-      false
-      (ite (and (xor5/_4_/o00D t) (xor5/_4_/o0R t) )
-        true
-        (xor5/_4_/o0 (- t 77)) ; not an ideal resolution, speeds up calculations with inertial delay
-      )
+    (ite (xor5/_4_/o00D t)
+      (xor5/_4_/o0R t)
+      (xor5/_4_/o0F t)
     )
   )
 )
@@ -216,15 +195,12 @@
 (define-fun xor5/_5_/o00D ((t Int)) Bool
   ( or ( and ( not (xor5/w4 t) ) ( not (xor5/w5 t) ) ) ( and (xor5/w4 t) (xor5/w5 t) ) )
 )
-(define-fun-rec xor5/_5_/o0 ((t Int)) Bool
+(define-fun xor5/_5_/o0 ((t Int)) Bool
   (ite (<= t 0)
     xor5/_5_/o0C
-    (ite (not (or (xor5/_5_/o00D t) (xor5/_5_/o0F t) ))
-      false
-      (ite (and (xor5/_5_/o00D t) (xor5/_5_/o0R t) )
-        true
-        (xor5/_5_/o0 (- t 77)) ; not an ideal resolution, speeds up calculations with inertial delay
-      )
+    (ite (xor5/_5_/o00D t)
+      (xor5/_5_/o0R t)
+      (xor5/_5_/o0F t)
     )
   )
 )
@@ -249,15 +225,12 @@
 (define-fun xor5/_6_/o00D ((t Int)) Bool
   ( or ( and ( not (xor5/w6 t) ) ( not (xor5/w7 t) ) ) ( and (xor5/w6 t) (xor5/w7 t) ) )
 )
-(define-fun-rec xor5/_6_/o0 ((t Int)) Bool
+(define-fun xor5/_6_/o0 ((t Int)) Bool
   (ite (<= t 0)
     xor5/_6_/o0C
-    (ite (not (or (xor5/_6_/o00D t) (xor5/_6_/o0F t) ))
-      false
-      (ite (and (xor5/_6_/o00D t) (xor5/_6_/o0R t) )
-        true
-        (xor5/_6_/o0 (- t 77)) ; not an ideal resolution, speeds up calculations with inertial delay
-      )
+    (ite (xor5/_6_/o00D t)
+      (xor5/_6_/o0R t)
+      (xor5/_6_/o0F t)
     )
   )
 )

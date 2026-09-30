@@ -88,22 +88,27 @@ module SDF
       source_name = w.source_name.name
       if source_name.include?(@SDF_PORT_NAME_SEP) # the source is a port of an standard cell instance
         source_name = get_eq_name(source_name)
-      end # else the source is a primary input
+      end
+
+      # else the source is a primary input
 
       # Find corresponding sink in the netlist
       sink_name = w.sink_name.name
       if sink_name.include?(@SDF_PORT_NAME_SEP) # the source is a port of an standard cell instance
         sink_name = get_eq_name(sink_name)
-      end # else the source is a primary input
+      end
 
-      return if sink_name.nil? or source_name.nil?
+      # else the source is a primary input
+
+      return if sink_name.nil? || source_name.nil?
 
       # Find corresponding wire in the netlist if it exists
       found_wire = @netlist.wires.find do |w|
         # source has computed source_name as name
         valid_source = w.get_source.get_full_name == source_name
         # sink has computed sink_name as name
-        valid_sink = w.get_sinks.collect { |sink| sink.get_full_name }.include? sink_name
+        valid_sink = w.get_sinks.collect(&:get_full_name).include? sink_name
+
         valid_source and valid_sink
       end
 

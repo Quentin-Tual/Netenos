@@ -18,7 +18,6 @@ module Verilog
       raise "Error: Expecting a Verilog::Root class, encountered a #{root.class}" unless root.class == Verilog::Root
 
       visitModule(root.mod)
-
       # wiringStep
       @netlist
     end
@@ -28,7 +27,7 @@ module Verilog
       mod.inputs.each { |o| @netlist << visitInput(o) }
       mod.outputs.each { |o| @netlist << visitOutput(o) }
       mod.instances.each do |o|
-        @netlist << visitInstance(o) unless o.port_map.nil? or (visitIdent(o.instance_name).include? 'ANTENNA')
+        @netlist << visitInstance(o) unless o.port_map.nil? || (visitIdent(o.instance_name).include? 'ANTENNA')
       end
       # mod.wires.each{|o| w=visitWire(o); @netlist << w unless w.nil?;}
       @wiring.each_with_index { |(sink, source), i| wire(sink, source, i) }
@@ -71,7 +70,7 @@ module Verilog
       port_name = equivalentPortName(stdcell_name, instance_name, visitIdent(portmap_element.port))
       wire_name = visitIdent(portmap_element.wire)
       if port_name[0] == 'i' # is an input
-        if !@sym_tab[wire_name].nil? and @sym_tab[wire_name].is_global? and @sym_tab[wire_name].is_output?
+        if !@sym_tab[wire_name].nil? && @sym_tab[wire_name].is_global? && @sym_tab[wire_name].is_output?
           # Get source of global output
           source_of_primary_output = @wiring[wire_name]
           @wiring["#{instance_name}/#{port_name}"] = source_of_primary_output
@@ -79,7 +78,7 @@ module Verilog
           @wiring["#{instance_name}/#{port_name}"] = wire_name
         end
       elsif port_name[0] == 'o'
-        if !@sym_tab[wire_name].nil? and @sym_tab[wire_name].is_global? and @sym_tab[wire_name].is_output?
+        if !@sym_tab[wire_name].nil? && @sym_tab[wire_name].is_global? && @sym_tab[wire_name].is_output?
           @wiring[wire_name] = "#{instance_name}/#{port_name}"
         else
           @sym_tab[wire_name] = @sym_tab["#{instance_name}/#{port_name}"]
@@ -106,7 +105,7 @@ module Verilog
     def wire(sink_name, source_name, i)
       @netlist << w = Netlist::Wire.new("w#{i}")
 
-      @sym_tab[sink_name]
+      @sym_tab[sink_name] <= w # rubocop:disable Lint/Void
       w <= @sym_tab[source_name]
     end
 
@@ -173,8 +172,7 @@ module Verilog
       else # Wire the component output port to a wire, then connect this wire to a primary output with the same name
         raise "Error: #{wire_name} not generated from the AST." if @sym_tab[wire_name].nil?
 
-        @sym_tab[wire_name]
-        @primary_io_wires[wire_name]
+        @sym_tab[wire_name] <= @primary_io_wires[wire_name] # rubocop:disable Lint/Void
         @primary_io_wires[wire_name] <= p
 
       end

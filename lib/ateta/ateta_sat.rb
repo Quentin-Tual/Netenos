@@ -556,22 +556,25 @@ end.join(' ')})"
     def run
       smt_path = "#{@SMTS_PATH}/#{@insertPointName.tr('/', '_')}.smt"
       genSolvingScript smt_path
+      raise "File #{smt_path} does not exist" unless File.exist?(smt_path)
+      raise "File #{smt_path} is empty" if File.empty?(smt_path)
+
       res = runSolvingScript smt_path
-      results2vec2 res
+      results2vec3 res
     end
 
     def runMaximize(targeted_duration)
       smt_path = "#{@SMTS_PATH}/#{@insertPointName.tr('/', '_')}.smt"
       genMaximizeSolvingScript smt_path, targeted_duration
       res = runSolvingScript smt_path
-      results2vec2 res
+      results2vec3 res
     end
 
     def runGlitch
       smt_path = "#{@SMTS_PATH}/#{@insertPointName.tr('/', '_')}.smt"
       genGlitchSolvingScript smt_path
       res = runSolvingScript smt_path
-      results2vec2 res
+      results2vec3 res
     end
   end
 end

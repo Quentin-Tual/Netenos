@@ -109,8 +109,7 @@ module Converter
       when VHDL::AST::UnaryExp
         ret = convOperator assignStatement.source.operator.op
         ret.partof = @netlist
-        ret.get_port_named('i0')
-        find_interface(assignStatement.source.operand.name)
+        ret.get_port_named('i0') <= find_interface(assignStatement.source.operand.name) # rubocop:disable Lint/Void
         find_interface(assignStatement.dest.name) <= ret.get_port_named('o0')
       when VHDL::AST::BinaryExp
         ret = convBinaryExp assignStatement.source
@@ -126,10 +125,8 @@ module Converter
       op = convOperator exp.operator.op
       op.partof = @netlist
 
-      op.get_port_named('i0')
-      find_interface(exp.operand1.name)
-      op.get_port_named('i1')
-      find_interface(exp.operand2.name)
+      op.get_port_named('i0') <= find_interface(exp.operand1.name) # rubocop:disable Lint/Void
+      op.get_port_named('i1') <= find_interface(exp.operand2.name) # rubocop:disable Lint/Void
 
       op
     end

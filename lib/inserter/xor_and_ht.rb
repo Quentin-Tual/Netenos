@@ -14,7 +14,7 @@ module Inserter
 
     def gen_netlist(nb_trigger)
       gen_payload
-      gen_triggers(nb_trigger).get_output
+      @payload_in <= gen_triggers(nb_trigger).get_output # rubocop:disable Lint/Void
       @payload_in = @payload_in.partof.get_free_input
 
       @propag_time = {}
@@ -50,8 +50,7 @@ module Inserter
       end
       stage += 1
       if nb_gates.odd? && !carry.nil?
-        carry.get_free_input
-        trig_tree[0][0]
+        carry.get_free_input <= trig_tree[0][0] # rubocop:disable Lint/Void
         trig_tree[0].delete_at(0)
       end
 
@@ -79,8 +78,7 @@ module Inserter
 
       return trig_tree[-1][0] if carry.nil?
 
-      trig_tree[-1][0].get_output
-      carry.get_free_input
+      trig_tree[-1][0].get_output <= carry.get_free_input # rubocop:disable Lint/Void
       carry
     end
 

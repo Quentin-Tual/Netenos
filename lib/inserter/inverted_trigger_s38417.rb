@@ -10,7 +10,7 @@ module Inserter
 
     def gen_netlist(nb_trigger)
       gen_payload
-      gen_triggers(nb_trigger)
+      @payload_in <= gen_triggers(nb_trigger) # rubocop:disable Lint/Void
       @payload_in = @payload_in.partof.get_free_input
 
       @propag_time = {}
@@ -56,8 +56,7 @@ module Inserter
       end
 
       tmp = Netlist::Not.new
-      tmp.get_inputs[0]
-      trig_tree.last[0].get_output
+      tmp.get_inputs[0] <= trig_tree.last[0].get_output # rubocop:disable Lint/Void
       @components << tmp
 
       tmp.get_output

@@ -19,22 +19,44 @@ describe SMT::SMTExprExtractor do
     #   smt_extractor.save_as(obtained_file)
     #   smt_extractor.print
     # }
-    subject { SMT::SMTExprExtractor.new(nl, nl_delays, sdf_col: :typ) }
+    context 'generate a SMT encoded behavior model with recursive delays' do
+      subject { SMT::SMTExprExtractor.new(nl, nl_delays, sdf_col: :typ) }
 
-    before(:example) do
-      `rm #{obtained_file}` if File.exist?(obtained_file)
+      before(:example) do
+        `rm #{obtained_file}` if File.exist?(obtained_file)
+      end
+
+      it 'raises no error' do
+        expect { nl.get_outputs.first.accept(subject) }.not_to raise_error
+      end
+
+      it 'allows to save obtained smt expr in a file' do
+        smt_extractor = subject
+        nl.get_outputs.first.accept(smt_extractor)
+        smt_extractor.save_as(obtained_file)
+        expect(File.exist?(obtained_file)).to eq(true)
+        expect(File.zero?(obtained_file)).to eq(false) # not empty
+      end
     end
 
-    it 'raises no error' do
-      expect { nl.get_outputs.first.accept(subject) }.not_to raise_error
-    end
+    context 'generate a SMT encoded behavior model with pure (transport) delays' do
+      subject { SMT::SMTExprExtractor.new(nl, nl_delays, sdf_col: :typ, smt_format: :pure) }
 
-    it 'allows to save obtained smt expr in a file' do
-      smt_extractor = subject
-      nl.get_outputs.first.accept(smt_extractor)
-      smt_extractor.save_as(obtained_file)
-      expect(File.exist?(obtained_file)).to eq(true)
-      expect(File.zero?(obtained_file)).to eq(false) # not empty
+      before(:example) do
+        `rm #{obtained_file}` if File.exist?(obtained_file)
+      end
+
+      it 'raises no error' do
+        expect { nl.get_outputs.first.accept(subject) }.not_to raise_error
+      end
+
+      it 'allows to save obtained smt expr in a file' do
+        smt_extractor = subject
+        nl.get_outputs.first.accept(smt_extractor)
+        smt_extractor.save_as(obtained_file)
+        expect(File.exist?(obtained_file)).to eq(true)
+        expect(File.zero?(obtained_file)).to eq(false) # not empty
+      end
     end
   end
 end

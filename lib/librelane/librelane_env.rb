@@ -46,14 +46,19 @@ module Librelane
       end
     end
 
-    def gen_ateta_stim(inserted_std_cell: nil)
+    def gen_ateta_stim(inserted_std_cell: nil, fun: :max)
       Dir.chdir('librelane_env') do
         init_circ = Verilog.load_netlist(get_pnr_v)
-        SDF.annotate(init_circ, get_pnr_sdf)
+        SDF.annotate(init_circ, get_pnr_sdf, fun: fun)
         ht_dly = init_circ.get_comp_min_delay(@DLY_MDL)
 
-        generator = AtetaAddOn::AtetaLibrelane.new(self, init_circ, ht_dly, @DLY_MDL,
-                                                   inserted_std_cell: inserted_std_cell)
+        generator = AtetaAddOn::AtetaLibrelane.new(
+          self,
+          init_circ,
+          ht_dly,
+          @DLY_MDL,
+          inserted_std_cell: inserted_std_cell
+        )
         generator.generate_stim
         generator.save_explicit("made/#{@circ_name}/#{@circ_name}.stim", binStimVec: true)
       end
@@ -190,6 +195,32 @@ module Librelane
       end
     end
 
+    def compare_sim(sim_config)
+      opt = if sim_config.full_traces
+              '-voptargs="+acc"'
+            else
+              ''
+            end
+      cmds = [
+        'vlib sky130',
+        "vlog -work sky130 #{@PDK_V_FILES}/primitives_fixed.v",
+        "vlog -work sky130 #{@PDK_V_FILES}/#{@SCL_TARGET}_fixed.v",
+        "vlog -work sky130 #{@PDK_V_FILES2}/sky130_ef_io_fixed.v",
+        "vlog -work sky130 #{@PDK_V_FILES2}/sky130_fd_io_fixed.v",
+        'vlog work',
+        "vlog #{sim_config.ref_v}",
+        "vlog #{sim_config.ref_v}",
+        "vlog #{sim_config.ut_v}",
+        "vlog -v #{sim_config.tb_path}",
+        "vsim #{opt} -c -L sky130 +transport_int_delays -sdftyp mapped_dut=#{sim_config.ref_sdf} -sdftyp pnr_dut=#{sim_config.ref_sdf} -sdftyp a_pnr_dut=#{sim_config.ut_sdf}.sdf tb_#{sim_config.circ_name} -sdfnoerror +sdf_report_unannotated_insts -do \"run -all\"" # rubocop:disable Layout/LineLength
+      ]
+      cmds.each do |cmd|
+        system(cmd)
+        raise "Error encountered during simulation : '#{$?}'" if $CHILD_STATUS.existatus.positive?
+        # correspond à $?.existatus > 0
+      end
+    end
+
     def analyze_logs(circ_name, stim_path, nb_outputs)
       log = ActivityLog::Log.new('activity.log')
       detector = ActivityLog::LogDetector.new(log, stim_path, nb_outputs)
@@ -208,14 +239,24 @@ module Librelane
       tb_path = "tb/tb_#{pnr.name}.v"
       circ_name = pnr.name
 
-      tb_generator = Converter::GenRealflowTestbench.new(pnr, pnr, apnr)
-      tb_generator.gen_testbench(pnr.name, stim_path, period, path: tb_path, full_traces: true)
+      tb_generator = Converter::GenPnrCompTestbench.new(pnr, apnr)
+      tb_generator.gen_testbench(circ_name, stim_path, period, path: tb_path, full_traces: true)
 
       run_sim(circ_name, pnr_path, pnr_path, apnr_path, tb_path, full_traces: true)
       `mv activity.log #{apnr_path}/activity.log`
       `mv tb_#{circ_name}.vcd #{apnr}/tb_#{circ_name}.vcd`
 
       analyze_logs(circ_name, stim_path, pnr.nb_outputs)
+    end
+
+    def simulate(sim_config)
+      Converter.gen_pnr_comp_testbench(sim_config)
+
+      compare_sim(sim_config)
+      `mv activity.log #{sim_config.activity_log_path}`
+      `mv #{File.basename(sim_config.tb_path, '.v')}.vcd #{sim_config.vcd_path}`
+
+      analyze_logs(sim_config.circ_name, sim_config.stim_path, sim_config.ref_nl.nb_outputs)
     end
 
     def sim_all_apnr(circ_name = @circ_name, stim_path: "made/#{circ_name}/#{circ_name}.stim", period: 100)

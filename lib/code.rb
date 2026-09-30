@@ -17,7 +17,9 @@ class Code
       thing.each do |kode|
         @lines << kode
       end
-      thing.nil?
+    elsif thing.nil?
+      nil
+    else
       @lines << @indent_sym * @indent + thing.to_s
     end
   end
@@ -38,7 +40,7 @@ class Code
 
   def save_as(filename, append = false, _verbose = false, _sep = "\n")
     str = finalize
-    if File.exist?(filename) and append
+    if File.exist?(filename) && append
       File.open(filename, 'a') { |f| f.puts(str) }
     else
       File.open(filename, 'w') { |f| f.puts(str) }

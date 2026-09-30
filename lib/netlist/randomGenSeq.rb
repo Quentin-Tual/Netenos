@@ -114,7 +114,7 @@ module Netlist
       tmp_reg = Netlist::Register.new
       @netlist << tmp_reg
       # link it to the source and the sink specified
-      tmp_reg.get_inputs[0]
+      tmp_reg.get_inputs[0] <= source # rubocop:disable Lint/Void
       sink <= tmp_reg.get_outputs[0]
     end
 

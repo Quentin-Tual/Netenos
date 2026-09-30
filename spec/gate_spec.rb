@@ -1,3 +1,4 @@
+require_relative '../lib/visitor'
 require_relative '../lib/netlist'
 
 RSpec.describe Netlist::And do

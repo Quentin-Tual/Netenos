@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+require_relative '../lib/visitor'
 require_relative '../lib/netlist'
 
 RSpec.describe Netlist::Port do
@@ -53,6 +56,7 @@ RSpec.describe Netlist::Port do
     end
 
     it ':in <= :out' do
+      @in_port <= @out_port # rubocop:disable Lint/Void
       expect(@out_port.fanout).not_to be_empty
       expect(@in_port.fanin).not_to eq(nil)
       expect(@out_port.fanout).to include(@in_port)
@@ -60,6 +64,7 @@ RSpec.describe Netlist::Port do
     end
 
     it ':out (global) <= :out' do
+      @global_out_port <= @out_port # rubocop:disable Lint/Void
       expect(@out_port.fanout).not_to be_empty
       expect(@global_out_port.fanin).not_to eq(nil)
       expect(@out_port.fanout).to include(@global_out_port)
@@ -73,6 +78,7 @@ RSpec.describe Netlist::Port do
     end
 
     it ':in <= :in (global)' do
+      @in_port <= @global_in_port # rubocop:disable Lint/Void
       expect(@global_in_port.fanout).not_to be_empty
       expect(@in_port.fanin).not_to eq(nil)
       expect(@global_in_port.fanout).to include(@in_port)

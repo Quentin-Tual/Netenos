@@ -15,6 +15,9 @@ module AtetaAddOn
 
       initCirc.get_exact_crit_path_length(delayModel)
       @insertionPoints = initCirc.get_insertion_points(payloadDelay)
+
+      raise 'No insertion point found' if @insertionPoints.empty?
+
       @insertionPoints.collect! { |ip| ip.get_full_name }
       @altCirc = nil
 

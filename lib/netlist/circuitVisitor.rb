@@ -1,5 +1,5 @@
 module Netlist
-  class CircuitVisitor < Visitor
+  class CircuitVisitor < ::Visitor
     # Abstract class for all circuit exploration tasks
     attr_reader :visited
 

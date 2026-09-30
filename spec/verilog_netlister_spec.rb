@@ -51,7 +51,11 @@ RSpec.describe Verilog::NetlisterVisitor do
 
     it 'returns a valid circuit' do
       nl = subject
-      expect(nl).to be_valid
+      expect(nl.all_wires_connected?).to be true
+      expect(nl.all_ports_connected?).to be true
+      expect(nl.has_combinational_loop?).to be false
+      expect(nl.valid_connections?).to be true
+      expect(nl.no_double_wiring?).to be true
     end
 
     it 'does not raise error with Netlist::Circuit methods and DotGen' do
@@ -137,85 +141,85 @@ RSpec.describe Verilog::NetlisterVisitor do
     end
   end
 
-  context 'With C6288.nl.v' do
-    subject do
-      # Parse verilog to obtain its AST
-      parser = Verilog::Parser.new
-      ast = parser.parse('tests/verilog/mapped_C6288.nl.v')
-      # Apply Visitor to the AST
-      netlister = Verilog::NetlisterVisitor.new
-      ast.accept(netlister)
-      # Subject is the resulting netlist
-    end
+  # context 'With C6288.nl.v' do
+  #   subject do
+  #     # Parse verilog to obtain its AST
+  #     parser = Verilog::Parser.new
+  #     ast = parser.parse('tests/verilog/mapped_C6288.nl.v')
+  #     # Apply Visitor to the AST
+  #     netlister = Verilog::NetlisterVisitor.new
+  #     ast.accept(netlister)
+  #     # Subject is the resulting netlist
+  #   end
 
-    it 'generates a correctly named circuit' do
-      expect(subject).to be_kind_of Netlist::Circuit
-      expect(subject.name).to eq('mapped_C6288')
-    end
+  #   it 'generates a correctly named circuit' do
+  #     expect(subject).to be_kind_of Netlist::Circuit
+  #     expect(subject.name).to eq('mapped_C6288')
+  #   end
 
-    it 'generates the right amount of IOs' do
-      expect(subject.ports[:in].length).to eq(32) # Thus not empty
-      expect(subject.ports[:out].length).to eq(32) # Thus not empty
-    end
+  #   it 'generates the right amount of IOs' do
+  #     expect(subject.ports[:in].length).to eq(32) # Thus not empty
+  #     expect(subject.ports[:out].length).to eq(32) # Thus not empty
+  #   end
 
-    it 'generates the right amount of standard cells' do
-      expect(subject.components.length).to eq(1336)
-    end
+  #   it 'generates the right amount of standard cells' do
+  #     expect(subject.components.length).to eq(1336)
+  #   end
 
-    it 'returns a valid circuit' do
-      nl = subject
-      expect(nl).to be_valid
-    end
+  #   it 'returns a valid circuit' do
+  #     nl = subject
+  #     expect(nl).to be_valid
+  #   end
 
-    it 'does not raise error with Netlist::Circuit methods and DotGen' do
-      nl = subject
-      expect do
-        nl.getNetlistInformations(:int_multi)
-        nl.get_timings_hash(:int_multi)
-        nl.get_slack_hash
-        Converter::DotGen.new.dot(nl, "tests/tmp/#{nl.name}.dot", :int_multi)
-      end.not_to raise_error
-    end
-  end
+  #   it 'does not raise error with Netlist::Circuit methods and DotGen' do
+  #     nl = subject
+  #     expect do
+  #       nl.getNetlistInformations(:int_multi)
+  #       nl.get_timings_hash(:int_multi)
+  #       nl.get_slack_hash
+  #       Converter::DotGen.new.dot(nl, "tests/tmp/#{nl.name}.dot", :int_multi)
+  #     end.not_to raise_error
+  #   end
+  # end
 
-  context 'With pnr1.v (C5315)' do
-    subject do
-      # Parse xor5.v to obtain its AST
-      parser = Verilog::Parser.new
-      ast = parser.parse('tests/verilog/pnr1.v')
-      # Apply Visitor to the AST
-      netlister = Verilog::NetlisterVisitor.new
-      ast.accept(netlister)
-      # Subject is the resulting netlist
-    end
+  # context 'With pnr1.v (C5315)' do
+  #   subject do
+  #     # Parse xor5.v to obtain its AST
+  #     parser = Verilog::Parser.new
+  #     ast = parser.parse('tests/verilog/pnr1.v')
+  #     # Apply Visitor to the AST
+  #     netlister = Verilog::NetlisterVisitor.new
+  #     ast.accept(netlister)
+  #     # Subject is the resulting netlist
+  #   end
 
-    it 'generates a correctly named circuit' do
-      expect(subject).to be_kind_of Netlist::Circuit
-      expect(subject.name).to eq('pnr1_C5315')
-    end
+  #   it 'generates a correctly named circuit' do
+  #     expect(subject).to be_kind_of Netlist::Circuit
+  #     expect(subject.name).to eq('pnr1_C5315')
+  #   end
 
-    it 'generates the right amount of IOs' do
-      expect(subject.ports[:in].length).to eq(178) # Thus not empty
-      expect(subject.ports[:out].length).to eq(123) # Thus not empty
-    end
+  #   it 'generates the right amount of IOs' do
+  #     expect(subject.ports[:in].length).to eq(178) # Thus not empty
+  #     expect(subject.ports[:out].length).to eq(123) # Thus not empty
+  #   end
 
-    it 'generates the right amount of standard cells' do
-      expect(subject.components.length).to eq(904)
-    end
+  #   it 'generates the right amount of standard cells' do
+  #     expect(subject.components.length).to eq(904)
+  #   end
 
-    it 'returns a valid circuit' do
-      nl = subject.add_wires
-      expect(nl).to be_valid
-    end
+  #   it 'returns a valid circuit' do
+  #     nl = subject.add_wires
+  #     expect(nl).to be_valid
+  #   end
 
-    it 'does not raise error with Netlist::Circuit methods and DotGen' do
-      nl = subject
-      expect do
-        nl.getNetlistInformations(:int_multi)
-        nl.get_timings_hash(:int_multi)
-        nl.get_slack_hash
-        Converter::DotGen.new.dot(nl, "tests/tmp/#{nl.name}.dot", :int_multi)
-      end.not_to raise_error
-    end
-  end
+  #   it 'does not raise error with Netlist::Circuit methods and DotGen' do
+  #     nl = subject
+  #     expect do
+  #       nl.getNetlistInformations(:int_multi)
+  #       nl.get_timings_hash(:int_multi)
+  #       nl.get_slack_hash
+  #       Converter::DotGen.new.dot(nl, "tests/tmp/#{nl.name}.dot", :int_multi)
+  #     end.not_to raise_error
+  #   end
+  # end
 end

@@ -12,7 +12,7 @@ module Inserter
 
     def gen_netlist
       gen_payload
-      gen_triggers
+      @payload_in <= gen_triggers # rubocop:disable Lint/Void
       @payload_in = @payload_in.partof.get_free_input
 
       @propag_time = {}
@@ -38,32 +38,25 @@ module Inserter
       @triggers.flatten!
 
       new_gate = Netlist::And2.new
-      new_gate.get_inputs[0]
-      @triggers[0].partof.get_output
-      new_gate.get_inputs[1]
-      @triggers[2].partof.get_output
+      new_gate.get_inputs[0] <= @triggers[0].partof.get_output # rubocop:disable Lint/Void
+      new_gate.get_inputs[1] <= @triggers[2].partof.get_output # rubocop:disable Lint/Void
       @components << new_gate
 
       last_door = new_gate
       new_gate = Netlist::Nand2.new
-      new_gate.get_inputs[0]
-      last_door.get_output
-      new_gate.get_inputs[1]
-      @triggers[4].partof.get_output
+      new_gate.get_inputs[0] <= last_door.get_output # rubocop:disable Lint/Void
+      new_gate.get_inputs[1] <= @triggers[4].partof.get_output # rubocop:disable Lint/Void
       @components << new_gate
 
       last_door = new_gate
       new_gate = Netlist::Or2.new
-      new_gate.get_inputs[0]
-      last_door.get_output
-      new_gate.get_inputs[1]
-      @triggers[6].partof.get_output
+      new_gate.get_inputs[0] <= last_door.get_output # rubocop:disable Lint/Void
+      new_gate.get_inputs[1] <= @triggers[6].partof.get_output # rubocop:disable Lint/Void
       @components << new_gate
 
       last_door = new_gate
       new_gate = Netlist::Nor2.new
-      new_gate.get_inputs[0]
-      last_door.get_output
+      new_gate.get_inputs[0] <= last_door.get_output # rubocop:disable Lint/Void
       @triggers << new_gate.get_inputs[1]
       @components << new_gate
 
