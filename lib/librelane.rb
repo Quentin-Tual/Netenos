@@ -5,3 +5,5 @@ require_relative 'librelane/ateta_lblane'
 require_relative 'librelane/htpg_lblane'
 
 require_relative 'librelane/librelane_env'
+require_relative 'librelane/full_flow_lblane'
+require_relative 'librelane/detections_lblane'
