@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'English'
 module AtetaAddOn
   class AtetaSat
     TMP_SMT_PATH = "#{$TMP_PATH}/htpg_smt"
@@ -400,7 +401,11 @@ end.join(' ')})"
     end
 
     def runSolvingScript(scriptName)
-      `z3 -smt2 #{scriptName} -memory:30000`
+      cmd = "z3 -smt2 #{scriptName} -memory:25000"
+      res = `#{cmd}`
+      return res if $CHILD_STATUS.success?
+
+      raise "Command failed (exit status #{$CHILD_STATUS&.exitstatus.inspect}).\nCommand : #{cmd}\nReturned : #{args.shelljoin}"
     end
 
     def parse_results3(results)
@@ -466,34 +471,47 @@ end.join(' ')})"
       res_h.sort_by { |k, _v| k[1..].to_i }.to_h
     end
 
+    # def results2vec3(results)
+    #   raise 'Error: z3 returns empty string.' if results.empty?
+
+    #   res_h = parse_results3(results)
+
+    #   return nil if res_h.nil?
+
+    #   vd = []
+    #   va = []
+
+    #   @initCirc.get_inputs.each do |input_name|
+    #     vd << res_h[input_name]['d']
+    #     va << res_h[input_name]['a']
+    #   end
+
+    #   # tmp = res_h.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(var, sub_h), h|
+    #   #   sub_h.each do |k, val|
+    #   #     h[k] << val
+    #   #   end
+    #   # end
+
+    #   # vd = tmp['d']
+    #   # va = tmp['a']
+
+    #   vd.map! { |val| val == 'true' ? '1' : '0' }
+    #   va.map! { |val| val == 'true' ? '1' : '0' }
+
+    #   [vd.join, va.join]
+    # end
+
     def results2vec3(results)
       raise 'Error: z3 returns empty string.' if results.empty?
 
       res_h = parse_results3(results)
-
       return nil if res_h.nil?
+      raise "No input value found in z3 model (#{@insertPointName})" if res_h.empty?
 
-      vd = []
-      va = []
+      names = @initCirc.get_inputs.map(&:get_full_name)
+      bit = ->(name, cycle) { res_h.fetch(name, {})[cycle] == 'true' ? '1' : '0' }
 
-      @initCirc.get_inputs.each do |input_name|
-        vd << res_h[input_name]['d']
-        va << res_h[input_name]['a']
-      end
-
-      # tmp = res_h.each_with_object(Hash.new { |h, k| h[k] = [] }) do |(var, sub_h), h|
-      #   sub_h.each do |k, val|
-      #     h[k] << val
-      #   end
-      # end
-
-      # vd = tmp['d']
-      # va = tmp['a']
-
-      vd.map! { |val| val == 'true' ? '1' : '0' }
-      va.map! { |val| val == 'true' ? '1' : '0' }
-
-      [vd.join, va.join]
+      [names.map { |n| bit.(n, 'd') }.join, names.map { |n| bit.(n, 'a') }.join]
     end
 
     def results2vec2(results)

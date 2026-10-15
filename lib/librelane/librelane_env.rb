@@ -122,7 +122,7 @@ module Librelane
     # Public: PnR (first valid value of the list) + save of the results
     def place_and_route(fp_core_utils: FP_CORE_UTIL_VALUES)
       pnr(fp_core_utils)
-      save_last_run_files(Layout::PNR) # keep the argument you currently pass
+      save_last_run_files("#{@circ_name}_pnr") # keep the argument you currently pass
     end
 
     # Retourne un Librelane::PnrFiles
@@ -180,6 +180,7 @@ module Librelane
         inserted_std_cell: inserted_std_cell
       )
       generator.generate_stim
+      FileUtils.mv('htpg_time_report.txt', @layout.made_dir(circ_name) / 'htpg_time_report.txt')
       path = generator.save_explicit(stim_output_path(circ), binStimVec: true)
       Pathname.new(path).realpath
     end
