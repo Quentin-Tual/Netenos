@@ -20,6 +20,8 @@ require 'erb'
 require 'json'
 require 'fileutils'
 require 'minitar'
+require 'tmpdir'
+require 'pathname'
 
 require_relative 'util'
 require_relative 'code'

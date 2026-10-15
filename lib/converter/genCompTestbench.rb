@@ -161,8 +161,8 @@ module Converter
         :stim_cycles
       )
       total_cycles = stim_cycles + 8
-      nb_inputs   = @mapped_nl_data[:inputs].length
-      nb_outputs  = @mapped_nl_data[:outputs].length
+      nb_inputs   = @mapped_nl_data[:ports][:in].length
+      nb_outputs  = @mapped_nl_data[:ports][:out].length
 
       src = @engine.result(binding)
       File.write(path, src)
@@ -208,10 +208,11 @@ module Converter
         :stim_cycles
       )
       total_cycles = stim_cycles + 8
-      nb_inputs   = @mapped_nl_data[:inputs].length
-      nb_outputs  = @mapped_nl_data[:outputs].length
+      nb_inputs   = @pnr_nl_data[:inputs].length
+      nb_outputs  = @pnr_nl_data[:outputs].length
 
       src = @engine.result(binding)
+      pp Dir.pwd # !DEBUG
       File.write(path, src)
     end
 

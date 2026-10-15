@@ -1,3 +1,4 @@
+require_relative 'librelane/librelane_primitives'
 require_relative 'librelane/sim_config'
 require_relative 'librelane/blif_renamer'
 require_relative 'librelane/ateta_lblane'

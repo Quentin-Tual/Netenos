@@ -1,0 +1,3 @@
+Cumulated altering time : 176.288782995
+Cumulated solving time : 0.183655308
+Total : 176.472438303

@@ -10,3 +10,4 @@ lib/experiment*
 scripts/
 *.conf
 .continue
+tests/tmp/**/*

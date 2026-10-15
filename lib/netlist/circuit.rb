@@ -62,6 +62,14 @@ module Netlist
       end
     end
 
+    def get_nb_outputs
+      if @nb_outputs.nil?
+        @nb_outputs = get_outputs.length
+      else
+        @nb_outputs
+      end
+    end
+
     def get_mean_fanout
       fanout_list = []
 
